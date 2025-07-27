@@ -1,16 +1,44 @@
-## Hi there 👋
+# Portfolio
 
-<!--
-**RRocaP/RRocaP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Setup
 
-Here are some ideas to get you started:
+Install dependencies and run development server:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+```bash
+npm install
+npm run serve
+```
+
+### CSS Purge
+
+Remove unused styles and minify:
+
+```bash
+npm run css:purge
+```
+
+### Image Optimization
+
+Convert images to WebP and AVIF:
+
+```bash
+npm run images:opt
+```
+
+### Accessibility Lint
+
+Run accessibility checks with Pa11y:
+
+```bash
+npm run lint:a11y
+```
+
+### Lighthouse
+
+Generate Lighthouse report:
+
+```bash
+npx lhci autorun
+```
+
+Extend scripts in the `scripts/` folder to customize build steps.
