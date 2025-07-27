@@ -3,20 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "check": "astro check",
-    "check:types": "astro check && tsc --noEmit --skipLibCheck",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.astro",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.astro --fix",
-    "test": "echo 'No tests configured yet'",
-    "preflight": "npm run check:types && npm run build",
-    "preflight:verbose": "echo '🔍 Running type checks...' && npm run check:types && echo '🏗️  Building project...' && npm run build && echo '✅ All preflight checks passed!'",
-    "preflight:fix": "npm run check:types && npm run build",
-    "preflight:full": "npm run check:types && npm run lint && npm run test && npm run build"
+    "build": "node scripts/purgeCSS.js",
+    "serve": "npx serve",
+    "css:purge": "node scripts/purgeCSS.js",
+    "images:opt": "node scripts/img-opt.js",
+    "lint:a11y": "pa11y-ci"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
@@ -26,7 +17,14 @@
     "astro": "^5.12.3",
     "d3": "^7.9.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "purgecss": "^6.0.0",
+    "postcss": "^8.4.35",
+    "cssnano": "^6.1.2",
+    "sharp": "^0.33.3",
+    "glob": "^10.3.10",
+    "pa11y-ci": "^5.0.0",
+    "serve": "^14.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",

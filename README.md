@@ -1,16 +1,16 @@
-## Hi there 👋
+# Portfolio
 
-<!--
-**RRocaP/RRocaP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+This project contains a lightweight static version of my personal site. After installing dependencies with `npm install` you can run:
 
-Here are some ideas to get you started:
+- `npm run build` – Purges and minifies CSS to `styles.min.css`.
+- `npm run serve` – Serves the site locally.
+- `npm run images:opt` – Converts JPG/PNG assets in `public/` to WebP and AVIF.
+- `npm run lint:a11y` – Runs accessibility linting via pa11y-ci.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+A sample command to check performance budgets:
+
+```sh
+npx lhci autorun
+```
+
+You can extend the site by editing `index.html` and `styles.css` then re-running the build script.
