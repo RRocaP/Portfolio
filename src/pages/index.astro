@@ -248,6 +248,34 @@ import Navigation from '../components/Navigation.astro';
     justify-content: center;
     padding-top: 80px;
     background: var(--background);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 70%;
+    height: 150%;
+    background: linear-gradient(45deg, var(--accent-yellow) 0%, transparent 70%);
+    opacity: 0.05;
+    transform: rotate(-15deg);
+    z-index: 0;
+  }
+  
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--accent-red);
+    opacity: 0.1;
+    transform: rotate(45deg);
+    z-index: 0;
   }
 
   .hero-content {
@@ -255,6 +283,8 @@ import Navigation from '../components/Navigation.astro';
     max-width: 800px;
     margin: 0 auto;
     padding: var(--space-md);
+    position: relative;
+    z-index: 1;
   }
 
   .hero-title {
@@ -263,6 +293,18 @@ import Navigation from '../components/Navigation.astro';
     color: var(--primary);
     font-weight: var(--font-weight-light);
     letter-spacing: -0.03em;
+    position: relative;
+  }
+  
+  .hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
   }
 
   .hero-subtitle {
@@ -302,14 +344,16 @@ import Navigation from '../components/Navigation.astro';
   }
 
   .btn-primary {
-    background: var(--primary);
+    background: var(--accent-red);
     color: var(--background);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--accent-red);
+    position: relative;
+    overflow: hidden;
   }
 
   .btn-primary:hover {
     background: var(--background);
-    color: var(--primary);
+    color: var(--accent-red);
   }
 
   .btn-outline {
@@ -332,6 +376,19 @@ import Navigation from '../components/Navigation.astro';
   /* About Section */
   .about-section {
     background: var(--background);
+    position: relative;
+  }
+  
+  .about-section::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: var(--accent-yellow);
+    opacity: 0.03;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   }
 
   .about-grid {
@@ -363,10 +420,15 @@ import Navigation from '../components/Navigation.astro';
     background: var(--background);
     padding: var(--space-md) 0;
     border-top: 1px solid var(--border);
+    position: relative;
   }
   
   .highlight-card:first-child {
     border-top: none;
+  }
+  
+  .highlight-card:hover {
+    border-top-color: var(--accent-red);
   }
 
   .highlight-card h3 {
@@ -453,10 +515,27 @@ import Navigation from '../components/Navigation.astro';
     padding: var(--space-lg) var(--space-md);
     border: 1px solid var(--border);
     transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 50%, var(--accent-red) 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
   }
 
   .research-card:hover {
-    border-color: var(--primary);
+    border-color: var(--border);
+  }
+  
+  .research-card:hover::before {
+    transform: scaleX(1);
   }
 
   .card-icon {
@@ -476,6 +555,19 @@ import Navigation from '../components/Navigation.astro';
   /* Publications Section */
   .publications-section {
     background: var(--background-alt);
+    position: relative;
+  }
+  
+  .publications-section::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    width: 150px;
+    height: 150px;
+    border: 40px solid var(--accent-yellow);
+    border-radius: 50%;
+    opacity: 0.02;
   }
 
   .publications-list {
@@ -497,7 +589,7 @@ import Navigation from '../components/Navigation.astro';
 
   .publication-card.featured {
     padding-left: var(--space-sm);
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--accent-red);
   }
 
   .pub-year {
@@ -570,6 +662,19 @@ import Navigation from '../components/Navigation.astro';
   .contact-card {
     background: var(--background);
     padding: var(--space-md) 0;
+    position: relative;
+  }
+  
+  .contact-card:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--accent-yellow);
+    border-radius: 50%;
   }
 
   .contact-card h3 {
@@ -606,8 +711,9 @@ import Navigation from '../components/Navigation.astro';
   }
 
   .social-links a:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    background: rgba(218, 41, 28, 0.05);
   }
 
   /* Footer */
