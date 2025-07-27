@@ -1,0 +1,3 @@
+pymol-open-source
+imageio-ffmpeg
+numpy

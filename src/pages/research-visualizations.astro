@@ -1,0 +1,201 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import AntimicrobialTimeline from '../components/AntimicrobialTimeline.astro';
+import ProteinEngineering from '../components/ProteinEngineering.astro';
+import GeneTherapy from '../components/GeneTherapy.astro';
+import ResearchImpact from '../components/ResearchImpact.astro';
+---
+
+<Layout title="Research Visualizations - Ramon Roca Pinilla">
+  <Navigation />
+  
+  <section class="visualizations-hero">
+    <div class="container">
+      <h1>Interactive Research Visualizations</h1>
+      <p class="lead">
+        Explore the science behind antimicrobial resistance, protein engineering, 
+        gene therapy delivery, and research impact through interactive data visualizations.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="visualization-section">
+        <h2>The Race Against Antimicrobial Resistance</h2>
+        <p class="section-intro">
+          See how quickly bacteria develop resistance to antibiotics and discover how 
+          Ramon's modular protein approach offers a new solution.
+        </p>
+        <AntimicrobialTimeline />
+      </div>
+
+      <div class="visualization-section">
+        <h2>Build Your Own Antimicrobial Protein</h2>
+        <p class="section-intro">
+          Explore how modular protein design works by combining different functional 
+          domains to create custom antimicrobial proteins.
+        </p>
+        <ProteinEngineering />
+      </div>
+
+      <div class="visualization-section">
+        <h2>Gene Therapy Delivery Systems</h2>
+        <p class="section-intro">
+          Compare different AAV vectors and see how they target specific organs 
+          for gene therapy delivery.
+        </p>
+        <GeneTherapy />
+      </div>
+
+      <div class="visualization-section">
+        <h2>Research Impact & Collaboration</h2>
+        <p class="section-intro">
+          Track citation growth, explore collaboration networks, and see the 
+          real-world applications of this research.
+        </p>
+        <ResearchImpact />
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Interested in Learning More?</h2>
+      <p>These visualizations represent just a fraction of the ongoing research.</p>
+      <div class="cta-buttons">
+        <a href="/Portfolio/#publications" class="btn btn-primary">Read Publications</a>
+        <a href="/Portfolio/#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .visualizations-hero {
+    background: linear-gradient(135deg, rgba(218, 41, 28, 0.05) 0%, rgba(255, 217, 61, 0.05) 100%);
+    padding: 8rem 0 4rem;
+    text-align: center;
+  }
+
+  .visualizations-hero h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-light);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+  }
+
+  .lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: var(--leading-relaxed);
+  }
+
+  .visualization-section {
+    margin-bottom: var(--space-24);
+  }
+
+  .visualization-section h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
+  }
+
+  .section-intro {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    max-width: 800px;
+  }
+
+  .cta-section {
+    background: var(--color-bg-secondary);
+    padding: var(--space-16) 0;
+    text-align: center;
+    margin-top: var(--space-24);
+  }
+
+  .cta-section h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-section p {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--color-catalan-red);
+    color: white;
+    border: 1px solid var(--color-catalan-red);
+  }
+
+  .btn-primary:hover {
+    background: #b01e15;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--color-border-medium);
+    color: var(--color-text-primary);
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-text-primary);
+    background: var(--color-text-primary);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .visualizations-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .visualizations-hero h1 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .visualization-section {
+      margin-bottom: var(--space-16);
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 250px;
+      justify-content: center;
+    }
+  }
+</style>

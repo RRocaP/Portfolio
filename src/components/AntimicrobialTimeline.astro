@@ -1,0 +1,39 @@
+---
+// Wrapper component for the Antimicrobial Resistance Timeline
+---
+
+<div id="antimicrobial-timeline-container" class="visualization-wrapper">
+  <div id="antimicrobial-timeline-root"></div>
+</div>
+
+<script>
+  import AntimicrobialResistanceTimeline from './AntimicrobialResistanceTimeline.tsx';
+  import React from 'react';
+  import ReactDOM from 'react-dom/client';
+
+  // Wait for DOM to be ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('antimicrobial-timeline-root');
+    if (container) {
+      const root = ReactDOM.createRoot(container);
+      root.render(React.createElement(AntimicrobialResistanceTimeline));
+    }
+  });
+</script>
+
+<style>
+  .visualization-wrapper {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 768px) {
+    .visualization-wrapper {
+      padding: 1rem;
+      margin: 2rem 0;
+    }
+  }
+</style>

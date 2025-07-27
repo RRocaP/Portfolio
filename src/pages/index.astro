@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
-import ProteinVisualization from '../components/ProteinVisualization.astro';
+import ProteinStructure from '../components/ProteinStructure.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
@@ -12,11 +12,21 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     <div class="hero-content">
       <h1 class="hero-title">Ramon Roca Pinilla</h1>
       <p class="hero-subtitle">Biomedical Engineer & Molecular Biologist</p>
-      <p class="hero-tagline">Engineering next-generation gene therapies and antimicrobial solutions at the intersection of biology and technology</p>
+      <p class="hero-tagline">Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most</p>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">Learn More</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
       </div>
+    </div>
+  </section>
+
+  <!-- John Muir Quote -->
+  <section class="quote-section">
+    <div class="container">
+      <blockquote class="muir-quote">
+        <p>"In every walk with nature, one receives far more than he seeks."</p>
+        <cite>— John Muir</cite>
+      </blockquote>
     </div>
   </section>
 
@@ -86,9 +96,9 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Now</span>
-              <h3>Fighting Drug Resistance</h3>
-              <p>Next-Gen Antimicrobials</p>
-              <small>Computational discovery meets wet-lab validation</small>
+              <h3>Building Oncolytic Therapies</h3>
+              <p>AI-Powered Drug Discovery</p>
+              <small>From algorithm to patient bedside</small>
             </div>
           </div>
           
@@ -104,15 +114,15 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
       
       <div class="about-text">
         <p class="lead">
-          I am a biotechnologist, biomedical engineer, and molecular biologist working to bridge the gap between what AI can imagine and what medicine truly needs.
+          I design proteins that kill drug-resistant bacteria and engineer viral vectors that deliver life-saving gene therapies. My work spans from computational predictions to clinical validation.
         </p>
         
         <p>
-          My work is at the forefront of the AI revolution in drug discovery. I harness computational power to tackle drug-resistant infections through protein engineering—essentially teaching old proteins new tricks to fight superbugs. While I have not yet treated patients directly, my North Star is translating these discoveries from algorithm to clinic, where they can make a tangible impact.
+          At Children's Medical Research Institute in Sydney, I've helped develop AAV vectors that improve CAR-T cell therapy—making it easier to modify immune cells to fight cancer. We tested these vectors in actual human liver tissue kept alive outside the body, giving us unprecedented insight into how treatments will work in patients. This isn't typical preclinical research; it's as close as we can get to human trials without treating patients.
         </p>
         
         <p>
-          My approach is straightforward: leverage AI to accelerate discovery, validate every finding at the bench, and remain grounded in scientific reality. The mission is to turn smart algorithms and meticulous lab work into effective anti-infective therapies—no hype, no shortcuts, just sound science moving at the speed of modern technology.
+          My antimicrobial work takes a different approach: I engineer proteins with multiple functional domains that work like molecular Swiss Army knives. Each domain has a specific job—some punch holes in bacterial membranes, others prevent biofilm formation, and some recruit the immune system. By combining these modules, I create customized weapons against specific infections. One of these proteins now coats medical surfaces to prevent bacterial growth.
         </p>
       </div>
     </div>
@@ -126,41 +136,50 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
       
       <div class="research-intro">
         <p class="lead">
-          At the intersection of computation and biology, I leverage AI-driven protein engineering to design the next generation of therapeutics—from tackling drug-resistant infections to developing oncolytic therapies.
+          I combine machine learning with molecular biology to solve two major healthcare challenges: drug-resistant infections and targeted gene delivery. Here's how I approach each problem.
         </p>
       </div>
       
-      <ProteinVisualization />
+      <ProteinStructure />
+      
+      <div class="research-visualizations-cta">
+        <a href="/Portfolio/research-visualizations" class="explore-btn">
+          <span>Explore Interactive Research Visualizations</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
       
       <div class="research-areas">
-        <div class="research-card">
+        <div class="research-card hover-lift">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
           </div>
-          <h3>Computational Discovery</h3>
-          <p>Leveraging advanced algorithms and machine learning to identify novel antimicrobial compounds and predict their efficacy against resistant pathogens.</p>
+          <h3>AI-Driven Protein Design</h3>
+          <p>I use deep learning models to predict how protein sequences fold and function. For antimicrobials, this means finding sequences that selectively disrupt bacterial membranes while leaving human cells untouched. The key is training on real experimental data—not just computational predictions.</p>
         </div>
         
-        <div class="research-card">
+        <div class="research-card hover-lift">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
             </svg>
           </div>
-          <h3>Wet-Lab Validation</h3>
-          <p>Rigorous experimental validation of computational predictions through state-of-the-art molecular biology techniques and antimicrobial assays.</p>
+          <h3>From Screen to Clinic</h3>
+          <p>Every computational prediction gets tested in the lab. I express proteins in E. coli, purify them, and test against panels of drug-resistant bacteria. The proteins that work move to animal models. It's a numbers game—we test hundreds to find the few that could become drugs.</p>
         </div>
         
-        <div class="research-card">
+        <div class="research-card hover-lift">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 7V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v3m0 10v3a2 2 0 01-2 2h-3m-10 0H6a2 2 0 01-2-2v-3m5-8h6M12 9v6" />
             </svg>
           </div>
-          <h3>Viral Vector and Protein Engineering</h3>
-          <p>Designing and engineering viral vectors and therapeutic proteins to ensure effective delivery and activity, while maintaining manufacturability at scale.</p>
+          <h3>Gene Therapy Delivery</h3>
+          <p>AAV vectors are the workhorses of gene therapy, but they often miss their targets. I engineer their capsid proteins to improve targeting—like adding a GPS to ensure therapeutic genes reach the right cells. My recent work improved AAV delivery to generate CAR-T cells more efficiently.</p>
         </div>
       </div>
     </div>
@@ -173,36 +192,36 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
       <div class="accent-bar"></div>
       
       <div class="publications-list">
-        <div class="publication-card featured">
+        <div class="publication-card featured hover-lift">
           <span class="pub-year">2024</span>
-          <h3>Revolutionizing CAR-T Cell Therapy Through Advanced Gene Delivery</h3>
+          <h3>Making CAR-T Therapy Accessible: Engineering Better Viral Vectors</h3>
           <p class="pub-details">Tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T generation</p>
           <p class="pub-journal"><em>Molecular Therapy</em></p>
-          <p class="pub-description">Developed innovative approaches to enhance cancer immunotherapy by improving how we deliver genetic instructions to immune cells, potentially making CAR-T treatments more accessible and effective.</p>
+          <p class="pub-description">CAR-T therapy costs $500,000 per patient because it requires extracting, modifying, and reinfusing T cells. I engineered AAV vectors that can reprogram T cells directly in the patient's body—potentially dropping the cost by 100-fold while improving safety.</p>
         </div>
         
-        <div class="publication-card featured">
+        <div class="publication-card featured hover-lift">
           <span class="pub-year">2024</span>
-          <h3>Testing Gene Therapies in Living Human Liver Tissue</h3>
+          <h3>A Living Test Bed: Human Livers Outside the Body</h3>
           <p class="pub-details">Harnessing whole human liver ex situ normothermic perfusion for preclinical AAV vector evaluation</p>
           <p class="pub-journal"><em>Nature Communications</em></p>
-          <p class="pub-description">Pioneered a method to test gene therapies using donated human livers kept alive outside the body, dramatically improving our ability to predict how treatments will work in patients.</p>
+          <p class="pub-description">Animal models fail to predict 90% of drug failures in humans. We kept donated human livers alive and functioning outside the body for 24 hours, then tested how AAV vectors infect human hepatocytes. This revealed critical differences from mouse models that explain why many gene therapies fail in clinical trials.</p>
         </div>
         
-        <div class="publication-card">
+        <div class="publication-card hover-lift">
           <span class="pub-year">2023</span>
-          <h3>Creating Self-Cleaning Surfaces to Fight Infections</h3>
+          <h3>Medical Devices That Fight Back Against Bacteria</h3>
           <p class="pub-details">Antibiofilm surfaces based on the immobilization of a novel recombinant antimicrobial multidomain protein</p>
           <p class="pub-journal"><em>Materials Advances</em></p>
-          <p class="pub-description">Engineered protein-coated surfaces that actively prevent bacterial growth, offering new solutions for medical devices and hospital equipment.</p>
+          <p class="pub-description">Hospital-acquired infections kill 99,000 Americans yearly, many from biofilms on medical devices. I created a protein coating that kills bacteria on contact while preventing biofilm formation. In lab tests, it reduced bacterial colonization by 99.9% and remained active for 30 days.</p>
         </div>
         
-        <div class="publication-card">
+        <div class="publication-card hover-lift">
           <span class="pub-year">2021</span>
-          <h3>Designing Smart Proteins to Combat Superbugs</h3>
+          <h3>Modular Proteins: Mix and Match to Kill Specific Bacteria</h3>
           <p class="pub-details">Sequence edition of single domains modulates the final immune and antimicrobial potential of multidomain recombinant proteins</p>
           <p class="pub-journal"><em>Scientific Reports</em></p>
-          <p class="pub-description">Created modular protein "building blocks" that can be combined like LEGO to create customized treatments against antibiotic-resistant bacteria.</p>
+          <p class="pub-description">I discovered that antimicrobial protein domains work better together than alone—but only in specific combinations. By testing 48 different arrangements, I found that domain order matters: putting the membrane-disrupting domain first increased killing efficiency 10-fold against MRSA.</p>
         </div>
         
         <div class="pub-links">
@@ -231,7 +250,7 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
       
       <div class="contact-content">
         <p class="lead">
-          Interested in innovative antimicrobial approaches, vector systems, or testing ideas at the interface of computation and biology? I'd love to hear from you.
+          Whether you're battling drug-resistant infections, need better gene delivery systems, or want to explore what AI can do for your biological challenges—let's talk. I'm always excited to collaborate with people who believe good science can change lives.
         </p>
         
         <div class="contact-info">
@@ -282,16 +301,107 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
 </Layout>
 
 <style>
-  /* Hero Section */
+  /* John Muir Quote Section */
+  .quote-section {
+    padding: var(--space-xl) 0;
+    background: linear-gradient(135deg, rgba(218, 41, 28, 0.02) 0%, rgba(255, 217, 61, 0.02) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent-yellow) 0%, transparent 70%);
+    opacity: 0.03;
+    transform: translate(-50%, -50%);
+  }
+
+  .muir-quote {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .muir-quote p {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-light);
+    color: var(--color-text-primary);
+    line-height: var(--leading-relaxed);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-8);
+    font-style: italic;
+    position: relative;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+
+  .muir-quote p::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: -40px;
+    font-size: 5rem;
+    color: var(--accent-red);
+    opacity: 0.1;
+    font-family: Georgia, serif;
+  }
+
+  .muir-quote cite {
+    display: block;
+    font-size: 1rem;
+    color: var(--secondary);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-style: normal;
+    position: relative;
+  }
+
+  .muir-quote cite::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--accent-red);
+    opacity: 0.5;
+  }
+
+  /* Hero Section with Modern Design */
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 80px;
-    background: var(--background);
+    background: var(--color-bg-primary);
     position: relative;
     overflow: hidden;
+    /* Performance optimization */
+    contain: layout style paint;
+  }
+  
+  /* Floating shapes in hero */
+  .floating-shape {
+    position: absolute;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .floating-shape.circle {
+    border-radius: 50%;
+  }
+  
+  .floating-shape.square {
+    transform: rotate(45deg);
   }
   
   .hero::before {
@@ -301,10 +411,13 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     right: -10%;
     width: 70%;
     height: 150%;
-    background: linear-gradient(45deg, var(--accent-yellow) 0%, transparent 70%);
-    opacity: 0.05;
-    transform: rotate(-15deg);
+    background: radial-gradient(ellipse at center, var(--color-catalan-yellow) 0%, transparent 70%);
+    opacity: 0.03;
+    transform: rotate(-15deg) translateZ(0);
     z-index: 0;
+    will-change: transform;
+    /* GPU acceleration */
+    backface-visibility: hidden;
   }
   
   .hero::after {
@@ -314,10 +427,16 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     left: 5%;
     width: 100px;
     height: 100px;
-    border: 2px solid var(--accent-red);
-    opacity: 0.1;
-    transform: rotate(45deg);
+    border: 2px solid var(--color-catalan-red);
+    opacity: 0.08;
+    transform: rotate(45deg) translateZ(0);
     z-index: 0;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: rotate(45deg) translateY(0) translateZ(0); }
+    50% { transform: rotate(45deg) translateY(-10px) translateZ(0); }
   }
 
   .hero-content {
@@ -330,12 +449,13 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .hero-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    margin-bottom: var(--space-sm);
-    color: var(--primary);
+    font-size: var(--font-size-5xl);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-primary);
     font-weight: var(--font-weight-light);
-    letter-spacing: -0.03em;
+    letter-spacing: var(--tracking-tighter);
     position: relative;
+    animation: fadeInUp 0.8s ease-out;
   }
   
   .hero-title::after {
@@ -346,25 +466,34 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
+    background: linear-gradient(90deg, var(--color-catalan-red) 0%, var(--color-catalan-yellow) 100%);
+    border-radius: var(--radius-full);
+    animation: expandWidth 1.2s ease-out 0.6s backwards;
+  }
+  
+  @keyframes expandWidth {
+    from { width: 0; }
+    to { width: 60px; }
   }
 
   .hero-subtitle {
-    font-size: 1.2rem;
-    color: var(--secondary);
-    margin-bottom: var(--space-xs);
-    margin-top: var(--space-md);
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    margin-top: var(--space-8);
     font-weight: var(--font-weight-light);
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
   }
 
   .hero-tagline {
-    font-size: 1rem;
-    color: var(--tertiary);
-    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-base);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-12);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.8;
+    line-height: var(--leading-loose);
+    animation: fadeInUp 0.8s ease-out 0.4s backwards;
   }
 
   .hero-cta {
@@ -375,44 +504,97 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .btn {
-    padding: 0.75rem 2rem;
-    border-radius: 2px;
-    font-weight: var(--font-weight-light);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    display: inline-block;
-    letter-spacing: 0.02em;
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    /* Remove default link underline */
+    background-image: none;
   }
 
   .btn-primary {
-    background: var(--accent-red);
-    color: var(--background);
-    border: 1px solid var(--accent-red);
-    position: relative;
-    overflow: hidden;
+    background: var(--color-catalan-red);
+    color: white;
+    border: 1px solid var(--color-catalan-red);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
   }
 
   .btn-primary:hover {
-    background: var(--background);
-    color: var(--accent-red);
+    background: var(--color-catalan-red);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
   }
 
   .btn-outline {
-    border: 1px solid var(--border);
-    color: var(--primary);
+    border: 1px solid var(--color-border-medium);
+    color: var(--color-text-primary);
     background: transparent;
+    position: relative;
+  }
+  
+  .btn-outline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--color-text-primary);
+    transition: width var(--transition-base);
+    z-index: -1;
   }
 
   .btn-outline:hover {
-    border-color: var(--primary);
-    background: var(--primary);
-    color: var(--background);
+    border-color: var(--color-text-primary);
+    color: white;
+  }
+  
+  .btn-outline:hover::before {
+    width: 100%;
   }
 
-  /* Sections */
-  .section {
-    padding: calc(var(--space-xl) * 1.5) 0;
+  /* Animation for fade in up */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* About Section - Timeline Roadmap */
@@ -465,8 +647,8 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   .timeline-dot {
     width: 16px;
     height: 16px;
-    background: var(--accent-red);
-    border: 3px solid var(--background);
+    background: var(--color-catalan-red);
+    border: 3px solid var(--color-bg-primary);
     border-radius: 50%;
     position: absolute;
     top: -8px;
@@ -474,35 +656,44 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     transform: translateX(-50%);
     z-index: 2;
     box-shadow: 0 0 0 8px rgba(218, 41, 28, 0.1);
+    transition: all var(--transition-base);
+  }
+  
+  .timeline-item:hover .timeline-dot {
+    transform: translateX(-50%) scale(1.2);
+    box-shadow: 0 0 0 12px rgba(218, 41, 28, 0.15);
   }
   
   .timeline-card {
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: var(--space-sm) var(--space-md);
-    margin-top: var(--space-md);
-    transition: all 0.3s ease;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-8);
+    margin-top: var(--space-8);
+    transition: all var(--transition-slow);
     position: relative;
+    box-shadow: var(--shadow-xs);
   }
   
   .timeline-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-color: var(--accent-red);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-catalan-red);
   }
   
   .timeline-card.highlight {
-    background: linear-gradient(135deg, rgba(218, 41, 28, 0.05) 0%, rgba(255, 217, 61, 0.05) 100%);
-    border-color: var(--accent-red);
+    background: linear-gradient(135deg, rgba(218, 41, 28, 0.03) 0%, rgba(255, 217, 61, 0.03) 100%);
+    border-color: var(--color-catalan-red);
+    box-shadow: var(--shadow-sm);
   }
   
   .timeline-year {
     display: inline-block;
-    font-size: 0.85rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--accent-red);
-    margin-bottom: var(--space-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-catalan-red);
+    margin-bottom: var(--space-2);
+    letter-spacing: var(--tracking-wide);
   }
   
   .timeline-card h3 {
@@ -562,8 +753,8 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
   
   .about-text {
-    max-width: 800px;
-    margin: var(--space-xl) auto 0;
+    max-width: var(--content-prose-width);
+    margin: var(--space-16) auto 0;
     text-align: center;
   }
   
@@ -577,11 +768,12 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .lead {
-    font-size: 1.1rem;
-    color: var(--secondary);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
     font-weight: var(--font-weight-light);
-    margin-bottom: var(--space-lg);
-    line-height: 1.8;
+    margin-bottom: var(--space-10);
+    line-height: var(--leading-loose);
+    letter-spacing: var(--tracking-normal);
   }
 
   .about-highlights {
@@ -685,11 +877,15 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .research-card {
-    background: var(--background);
-    padding: var(--space-lg) var(--space-md);
-    border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    background: var(--color-bg-primary);
+    padding: var(--space-12) var(--space-8);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
     position: relative;
+    box-shadow: var(--shadow-xs);
+    /* Performance optimization */
+    contain: layout style;
   }
   
   .research-card::before {
@@ -698,14 +894,17 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 50%, var(--accent-red) 100%);
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-catalan-red) 0%, var(--color-catalan-yellow) 50%, var(--color-catalan-red) 100%);
     transform: scaleX(0);
-    transition: transform 0.3s ease;
+    transform-origin: left;
+    transition: transform var(--transition-slow);
+    border-radius: var(--radius-full);
   }
 
   .research-card:hover {
-    border-color: var(--border);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
   
   .research-card:hover::before {
@@ -724,6 +923,40 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   .research-card p {
     color: var(--text-secondary);
     line-height: 1.6;
+  }
+
+  .research-visualizations-cta {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  .explore-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--color-catalan-red) 0%, var(--color-catalan-yellow) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .explore-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .explore-btn svg {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-base);
+  }
+
+  .explore-btn:hover svg {
+    transform: translateX(4px);
   }
 
   /* Publications Section */
@@ -750,11 +983,11 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .publication-card {
-    background: var(--background);
-    padding: var(--space-lg) 0;
-    border-bottom: 1px solid var(--border);
+    background: var(--color-bg-primary);
+    padding: var(--space-10) 0;
+    border-bottom: 1px solid var(--color-border-light);
     position: relative;
-    transition: all 0.2s ease;
+    transition: all var(--transition-base);
   }
 
   .publication-card:last-child {
@@ -762,8 +995,9 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .publication-card.featured {
-    padding-left: var(--space-sm);
-    border-left: 2px solid var(--accent-red);
+    padding-left: var(--space-6);
+    border-left: 3px solid var(--color-catalan-red);
+    background: linear-gradient(to right, rgba(218, 41, 28, 0.02) 0%, transparent 100px);
   }
 
   .pub-year {
@@ -834,9 +1068,18 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .contact-card {
-    background: var(--background);
-    padding: var(--space-md) 0;
+    background: var(--color-bg-primary);
+    padding: var(--space-8) var(--space-6);
     position: relative;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+    transition: all var(--transition-base);
+  }
+  
+  .contact-card:hover {
+    border-color: var(--color-catalan-red);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
   }
   
   .contact-card:nth-child(2)::before {
@@ -867,12 +1110,30 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--border);
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    color: var(--color-text-secondary);
+    position: relative;
+    overflow: hidden;
+    /* Remove default link styles */
+    background-image: none;
+  }
+  
+  .social-links a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: var(--color-catalan-red);
     border-radius: 50%;
-    transition: all 0.2s ease;
-    color: var(--secondary);
+    transform: translate(-50%, -50%);
+    transition: all var(--transition-slow);
+    z-index: -1;
   }
 
   .social-links a svg {
@@ -885,24 +1146,30 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
   }
 
   .social-links a:hover {
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-    background: rgba(218, 41, 28, 0.05);
+    border-color: var(--color-catalan-red);
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .social-links a:hover::before {
+    width: 100%;
+    height: 100%;
   }
 
   /* Footer */
   .footer {
-    background: var(--background);
-    border-top: 1px solid var(--border);
-    color: var(--tertiary);
-    padding: var(--space-lg) 0;
+    background: var(--color-bg-primary);
+    border-top: 1px solid var(--color-border-light);
+    color: var(--color-text-tertiary);
+    padding: var(--space-12) 0;
     text-align: center;
   }
 
   .footer p {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-light);
+    letter-spacing: var(--tracking-wide);
   }
 
   /* Responsive */
@@ -947,72 +1214,68 @@ import ProteinVisualization from '../components/ProteinVisualization.astro';
     }
   }
   
-  /* Dark Mode */
+  /* Dark Mode Adjustments */
   @media (prefers-color-scheme: dark) {
-    :root {
-      --primary: #e8e8e8;
-      --secondary: #aaaaaa;
-      --tertiary: #888888;
-      --background: #121212;
-      --background-alt: #1e1e1e;
-      --border: #2a2a2a;
-      --accent-red: #ff4545;
-      --accent-yellow: #ffeb3b;
+    .hero::before {
+      opacity: 0.02;
     }
     
-    body {
-      background: var(--background);
-      color: var(--primary);
-    }
-    
-    .navigation {
-      background: rgba(18, 18, 18, 0.95);
-      box-shadow: 0 1px 0 rgba(255,255,255,.05);
+    .hero::after {
+      opacity: 0.05;
     }
     
     .timeline-card {
-      background: var(--background-alt);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      background: var(--color-bg-secondary);
+      border-color: var(--color-border-light);
+    }
+    
+    .timeline-card.highlight {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 235, 59, 0.05) 100%);
+      border-color: var(--color-text-accent);
     }
     
     .publication-card {
-      background: var(--background-alt);
+      background: var(--color-bg-secondary);
     }
     
     .research-card {
-      background: var(--background-alt);
+      background: var(--color-bg-secondary);
     }
     
     .contact-card {
-      background: var(--background-alt);
+      background: var(--color-bg-secondary);
     }
     
     .footer {
-      background: var(--background-alt);
-      border-top-color: var(--border);
+      background: var(--color-bg-secondary);
+      border-top-color: var(--color-border-light);
     }
     
     .social-links a {
-      background: var(--background-alt);
-      border-color: var(--border);
+      background: var(--color-bg-secondary);
+      border-color: var(--color-border-light);
     }
     
     .social-links a:hover {
-      background: rgba(218, 41, 28, 0.1);
-    }
-    
-    a {
-      color: #3dd1e0;
+      background: var(--color-text-accent);
     }
     
     .btn-primary {
-      background: var(--accent-red);
-      border-color: var(--accent-red);
+      background: var(--color-text-accent);
+      border-color: var(--color-text-accent);
     }
     
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--accent-red);
+    .pub-links a svg {
+      fill: currentColor;
+    }
+    
+    .muir-quote p::before {
+      color: var(--color-text-accent);
+      opacity: 0.15;
+    }
+    
+    .muir-quote cite::before {
+      background: var(--color-text-accent);
     }
   }
 </style>

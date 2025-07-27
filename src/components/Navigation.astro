@@ -1,10 +1,10 @@
 ---
 ---
 
-<nav class="navigation">
+<nav class="navigation" data-animate="fade-down">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="#home" class="logo">Ramon Roca Pinilla</a>
+      <a href="#home" class="logo link-underline">Ramon Roca Pinilla</a>
       
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -16,6 +16,7 @@
         <li><a href="/Portfolio/">Home</a></li>
         <li><a href="/Portfolio/#about">About</a></li>
         <li><a href="/Portfolio/#research">Research</a></li>
+        <li><a href="/Portfolio/research-visualizations">Visualizations</a></li>
         <li><a href="/Portfolio/#publications">Publications</a></li>
         <li><a href="/Portfolio/#contact">Contact</a></li>
         <li class="lang-switcher">
@@ -35,51 +36,105 @@
     left: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: saturate(180%) blur(10px);
-    -webkit-backdrop-filter: saturate(180%) blur(10px);
-    z-index: 1000;
-    box-shadow: 0 1px 0 rgba(0,0,0,.05);
-    transition: all 0.3s ease;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: var(--z-fixed);
+    box-shadow: var(--shadow-xs);
+    transition: all var(--transition-slow);
+    contain: layout style;
+  }
+
+  @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+    .navigation {
+      background: rgba(255, 255, 255, 0.85);
+    }
   }
 
   .nav-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    padding: var(--space-4) 0;
   }
 
   .logo {
-    font-family: var(--font-primary);
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #000000;
-    text-decoration: none;
-    letter-spacing: -0.02em;
-    opacity: 1;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-tight);
+    transition: color var(--transition-fast);
+    /* Remove default link styles */
+    background-image: none;
+  }
+
+  .logo:hover {
+    color: var(--color-catalan-red);
   }
 
   .nav-links {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: var(--space-8);
     align-items: center;
+    margin: 0;
+    padding: 0;
   }
 
   .nav-links a {
-    color: #000000;
-    font-weight: 600;
-    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
     position: relative;
-    transition: all 0.15s ease;
-    border: none;
-    opacity: 1;
+    transition: all var(--transition-fast);
+    padding: var(--space-2) 0;
+    /* Remove default link underline */
+    background-image: none;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-catalan-red);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-base);
   }
 
   .nav-links a:hover {
-    color: var(--accent-red);
-    opacity: 1;
-    transform: translateY(-1px);
+    color: var(--color-catalan-red);
+  }
+
+  .nav-links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .lang-switcher {
+    display: flex;
+    gap: var(--space-2);
+    margin-left: var(--space-4);
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--color-border-light);
+  }
+
+  .lang-switcher a {
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-fast);
+  }
+
+  .lang-switcher a:hover {
+    background: var(--color-bg-secondary);
+  }
+
+  .lang-switcher a:hover::after {
+    display: none;
   }
 
   .mobile-menu-toggle {
@@ -91,15 +146,44 @@
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
   }
 
   .mobile-menu-toggle span {
     width: 100%;
     height: 2px;
-    background: var(--primary-black);
-    transition: all 0.3s ease;
+    background: var(--color-text-primary);
+    transition: all var(--transition-slow);
+    border-radius: var(--radius-full);
   }
 
+  .mobile-menu-toggle:hover span {
+    background: var(--color-catalan-red);
+  }
+
+  /* Dark mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .navigation {
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+      .navigation {
+        background: rgba(10, 10, 10, 0.85);
+      }
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text-accent);
+    }
+
+    .nav-links a::after {
+      background: var(--color-text-accent);
+    }
+  }
+
+  /* Mobile responsive */
   @media (max-width: 768px) {
     .mobile-menu-toggle {
       display: flex;
@@ -110,24 +194,55 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
+      background: var(--color-bg-primary);
       flex-direction: column;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-lg);
       transform: translateY(-100vh);
-      transition: transform 0.3s ease;
+      transition: transform var(--transition-slow);
+      gap: var(--space-4);
     }
 
     .nav-links.active {
       transform: translateY(0);
     }
+
+    .nav-links a {
+      width: 100%;
+      padding: var(--space-3) 0;
+      font-size: var(--font-size-base);
+    }
+
+    .lang-switcher {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+      border-top: 1px solid var(--color-border-light);
+      padding-top: var(--space-4);
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Dark mode mobile menu */
+    @media (prefers-color-scheme: dark) {
+      .nav-links {
+        background: var(--color-bg-secondary);
+      }
+    }
+  }
+
+  /* Scroll state */
+  .navigation.scrolled {
+    box-shadow: var(--shadow-md);
   }
 </style>
 
 <script>
   const mobileToggle = document.querySelector('.mobile-menu-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const navigation = document.querySelector('.navigation');
   
+  // Mobile menu toggle
   mobileToggle?.addEventListener('click', () => {
     navLinks?.classList.toggle('active');
   });
@@ -138,4 +253,29 @@
       navLinks?.classList.remove('active');
     });
   });
+  
+  // Add scroll detection for shadow effect
+  let lastScroll = 0;
+  const scrollThreshold = 50;
+  
+  const handleScroll = () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > scrollThreshold) {
+      navigation?.classList.add('scrolled');
+    } else {
+      navigation?.classList.remove('scrolled');
+    }
+    
+    lastScroll = currentScroll;
+  };
+  
+  // Throttle scroll events for better performance
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout);
+    }
+    scrollTimeout = window.requestAnimationFrame(handleScroll);
+  }, { passive: true });
 </script>
