@@ -5,6 +5,7 @@
 
 <div class="protein-viewer-container">
   <div id="ngl-binder-viewer" style="width: 100%; height: 400px;"></div>
+  <p id="ngl-binder-fallback">Static fallback illustration of the de novo designed protein</p>
   <p class="viewer-caption">De Novo Designed Protein (PDB: 8KCK) - A Computationally Designed Binder</p>
 </div>
 
@@ -28,6 +29,15 @@
     try {
       const NGL = await loadNGLViewer();
       const stage = new NGL.Stage("ngl-binder-viewer");
+
+      // Mark the generated canvas for assistive technologies
+      const canvas = stage.viewer.renderer.domElement;
+      canvas.setAttribute('role', 'img');
+      canvas.setAttribute('aria-label', 'Interactive model of de novo designed protein');
+
+      // Hide fallback text once the viewer loads
+      const fallback = document.getElementById('ngl-binder-fallback');
+      if (fallback) fallback.style.display = 'none';
 
       // Handle window resizing
       window.addEventListener("resize", function () {
@@ -74,6 +84,12 @@
     border-radius: 4px;
     overflow: hidden; /* Ensures the viewer respects border-radius */
     background-color: var(--background); /* Match background for seamless look */
+  }
+
+  #ngl-binder-fallback {
+    margin-top: var(--space-sm);
+    font-size: 0.9rem;
+    color: var(--secondary);
   }
 
   .viewer-caption {

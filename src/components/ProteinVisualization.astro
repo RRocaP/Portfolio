@@ -2,7 +2,7 @@
 ---
 
 <div class="protein-visualization-container" id="proteinViz">
-  <div class="protein-canvas">
+  <div class="protein-canvas" role="img" aria-label="Animated illustration of a protein complex">
     <div class="protein-structure" id="proteinStructure">
       <!-- Protein backbone -->
       <div class="protein-backbone">
@@ -47,9 +47,10 @@
         <line class="bond bond-1" x1="100" y1="100" x2="200" y2="150" />
         <line class="bond bond-2" x1="200" y1="150" x2="250" y2="200" />
         <line class="bond bond-3" x1="150" y1="250" x2="250" y2="200" />
-      </svg>
-    </div>
+    </svg>
   </div>
+  <p id="proteinviz-fallback">Animated 3D depiction of an engineered antimicrobial protein</p>
+</div>
   
   <div class="protein-info">
     <h3>De Novo Antimicrobial Complex</h3>
@@ -75,6 +76,13 @@
     background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.02) 0%, transparent 60%);
     border-radius: 20px;
     overflow: hidden;
+  }
+
+  #proteinviz-fallback {
+    margin-top: var(--space-sm);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--secondary);
   }
 
   .protein-structure {
@@ -415,6 +423,9 @@
 </style>
 
 <script>
+  // Hide fallback text once the visualization is initialized
+  document.getElementById('proteinviz-fallback')?.style.setProperty('display', 'none');
+
   // Scroll-based rotation
   const proteinStructure = document.getElementById('proteinStructure');
   const proteinViz = document.getElementById('proteinViz');

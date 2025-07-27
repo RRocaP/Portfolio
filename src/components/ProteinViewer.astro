@@ -5,6 +5,7 @@
 
 <div class="protein-viewer-container">
   <div id="ngl-viewer" style="width: 100%; height: 400px;"></div>
+  <p id="ngl-viewer-fallback">Static fallback image of LL-37 protein</p>
   <p class="viewer-caption">Human Cathelicidin LL-37 (PDB: 2K6O) - An Antimicrobial Peptide</p>
 </div>
 
@@ -28,6 +29,15 @@
     try {
       const NGL = await loadNGLViewer();
       const stage = new NGL.Stage("ngl-viewer");
+
+      // Mark the generated canvas for assistive technologies
+      const canvas = stage.viewer.renderer.domElement;
+      canvas.setAttribute('role', 'img');
+      canvas.setAttribute('aria-label', 'Interactive model of antimicrobial peptide LL-37');
+
+      // Hide fallback text once the viewer loads
+      const fallback = document.getElementById('ngl-viewer-fallback');
+      if (fallback) fallback.style.display = 'none';
 
       // Handle window resizing
       window.addEventListener("resize", function () {
@@ -73,6 +83,12 @@
     border-radius: 4px;
     overflow: hidden; /* Ensures the viewer respects border-radius */
     background-color: var(--background); /* Match background for seamless look */
+  }
+
+  #ngl-viewer-fallback {
+    margin-top: var(--space-sm);
+    font-size: 0.9rem;
+    color: var(--secondary);
   }
 
   .viewer-caption {
