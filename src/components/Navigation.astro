@@ -4,9 +4,7 @@
 <nav class="navigation">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="#home" class="logo">
-        <span class="logo-text">RRP</span>
-      </a>
+      <a href="#home" class="logo">Ramon Roca Pinilla</a>
       
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -31,10 +29,11 @@
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border);
     transition: all 0.3s ease;
   }
 
@@ -46,19 +45,12 @@
   }
 
   .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-black);
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--primary);
     text-decoration: none;
-    position: relative;
-  }
-
-  .logo-text {
-    background: var(--gradient-catalan);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.02em;
   }
 
   .nav-links {
@@ -69,30 +61,17 @@
   }
 
   .nav-links a {
-    color: var(--text-primary);
-    font-weight: 500;
-    font-size: 0.95rem;
+    color: var(--secondary);
+    font-weight: var(--font-weight-light);
+    font-size: 0.9rem;
     position: relative;
-    transition: color 0.3s ease;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary-red);
-    transition: width 0.3s ease;
+    transition: color 0.2s ease;
+    border: none;
   }
 
   .nav-links a:hover {
-    color: var(--primary-red);
-  }
-
-  .nav-links a:hover::after {
-    width: 100%;
+    color: var(--primary);
+    opacity: 1;
   }
 
   .mobile-menu-toggle {
