@@ -49,7 +49,7 @@
         <line class="bond bond-3" x1="150" y1="250" x2="250" y2="200" />
     </svg>
   </div>
-  <p class="sr-only">Animated 3D depiction of an engineered antimicrobial protein</p>
+  <p id="proteinviz-fallback">Animated 3D depiction of an engineered antimicrobial protein</p>
 </div>
   
   <div class="protein-info">
@@ -76,6 +76,13 @@
     background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.02) 0%, transparent 60%);
     border-radius: 20px;
     overflow: hidden;
+  }
+
+  #proteinviz-fallback {
+    margin-top: var(--space-sm);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--secondary);
   }
 
   .protein-structure {
@@ -416,6 +423,9 @@
 </style>
 
 <script>
+  // Hide fallback text once the visualization is initialized
+  document.getElementById('proteinviz-fallback')?.style.setProperty('display', 'none');
+
   // Scroll-based rotation
   const proteinStructure = document.getElementById('proteinStructure');
   const proteinViz = document.getElementById('proteinViz');
