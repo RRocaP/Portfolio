@@ -1,0 +1,50 @@
+---
+---
+<div class="protein-video-wrapper" id="proteinVideo">
+  <canvas id="proteinCanvas"></canvas>
+</div>
+
+<script is:inline>
+  const video = document.createElement('video');
+  video.src = '/Portfolio/sample-protein.mp4';
+  video.muted = true;
+  video.playsInline = true;
+  video.preload = 'auto';
+
+  const canvas = document.getElementById('proteinCanvas');
+  const ctx = canvas.getContext('2d');
+
+  video.addEventListener('loadeddata', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    drawFrame(0);
+    window.addEventListener('scroll', handleScroll);
+  });
+
+  function drawFrame(time) {
+    video.currentTime = Math.min(video.duration, Math.max(0, time));
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  }
+
+  function handleScroll() {
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const scrollFraction = window.scrollY / maxScroll;
+    const targetTime = scrollFraction * video.duration;
+    drawFrame(targetTime);
+  }
+</script>
+
+<style>
+  .protein-video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+  }
+  canvas {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+</style>

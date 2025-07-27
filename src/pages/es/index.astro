@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import ProteinVisualization from '../../components/ProteinVisualization.astro';
+import ProteinVideo from '../../components/ProteinVideo.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular">
@@ -13,6 +14,7 @@ import ProteinVisualization from '../../components/ProteinVisualization.astro';
       <h1 class="hero-title">Ramon Roca Pinilla</h1>
       <p class="hero-subtitle">Ingeniero Biomédico y Biólogo Molecular</p>
       <p class="hero-tagline">Diseñando terapias génicas y soluciones antimicrobianas de nueva generación en la intersección de la biología y la tecnología</p>
+      <p class="hero-quote"><em>The power of imagination makes us infinite.</em></p>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">Saber Más</a>
         <a href="#contact" class="btn btn-outline">Contacto</a>
@@ -162,6 +164,7 @@ import ProteinVisualization from '../../components/ProteinVisualization.astro';
         </div>
       </div>
       <ProteinVisualization />
+      <ProteinVideo />
     </div>
   </section>
 
@@ -365,6 +368,14 @@ import ProteinVisualization from '../../components/ProteinVisualization.astro';
     margin-right: auto;
     line-height: 1.8;
   }
+  .hero-quote {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-bottom: var(--space-md);
+    font-style: italic;
+    text-align: center;
+  }
+
 
   .hero-cta {
     display: flex;
