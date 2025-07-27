@@ -11,7 +11,7 @@ import Navigation from '../components/Navigation.astro';
     <div class="hero-content">
       <h1 class="hero-title">Ramon Roca Pinilla</h1>
       <p class="hero-subtitle">Biomedical Engineer & Molecular Biologist</p>
-      <p class="hero-tagline">Designing therapies that stand up to rigorous science</p>
+      <p class="hero-tagline">Engineering next-generation gene therapies and antimicrobial solutions at the intersection of biology and technology</p>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">Learn More</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
@@ -137,11 +137,52 @@ import Navigation from '../components/Navigation.astro';
       <div class="accent-bar"></div>
       
       <div class="publications-list">
-        <p class="coming-soon">
-          Publications list coming soon. For a complete list of my publications, please visit my 
-          <a href="#" target="_blank" rel="noopener">Google Scholar</a> or 
-          <a href="#" target="_blank" rel="noopener">ORCID</a> profile.
-        </p>
+        <div class="publication-card featured">
+          <span class="pub-year">2024</span>
+          <h3>Revolutionizing CAR-T Cell Therapy Through Advanced Gene Delivery</h3>
+          <p class="pub-details">Tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T generation</p>
+          <p class="pub-journal"><em>Molecular Therapy</em></p>
+          <p class="pub-description">Developed innovative approaches to enhance cancer immunotherapy by improving how we deliver genetic instructions to immune cells, potentially making CAR-T treatments more accessible and effective.</p>
+        </div>
+        
+        <div class="publication-card featured">
+          <span class="pub-year">2024</span>
+          <h3>Testing Gene Therapies in Living Human Liver Tissue</h3>
+          <p class="pub-details">Harnessing whole human liver ex situ normothermic perfusion for preclinical AAV vector evaluation</p>
+          <p class="pub-journal"><em>Nature Communications</em></p>
+          <p class="pub-description">Pioneered a method to test gene therapies using donated human livers kept alive outside the body, dramatically improving our ability to predict how treatments will work in patients.</p>
+        </div>
+        
+        <div class="publication-card">
+          <span class="pub-year">2023</span>
+          <h3>Creating Self-Cleaning Surfaces to Fight Infections</h3>
+          <p class="pub-details">Antibiofilm surfaces based on the immobilization of a novel recombinant antimicrobial multidomain protein</p>
+          <p class="pub-journal"><em>Materials Advances</em></p>
+          <p class="pub-description">Engineered protein-coated surfaces that actively prevent bacterial growth, offering new solutions for medical devices and hospital equipment.</p>
+        </div>
+        
+        <div class="publication-card">
+          <span class="pub-year">2021</span>
+          <h3>Designing Smart Proteins to Combat Superbugs</h3>
+          <p class="pub-details">Sequence edition of single domains modulates the final immune and antimicrobial potential of multidomain recombinant proteins</p>
+          <p class="pub-journal"><em>Scientific Reports</em></p>
+          <p class="pub-description">Created modular protein "building blocks" that can be combined like LEGO to create customized treatments against antibiotic-resistant bacteria.</p>
+        </div>
+        
+        <div class="pub-links">
+          <a href="https://scholar.google.com/citations?hl=fr&user=jYIZGT0AAAAJ" target="_blank" rel="noopener" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 24a7 7 0 110-14 7 7 0 010 14zm0-24L0 9.5l4.838 3.94A8 8 0 0112 9a8 8 0 017.162 4.44L24 9.5z"/>
+            </svg>
+            Google Scholar
+          </a>
+          <a href="https://orcid.org/0000-0002-7393-6200" target="_blank" rel="noopener" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 01-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/>
+            </svg>
+            ORCID
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -160,7 +201,7 @@ import Navigation from '../components/Navigation.astro';
         <div class="contact-info">
           <div class="contact-card">
             <h3>Email</h3>
-            <p><a href="mailto:ramon.roca@cmri.org.au">ramon.roca@cmri.org.au</a></p>
+            <p><a href="mailto:ramon.rocap@gmail.com">ramon.rocap@gmail.com</a></p>
           </div>
           
           <div class="contact-card">
@@ -463,14 +504,84 @@ import Navigation from '../components/Navigation.astro';
     background: var(--bg-light);
   }
 
-  .coming-soon {
-    text-align: center;
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    padding: 3rem;
+  .publications-list {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .publication-card {
     background: white;
+    padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .publication-card.featured {
+    border-left: 4px solid var(--primary-red);
+  }
+
+  .publication-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .pub-year {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: var(--gradient-catalan);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .publication-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-black);
+    max-width: 80%;
+  }
+
+  .pub-details {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .pub-journal {
+    color: var(--primary-red);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .pub-description {
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .pub-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .pub-links .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pub-links svg {
+    width: 20px;
+    height: 20px;
   }
 
   /* Contact Section */
