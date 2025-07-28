@@ -135,7 +135,7 @@ class ProteinFrameGenerator {
     }
   }
 
-  drawProteinStructure(ctx, angle) {
+  drawProteinStructure(ctx: CanvasRenderingContext2D, angle: number) {
     const centerX = this.width / 2;
     const centerY = this.height / 2;
     
@@ -223,7 +223,7 @@ class ProteinFrameGenerator {
     }
   }
 
-  drawSyntheticProtein(ctx, angle, centerX, centerY) {
+  drawSyntheticProtein(ctx: CanvasRenderingContext2D, angle: number, centerX: number, centerY: number) {
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(angle);
