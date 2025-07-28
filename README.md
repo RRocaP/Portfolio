@@ -14,3 +14,9 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+### License
+
+This project is licensed under the [MIT License](LICENSE).
+You can also view the full license on the website's [license page](/Portfolio/license).
+
