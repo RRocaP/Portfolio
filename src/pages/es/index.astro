@@ -114,6 +114,21 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
         <p>
           Mi enfoque es directo: aprovechar la IA para acelerar el descubrimiento, validar cada hallazgo en el laboratorio y mantenerme anclado en la realidad científica. La misión es convertir algoritmos inteligentes y un trabajo de laboratorio meticuloso en terapias antiinfecciosas eficaces, sin exageraciones ni atajos, solo ciencia sólida que avanza a la velocidad de la tecnología moderna.
         </p>
+        
+        <div class="about-stats">
+          <div class="stat-card">
+            <span class="stat-number" data-count="14">0</span>
+            <span class="stat-label">Publicaciones</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-count="3">0</span>
+            <span class="stat-label">Patentes</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-count="10">0</span>
+            <span class="stat-label">Años de Investigación</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -569,6 +584,46 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   .about-text p {
     text-align: justify;
     margin-bottom: var(--space-md);
+  }
+  
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .stat-card {
+    text-align: center;
+    padding: var(--space-lg);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--accent-red);
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-light);
+    color: var(--accent-red);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
   
   .accent-bar {

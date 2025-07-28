@@ -135,7 +135,7 @@ class ProteinFrameGenerator {
     }
   }
 
-  drawProteinStructure(ctx, angle) {
+  drawProteinStructure(ctx: CanvasRenderingContext2D, angle: number) {
     const centerX = this.width / 2;
     const centerY = this.height / 2;
     
@@ -223,7 +223,7 @@ class ProteinFrameGenerator {
     }
   }
 
-  drawSyntheticProtein(ctx, angle, centerX, centerY) {
+  drawSyntheticProtein(ctx: CanvasRenderingContext2D, angle: number, centerX: number, centerY: number) {
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(angle);
@@ -296,7 +296,7 @@ class ProteinFrameGenerator {
 // Command line interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const options = {};
+  const options: ProteinFrameGeneratorOptions = {};
   
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i].replace('--', '');

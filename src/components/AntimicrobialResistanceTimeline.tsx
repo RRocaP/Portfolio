@@ -165,7 +165,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('y', (d: AntibioticData) => yScale(d.antibiotic)!)
       .attr('width', (d: AntibioticData) => Math.max(0, xScale(d.yearResistanceDetected) - xScale(d.yearIntroduced)))
       .attr('height', yScale.bandwidth())
-      .attr('fill', (d: AntibioticData) => colorScale(d.category as string))
+      .attr('fill', (d: AntibioticData) => colorScale(d.category) as string)
       .attr('opacity', 0.8)
       .attr('rx', 4)
       .style('cursor', 'pointer')
