@@ -1,10 +1,12 @@
 --- 
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
-import ProteinViewer from '../../components/ProteinViewer.astro';
-import ProteinBinderViewer from '../../components/ProteinBinderViewer.astro';
+import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro';
+import GeneTherapy from '../../components/GeneTherapy.astro';
+import ProteinEngineering from '../../components/ProteinEngineering.astro';
+import ResearchImpact from '../../components/ResearchImpact.astro';
+import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
-import { proteinVideos } from '../../data/proteinVideos.js';
 ---
 
 <Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
@@ -133,38 +135,14 @@ import { proteinVideos } from '../../data/proteinVideos.js';
         </p>
       </div>
       
-      <div class="research-areas">
-        <div class="research-card animate-fade-in-up">
-        
-        <div class="research-card animate-fade-in-up animate-delay-1">
-        
-        <div class="research-card animate-fade-in-up animate-delay-2">
-      </div>
+      <AntimicrobialTimeline />
+      <GeneTherapy />
+      <ProteinEngineering />
+      <ResearchImpact />
       
     </div>
   </section>
 
-  <!-- Protein Videos Section -->
-  <section id="protein-videos" class="section research-section">
-    <div class="container">
-      <h2 class="section-title animate-fade-in-up">Protein Videos</h2>
-      <div class="accent-bar animate-fade-in-up"></div>
-      
-      <div class="research-intro animate-fade-in-up">
-        <p class="lead">
-          A collection of videos showcasing protein dynamics and other molecular visualizations.
-        </p>
-      </div>
-      
-      <div class="research-areas">
-        {proteinVideos.map(video => (
-          <div class="research-card animate-fade-in-up">
-            
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <!-- Publications Section -->
   <section id="publications" class="section publications-section">
@@ -250,12 +228,7 @@ import { proteinVideos } from '../../data/proteinVideos.js';
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2024 Ramon Roca Pinilla. All rights reserved.</p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>
 
 <style>

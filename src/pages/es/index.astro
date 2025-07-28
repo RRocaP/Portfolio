@@ -1,9 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
-import ProteinViewer from '../../components/ProteinViewer.astro';
+import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro';
+import GeneTherapy from '../../components/GeneTherapy.astro';
+import ProteinEngineering from '../../components/ProteinEngineering.astro';
+import ResearchImpact from '../../components/ResearchImpact.astro';
+import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
-import { proteinVideos } from '../../data/proteinVideos.js';
 ---
 
 <Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular">
@@ -163,30 +166,11 @@ import { proteinVideos } from '../../data/proteinVideos.js';
           <p>Diseño e ingeniería de vectores virales y proteínas terapéuticas para garantizar una entrega y actividad eficaces, manteniendo la escalabilidad de producción.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Protein Videos Section -->
-  <section id="protein-videos" class="section research-section">
-    <div class="container">
-      <h2 class="section-title animate-fade-in-up">Videos de Proteínas</h2>
-      <div class="accent-bar animate-fade-in-up"></div>
       
-      <div class="research-intro animate-fade-in-up">
-        <p class="lead">
-          Una col·lecció de vídeos que mostren la dinàmica de les proteïnes i altres visualitzacions moleculars.
-        </p>
-      </div>
-      
-      <div class="research-areas">
-        {proteinVideos.map(video => (
-          <div class="research-card animate-fade-in-up">
-            <ProteinViewer pdbId={video.pdbId} />
-            <h3>{video.title}</h3>
-            <p>{video.description}</p>
-          </div>
-        ))}
-      </div>
+      <AntimicrobialTimeline />
+      <GeneTherapy />
+      <ProteinEngineering />
+      <ResearchImpact />
     </div>
   </section>
 
@@ -268,12 +252,7 @@ import { proteinVideos } from '../../data/proteinVideos.js';
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2024 Ramon Roca Pinilla. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>
 
 <style>
