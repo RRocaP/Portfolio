@@ -1,7 +1,10 @@
----
+--- 
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
-import ProteinStructure from '../../components/ProteinStructure.astro';
+import ProteinViewer from '../../components/ProteinViewer.astro';
+import ProteinBinderViewer from '../../components/ProteinBinderViewer.astro';
+import { publications } from '../../data/publications.js';
+import { proteinVideos } from '../../data/proteinVideos.js';
 ---
 
 <Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
@@ -10,10 +13,10 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">Ramon Roca Pinilla</h1>
-      <p class="hero-subtitle">Biomedical Engineer & Molecular Biologist</p>
-      <p class="hero-tagline">Engineering next-generation gene therapies and antimicrobial solutions at the intersection of biology and technology</p>
-      <div class="hero-cta">
+      <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
+      <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer & Molecular Biologist</p>
+      <p class="hero-tagline animate-fade-in-up animate-delay-2">Engineering next-generation gene therapies and antimicrobial solutions at the intersection of biology and technology</p>
+      <div class="hero-cta animate-fade-in-up animate-delay-3">
         <a href="#about" class="btn btn-primary">Learn More</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
       </div>
@@ -23,7 +26,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   <!-- About Section with Timeline Roadmap -->
   <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title">My Journey</h2>
+      <h2 class="section-title animate-fade-in-up">My Journey</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -42,7 +45,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
         </svg>
         
         <div class="timeline-content">
-          <div class="timeline-item" style="--index: 1">
+          <div class="timeline-item animate-fade-in-up" style="--index: 1">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2013</span>
@@ -52,7 +55,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </div>
           </div>
           
-          <div class="timeline-item" style="--index: 2">
+          <div class="timeline-item animate-fade-in-up" style="--index: 2">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2015</span>
@@ -62,7 +65,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </div>
           </div>
           
-          <div class="timeline-item" style="--index: 3">
+          <div class="timeline-item animate-fade-in-up" style="--index: 3">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2020</span>
@@ -72,7 +75,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </div>
           </div>
           
-          <div class="timeline-item" style="--index: 4">
+          <div class="timeline-item animate-fade-in-up" style="--index: 4">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2021</span>
@@ -82,7 +85,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </div>
           </div>
           
-          <div class="timeline-item" style="--index: 5">
+          <div class="timeline-item animate-fade-in-up" style="--index: 5">
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Now</span>
@@ -92,8 +95,8 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </div>
           </div>
           
-          <div class="profile-end">
-            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" />
+          <div class="profile-end animate-fade-in-up animate-delay-4">
+            <img src="/Portfolio/public/profile.jpg" alt="Ramon Roca Pinilla" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
               <p>Turning algorithms into therapies</p>
@@ -102,7 +105,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
         </div>
       </div>
       
-      <div class="about-text">
+      <div class="about-text animate-fade-in-up">
         <p class="lead">
           I am a biotechnologist, biomedical engineer, and molecular biologist working to bridge the gap between what AI can imagine and what medicine truly needs.
         </p>
@@ -121,90 +124,65 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   <!-- Research Section -->
   <section id="research" class="section research-section">
     <div class="container">
-      <h2>Research</h2>
-      <div class="accent-bar"></div>
+      <h2 class="section-title animate-fade-in-up">Research</h2>
+      <div class="accent-bar animate-fade-in-up"></div>
       
-      <div class="research-intro">
+      <div class="research-intro animate-fade-in-up">
         <p class="lead">
           At the intersection of computation and biology, I leverage AI-driven protein engineering to design the next generation of therapeutics—from tackling drug-resistant infections to developing oncolytic therapies.
         </p>
       </div>
       
       <div class="research-areas">
-        <div class="research-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-          </div>
-          <h3>Computational Discovery</h3>
-          <p>Leveraging advanced algorithms and machine learning to identify novel antimicrobial compounds and predict their efficacy against resistant pathogens.</p>
-        </div>
+        <div class="research-card animate-fade-in-up">
         
-        <div class="research-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <h3>Wet-Lab Validation</h3>
-          <p>Rigorous experimental validation of computational predictions through state-of-the-art molecular biology techniques and antimicrobial assays.</p>
-        </div>
+        <div class="research-card animate-fade-in-up animate-delay-1">
         
-        <div class="research-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 7V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v3m0 10v3a2 2 0 01-2 2h-3m-10 0H6a2 2 0 01-2-2v-3m5-8h6M12 9v6" />
-            </svg>
-          </div>
-          <h3>Viral Vector and Protein Engineering</h3>
-          <p>Designing and engineering viral vectors and therapeutic proteins to ensure effective delivery and activity, while maintaining manufacturability at scale.</p>
-        </div>
+        <div class="research-card animate-fade-in-up animate-delay-2">
       </div>
-      <ProteinStructure />
+      
+    </div>
+  </section>
+
+  <!-- Protein Videos Section -->
+  <section id="protein-videos" class="section research-section">
+    <div class="container">
+      <h2 class="section-title animate-fade-in-up">Protein Videos</h2>
+      <div class="accent-bar animate-fade-in-up"></div>
+      
+      <div class="research-intro animate-fade-in-up">
+        <p class="lead">
+          A collection of videos showcasing protein dynamics and other molecular visualizations.
+        </p>
+      </div>
+      
+      <div class="research-areas">
+        {proteinVideos.map(video => (
+          <div class="research-card animate-fade-in-up">
+            
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- Publications Section -->
   <section id="publications" class="section publications-section">
     <div class="container">
-      <h2>Selected Publications</h2>
-      <div class="accent-bar"></div>
+      <h2 class="section-title animate-fade-in-up">Selected Publications</h2>
+      <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="publications-list">
-        <div class="publication-card featured">
-          <span class="pub-year">2024</span>
-          <h3>Revolutionizing CAR-T Cell Therapy Through Advanced Gene Delivery</h3>
-          <p class="pub-details">Tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T generation</p>
-          <p class="pub-journal"><em>Molecular Therapy</em></p>
-          <p class="pub-description">Developed innovative approaches to enhance cancer immunotherapy by improving how we deliver genetic instructions to immune cells, potentially making CAR-T treatments more accessible and effective.</p>
-        </div>
+        {publications.map(pub => (
+          <div class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`}>
+            <span class="pub-year">{pub.year}</span>
+            <h3>{pub.title}</h3>
+            <p class="pub-journal">{pub.journal}</p>
+          </div>
+        ))}
+      </div>
         
-        <div class="publication-card featured">
-          <span class="pub-year">2024</span>
-          <h3>Testing Gene Therapies in Living Human Liver Tissue</h3>
-          <p class="pub-details">Harnessing whole human liver ex situ normothermic perfusion for preclinical AAV vector evaluation</p>
-          <p class="pub-journal"><em>Nature Communications</em></p>
-          <p class="pub-description">Pioneered a method to test gene therapies using donated human livers kept alive outside the body, dramatically improving our ability to predict how treatments will work in patients.</p>
-        </div>
-        
-        <div class="publication-card">
-          <span class="pub-year">2023</span>
-          <h3>Creating Self-Cleaning Surfaces to Fight Infections</h3>
-          <p class="pub-details">Antibiofilm surfaces based on the immobilization of a novel recombinant antimicrobial multidomain protein</p>
-          <p class="pub-journal"><em>Materials Advances</em></p>
-          <p class="pub-description">Engineered protein-coated surfaces that actively prevent bacterial growth, offering new solutions for medical devices and hospital equipment.</p>
-        </div>
-        
-        <div class="publication-card">
-          <span class="pub-year">2021</span>
-          <h3>Designing Smart Proteins to Combat Superbugs</h3>
-          <p class="pub-details">Sequence edition of single domains modulates the final immune and antimicrobial potential of multidomain recombinant proteins</p>
-          <p class="pub-journal"><em>Scientific Reports</em></p>
-          <p class="pub-description">Created modular protein "building blocks" that can be combined like LEGO to create customized treatments against antibiotic-resistant bacteria.</p>
-        </div>
-        
-        <div class="pub-links">
+        <div class="pub-links animate-fade-in-up animate-delay-4">
           <a href="https://scholar.google.com/citations?hl=fr&user=jYIZGT0AAAAJ" target="_blank" rel="noopener" class="btn btn-outline">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 24a7 7 0 110-14 7 7 0 010 14zm0-24L0 9.5l4.838 3.94A8 8 0 0112 9a8 8 0 017.162 4.44L24 9.5z"/>
@@ -225,10 +203,10 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   <!-- Contact Section -->
   <section id="contact" class="section contact-section">
     <div class="container">
-      <h2>Let's Connect</h2>
-      <div class="accent-bar"></div>
+      <h2 class="section-title animate-fade-in-up">Let's Connect</h2>
+      <div class="accent-bar animate-fade-in-up"></div>
       
-      <div class="contact-content">
+      <div class="contact-content animate-fade-in-up">
         <p class="lead">
           Interested in innovative antimicrobial approaches, vector systems, or testing ideas at the interface of computation and biology? I'd love to hear from you.
         </p>
@@ -275,12 +253,35 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2025 Ramon Roca Pinilla. All rights reserved.</p>
+      <p>&copy; 2024 Ramon Roca Pinilla. All rights reserved.</p>
     </div>
   </footer>
 </Layout>
 
 <style>
+  /* General Animations */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Animation Delays */
+  .animate-delay-1 { animation-delay: 0.1s; }
+  .animate-delay-2 { animation-delay: 0.2s; }
+  .animate-delay-3 { animation-delay: 0.3s; }
+  .animate-delay-4 { animation-delay: 0.4s; }
+
   /* Hero Section */
   .hero {
     min-height: 100vh;
@@ -445,20 +446,7 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   
   .timeline-item {
     position: relative;
-    animation: fadeInUp 0.6s ease-out forwards;
     animation-delay: calc(var(--index) * 0.1s);
-    opacity: 0;
-  }
-  
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
   }
   
   .timeline-dot {
@@ -528,12 +516,6 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     flex-direction: column;
     align-items: center;
     margin-top: var(--space-lg);
-    animation: fadeIn 1s ease-out 0.6s forwards;
-    opacity: 0;
-  }
-  
-  @keyframes fadeIn {
-    to { opacity: 1; }
   }
   
   .profile-end img {
@@ -583,93 +565,6 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     line-height: 1.8;
   }
 
-  .about-highlights {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .highlight-card {
-    background: var(--background);
-    padding: var(--space-md) 0;
-    border-top: 1px solid var(--border);
-    position: relative;
-  }
-  
-  .highlight-card:first-child {
-    border-top: none;
-  }
-  
-  .highlight-card:hover {
-    border-top-color: var(--accent-red);
-  }
-
-  .highlight-card h3 {
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-    color: var(--primary);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .timeline {
-    list-style: none;
-  }
-
-  .timeline li {
-    margin-bottom: 1.5rem;
-    padding-left: 1rem;
-    position: relative;
-  }
-
-  .timeline li:last-child {
-    margin-bottom: 0;
-  }
-
-  .timeline .year {
-    display: block;
-    color: var(--tertiary);
-    font-weight: var(--font-weight-light);
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .timeline strong {
-    display: block;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-  }
-
-  .timeline em {
-    color: var(--text-secondary);
-    font-style: normal;
-  }
-
-  .date {
-    color: var(--tertiary);
-    font-weight: var(--font-weight-light);
-    margin-top: var(--space-xs);
-    font-size: 0.9rem;
-  }
-
-  .focus-list {
-    list-style: none;
-  }
-
-  .focus-list li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
-  .focus-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--tertiary);
-  }
-
   /* Research Section */
   .research-intro {
     text-align: center;
@@ -709,10 +604,6 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
   
   .research-card:hover::before {
     transform: scaleX(1);
-  }
-
-  .card-icon {
-    display: none;
   }
 
   .research-card h3 {
@@ -780,24 +671,11 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     max-width: 80%;
   }
 
-  .pub-details {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-
   .pub-journal {
     color: var(--secondary);
     font-size: 0.9rem;
     margin-bottom: var(--space-sm);
     font-weight: var(--font-weight-light);
-  }
-
-  .pub-description {
-    color: var(--text-primary);
-    line-height: 1.6;
-    font-size: 0.95rem;
   }
 
   .pub-links {

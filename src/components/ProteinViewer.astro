@@ -1,11 +1,12 @@
 ---
 // This component will display a 3D protein viewer using NGL Viewer.
 // It's designed to be stylish and match the existing aesthetic of the portfolio.
+const { pdbId } = Astro.props;
 ---
 
 <div class="protein-viewer-container">
-  <div id="ngl-viewer" style="width: 100%; height: 400px;"></div>
-  <p class="viewer-caption">Human Cathelicidin LL-37 (PDB: 2K6O) - An Antimicrobial Peptide</p>
+  <div id={`ngl-viewer-${pdbId}`} style="width: 100%; height: 400px;"></div>
+  <p class="viewer-caption">{pdbId ? `PDB: ${pdbId}` : 'Loading Protein...'}</p>
 </div>
 
 <script is:inline>
@@ -25,31 +26,61 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
+    const pdbId = document.currentScript.closest('.protein-viewer-container').querySelector('.viewer-caption').textContent.split(': ')[1];
+    if (!pdbId || pdbId === 'Loading Protein...') return; // Don't load if no PDB ID
+
     try {
       const NGL = await loadNGLViewer();
-      const stage = new NGL.Stage("ngl-viewer");
+      const stage = new NGL.Stage(`ngl-viewer-${pdbId}`);
 
       // Handle window resizing
       window.addEventListener("resize", function () {
         stage.handleResize();
       });
 
-      // Load the PDB structure for Human Cathelicidin LL-37 (PDB ID: 2K6O)
-      stage.loadFile("rcsb://2K6O", { defaultRepresentation: true }).then(function (component) {
+      // Load the PDB structure
+      let proteinComponent; // Declare a variable to hold the protein component
+
+      stage.loadFile(`rcsb://${pdbId}`, { defaultRepresentation: true }).then(function (component) {
+        proteinComponent = component; // Assign the component to the variable
         // Clear default representation and add custom ones for better styling
-        component.removeAllRepresentations();
+        proteinComponent.removeAllRepresentations();
 
         // Add a cartoon representation with a nice color scheme
-        component.addRepresentation("cartoon", { color: "sstruc", smoothSheet: true, aspectRatio: 3 });
+        proteinComponent.addRepresentation("cartoon", { color: "sstruc", smoothSheet: true, aspectRatio: 3 });
 
         // Add a ball and stick representation for side chains
-        component.addRepresentation("ballandstick", { sele: "sidechain and not hetero", color: "element" });
+        proteinComponent.addRepresentation("ballandstick", { sele: "sidechain and not hetero", color: "element" });
 
         // Add a licorice representation for hetero atoms (e.g., ligands, ions)
-        component.addRepresentation("licorice", { sele: "hetero", color: "element" });
+        proteinComponent.addRepresentation("licorice", { sele: "hetero", color: "element" });
 
         // Center and zoom to the loaded structure
-        component.autoView();
+        proteinComponent.autoView();
+
+        // Add scroll-based rotation
+        const viewerContainer = document.querySelector('.protein-viewer-container');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+          if (!proteinComponent) return;
+
+          const currentScrollY = window.scrollY;
+          const scrollDelta = currentScrollY - lastScrollY;
+
+          // Get the bounding rectangle of the viewer container
+          const rect = viewerContainer.getBoundingClientRect();
+          // Check if the viewer is in the viewport
+          const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+
+          if (inViewport) {
+            // Adjust rotation speed as needed
+            const rotationSpeed = 0.005;
+            proteinComponent.rotateY(scrollDelta * rotationSpeed);
+          }
+
+          lastScrollY = currentScrollY;
+        });
       });
 
     } catch (error) {
@@ -67,9 +98,17 @@
     margin-top: var(--space-lg);
     text-align: center;
     border: 1px solid var(--border);
+    transition: all 0.3s ease;
   }
 
-  #ngl-viewer {
+  .protein-viewer-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--accent-red);
+  }
+
+  /* Dynamic ID for NGL Viewer */
+  div[id^="ngl-viewer-"] {
     border-radius: 4px;
     overflow: hidden; /* Ensures the viewer respects border-radius */
     background-color: var(--background); /* Match background for seamless look */
@@ -87,7 +126,7 @@
     .protein-viewer-container {
       padding: var(--space-sm);
     }
-    #ngl-viewer {
+    div[id^="ngl-viewer-"] {
       height: 300px; /* Adjust height for smaller screens */
     }
   }
@@ -97,7 +136,7 @@
     .protein-viewer-container {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-    #ngl-viewer {
+    div[id^="ngl-viewer-"] {
       background-color: #1a1a1a; /* Darker background for NGL Viewer in dark mode */
     }
   }

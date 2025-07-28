@@ -121,7 +121,7 @@ export default function AntimicrobialResistanceTimeline() {
 
     const colorScale = d3.scaleOrdinal<string, string>()
       .domain(Array.from(new Set(antibioticData.map(d => d.category))))
-      .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#F39C12']);
+      .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#E67E22']);
 
     // Grid lines
     g.append('g')
@@ -140,17 +140,27 @@ export default function AntimicrobialResistanceTimeline() {
       .call(d3.axisBottom(xScale)
         .tickFormat(d3.format('d'))
         .ticks(10))
+      .selectAll('text')
+      .attr('fill', 'var(--secondary, #666)')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .style('font-size', '12px')
       .append('text')
       .attr('x', width / 2)
       .attr('y', 50)
-      .attr('fill', 'black')
+      .attr('fill', 'var(--primary, #333)')
       .style('text-anchor', 'middle')
       .style('font-size', '14px')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .style('font-weight', '500')
       .text('Year');
 
     // Y axis
     g.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(yScale))
+      .selectAll('text')
+      .attr('fill', 'var(--secondary, #666)')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .style('font-size', '12px');
 
     // Timeline bars
     const bars = g.selectAll('.timeline-bar')
@@ -214,8 +224,10 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('x', dimensions.width / 2)
       .attr('y', 30)
       .attr('text-anchor', 'middle')
+      .attr('fill', 'var(--primary, #333)')
       .style('font-size', '24px')
-      .style('font-weight', 'bold')
+      .style('font-weight', '600')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .text('The Race Against Resistance: Antibiotic Timeline');
 
     // Legend
@@ -241,8 +253,11 @@ export default function AntimicrobialResistanceTimeline() {
           .attr('x', -5)
           .attr('y', 9)
           .attr('dy', '0.35em')
+          .attr('fill', 'var(--secondary, #666)')
           .style('text-anchor', 'end')
           .style('font-size', '12px')
+          .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+          .style('font-weight', '400')
           .text(d);
       });
 
@@ -264,7 +279,7 @@ export default function AntimicrobialResistanceTimeline() {
       .style('font-size', '14px')
       .style('font-weight', 'bold')
       .style('fill', '#50C878')
-      .text("Ramon's Approach →");
+      .text("Next-Gen Solutions →");
 
   }, [dimensions]);
 
@@ -283,8 +298,8 @@ export default function AntimicrobialResistanceTimeline() {
         </div>
       )}
       <div className="solution-box">
-        <h3>Ramon's Solution: Modular Antimicrobial Proteins</h3>
-        <p>Instead of traditional antibiotics, I engineer proteins with multiple functional domains that:</p>
+        <h3>Next-Generation Antimicrobial Proteins</h3>
+        <p>Engineering proteins with multiple functional domains that:</p>
         <ul>
           <li>Target multiple bacterial systems simultaneously</li>
           <li>Recruit the immune system for enhanced killing</li>
@@ -297,43 +312,77 @@ export default function AntimicrobialResistanceTimeline() {
         .timeline-container {
           position: relative;
           margin: 2rem 0;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         .info-panel {
           position: absolute;
           top: 100px;
           left: 20px;
-          background: white;
-          border: 1px solid #ddd;
+          background: var(--background, white);
+          color: var(--primary, #333);
+          border: 1px solid var(--border, #ddd);
           border-radius: 8px;
           padding: 1rem;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
           max-width: 300px;
           z-index: 10;
+          backdrop-filter: blur(10px);
+          background: rgba(255, 255, 255, 0.95);
+        }
+        @media (prefers-color-scheme: dark) {
+          .info-panel {
+            background: rgba(30, 30, 30, 0.95);
+            border-color: var(--border, #2a2a2a);
+          }
         }
         .info-panel h3 {
           margin: 0 0 0.5rem 0;
-          color: #DA291C;
+          color: var(--accent-red, #DA291C);
+          font-weight: 600;
+          font-size: 1.1rem;
         }
         .info-panel p {
           margin: 0.25rem 0;
           font-size: 0.9rem;
+          line-height: 1.4;
+          color: var(--secondary, #666);
+        }
+        .info-panel strong {
+          color: var(--primary, #333);
+          font-weight: 500;
         }
         .solution-box {
-          background: linear-gradient(135deg, rgba(80, 200, 120, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%);
-          border: 2px solid #50C878;
+          background: linear-gradient(135deg, rgba(80, 200, 120, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%);
+          border: 2px solid var(--accent-yellow, #FFD93D);
           border-radius: 8px;
           padding: 1.5rem;
           margin-top: 2rem;
+          color: var(--primary, #333);
         }
         .solution-box h3 {
-          color: #50C878;
+          color: var(--accent-red, #DA291C);
+          margin-bottom: 1rem;
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+        .solution-box p {
+          color: var(--secondary, #666);
+          line-height: 1.6;
           margin-bottom: 1rem;
         }
         .solution-box ul {
           margin-left: 1.5rem;
+          color: var(--secondary, #666);
         }
         .solution-box li {
           margin: 0.5rem 0;
+          line-height: 1.5;
+        }
+        @media (prefers-color-scheme: dark) {
+          .solution-box {
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.05) 0%, rgba(255, 235, 59, 0.05) 100%);
+            border-color: var(--accent-yellow, #ffeb3b);
+          }
         }
       `}</style>
     </div>

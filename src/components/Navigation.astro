@@ -1,10 +1,10 @@
 ---
 ---
 
-<nav class="navigation" data-animate="fade-down">
+<nav class="navigation">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="#home" class="logo link-underline">Ramon Roca Pinilla</a>
+      <a href="/Portfolio/" class="logo">Ramon Roca Pinilla</a>
       
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -13,15 +13,15 @@
       </button>
       
       <ul class="nav-links">
-        <li><a href="/Portfolio/">Home</a></li>
-        <li><a href="/Portfolio/#about">About</a></li>
-        <li><a href="/Portfolio/#research">Research</a></li>
-        <li><a href="/Portfolio/#publications">Publications</a></li>
-        <li><a href="/Portfolio/#contact">Contact</a></li>
+        <li><a href="/Portfolio/" class="nav-link">Home</a></li>
+        <li><a href="/Portfolio/#about" class="nav-link">About</a></li>
+        <li><a href="/Portfolio/#research" class="nav-link">Research</a></li>
+        <li><a href="/Portfolio/#publications" class="nav-link">Publications</a></li>
+        <li><a href="/Portfolio/#contact" class="nav-link">Contact</a></li>
         <li class="lang-switcher">
-          <a href="/Portfolio/en/">EN</a>
-          <a href="/Portfolio/es/">ES</a>
-          <a href="/Portfolio/ca/">CA</a>
+          <a href="/Portfolio/en/" class="lang-link">EN</a>
+          <a href="/Portfolio/es/" class="lang-link">ES</a>
+          <a href="/Portfolio/ca/" class="lang-link">CA</a>
         </li>
       </ul>
     </div>
@@ -34,247 +34,268 @@
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    z-index: var(--z-fixed);
-    box-shadow: var(--shadow-xs);
-    transition: all var(--transition-slow);
-    contain: layout style;
+    background: transparent; /* Start transparent */
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    z-index: 1000;
+    box-shadow: none; /* No shadow initially */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
   }
 
-  @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
-    .navigation {
-      background: rgba(255, 255, 255, 0.85);
-    }
+  .navigation.scrolled {
+    background: rgba(var(--background-rgb), 0.95); /* Use RGB for opacity */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow on scroll */
   }
 
   .nav-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-4) 0;
+    padding: 1rem 0;
   }
 
   .logo {
-    font-family: var(--font-sans);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    letter-spacing: var(--tracking-tight);
-    transition: color var(--transition-fast);
-    /* Remove default link styles */
-    background-image: none;
-  }
-
-  .logo:hover {
-    color: var(--color-catalan-red);
+    font-family: var(--font-primary);
+    font-size: 1.3rem; /* Slightly larger logo */
+    font-weight: var(--font-weight-bold);
+    color: var(--primary); /* Use primary color variable */
+    text-decoration: none;
+    letter-spacing: -0.03em;
+    opacity: 1;
   }
 
   .nav-links {
     display: flex;
     list-style: none;
-    gap: var(--space-8);
+    gap: 2.5rem; /* Increased gap */
     align-items: center;
-    margin: 0;
-    padding: 0;
   }
 
-  .nav-links a {
-    color: var(--color-text-primary);
+  .nav-links .nav-link {
+    color: var(--primary);
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-sm);
+    font-size: 1rem; /* Slightly larger nav links */
     position: relative;
-    transition: all var(--transition-fast);
-    padding: var(--space-2) 0;
-    /* Remove default link underline */
-    background-image: none;
+    transition: all 0.2s ease; /* Smoother transitions */
+    border: none;
+    opacity: 1;
   }
 
-  .nav-links a::after {
+  .nav-links .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    width: 0%;
     height: 2px;
-    background: var(--color-catalan-red);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform var(--transition-base);
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-red);
+    transition: width 0.3s ease-out;
   }
 
-  .nav-links a:hover {
-    color: var(--color-catalan-red);
+  .nav-links .nav-link:hover::after,
+  .nav-links .nav-link.active::after {
+    width: 100%;
   }
 
-  .nav-links a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
+  .nav-links .nav-link:hover,
+  .nav-links .nav-link.active {
+    color: var(--accent-red);
+    transform: translateY(-2px); /* Subtle lift on hover/active */
   }
 
   .lang-switcher {
     display: flex;
-    gap: var(--space-2);
-    margin-left: var(--space-4);
-    padding-left: var(--space-4);
-    border-left: 1px solid var(--color-border-light);
+    gap: 0.5rem;
+    margin-left: 1rem;
   }
 
-  .lang-switcher a {
-    font-size: var(--font-size-xs);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-base);
-    transition: all var(--transition-fast);
+  .lang-switcher .lang-link {
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--tertiary);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
   }
 
-  .lang-switcher a:hover {
-    background: var(--color-bg-secondary);
-  }
-
-  .lang-switcher a:hover::after {
-    display: none;
+  .lang-switcher .lang-link:hover {
+    color: var(--accent-red);
+    background: rgba(var(--accent-red-rgb), 0.1);
   }
 
   .mobile-menu-toggle {
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 24px;
-    height: 20px;
+    width: 28px; /* Slightly larger toggle */
+    height: 22px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    z-index: 1001; /* Ensure it's above nav links */
   }
 
   .mobile-menu-toggle span {
     width: 100%;
     height: 2px;
-    background: var(--color-text-primary);
-    transition: all var(--transition-slow);
-    border-radius: var(--radius-full);
+    background: var(--primary); /* Use primary color variable */
+    border-radius: 2px;
+    transition: all 0.3s ease;
   }
 
-  .mobile-menu-toggle:hover span {
-    background: var(--color-catalan-red);
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
   }
 
-  /* Dark mode adjustments */
-  @media (prefers-color-scheme: dark) {
-    .navigation {
-      background: rgba(10, 10, 10, 0.95);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-
-    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
-      .navigation {
-        background: rgba(10, 10, 10, 0.85);
-      }
-    }
-
-    .nav-links a:hover {
-      color: var(--color-text-accent);
-    }
-
-    .nav-links a::after {
-      background: var(--color-text-accent);
-    }
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
   }
 
-  /* Mobile responsive */
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+
   @media (max-width: 768px) {
     .mobile-menu-toggle {
       display: flex;
     }
 
     .nav-links {
-      position: absolute;
-      top: 100%;
+      position: fixed; /* Use fixed for full screen overlay */
+      top: 0;
       left: 0;
-      right: 0;
-      background: var(--color-bg-primary);
+      width: 100%;
+      height: 100%;
+      background: var(--background); /* Full background for mobile menu */
       flex-direction: column;
-      padding: var(--space-8);
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-100vh);
-      transition: transform var(--transition-slow);
-      gap: var(--space-4);
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      box-shadow: none;
+      transform: translateX(100%); /* Slide from right */
+      transition: transform 0.4s ease-out;
     }
 
     .nav-links.active {
-      transform: translateY(0);
+      transform: translateX(0);
     }
 
-    .nav-links a {
-      width: 100%;
-      padding: var(--space-3) 0;
-      font-size: var(--font-size-base);
+    .nav-links li {
+      margin-bottom: 1.5rem; /* Spacing for mobile links */
+    }
+
+    .nav-links .nav-link {
+      font-size: 1.8rem; /* Larger links for mobile */
+      font-weight: var(--font-weight-bold);
     }
 
     .lang-switcher {
-      margin-left: 0;
-      padding-left: 0;
-      border-left: none;
-      border-top: 1px solid var(--color-border-light);
-      padding-top: var(--space-4);
-      width: 100%;
-      justify-content: center;
+      margin-top: 1.5rem;
+      gap: 1rem;
+      border: 1px solid var(--border); /* Add a subtle border */
+      border-radius: 8px; /* Rounded corners for the container */
+      padding: 0.5rem; /* Padding around the language links */
     }
 
-    /* Dark mode mobile menu */
-    @media (prefers-color-scheme: dark) {
-      .nav-links {
-        background: var(--color-bg-secondary);
-      }
+    .lang-switcher .lang-link {
+      font-size: 1.2rem;
+      padding: 0.5rem 0.8rem;
+      color: var(--primary); /* Ensure good contrast */
+      border: 1px solid transparent; /* Add a transparent border for consistency */
+      border-radius: 4px; /* Keep individual link border-radius */
+    }
+
+    .lang-switcher .lang-link:hover {
+      color: var(--accent-red);
+      background: rgba(var(--accent-red-rgb), 0.1);
+      border-color: var(--accent-red); /* Highlight border on hover */
     }
   }
 
-  /* Scroll state */
-  .navigation.scrolled {
-    box-shadow: var(--shadow-md);
+  /* Dark Mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .navigation.scrolled {
+      background: rgba(var(--background-rgb-dark), 0.95);
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+    }
+    .mobile-menu-toggle span {
+      background: var(--primary); /* Ensure lines are visible in dark mode */
+    }
+    .nav-links {
+      background: var(--background); /* Match dark mode background */
+    }
   }
 </style>
 
 <script>
-  const mobileToggle = document.querySelector('.mobile-menu-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  const navigation = document.querySelector('.navigation');
-  
-  // Mobile menu toggle
-  mobileToggle?.addEventListener('click', () => {
-    navLinks?.classList.toggle('active');
-  });
-  
-  // Close mobile menu when clicking a link
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks?.classList.remove('active');
+  document.addEventListener('DOMContentLoaded', () => {
+    const navigation = document.querySelector('.navigation');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    // Add RGB variables to root for dynamic opacity
+    const style = getComputedStyle(document.body);
+    const backgroundRgb = style.getPropertyValue('--background').match(/\d+/g);
+    const accentRedRgb = style.getPropertyValue('--accent-red').match(/\d+/g);
+    document.documentElement.style.setProperty('--background-rgb', backgroundRgb.join(','));
+    document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb.join(','));
+
+    // Dark mode specific RGB values
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const updateDarkModeRgb = () => {
+      if (darkModeMediaQuery.matches) {
+        const darkBackgroundRgb = getComputedStyle(document.documentElement).getPropertyValue('--background').match(/\d+/g);
+        document.documentElement.style.setProperty('--background-rgb-dark', darkBackgroundRgb.join(','));
+      } else {
+        document.documentElement.style.removeProperty('--background-rgb-dark');
+      }
+    };
+    updateDarkModeRgb();
+    darkModeMediaQuery.addEventListener('change', updateDarkModeRgb);
+
+    // Mobile menu toggle
+    mobileToggle?.addEventListener('click', () => {
+      navLinks?.classList.toggle('active');
+      mobileToggle?.classList.toggle('active');
     });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks?.classList.remove('active');
+        mobileToggle?.classList.remove('active');
+      });
+    });
+
+    // Scroll effects for navigation bar
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        navigation?.classList.add('scrolled');
+      } else {
+        navigation?.classList.remove('scrolled');
+      }
+
+      // Active link highlighting
+      let currentActive = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - navigation.offsetHeight - 20; // Adjust offset for fixed header
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+          currentActive = section.getAttribute('id');
+        }
+      });
+
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href')?.includes(currentActive)) {
+          item.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call on load to set initial state
   });
-  
-  // Add scroll detection for shadow effect
-  let lastScroll: number = 0;
-  const scrollThreshold = 50;
-  
-  const handleScroll = () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > scrollThreshold) {
-      navigation?.classList.add('scrolled');
-    } else {
-      navigation?.classList.remove('scrolled');
-    }
-    
-    lastScroll = currentScroll;
-  };
-  
-  // Throttle scroll events for better performance
-  let scrollTimeout: number | null;
-  window.addEventListener('scroll', () => {
-    if (scrollTimeout) {
-      window.cancelAnimationFrame(scrollTimeout);
-    }
-    scrollTimeout = window.requestAnimationFrame(handleScroll);
-  }, { passive: true });
 </script>
