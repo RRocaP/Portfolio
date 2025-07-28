@@ -28,7 +28,7 @@ export const ProteinVisualizationReact: React.FC<ProteinVisualizationProps> = ({
   className = ''
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const config = { ...defaultConfig, ...userConfig };
   
   const [state, setState] = useState<VisualizationState>({
@@ -41,7 +41,7 @@ export const ProteinVisualizationReact: React.FC<ProteinVisualizationProps> = ({
 
   // Load frames
   useEffect(() => {
-    const frames: HTMLImageElement[] = [];
+
     let loadedCount = 0;
 
     const loadFrame = (index: number): Promise<HTMLImageElement> => {
@@ -95,7 +95,7 @@ export const ProteinVisualizationReact: React.FC<ProteinVisualizationProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const frames: HTMLImageElement[] = [];
+    const frameImages: HTMLImageElement[] = [];
 
     for (let i = 0; i < config.frameCount; i++) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -105,12 +105,12 @@ export const ProteinVisualizationReact: React.FC<ProteinVisualizationProps> = ({
       
       const img = new Image();
       img.src = canvas.toDataURL();
-      frames.push(img);
+      frameImages.push(img);
     }
 
     setState(prev => ({
       ...prev,
-      frames: frames.map((image, index) => ({
+      frames: frameImages.map((image, index) => ({
         index,
         image,
         loaded: true

@@ -16,7 +16,6 @@
         <li><a href="/Portfolio/">Home</a></li>
         <li><a href="/Portfolio/#about">About</a></li>
         <li><a href="/Portfolio/#research">Research</a></li>
-        <li><a href="/Portfolio/research-visualizations">Visualizations</a></li>
         <li><a href="/Portfolio/#publications">Publications</a></li>
         <li><a href="/Portfolio/#contact">Contact</a></li>
         <li class="lang-switcher">
@@ -255,7 +254,7 @@
   });
   
   // Add scroll detection for shadow effect
-  let lastScroll = 0;
+  let lastScroll: number = 0;
   const scrollThreshold = 50;
   
   const handleScroll = () => {
@@ -271,7 +270,7 @@
   };
   
   // Throttle scroll events for better performance
-  let scrollTimeout;
+  let scrollTimeout: number | null;
   window.addEventListener('scroll', () => {
     if (scrollTimeout) {
       window.cancelAnimationFrame(scrollTimeout);

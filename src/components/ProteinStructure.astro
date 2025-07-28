@@ -18,8 +18,8 @@
     });
 
     // Function to load and style a protein
-    function loadAndStyleProtein(pdbId, colorScheme, position, selectionColor) {
-        stage.loadFile("rcsb://" + pdbId, { defaultRepresentation: false }).then(function (component) {
+    function loadAndStyleProtein(pdbId: string, colorScheme: any, position: number[] | undefined, selectionColor: string) {
+        stage.loadFile("rcsb://" + pdbId, { defaultRepresentation: false }).then(function (component: any) {
             component.addRepresentation("cartoon", {
                 color: colorScheme,
                 quality: "smooth",
