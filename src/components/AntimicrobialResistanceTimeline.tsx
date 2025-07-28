@@ -119,7 +119,7 @@ export default function AntimicrobialResistanceTimeline() {
       .range([0, height])
       .padding(0.3);
 
-    const colorScale = d3.scaleOrdinal()
+    const colorScale = d3.scaleOrdinal<string, string>()
       .domain(Array.from(new Set(antibioticData.map(d => d.category))))
       .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#F39C12']);
 
@@ -161,15 +161,15 @@ export default function AntimicrobialResistanceTimeline() {
 
     // Introduction to resistance bars
     bars.append('rect')
-      .attr('x', d => xScale(d.yearIntroduced))
-      .attr('y', d => yScale(d.antibiotic)!)
-      .attr('width', d => Math.max(0, xScale(d.yearResistanceDetected) - xScale(d.yearIntroduced)))
+      .attr('x', (d: AntibioticData) => xScale(d.yearIntroduced))
+      .attr('y', (d: AntibioticData) => yScale(d.antibiotic)!)
+      .attr('width', (d: AntibioticData) => Math.max(0, xScale(d.yearResistanceDetected) - xScale(d.yearIntroduced)))
       .attr('height', yScale.bandwidth())
-      .attr('fill', d => colorScale(d.category))
+      .attr('fill', (d: AntibioticData) => colorScale(d.category as string))
       .attr('opacity', 0.8)
       .attr('rx', 4)
       .style('cursor', 'pointer')
-      .on('mouseover', function(event, d) {
+      .on('mouseover', function(_event: MouseEvent, d: AntibioticData) {
         d3.select(this).attr('opacity', 1);
         setSelectedAntibiotic(d);
       })
@@ -179,30 +179,30 @@ export default function AntimicrobialResistanceTimeline() {
 
     // Resistance continuation (dashed)
     bars.append('rect')
-      .attr('x', d => xScale(d.yearResistanceDetected))
-      .attr('y', d => yScale(d.antibiotic)!)
-      .attr('width', d => xScale(2025) - xScale(d.yearResistanceDetected))
+      .attr('x', (d: AntibioticData) => xScale(d.yearResistanceDetected))
+      .attr('y', (d: AntibioticData) => yScale(d.antibiotic)!)
+      .attr('width', (d: AntibioticData) => xScale(2025) - xScale(d.yearResistanceDetected))
       .attr('height', yScale.bandwidth())
-      .attr('fill', d => colorScale(d.category))
+      .attr('fill', (d: AntibioticData) => colorScale(d.category as string))
       .attr('opacity', 0.3)
       .attr('rx', 4)
-      .style('stroke', d => colorScale(d.category))
+      .style('stroke', (d: AntibioticData): string => colorScale(d.category))
       .style('stroke-width', 2)
       .style('stroke-dasharray', '5,5');
 
     // Introduction markers
     bars.append('circle')
-      .attr('cx', d => xScale(d.yearIntroduced))
-      .attr('cy', d => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
+      .attr('cx', (d: AntibioticData) => xScale(d.yearIntroduced))
+      .attr('cy', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
       .attr('r', 6)
       .attr('fill', 'white')
-      .attr('stroke', d => colorScale(d.category))
+      .attr('stroke', (d: AntibioticData) => colorScale(d.category))
       .attr('stroke-width', 3);
 
     // Resistance detection markers
     bars.append('text')
-      .attr('x', d => xScale(d.yearResistanceDetected))
-      .attr('y', d => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
+      .attr('x', (d: AntibioticData) => xScale(d.yearResistanceDetected))
+      .attr('y', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
       .attr('dy', '0.35em')
       .attr('text-anchor', 'middle')
       .style('font-size', '20px')
@@ -229,13 +229,13 @@ export default function AntimicrobialResistanceTimeline() {
       .enter()
       .append('g')
       .attr('class', 'legend-item')
-      .attr('transform', (d, i) => `translate(0, ${i * 25})`)
-      .each(function(d) {
+      .attr('transform', (_d, i) => `translate(0, ${i * 25})`)
+      .each(function(d: string) {
         const g = d3.select(this);
         g.append('rect')
           .attr('width', 18)
           .attr('height', 18)
-          .attr('fill', colorScale(d))
+          .attr('fill', colorScale(d as string))
           .attr('rx', 3);
         g.append('text')
           .attr('x', -5)

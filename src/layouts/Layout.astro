@@ -3,16 +3,17 @@ import AnimationStyles from '../components/AnimationStyles.astro';
 
 export interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies" } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -60,17 +61,18 @@ const { title } = Astro.props;
 
           const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
+              const targetElement = entry.target as HTMLElement;
               if (entry.isIntersecting) {
-                const delay = entry.target.dataset.animateDelay || 0;
+                const delay = parseFloat(targetElement.dataset.animateDelay || '0');
                 setTimeout(() => {
-                  entry.target.classList.add('animate-in');
+                  targetElement.classList.add('animate-in');
                 }, delay);
 
-                if (entry.target.dataset.animateOnce !== 'false') {
-                  observer.unobserve(entry.target);
+                if (targetElement.dataset.animateOnce !== 'false') {
+                  observer.unobserve(targetElement);
                 }
-              } else if (entry.target.dataset.animateOnce === 'false') {
-                entry.target.classList.remove('animate-in');
+              } else if (targetElement.dataset.animateOnce === 'false') {
+                targetElement.classList.remove('animate-in');
               }
             });
           }, {
@@ -80,18 +82,19 @@ const { title } = Astro.props;
 
           const staggerObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
+              const targetElement = entry.target as HTMLElement;
               if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+                targetElement.classList.add('animate-in');
                 
-                const children = entry.target.children;
-                Array.from(children).forEach((child, index) => {
+                const children = Array.from(targetElement.children) as HTMLElement[];
+                children.forEach((child, index) => {
                   setTimeout(() => {
                     child.style.transitionDelay = `${index * ANIMATION_CONFIG.staggerDelay}ms`;
                   }, 0);
                 });
 
-                if (entry.target.dataset.animateOnce !== 'false') {
-                  staggerObserver.unobserve(entry.target);
+                if (targetElement.dataset.animateOnce !== 'false') {
+                  staggerObserver.unobserve(targetElement);
                 }
               }
             });
@@ -124,12 +127,13 @@ const { title } = Astro.props;
             const viewportHeight = window.innerHeight;
 
             parallaxElements.forEach(element => {
-              const rect = element.getBoundingClientRect();
-              const speed = element.dataset.parallaxSpeed || ANIMATION_CONFIG.parallaxSpeed;
+              const htmlElement = element as HTMLElement;
+              const rect = htmlElement.getBoundingClientRect();
+              const speed = parseFloat(htmlElement.dataset.parallaxSpeed || String(ANIMATION_CONFIG.parallaxSpeed));
               
               if (rect.bottom >= 0 && rect.top <= viewportHeight) {
                 const yPos = -(scrolled * speed);
-                element.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                htmlElement.style.transform = `translate3d(0, ${yPos}px, 0)`;
               }
             });
 
@@ -175,7 +179,7 @@ const { title } = Astro.props;
         }
 
         // Initialize typewriter effect
-        function initTypewriter(element, text, speed = 50) {
+        function initTypewriter(element: HTMLElement, text: string, speed = 50) {
           if (!element) return;
 
           element.textContent = '';
@@ -203,13 +207,13 @@ const { title } = Astro.props;
           const cards = document.querySelectorAll('.research-card, .publication-card, .contact-card');
           
           cards.forEach(card => {
-            card.addEventListener('mouseenter', function(e) {
+            card.addEventListener('mouseenter', function(e: MouseEvent) {
               const rect = this.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
+              const x = (e as MouseEvent).clientX - rect.left;
+              const y = (e as MouseEvent).clientY - rect.top;
               
-              this.style.setProperty('--mouse-x', `${x}px`);
-              this.style.setProperty('--mouse-y', `${y}px`);
+              (this as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+              (this as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
             });
           });
         }
@@ -221,11 +225,11 @@ const { title } = Astro.props;
           initSmoothScroll();
           initCardHoverEffects();
 
-          // Initialize typewriter for hero tagline
+          // Disabled typewriter effect to prevent text cropping
           const tagline = document.querySelector('.hero-tagline');
-          if (tagline && !tagline.classList.contains('typewriter')) {
+          if (tagline) {
             const text = tagline.textContent;
-            initTypewriter(tagline, text, 50);
+            initTypewriter(tagline as HTMLElement, text || '', 50);
           }
 
           // Add floating shapes to hero

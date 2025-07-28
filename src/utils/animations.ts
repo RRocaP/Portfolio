@@ -27,20 +27,21 @@ export function initScrollAnimations() {
   // Create observer for single elements
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      const targetElement = entry.target as HTMLElement;
       if (entry.isIntersecting) {
         // Add animation with optional delay
-        const delay = entry.target.dataset.animateDelay || 0;
+        const delay = parseFloat(targetElement.dataset.animateDelay || '0');
         setTimeout(() => {
-          entry.target.classList.add('animate-in');
+          targetElement.classList.add('animate-in');
         }, delay);
 
         // Optional: unobserve after animation to improve performance
-        if (entry.target.dataset.animateOnce !== 'false') {
-          observer.unobserve(entry.target);
+        if (targetElement.dataset.animateOnce !== 'false') {
+          observer.unobserve(targetElement);
         }
-      } else if (entry.target.dataset.animateOnce === 'false') {
+      } else if (targetElement.dataset.animateOnce === 'false') {
         // Remove animation class if element should animate multiple times
-        entry.target.classList.remove('animate-in');
+        targetElement.classList.remove('animate-in');
       }
     });
   }, {
@@ -51,19 +52,20 @@ export function initScrollAnimations() {
   // Create observer for staggered children animations
   const staggerObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      const targetElement = entry.target as HTMLElement;
       if (entry.isIntersecting) {
-        entry.target.classList.add('animate-in');
+        targetElement.classList.add('animate-in');
         
         // Animate children with stagger effect
-        const children = entry.target.children;
-        Array.from(children).forEach((child, index) => {
+        const children = Array.from(targetElement.children) as HTMLElement[];
+        children.forEach((child, index) => {
           setTimeout(() => {
             child.style.transitionDelay = `${index * ANIMATION_CONFIG.staggerDelay}ms`;
           }, 0);
         });
 
-        if (entry.target.dataset.animateOnce !== 'false') {
-          staggerObserver.unobserve(entry.target);
+        if (targetElement.dataset.animateOnce !== 'false') {
+          staggerObserver.unobserve(targetElement);
         }
       }
     });
@@ -100,13 +102,14 @@ export function initParallax() {
     const viewportHeight = window.innerHeight;
 
     parallaxElements.forEach(element => {
-      const rect = element.getBoundingClientRect();
-      const speed = element.dataset.parallaxSpeed || ANIMATION_CONFIG.parallaxSpeed;
+      const htmlElement = element as HTMLElement;
+      const rect = htmlElement.getBoundingClientRect();
+      const speed = parseFloat(htmlElement.dataset.parallaxSpeed || String(ANIMATION_CONFIG.parallaxSpeed));
       
       // Only animate elements in viewport
       if (rect.bottom >= 0 && rect.top <= viewportHeight) {
         const yPos = -(scrolled * speed);
-        element.style.transform = `translate3d(0, ${yPos}px, 0)`;
+        htmlElement.style.transform = `translate3d(0, ${yPos}px, 0)`;
       }
     });
 
@@ -163,7 +166,7 @@ export function initSmoothScroll() {
 /**
  * Initialize typewriter effect
  */
-export function initTypewriter(element, text, speed = 100) {
+export function initTypewriter(element: HTMLElement, text: string, speed = 100) {
   if (!element) return;
 
   element.textContent = '';
@@ -191,7 +194,7 @@ export function initTypewriter(element, text, speed = 100) {
 /**
  * Initialize floating geometric shapes
  */
-export function initFloatingShapes(container) {
+export function initFloatingShapes(container: HTMLElement) {
   if (!container) return;
 
   const shapes = [
@@ -241,13 +244,13 @@ export function initCardHoverEffects() {
   const cards = document.querySelectorAll('.research-card, .publication-card, .contact-card');
   
   cards.forEach(card => {
-    card.addEventListener('mouseenter', function(e) {
+    card.addEventListener('mouseenter', function(e: MouseEvent) {
       const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = (e as MouseEvent).clientX - rect.left;
+      const y = (e as MouseEvent).clientY - rect.top;
       
-      this.style.setProperty('--mouse-x', `${x}px`);
-      this.style.setProperty('--mouse-y', `${y}px`);
+      (this as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+      (this as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
     });
   });
 }
@@ -255,23 +258,23 @@ export function initCardHoverEffects() {
 /**
  * Initialize loading animations
  */
-export function showLoading(element) {
+export function showLoading(element: HTMLElement) {
   element.classList.add('skeleton');
 }
 
-export function hideLoading(element) {
+export function hideLoading(element: HTMLElement) {
   element.classList.remove('skeleton');
 }
 
 /**
  * Debounce function for performance
  */
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
+function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function executedFunction(this: ThisParameterType<T>, ...args: Parameters<T>): void {
     const later = () => {
       clearTimeout(timeout);
-      func(...args);
+      func.apply(this, args);
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
@@ -300,18 +303,18 @@ export function initAnimations() {
     const tagline = document.querySelector('.hero-tagline');
     if (tagline) {
       const text = tagline.textContent;
-      initTypewriter(tagline, text, 50);
+      initTypewriter(tagline as HTMLElement, text || '', 50);
     }
 
     // Initialize floating shapes in hero
     const hero = document.querySelector('.hero');
     if (hero) {
-      initFloatingShapes(hero);
+      initFloatingShapes(hero as HTMLElement);
     }
 
     // Re-initialize on page navigation (for SPAs)
-    if (window.navigation) {
-      window.navigation.addEventListener('navigate', () => {
+    if ('navigation' in window && (window as any).navigation) {
+      (window as any).navigation.addEventListener('navigate', () => {
         setTimeout(initScrollAnimations, 100);
       });
     }

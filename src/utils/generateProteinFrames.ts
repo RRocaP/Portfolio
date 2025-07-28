@@ -10,8 +10,41 @@ import fs from 'fs/promises';
 import path from 'path';
 import fetch from 'node-fetch';
 
+interface ProteinFrameGeneratorOptions {
+  pdbId?: string;
+  frameCount?: number;
+  outputDir?: string;
+  width?: number;
+  height?: number;
+  format?: string;
+  quality?: number;
+}
+
+interface Atom {
+  type: string;
+  residue: string;
+  chain: string;
+  x: number;
+  y: number;
+  z: number;
+  element: string;
+}
+
+interface StructureData {
+  atoms: Atom[];
+}
+
 class ProteinFrameGenerator {
-  constructor(options = {}) {
+  private pdbId: string;
+  private frameCount: number;
+  private outputDir: string;
+  private width: number;
+  private height: number;
+  private format: string;
+  private quality: number;
+  private structureData: StructureData | undefined;
+
+  constructor(options: ProteinFrameGeneratorOptions = {}) {
     this.pdbId = options.pdbId || '2K6O'; // Default to LL-37
     this.frameCount = options.frameCount || 180;
     this.outputDir = options.outputDir || './public/assets/protein-frames/';

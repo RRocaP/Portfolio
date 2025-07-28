@@ -262,9 +262,7 @@ export default function GeneTherapyVisualization() {
       .domain([0, 100])
       .range([height, 0]);
 
-    const colorScale = d3.scaleOrdinal()
-      .domain(aavVectors.map(v => v.serotype))
-      .range(aavVectors.map(v => v.color));
+    
 
     // Axes
     g.append('g')

@@ -122,9 +122,9 @@ export default function ProteinEngineeringInteractive() {
         };
       });
 
-      const lineGenerator = d3.line()
-        .x(d => d.x)
-        .y(d => d.y)
+      const lineGenerator = d3.line<{ x: number; y: number }>()
+        .x((d: { x: number; y: number }) => d.x)
+        .y((d: { x: number; y: number }) => d.y)
         .curve(d3.curveCardinal.tension(0.5));
 
       g.append('path')
@@ -142,15 +142,15 @@ export default function ProteinEngineeringInteractive() {
       .enter()
       .append('g')
       .attr('class', 'domain-group')
-      .attr('transform', (d, i) => {
+      .attr('transform', (_d, i) => {
         const angle = i * angleStep - Math.PI / 2;
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
         return `translate(${x}, ${y})`;
       })
       .style('cursor', 'pointer')
-      .on('click', (event, d) => toggleDomain(d.id))
-      .on('mouseenter', (event, d) => setHoveredDomain(d.id))
+      .on('click', (_event, d) => toggleDomain(d.id))
+      .on('mouseenter', (_event, d) => setHoveredDomain(d.id))
       .on('mouseleave', () => setHoveredDomain(null));
 
     // Add circles
@@ -190,7 +190,7 @@ export default function ProteinEngineeringInteractive() {
     svg.selectAll('*').remove();
 
     const width = 600;
-    const height = 200;
+    
     const domainWidth = 100;
     const domainHeight = 60;
     const spacing = 20;
