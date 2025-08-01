@@ -26,21 +26,24 @@ const { title } = Astro.props;
 
 <style is:global>
   :root {
-    /* Catalan & Town Colors */
+    /* Enhanced Catalan-Inspired Color Palette */
     --catalan-red: #DA291C;
     --catalan-yellow: #FFD93D;
     --town-black: #1a1a1a;
     --town-yellow: #FFD700;
     
-    /* Refined Minimalist palette with color accents */
-    --primary: #1a1a1a; /* Darker text for better contrast */
-    --secondary: #555555; /* Slightly darker secondary text */
-    --tertiary: #888888; /* Slightly darker tertiary text */
-    --accent-red: #E03A2F; /* Slightly brighter red */
-    --accent-yellow: #FFD700; /* Pure gold yellow */
+    /* Strong Red Theme with Enhanced Contrast */
+    --primary: #1a1a1a; /* Rich black for text */
+    --secondary: #4a4a4a; /* Darker secondary text */
+    --tertiary: #666666; /* Medium gray for tertiary text */
+    --accent-red: #DA291C; /* Pure Catalan red */
+    --accent-red-hover: #B91C14; /* Darker red for hover states */
+    --accent-yellow: #FFD93D; /* Catalan yellow */
     --background: #ffffff;
-    --background-alt: #f8f8f8; /* Lighter alt background */
-    --border: #e0e0e0; /* Lighter border */
+    --background-alt: #fafafa; /* Subtle background variation */
+    --background-red: #fff5f5; /* Light red background for highlights */
+    --border: #e8e8e8; /* Subtle borders */
+    --border-red: rgba(218, 41, 28, 0.2); /* Red-tinted borders */
     
     /* Typography */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -134,9 +137,10 @@ const { title } = Astro.props;
   }
 
   a:hover {
-    color: var(--accent-red); /* Change color on hover */
-    border-color: var(--accent-red); /* Underline on hover */
+    color: var(--accent-red-hover); /* Enhanced hover color */
+    border-color: var(--accent-red-hover); /* Stronger underline on hover */
     opacity: 1; /* Ensure full opacity */
+    transform: translateY(-1px); /* Subtle lift effect */
   }
 
   .container {
