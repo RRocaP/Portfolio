@@ -17,7 +17,7 @@ const { title } = Astro.props;
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <slot />
@@ -26,44 +26,51 @@ const { title } = Astro.props;
 
 <style is:global>
   :root {
-    /* Enhanced Catalan-Inspired Color Palette */
+    /* Sophisticated Black & Red Theme */
     --catalan-red: #DA291C;
     --catalan-yellow: #FFD93D;
-    --town-black: #1a1a1a;
-    --town-yellow: #FFD700;
     
-    /* Strong Red Theme with Enhanced Contrast */
-    --primary: #1a1a1a; /* Rich black for text */
-    --secondary: #4a4a4a; /* Darker secondary text */
-    --tertiary: #666666; /* Medium gray for tertiary text */
-    --accent-red: #DA291C; /* Pure Catalan red */
-    --accent-red-hover: #B91C14; /* Darker red for hover states */
-    --accent-yellow: #FFD93D; /* Catalan yellow */
-    --background: #ffffff;
-    --background-alt: #fafafa; /* Subtle background variation */
-    --background-red: #fff5f5; /* Light red background for highlights */
-    --border: #e8e8e8; /* Subtle borders */
-    --border-red: rgba(218, 41, 28, 0.2); /* Red-tinted borders */
+    /* Dark Theme Base Colors */
+    --primary: #ffffff; /* White text on dark background */
+    --secondary: #e0e0e0; /* Light gray text */
+    --tertiary: #b0b0b0; /* Medium light gray */
+    --accent-red: #DA291C; /* Vibrant red accent */
+    --accent-red-hover: #FF3D3D; /* Brighter red for hover */
+    --accent-red-bg: rgba(218, 41, 28, 0.1); /* Red background tint */
     
-    /* Supporting colors */
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
-    --text-light: #6a6a6a;
-    --bg-light: #fafafa;
-    --bg-white: #ffffff;
-    --border-light: #e0e0e0;
+    /* Dark Backgrounds */
+    --background: #0a0a0a; /* Deep black background */
+    --background-alt: #1a1a1a; /* Slightly lighter black */
+    --background-card: #1e1e1e; /* Card backgrounds */
+    --background-elevated: #252525; /* Elevated surfaces */
+    
+    /* Borders */
+    --border: #333333; /* Dark borders */
+    --border-light: #404040; /* Lighter borders */
+    --border-red: rgba(218, 41, 28, 0.3); /* Red-tinted borders */
+    
+    /* Supporting colors for dark theme */
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-light: #b0b0b0;
+    --text-muted: #888888;
     
     /* Gradients */
-    --gradient-catalan: linear-gradient(135deg, var(--catalan-red) 0%, var(--accent-yellow) 100%);
-    --gradient-dark: linear-gradient(135deg, var(--primary) 0%, #2a2a2a 100%);
+    --gradient-red: linear-gradient(135deg, #DA291C 0%, #FF3D3D 100%);
+    --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Typography - Stylish Font Stack */
+    --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    
+    --font-weight-extralight: 200;
     --font-weight-light: 300;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
-    --font-weight-semibold: 600; /* New */
-    --font-weight-bold: 700; /* New */
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
     
     /* Spacing */
     --space-xs: 0.5rem;
@@ -114,11 +121,12 @@ const { title } = Astro.props;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    color: var(--primary);
   }
 
   h1 {

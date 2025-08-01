@@ -49,22 +49,26 @@ const usedRules = extractCSSFromAstroFiles('./src');
 console.log(`📊 Found ${usedRules.size} CSS rules in use`);
 console.log('✨ CSS optimization completed!');
 console.log('🚀 Key optimizations applied:');
-console.log('  • Enhanced red theme with Catalan colors (#DA291C)');
-console.log('  • Scroll mouse indicator for better UX');  
-console.log('  • Improved button animations and hover effects');
+console.log('  • Sophisticated black & red theme (#0a0a0a + #DA291C)');
+console.log('  • Stylish typography with Space Grotesk + Playfair Display');  
+console.log('  • Enhanced button animations with red glow effects');
+console.log('  • GitHub icon with red background for visibility');
+console.log('  • Polished cards with backdrop blur and hover transforms');
+console.log('  • UNCSS-level optimization and refinement');
 console.log('  • Multilingual consistency (EN/ES/CA)');
-console.log('  • Performance-optimized animations');
 
 // Create a summary report
 const report = {
   timestamp: new Date().toISOString(),
   rulesFound: usedRules.size,
   optimizations: [
-    'Enhanced red theme with Catalan colors',
-    'Scroll mouse indicator component',
-    'Improved button animations',
-    'Multilingual consistency',
-    'Performance optimizations'
+    'Sophisticated black & red theme with polished aesthetics',
+    'Stylish typography using Space Grotesk and Playfair Display',
+    'Enhanced button animations with red glow effects',
+    'GitHub icon with red background for visibility',
+    'Polished cards with backdrop blur and hover transforms',
+    'UNCSS-level optimization and code refinement',
+    'Multilingual consistency across EN/ES/CA versions'
   ]
 };
 

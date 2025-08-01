@@ -279,10 +279,10 @@ import { publications } from '../../data/publications.js';
     width: 100%;
     height: 100%;
     background: 
-      linear-gradient(135deg, transparent 25%, rgba(255, 217, 61, 0.1) 25%, rgba(255, 217, 61, 0.1) 50%, transparent 50%, transparent 75%, rgba(218, 41, 28, 0.1) 75%),
-      linear-gradient(45deg, transparent 25%, rgba(26, 26, 26, 0.05) 25%, rgba(26, 26, 26, 0.05) 50%, transparent 50%, transparent 75%, rgba(255, 215, 0, 0.1) 75%);
-    background-size: 50px 50px;
-    animation: pattern-shift 20s linear infinite;
+      linear-gradient(135deg, transparent 25%, rgba(218, 41, 28, 0.03) 25%, rgba(218, 41, 28, 0.03) 50%, transparent 50%, transparent 75%, rgba(218, 41, 28, 0.06) 75%),
+      linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.01) 25%, rgba(255, 255, 255, 0.01) 50%, transparent 50%, transparent 75%, rgba(218, 41, 28, 0.02) 75%);
+    background-size: 60px 60px;
+    animation: pattern-shift 25s linear infinite;
   }
 
   @keyframes pattern-shift {
@@ -325,10 +325,11 @@ import { publications } from '../../data/publications.js';
   .hero-title {
     font-size: clamp(3rem, 8vw, 5rem);
     margin-bottom: 1rem;
-    background: var(--gradient-catalan);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-black);
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 30px rgba(218, 41, 28, 0.3);
   }
 
   .hero-subtitle {
@@ -360,24 +361,40 @@ import { publications } from '../../data/publications.js';
   }
 
   .btn-primary {
-    background: var(--gradient-catalan);
-    color: white;
-    box-shadow: 0 4px 15px rgba(218, 41, 28, 0.3);
+    background: var(--accent-red);
+    color: var(--background);
+    border: 1px solid var(--accent-red);
+    box-shadow: 0 4px 15px rgba(218, 41, 28, 0.4);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(218, 41, 28, 0.4);
+    background: var(--accent-red-hover);
+    border-color: var(--accent-red-hover);
+    color: var(--background);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(218, 41, 28, 0.6);
   }
 
   .btn-outline {
-    border: 2px solid var(--primary);
-    color: var(--primary);
+    border: 2px solid var(--border-light);
+    color: var(--secondary);
+    background: transparent;
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .btn-outline:hover {
-    background: var(--primary);
-    color: white;
+    background: var(--background-elevated);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
   }
 
   /* Sections */
@@ -387,9 +404,20 @@ import { publications } from '../../data/publications.js';
 
   /* About Section - Timeline Roadmap */
   .about-section {
-    background: var(--background);
+    background: var(--background-alt);
     position: relative;
     overflow: hidden;
+  }
+  
+  .about-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+    opacity: 0.3;
   }
   
   .timeline-roadmap {
@@ -434,19 +462,21 @@ import { publications } from '../../data/publications.js';
   }
   
   .timeline-card {
-    background: var(--background);
+    background: var(--background-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: var(--space-sm) var(--space-md);
+    border-radius: 12px;
+    padding: var(--space-md);
     margin-top: var(--space-md);
     transition: all 0.3s ease;
     position: relative;
+    backdrop-filter: blur(10px);
   }
   
   .timeline-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(218, 41, 28, 0.15);
     border-color: var(--accent-red);
+    background: var(--background-elevated);
   }
   
   .timeline-card.highlight {
@@ -714,27 +744,44 @@ import { publications } from '../../data/publications.js';
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border: 1px solid var(--border);
-    border-radius: 50%;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    transition: all 0.3s ease;
     color: var(--secondary);
+    background: var(--background-card);
   }
 
   .social-links a svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 
   .social-links a span {
     display: none;
   }
 
-  .social-links a:hover {
+  /* GitHub icon gets red background for visibility */
+  .social-links a[aria-label="GitHub"] {
+    background: var(--accent-red);
+    color: white;
+    border-color: var(--accent-red);
+  }
+
+  .social-links a[aria-label="GitHub"]:hover {
+    background: var(--accent-red-hover);
+    border-color: var(--accent-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(218, 41, 28, 0.4);
+  }
+
+  .social-links a:not([aria-label="GitHub"]):hover {
     border-color: var(--accent-red);
     color: var(--accent-red);
-    background: rgba(218, 41, 28, 0.05);
+    background: var(--background-elevated);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
   }
 
   /* Footer */
