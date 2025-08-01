@@ -1,0 +1,64 @@
+---
+const contactMethods = [
+  {
+    icon: "✉️",
+    label: "Email",
+    value: "ramon.roca@kuleuven.be",
+    href: "mailto:ramon.roca@kuleuven.be"
+  },
+  {
+    icon: "🔗",
+    label: "LinkedIn",
+    value: "linkedin.com/in/ramon-roca-pinilla",
+    href: "https://linkedin.com/in/ramon-roca-pinilla"
+  },
+  {
+    icon: "🐙",
+    label: "GitHub",
+    value: "github.com/RRocaP",
+    href: "https://github.com/RRocaP"
+  },
+  {
+    icon: "📍",
+    label: "Location",
+    value: "Leuven, Belgium",
+    href: null
+  }
+];
+---
+
+<section id="contact" class="section-padding">
+  <div class="container-custom">
+    <h2 class="text-section font-display font-black text-center mb-4">Get in Touch</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
+    
+    <div class="max-w-3xl mx-auto">
+      <p class="text-center text-xl text-text-secondary mb-12">
+        Interested in collaboration or have questions about my research? Let's connect.
+      </p>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        {contactMethods.map((method) => (
+          <div class="card text-center group">
+            <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              {method.icon}
+            </div>
+            <h3 class="font-semibold text-text-primary mb-2">{method.label}</h3>
+            {method.href ? (
+              <a 
+                href={method.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-text-secondary hover:text-accent-yellow transition-colors"
+              >
+                {method.value}
+              </a>
+            ) : (
+              <span class="text-text-secondary">{method.value}</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

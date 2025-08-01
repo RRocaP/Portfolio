@@ -2,43 +2,15 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <p class="copyright">&copy; {currentYear} Ramon Roca Pinilla. All rights reserved.</p>
-      <p class="footer-tagline">Building the future of medicine, one protein at a time.</p>
+<footer class="border-t border-border-subtle py-12 mt-20">
+  <div class="container-custom">
+    <div class="text-center">
+      <p class="text-text-secondary text-sm mb-2">
+        &copy; {currentYear} Ramon Roca Pinilla. All rights reserved.
+      </p>
+      <p class="text-text-muted text-xs italic">
+        Fighting resistance through rigorous science.
+      </p>
     </div>
   </div>
 </footer>
-
-<style>
-  .footer {
-    background: var(--color-bg-secondary);
-    border-top: 1px solid var(--color-border-light);
-    padding: var(--space-8) 0;
-    margin-top: var(--space-24);
-  }
-
-  .footer-content {
-    text-align: center;
-  }
-
-  .copyright {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-2);
-  }
-
-  .footer-tagline {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-tertiary);
-    font-style: italic;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .footer {
-      background: var(--color-bg-secondary);
-      border-color: var(--color-border-medium);
-    }
-  }
-</style>

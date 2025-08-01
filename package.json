@@ -1,23 +1,41 @@
 {
   "name": "portfolio",
   "type": "module",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run optimize",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "gh-pages -d dist"
+    "optimize": "node optimize-build.js",
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint src",
+    "typecheck": "astro check"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
-    "astro": "^5.12.3",
-    "d3": "^7.9.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "@astrojs/mdx": "^3.1.4",
+    "@astrojs/sitemap": "^3.1.6",
+    "@fontsource/inter": "^5.0.20",
+    "@fontsource/playfair-display": "^5.0.22",
+    "astro": "^4.14.2",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "@astrojs/check": "^0.9.2",
+    "@astrojs/tailwind": "^5.1.0",
+    "@tailwindcss/typography": "^0.5.14",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.0",
+    "eslint-plugin-astro": "^1.2.3",
+    "gh-pages": "^6.1.1",
+    "lightningcss": "^1.25.1",
+    "postcss": "^8.4.41",
+    "purgecss": "^6.0.0",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

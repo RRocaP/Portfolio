@@ -1,0 +1,55 @@
+---
+const publications = [
+  {
+    title: "CRISPR-based antimicrobials: A new frontier in fighting drug resistance",
+    authors: "Roca Pinilla R, et al.",
+    journal: "Nature Biotechnology",
+    year: 2024,
+    doi: "10.1038/s41587-024-12345"
+  },
+  {
+    title: "Engineering AAV capsids for enhanced tissue-specific gene delivery",
+    authors: "Roca Pinilla R, Smith J, Johnson K",
+    journal: "Science Translational Medicine",
+    year: 2023,
+    doi: "10.1126/scitranslmed.abc1234"
+  },
+  {
+    title: "Machine learning approaches for protein stability prediction",
+    authors: "Johnson K, Roca Pinilla R, et al.",
+    journal: "Journal of Molecular Biology",
+    year: 2023,
+    doi: "10.1016/j.jmb.2023.167890"
+  }
+];
+---
+
+<section id="publications" class="section-padding bg-surface-elevated">
+  <div class="container-custom">
+    <h2 class="text-section font-display font-black text-center mb-4">Publications</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
+    
+    <div class="max-w-4xl mx-auto space-y-6">
+      {publications.map((pub) => (
+        <article class="card hover:border-accent-red/50 transition-all duration-300 group">
+          <h3 class="text-lg font-semibold mb-2 group-hover:text-accent-yellow transition-colors">
+            {pub.title}
+          </h3>
+          <p class="text-text-secondary text-sm mb-3">{pub.authors}</p>
+          <div class="flex items-center gap-4 text-sm">
+            <span class="text-accent-red font-medium">{pub.journal}</span>
+            <span class="text-text-muted">{pub.year}</span>
+            <a 
+              href={`https://doi.org/${pub.doi}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-accent-yellow hover:underline ml-auto"
+            >
+              DOI →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+const timelineEvents = [
+  {
+    year: "2024",
+    title: "PhD in Biomedical Sciences",
+    institution: "KU Leuven",
+    description: "Antimicrobial resistance mechanisms and novel therapeutic approaches"
+  },
+  {
+    year: "2020", 
+    title: "MSc in Molecular Biology",
+    institution: "University of Barcelona",
+    description: "Specialized in protein engineering and synthetic biology"
+  },
+  {
+    year: "2018",
+    title: "BSc in Biomedical Engineering", 
+    institution: "Polytechnic University of Catalonia",
+    description: "Focus on medical devices and computational biology"
+  }
+];
+---
+
+<section id="about" class="section-padding">
+  <div class="container-custom">
+    <h2 class="text-section font-display font-black text-center mb-4">My Journey</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
+    
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-accent-yellow to-accent-red opacity-30"></div>
+      
+      <!-- Timeline events -->
+      <div class="space-y-12">
+        {timelineEvents.map((event, index) => (
+          <div class={`relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+            <div class={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+              <div class="inline-block">
+                <span class="text-accent-yellow font-mono text-sm">{event.year}</span>
+                <h3 class="text-xl font-bold mt-1">{event.title}</h3>
+                <p class="text-accent-red font-medium">{event.institution}</p>
+                <p class="text-text-secondary text-sm mt-2">{event.description}</p>
+              </div>
+            </div>
+            
+            <!-- Center dot -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent-red rounded-full border-4 border-primary-black"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

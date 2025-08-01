@@ -1,0 +1,46 @@
+---
+export interface Props {
+  title: string;
+  subtitle: string;
+  tagline: string;
+}
+
+const { title, subtitle, tagline } = Astro.props;
+---
+
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background gradient with noise texture -->
+  <div class="absolute inset-0 bg-gradient-hero opacity-90"></div>
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E')] opacity-20"></div>
+  
+  <!-- Content -->
+  <div class="container-custom relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-hero font-display font-black mb-6 animate-fade-in-up">
+        {title}
+      </h1>
+      <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-8 animate-fade-in-up animate-delay-1"></div>
+      <p class="text-2xl md:text-3xl text-text-secondary mb-4 animate-fade-in-up animate-delay-2">
+        {subtitle}
+      </p>
+      <p class="text-lg md:text-xl text-text-muted mb-10 animate-fade-in-up animate-delay-3">
+        {tagline}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-delay-3">
+        <a href="#research" class="btn btn-primary">
+          Explore Research
+        </a>
+        <a href="#contact" class="btn btn-secondary">
+          Get in Touch
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-pulse-subtle">
+    <svg width="24" height="24" class="text-text-muted">
+      <path d="M12 5v14m-7-7l7 7 7-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
