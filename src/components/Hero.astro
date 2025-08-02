@@ -8,39 +8,352 @@ export interface Props {
 const { title, subtitle, tagline } = Astro.props;
 ---
 
-<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Background with elevation layers -->
-  <div class="absolute inset-0 bg-primary-bg"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-surface-1 to-transparent opacity-50"></div>
-  
-  <!-- Content -->
-  <div class="container-custom relative z-10">
-    <div class="max-w-4xl mx-auto text-center">
-      <h1 class="text-display-lg mb-6 animate-fade-in-up font-variation-settings-[wght-800]">
+<section id="home" class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title" data-text={title}>
         {title}
       </h1>
-      <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-8 animate-fade-in-up animate-delay-1"></div>
-      <p class="text-display-sm text-text-secondary mb-4 animate-fade-in-up animate-delay-2 font-variation-settings-[wght-600]">
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">
         {subtitle}
       </p>
-      <p class="text-lg md:text-xl text-text-muted mb-10 animate-fade-in-up animate-delay-3">
+      <p class="hero-tagline">
         {tagline}
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animate-delay-3">
-        <a href="#research" class="btn btn-primary">
-          Explore Research
+      <div class="hero-actions">
+        <a href="#research" class="hero-btn hero-btn-primary">
+          <span>Research</span>
+          <svg class="hero-btn-icon" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
-        <a href="#contact" class="btn btn-secondary">
-          Get in Touch
+        <a href="#contact" class="hero-btn hero-btn-secondary">
+          <span>Contact</span>
+          <svg class="hero-btn-icon" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
       </div>
     </div>
   </div>
   
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-pulse-subtle">
-    <svg width="24" height="24" class="text-text-muted">
-      <path d="M12 5v14m-7-7l7 7 7-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <div class="hero-scroll-dot"></div>
   </div>
 </section>
+
+<style>
+  .hero-section {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    
+    /* Modern backdrop */
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 211, 0, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(215, 38, 56, 0.02) 0%, transparent 50%);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: min(90vw, 900px);
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem 0;
+    line-height: 0.9;
+    
+    /* Advanced typography */
+    font-variation-settings: 'wght' 300, 'slnt' 0;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    
+    /* Gradient text */
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Animation */
+    animation: hero-title-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  
+  @keyframes hero-title-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .hero-divider {
+    width: 4rem;
+    height: 2px;
+    background: linear-gradient(90deg, #FFD300, #D72638);
+    margin: 0 auto 2rem auto;
+    border-radius: 1px;
+    
+    animation: hero-divider-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  
+  @keyframes hero-divider-in {
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.01em;
+    
+    animation: hero-subtitle-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  
+  @keyframes hero-subtitle-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .hero-tagline {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 3rem 0;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    animation: hero-tagline-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  
+  @keyframes hero-tagline-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    animation: hero-actions-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  
+  @keyframes hero-actions-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .hero-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    
+    /* Modern backdrop blur */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .hero-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+  }
+  
+  .hero-btn-primary {
+    color: #000;
+    background: rgba(255, 211, 0, 0.95);
+    border: 1px solid rgba(255, 211, 0, 0.3);
+  }
+  
+  .hero-btn-primary::before {
+    background: linear-gradient(135deg, #FFD300, #FFA000);
+  }
+  
+  .hero-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(255, 211, 0, 0.3);
+  }
+  
+  .hero-btn-primary:hover::before {
+    background: linear-gradient(135deg, #FFE55C, #FFB347);
+  }
+  
+  .hero-btn-secondary {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .hero-btn-secondary::before {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .hero-btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .hero-btn-secondary:hover::before {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .hero-btn-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .hero-btn:hover .hero-btn-icon {
+    transform: translate(2px, -2px);
+  }
+  
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.6;
+    animation: hero-scroll-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes hero-scroll-in {
+    to {
+      opacity: 0.6;
+    }
+  }
+  
+  .hero-scroll-line {
+    width: 1px;
+    height: 2rem;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.5), transparent);
+  }
+  
+  .hero-scroll-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    animation: hero-scroll-pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes hero-scroll-pulse {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(0.8);
+    }
+  }
+  
+  /* Container queries for advanced responsive design */
+  @container (max-width: 600px) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .hero-btn {
+      min-width: 200px;
+      justify-content: center;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title,
+    .hero-divider,
+    .hero-subtitle,
+    .hero-tagline,
+    .hero-actions,
+    .hero-scroll {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    
+    .hero-btn {
+      transition: none;
+    }
+    
+    .hero-btn:hover {
+      transform: none;
+    }
+    
+    .hero-scroll-dot {
+      animation: none;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .hero-title {
+      background: #fff;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .hero-subtitle {
+      color: #fff;
+    }
+    
+    .hero-tagline {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+</style>

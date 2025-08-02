@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Ramon Roca Pinilla</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .offline-container {
+            max-width: 400px;
+        }
+        
+        .offline-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #FFD300;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #FFD300, #FFA000);
+            color: #000;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 211, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">🔌</div>
+        <h1>You're Offline</h1>
+        <p>It looks like you're not connected to the internet. Check your connection and try again.</p>
+        <button class="retry-btn" onclick="window.location.reload()">Retry</button>
+    </div>
+</body>
+</html>
