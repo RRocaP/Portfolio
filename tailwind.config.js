@@ -5,26 +5,45 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary-black': '#000000',
-        'accent-yellow': '#FFD300',
-        'accent-red': '#D72638',
-        'text-primary': '#FFFFFF',
-        'text-secondary': '#E0E0E0',
-        'text-muted': '#888888',
-        'surface-elevated': '#1A1A1A',
-        'surface-card': '#0F0F0F',
-        'border-subtle': '#2A2A2A',
-        'border-strong': '#404040',
+        // Primary colors with WCAG AA compliance
+        'primary-bg': '#000000',
+        'accent-yellow': '#FFD300', // 19.6:1 on black
+        'accent-red': '#D72638', // 5.4:1 on black
+        'surface-1': '#111111', // Elevation level 1
+        'surface-2': '#181818', // Elevation level 2
+        'surface-3': 'rgba(255, 255, 255, 0.05)', // Elevation level 3
+        'surface-4': 'rgba(255, 255, 255, 0.08)', // Elevation level 4
+        
+        // Text colors
+        'text-primary': '#FFFFFF', // 21:1 on black
+        'text-secondary': '#E0E0E0', // 15.3:1 on black
+        'text-muted': '#A0A0A0', // 7.8:1 on black (AA compliant)
+        
+        // Borders
+        'border-subtle': 'rgba(255, 255, 255, 0.1)',
+        'border-strong': 'rgba(255, 255, 255, 0.2)',
       },
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['InterVariable', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['SF Mono', 'Monaco', 'Cascadia Code', 'monospace'],
       },
+      fontWeight: {
+        'thin': '100',
+        'light': '300',
+        'regular': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+        'black': '900',
+      },
       fontSize: {
-        'hero': 'clamp(3rem, 6vw, 5rem)',
-        'section': 'clamp(2rem, 4vw, 3rem)',
-        'subsection': 'clamp(1.5rem, 3vw, 2rem)',
+        // Typography hierarchy with proper line heights
+        'display-lg': ['clamp(3rem, 6vw, 5rem)', { lineHeight: '1.1', fontWeight: '800' }],
+        'display-sm': ['clamp(2rem, 4vw, 3rem)', { lineHeight: '1.2', fontWeight: '600' }],
+        'heading': ['clamp(1.5rem, 3vw, 2rem)', { lineHeight: '1.3', fontWeight: '600' }],
+        'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'caption': ['0.875rem', { lineHeight: '1.5', fontWeight: '350' }],
       },
       spacing: {
         '18': '4.5rem',

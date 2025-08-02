@@ -21,16 +21,16 @@ const researchAreas = [
 ];
 ---
 
-<section id="research" class="section-padding bg-surface-elevated">
+<section id="research" class="section-padding bg-surface-2">
   <div class="container-custom">
-    <h2 class="text-section font-display font-black text-center mb-4">Research Focus</h2>
+    <h2 class="text-display-sm text-center mb-4">Research Focus</h2>
     <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
     
     <div class="grid grid-auto-fit gap-8">
       {researchAreas.map((area, index) => (
-        <article class="card group hover:translate-y-[-4px] transition-all duration-300">
+        <article class="card group">
           <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{area.icon}</div>
-          <h3 class="text-subsection font-display font-bold mb-4 gradient-text">{area.title}</h3>
+          <h3 class="text-heading mb-4 gradient-text">{area.title}</h3>
           <p class="text-text-secondary mb-6 leading-relaxed">{area.description}</p>
           <ul class="space-y-2">
             {area.highlights.map(highlight => (

@@ -1,0 +1,83 @@
+---
+export interface Props {
+  currentLang: string;
+}
+
+const { currentLang } = Astro.props;
+
+const languages = [
+  { code: 'en', label: 'EN' },
+  { code: 'es', label: 'ES' },
+  { code: 'ca', label: 'CA' }
+];
+---
+
+<!-- Language switcher with progressive enhancement -->
+<div class="language-switcher" data-current-lang={currentLang}>
+  <div class="flex items-center gap-2">
+    {languages.map(lang => (
+      <a 
+        href={`/Portfolio/${lang.code}/`}
+        class={`lang-link ${lang.code === currentLang ? 'active' : ''}`}
+        data-lang={lang.code}
+      >
+        {lang.label}
+      </a>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Progressive enhancement for language switcher
+  document.addEventListener('DOMContentLoaded', () => {
+    const switcher = document.querySelector('.language-switcher');
+    if (!switcher) return;
+    // Add smooth transitions between language switches
+    switcher.querySelectorAll('.lang-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const targetLang = link.dataset.lang;
+          
+          // Store current scroll position
+          sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+          
+          // Add fade out animation before navigation
+          document.body.style.opacity = '0';
+          document.body.style.transition = 'opacity 200ms ease-out';
+          
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 200);
+          
+          e.preventDefault();
+        });
+      });
+  });
+
+  // Restore scroll position after language switch
+  window.addEventListener('DOMContentLoaded', () => {
+    const scrollPosition = sessionStorage.getItem('scrollPosition');
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition));
+      sessionStorage.removeItem('scrollPosition');
+    }
+  });
+</script>
+
+<style>
+  .lang-link {
+    @apply text-sm font-semibold text-text-muted px-2 py-1 rounded;
+    font-variation-settings: 'wght' 500;
+    will-change: transform, color;
+    transition: transform 200ms ease-out, color 200ms ease-out, background-color 200ms ease-out;
+  }
+  
+  .lang-link:hover {
+    @apply text-accent-yellow bg-surface-3;
+    transform: scale(1.05);
+  }
+  
+  .lang-link.active {
+    @apply text-accent-yellow bg-surface-4;
+    font-variation-settings: 'wght' 700;
+  }
+</style>

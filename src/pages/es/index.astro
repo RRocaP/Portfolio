@@ -1,20 +1,29 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
 import Research from '../../components/Research.astro';
 import Timeline from '../../components/Timeline.astro';
 import Publications from '../../components/Publications.astro';
 import Contact from '../../components/Contact.astro';
+import Reveal from '../../components/Reveal.astro';
 ---
 
-<BaseLayout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular" lang="es">
+<Base title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular" lang="es">
   <Hero 
     title="Ramon Roca Pinilla"
     subtitle="Ingeniero Biomédico y Biólogo Molecular"
     tagline="Combatiendo la resistencia antimicrobiana con ciencia rigurosa"
   />
-  <Timeline />
-  <Research />
-  <Publications />
-  <Contact />
-</BaseLayout>
+  <Reveal>
+    <Timeline />
+  </Reveal>
+  <Reveal>
+    <Research />
+  </Reveal>
+  <Reveal>
+    <Publications />
+  </Reveal>
+  <Reveal>
+    <Contact />
+  </Reveal>
+</Base>

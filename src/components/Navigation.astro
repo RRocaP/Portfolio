@@ -1,4 +1,6 @@
 ---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
 export interface Props {
   lang?: string;
 }
@@ -25,10 +27,8 @@ const { lang = 'en' } = Astro.props;
         <li><a href="#research" class="nav-link">Research</a></li>
         <li><a href="#publications" class="nav-link">Publications</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
-        <li class="flex items-center gap-2 ml-4 pl-4 border-l border-border-subtle">
-          <a href="/Portfolio/en/" class={`lang-link ${lang === 'en' ? 'active' : ''}`}>EN</a>
-          <a href="/Portfolio/es/" class={`lang-link ${lang === 'es' ? 'active' : ''}`}>ES</a>
-          <a href="/Portfolio/ca/" class={`lang-link ${lang === 'ca' ? 'active' : ''}`}>CA</a>
+        <li class="ml-4 pl-4 border-l border-border-subtle">
+          <LanguageSwitcher currentLang={lang} />
         </li>
       </ul>
     </div>
@@ -42,10 +42,8 @@ const { lang = 'en' } = Astro.props;
       <li><a href="#research" class="mobile-nav-link">Research</a></li>
       <li><a href="#publications" class="mobile-nav-link">Publications</a></li>
       <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
-      <li class="flex items-center gap-4 mt-8">
-        <a href="/Portfolio/en/" class={`lang-link text-2xl ${lang === 'en' ? 'active' : ''}`}>EN</a>
-        <a href="/Portfolio/es/" class={`lang-link text-2xl ${lang === 'es' ? 'active' : ''}`}>ES</a>
-        <a href="/Portfolio/ca/" class={`lang-link text-2xl ${lang === 'ca' ? 'active' : ''}`}>CA</a>
+      <li class="mt-8">
+        <LanguageSwitcher currentLang={lang} />
       </li>
     </ul>
   </div>
@@ -56,14 +54,31 @@ const { lang = 'en' } = Astro.props;
     @apply text-text-secondary hover:text-text-primary font-medium transition-colors relative;
   }
   
+  .nav-link {
+    position: relative;
+    will-change: transform;
+    transition: transform 200ms ease-out;
+  }
+  
   .nav-link::after {
     content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-red transition-all duration-300;
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-red;
+    will-change: transform;
+    transform-origin: left;
+    transition: transform 200ms ease-out;
   }
   
   .nav-link:hover::after,
   .nav-link.active::after {
-    @apply w-full;
+    transform: scaleX(1);
+  }
+  
+  .nav-link::after {
+    transform: scaleX(0);
+  }
+  
+  .nav-link:hover {
+    transform: translateY(-1px);
   }
   
   .lang-link {
@@ -78,8 +93,13 @@ const { lang = 'en' } = Astro.props;
     @apply text-3xl font-display font-bold text-text-secondary hover:text-accent-red transition-colors;
   }
   
+  #navigation {
+    will-change: transform;
+    transition: background-color 300ms ease-out, backdrop-filter 300ms ease-out;
+  }
+  
   #navigation.scrolled {
-    @apply bg-primary-black/95 backdrop-blur-xl border-b border-border-subtle;
+    @apply bg-primary-bg/95 backdrop-blur-xl border-b border-border-subtle;
   }
   
   #mobile-menu-toggle.active span:nth-child(1) {

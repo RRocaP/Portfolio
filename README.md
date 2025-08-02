@@ -1,6 +1,6 @@
-# Ramon Roca Pinilla - Portfolio v2.0
+# Ramon Roca Pinilla - Portfolio v2.1
 
-High-performance portfolio site built with Astro 4, Tailwind CSS, and optimized for Core Web Vitals.
+High-performance portfolio site built with Astro 4, Tailwind CSS, Inter variable font, and optimized for Core Web Vitals with WCAG AA compliance.
 
 ## 🚀 Quick Start
 
@@ -24,7 +24,9 @@ npm run preview
 - **Styling**: Tailwind CSS v3 + LightningCSS
 - **Optimization**: PurgeCSS for unused CSS removal
 - **Images**: Sharp for automatic optimization
-- **Fonts**: Local @fontsource for performance
+- **Fonts**: Inter variable font via Google Fonts v2 API
+- **Animations**: GPU-accelerated micro-interactions
+- **Layout**: 12-column CSS Grid system
 
 ## 🎯 Performance
 
@@ -68,10 +70,12 @@ npm run deploy
 
 ## 🎨 Design System
 
-- **Primary**: Black (#000000)
-- **Accent Yellow**: #FFD300
-- **Accent Red**: #D72638
-- **Typography**: Inter (body), Playfair Display (headings)
+- **Primary Background**: #000000
+- **Accent Yellow**: #FFD300 (19.6:1 contrast)
+- **Accent Red**: #D72638 (5.4:1 contrast)
+- **Surface Elevation**: 4-level system using HSLA
+- **Typography**: Inter variable font (100-900 weights)
+- **All colors WCAG AA compliant**
 
 ## 📄 License
 

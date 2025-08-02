@@ -1,0 +1,121 @@
+---
+export interface Props {
+  threshold?: number;
+  rootMargin?: string;
+  class?: string;
+  as?: string;
+}
+
+const { 
+  threshold = 0.5, 
+  rootMargin = '0px',
+  class: className = '',
+  as: Tag = 'div' 
+} = Astro.props;
+---
+
+<Tag 
+  class={`reveal-element opacity-0 translate-y-4 ${className}`}
+  data-threshold={threshold}
+  data-root-margin={rootMargin}
+>
+  <slot />
+</Tag>
+
+<script>
+  // GPU-accelerated reveal animations
+  class RevealAnimation {
+    constructor() {
+      this.elements = document.querySelectorAll('.reveal-element');
+      this.init();
+    }
+
+    init() {
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      if (prefersReducedMotion) {
+        // Show elements immediately if user prefers reduced motion
+        this.elements.forEach(el => {
+          el.classList.add('revealed');
+        });
+        return;
+      }
+
+      // Set up Intersection Observer for reveal animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Add revealed class with delay for staggered effect
+              requestAnimationFrame(() => {
+                entry.target.classList.add('revealed');
+              });
+              
+              // Stop observing once revealed
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      // Observe all reveal elements
+      this.elements.forEach(el => {
+        const threshold = parseFloat(el.dataset.threshold || '0.5');
+        const rootMargin = el.dataset.rootMargin || '0px';
+        
+        // Create individual observer if custom settings
+        if (threshold !== 0.1 || rootMargin !== '0px 0px -50px 0px') {
+          const customObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  requestAnimationFrame(() => {
+                    entry.target.classList.add('revealed');
+                  });
+                  customObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold, rootMargin }
+          );
+          customObserver.observe(el);
+        } else {
+          observer.observe(el);
+        }
+      });
+    }
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new RevealAnimation());
+  } else {
+    new RevealAnimation();
+  }
+</script>
+
+<style>
+  /* GPU-accelerated transitions */
+  .reveal-element {
+    will-change: transform, opacity;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1),
+                opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  
+  .reveal-element.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-element {
+      transition: none;
+    }
+  }
+</style>

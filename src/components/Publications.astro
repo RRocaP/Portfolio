@@ -24,15 +24,15 @@ const publications = [
 ];
 ---
 
-<section id="publications" class="section-padding bg-surface-elevated">
+<section id="publications" class="section-padding bg-surface-2">
   <div class="container-custom">
-    <h2 class="text-section font-display font-black text-center mb-4">Publications</h2>
+    <h2 class="text-display-sm text-center mb-4">Publications</h2>
     <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
     
     <div class="max-w-4xl mx-auto space-y-6">
       {publications.map((pub) => (
         <article class="card hover:border-accent-red/50 transition-all duration-300 group">
-          <h3 class="text-lg font-semibold mb-2 group-hover:text-accent-yellow transition-colors">
+          <h3 class="text-body font-semibold mb-2 group-hover:text-accent-yellow transition-colors">
             {pub.title}
           </h3>
           <p class="text-text-secondary text-sm mb-3">{pub.authors}</p>
