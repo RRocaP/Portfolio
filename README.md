@@ -167,6 +167,44 @@ Content is managed through:
 - **Rollup optimization** for chunks
 - **Asset fingerprinting** for caching
 
+## 🔧 Redesign Workflow
+
+This project implements comprehensive guard-rails to prevent content corruption and ensure safe development:
+
+### Content Protection
+```bash
+# Validate content integrity before any deployment
+./scripts/test-content.sh
+
+# All biographical content is protected:
+# - PhD affiliation: "Autonomous University of Barcelona" 
+# - Personal details preserved exactly as specified
+# - No AI hallucinations or invented facts allowed
+```
+
+### Safe Development Process
+1. **Feature Branch**: All changes made in `feature/redesign`
+2. **Content Validation**: Automated script prevents content drift
+3. **Preview Deployment**: Changes deployed to preview URL for review
+4. **Manual Approval**: No automatic merges to main branch
+
+### Guard-Rails Implemented
+- **Content freeze** with validation script
+- **i18n dictionaries** for UI strings only
+- **Design tokens** in Tailwind configuration
+- **WCAG 2.2-AA** compliance testing
+- **Bundle size monitoring** with CI reporting
+- **Concurrency groups** prevent deployment conflicts
+
+### Review Checklist
+Before merging any redesign:
+- [ ] Content validation passes (`./scripts/test-content.sh`)
+- [ ] All three locales functional (/en, /es, /ca)
+- [ ] Bundle sizes within targets (CSS <25kB, JS optimized)
+- [ ] Lighthouse scores ≥90 on all metrics
+- [ ] No content hallucinations or invented facts
+- [ ] Visual regression testing completed
+
 ---
 
 Built with ❤️ using modern web standards and accessibility best practices.
