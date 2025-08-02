@@ -13,133 +13,25 @@ const { title, description, lang = 'en' } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
-  <div class="app-shell">
+  <div class="app">
     <Navigation lang={lang} />
-    
-    <main class="main-content">
+    <main>
       <slot />
     </main>
-    
     <Footer />
   </div>
 </Layout>
 
 <style>
-  .app-shell {
+  .app {
     min-height: 100vh;
-    min-height: 100dvh; /* Modern dynamic viewport units */
     display: grid;
     grid-template-rows: auto 1fr auto;
     background: #000;
     color: #fff;
-    
-    /* Modern CSS container queries */
-    container-type: inline-size;
-    
-    /* Advanced isolation for performance */
-    isolation: isolate;
-    
-    /* GPU acceleration */
-    transform: translateZ(0);
-    will-change: scroll-position;
   }
   
-  .main-content {
+  main {
     position: relative;
-    
-    /* Modern layout containment for performance */
-    contain: layout style;
-    
-    /* CSS Scroll Snap for smooth navigation */
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    
-    /* Advanced scrollbar styling */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 211, 0, 0.3) transparent;
-  }
-  
-  .main-content::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .main-content::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .main-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 211, 0, 0.3);
-    border-radius: 3px;
-  }
-  
-  .main-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 211, 0, 0.5);
-  }
-  
-  /* Global section spacing with advanced CSS Grid */
-  .main-content > :global(section) {
-    scroll-snap-align: start;
-    position: relative;
-    
-    /* Advanced containment */
-    contain: layout paint;
-  }
-  
-  /* Ultra-modern responsive design with container queries */
-  @container (max-width: 600px) {
-    .main-content {
-      padding: 0 1rem;
-    }
-  }
-  
-  @container (min-width: 601px) and (max-width: 1200px) {
-    .main-content {
-      padding: 0 2rem;
-    }
-  }
-  
-  @container (min-width: 1201px) {
-    .main-content {
-      padding: 0 3rem;
-    }
-  }
-  
-  /* Advanced focus management */
-  .main-content:focus-within {
-    outline: none;
-  }
-  
-  /* High performance CSS for reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .main-content {
-      scroll-behavior: auto;
-      scroll-snap-type: none;
-    }
-    
-    .app-shell {
-      will-change: auto;
-    }
-  }
-  
-  /* Support for forced colors mode */
-  @media (forced-colors: active) {
-    .app-shell {
-      background: Canvas;
-      color: CanvasText;
-    }
-  }
-  
-  /* Advanced print styles */
-  @media print {
-    .app-shell {
-      background: white;
-      color: black;
-      min-height: auto;
-    }
-    
-    .main-content {
-      overflow: visible;
-      scroll-snap-type: none;
-    }
   }
 </style>

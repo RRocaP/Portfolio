@@ -17,191 +17,63 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Modern web app capabilities -->
-    <meta name="theme-color" content="#000000" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="view-transition" content="same-origin" />
-    
-    <!-- Performance and security -->
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta name="format-detection" content="telephone=no" />
-    
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="Ramon Roca Pinilla" />
     
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, Astro.site)} />
-    <meta name="twitter:creator" content="@ramonroca" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
-    <!-- Favicon with modern formats -->
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
     
-    <!-- DNS prefetch for performance -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-    
-    <!-- Preconnect to critical resources -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Modern Inter Variable Font with advanced features -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
     
     <title>{title}</title>
-    
-    <!-- Schema.org structured data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ramon Roca Pinilla",
-      "url": "https://rrocap.github.io/Portfolio",
-      "jobTitle": "Biomedical Engineer & Molecular Biologist",
-      "description": "Fighting antimicrobial resistance through rigorous science",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "KU Leuven"
-      },
-      "knowsAbout": [
-        "Antimicrobial Resistance",
-        "Protein Engineering", 
-        "Gene Therapy",
-        "Molecular Biology",
-        "Biomedical Engineering"
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/in/ramon-roca-pinilla/",
-        "https://github.com/RRocaP",
-        "https://orcid.org/0000-0002-1234-5678"
-      ]
-    }
-    </script>
-
-    <!-- Critical CSS inline -->
-    <style is:inline>
-      /* Critical path CSS for instant load */
-      :root {
-        color-scheme: dark;
-        --font-inter: 'Inter Variable', 'Inter', -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', sans-serif;
-      }
-      
-      html {
-        font-family: var(--font-inter);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-        font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
-        scroll-behavior: smooth;
-      }
-      
-      @supports (font-variation-settings: normal) {
-        html {
-          font-family: 'Inter Variable', var(--font-inter);
-        }
-      }
-      
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-        color: #fff;
-        overflow-x: hidden;
-      }
-      
-      /* Remove FOUC */
-      .no-js {
-        visibility: hidden;
-      }
-      
-      .js {
-        visibility: visible;
-      }
-    </style>
-
-    <!-- Modern View Transitions API -->
-    <script is:inline>
-      // Enable View Transitions API if supported
-      if ('startViewTransition' in document) {
-        document.documentElement.style.viewTransitionName = 'root';
-      }
-      
-      // Progressive enhancement
-      document.documentElement.classList.remove('no-js');
-      document.documentElement.classList.add('js');
-      
-      // Dark mode detection
-      if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    </script>
-
-    <!-- Performance monitoring -->
-    <script is:inline>
-      // Web Vitals tracking
-      if ('PerformanceObserver' in window) {
-        // Track CLS
-        new PerformanceObserver((entryList) => {
-          for (const entry of entryList.getEntries()) {
-            if (!entry.hadRecentInput) {
-              console.log('CLS:', entry.value);
-            }
-          }
-        }).observe({ type: 'layout-shift', buffered: true });
-        
-        // Track LCP
-        new PerformanceObserver((entryList) => {
-          const entries = entryList.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          console.log('LCP:', lastEntry.startTime);
-        }).observe({ type: 'largest-contentful-paint', buffered: true });
-      }
-    </script>
   </head>
   <body>
     <slot />
-    
-    <!-- Service worker registration -->
-    <script is:inline>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-    </script>
   </body>
 </html>
+
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background: #000;
+    color: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
