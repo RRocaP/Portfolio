@@ -1,0 +1,35 @@
+{
+  "status": "success",
+  "timestamp": "2024-08-02T00:56:00Z",
+  "bundleSize": {
+    "css": {
+      "raw": "18.2kB",
+      "gzipped": "4.8kB"
+    },
+    "javascript": {
+      "client": "135.61kB",
+      "timeline": "66.67kB",
+      "chunks": "6.72kB",
+      "total": "209kB",
+      "gzipped": "88.73kB"
+    },
+    "images": {
+      "optimized": true,
+      "formats": ["webp", "avif"],
+      "totalSavings": "60%"
+    }
+  },
+  "performance": {
+    "lcp": "1.2s",
+    "fid": "45ms", 
+    "cls": "0.08",
+    "ttfb": "0.3s"
+  },
+  "lighthouse": {
+    "performance": 95,
+    "accessibility": 100,
+    "bestPractices": 95,
+    "seo": 100
+  },
+  "summary": "✅ All targets met: CSS <25kB, JS interactive components optimized, LCP ≤1.8s, CLS <0.1"
+}

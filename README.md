@@ -1,8 +1,51 @@
-# Ramon Roca Pinilla - Portfolio v2.1
+# Ramon Roca Pinilla - Portfolio
 
-High-performance portfolio site built with Astro 4, Tailwind CSS, Inter variable font, and optimized for Core Web Vitals with WCAG AA compliance.
+A bold, minimalistic portfolio showcasing biomedical engineering and molecular biology research. Built with modern web technologies for optimal performance and accessibility.
 
-## 🚀 Quick Start
+## 🚀 Tech Stack
+
+- **Astro 4.14.2** - Static site generator
+- **Tailwind CSS v3** - Utility-first CSS framework  
+- **Inter Variable + Playfair Display** - Typography via @fontsource-variable
+- **React 18** - For interactive components (antibiotic timeline)
+- **TypeScript** - Type safety
+- **Sharp** - Image optimization
+
+## 🎨 Design System
+
+### Color Palette
+- **Primary Background**: `#2B0000` (Dark red)
+- **Surface**: `#400000` (Medium red)
+- **Accent Yellow**: `#FFD300` (High contrast)
+- **Body Text**: `#F3F3F3` (Light gray)
+- **Text Muted**: `#B8B8B8` (Medium gray)
+
+### Typography
+- **Body**: Inter Variable (400-600 weight)
+- **Headings**: Playfair Display Variable (400-700 weight)
+- **Max-width**: 1280px centered grid
+- **Line length**: 45-75 characters for optimal readability
+- **Text alignment**: Justified paragraphs
+
+## 🌐 Internationalization
+
+Supports three languages with proper locale strings:
+- **English** (`/en/`) - Default
+- **Spanish** (`/es/`)
+- **Catalan** (`/ca/`)
+
+All UI strings managed through JSON files in `src/i18n/`.
+
+## ♿ Accessibility
+
+- **WCAG 2.1-AA** contrast compliance
+- **Skip links** for keyboard navigation
+- **Focus management** with visible focus rings
+- **Reduced motion** support
+- **Screen reader** optimized markup
+- **Semantic HTML** structure
+
+## 📦 Setup & Development
 
 ```bash
 # Install dependencies
@@ -16,67 +59,152 @@ npm run build
 
 # Preview production build
 npm run preview
+
+# Type checking
+npm run typecheck
+
+# Linting
+npm run lint
 ```
 
-## 📦 Tech Stack
-
-- **Framework**: Astro 4.14.2 (Static Site Generation)
-- **Styling**: Tailwind CSS v3 + LightningCSS
-- **Optimization**: PurgeCSS for unused CSS removal
-- **Images**: Sharp for automatic optimization
-- **Fonts**: Inter variable font via Google Fonts v2 API
-- **Animations**: GPU-accelerated micro-interactions
-- **Layout**: 12-column CSS Grid system
-
-## 🎯 Performance
-
-- **Bundle size**: < 150KB gzipped
-- **LCP**: < 1.8s
-- **FID**: < 100ms
-- **CLS**: < 0.1
-- **Lighthouse Score**: 95+
-
-## 🛠️ Commands
-
-| Command | Action |
-|---------|--------|
-| `npm run dev` | Start local dev server at `localhost:4321` |
-| `npm run build` | Build production site to `./dist/` |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run typecheck` | Run TypeScript checks |
-| `npm run deploy` | Deploy to GitHub Pages |
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 src/
-├── components/     # Reusable Astro components
-├── layouts/        # Page layouts
-├── pages/          # Route pages (i18n support)
-├── styles/         # Global CSS with Tailwind
-└── data/           # JSON/JS data files
+├── components/          # Reusable components
+│   ├── BaseLayout.astro # Main layout wrapper
+│   ├── Hero.astro       # Hero section
+│   ├── Research.astro   # Research areas
+│   ├── Timeline.astro   # Academic timeline
+│   ├── Publications.astro # Publications list
+│   ├── Contact.astro    # Contact information
+│   └── AntimicrobialResistanceTimeline.tsx # Interactive D3 chart
+├── i18n/                # Internationalization
+│   ├── en.json         # English strings
+│   ├── es.json         # Spanish strings
+│   └── ca.json         # Catalan strings
+├── pages/               # Route pages
+│   ├── index.astro     # Root redirect
+│   ├── en/index.astro  # English homepage
+│   ├── es/index.astro  # Spanish homepage
+│   └── ca/index.astro  # Catalan homepage
+├── styles/
+│   └── global.css      # Global styles & Tailwind imports
+└── types.ts            # TypeScript definitions
 ```
 
-## 🌐 Deployment
+## 🔧 Adding New Translations
 
-The site auto-deploys to GitHub Pages on push to `main` branch via GitHub Actions.
+1. Add new JSON file to `src/i18n/` (e.g., `fr.json`)
+2. Copy structure from `en.json` and translate strings
+3. Create new page in `src/pages/fr/index.astro`
+4. Update `astro.config.mjs` sitemap i18n configuration
+5. Add language option to Navigation component
 
-Manual deployment:
+## 📊 Performance
+
+- **Bundle size**: <25kB CSS gzipped
+- **JavaScript**: <35kB for interactive components
+- **LCP target**: ≤1.8s
+- **CLS target**: <0.1
+- **Font loading**: `font-display: swap` for FOIT prevention
+
+## 🚀 Deployment
+
+Automated deployment via GitHub Actions to GitHub Pages:
+
+```yaml
+# .github/workflows/deploy.yml
+- Builds on Node.js 20
+- Generates bundle size reports
+- Deploys to gh-pages branch
+- Concurrency group prevents conflicts
+```
+
+## 📈 Features
+
+### Interactive Timeline
+- **D3.js visualization** of antibiotic resistance emergence
+- **Roma colormap** from crameri scientific palette
+- **White text** and clean backgrounds for readability
+- **Responsive design** with mobile optimization
+
+### Grid System
+- **12-column CSS Grid** for consistent layouts
+- **Container max-width**: 1280px
+- **Responsive breakpoints** for mobile/tablet/desktop
+- **Flexible component spanning**
+
+### Font Loading
+- **Variable fonts** for reduced bandwidth
+- **Preload critical fonts** for performance
+- **Fallback stacks** for progressive enhancement
+- **OpenType features** enabled (ligatures, kerning)
+
+## 📝 Content Management
+
+**Important**: All biographical and research content is final. Do not edit personal details, particularly PhD affiliation with Autonomous University of Barcelona.
+
+Content is managed through:
+- **Component props** for dynamic data
+- **JSON files** for translations
+- **TypeScript interfaces** for type safety
+- **Structured data** for SEO
+
+## 🔍 SEO & Meta
+
+- **Open Graph** tags for social sharing
+- **Twitter Card** metadata
+- **Canonical URLs** with hreflang
+- **Sitemap** generation for all locales
+- **Structured data** (JSON-LD) for rich snippets
+
+## 🛠️ Build Optimization
+
+- **Astro Image** service with Sharp
+- **CSS purging** via PurgeCSS
+- **Lightning CSS** for minification
+- **Rollup optimization** for chunks
+- **Asset fingerprinting** for caching
+
+## 🔧 Redesign Workflow
+
+This project implements comprehensive guard-rails to prevent content corruption and ensure safe development:
+
+### Content Protection
 ```bash
-npm run build
-npm run deploy
+# Validate content integrity before any deployment
+./scripts/test-content.sh
+
+# All biographical content is protected:
+# - PhD affiliation: "Autonomous University of Barcelona" 
+# - Personal details preserved exactly as specified
+# - No AI hallucinations or invented facts allowed
 ```
 
-## 🎨 Design System
+### Safe Development Process
+1. **Feature Branch**: All changes made in `feature/redesign`
+2. **Content Validation**: Automated script prevents content drift
+3. **Preview Deployment**: Changes deployed to preview URL for review
+4. **Manual Approval**: No automatic merges to main branch
 
-- **Primary Background**: #000000
-- **Accent Yellow**: #FFD300 (19.6:1 contrast)
-- **Accent Red**: #D72638 (5.4:1 contrast)
-- **Surface Elevation**: 4-level system using HSLA
-- **Typography**: Inter variable font (100-900 weights)
-- **All colors WCAG AA compliant**
+### Guard-Rails Implemented
+- **Content freeze** with validation script
+- **i18n dictionaries** for UI strings only
+- **Design tokens** in Tailwind configuration
+- **WCAG 2.2-AA** compliance testing
+- **Bundle size monitoring** with CI reporting
+- **Concurrency groups** prevent deployment conflicts
 
-## 📄 License
+### Review Checklist
+Before merging any redesign:
+- [ ] Content validation passes (`./scripts/test-content.sh`)
+- [ ] All three locales functional (/en, /es, /ca)
+- [ ] Bundle sizes within targets (CSS <25kB, JS optimized)
+- [ ] Lighthouse scores ≥90 on all metrics
+- [ ] No content hallucinations or invented facts
+- [ ] Visual regression testing completed
 
-MIT © 2024 Ramon Roca Pinilla
+---
+
+Built with ❤️ using modern web standards and accessibility best practices.

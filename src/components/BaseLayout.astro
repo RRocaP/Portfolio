@@ -40,9 +40,6 @@ const langMeta = {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Skip link for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
     <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/playfair-display-variable.woff2" as="font" type="font/woff2" crossorigin />
@@ -71,16 +68,21 @@ const langMeta = {
     <title>{title}</title>
   </head>
   <body class="bg-primary-bg text-body-text font-body">
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <div class="min-h-screen grid grid-rows-[auto_1fr_auto]">
       <header>
         <slot name="header" />
       </header>
       
-      <main id="main-content" class="container mx-auto max-w-container px-6 py-12 grid grid-cols-12 gap-6">
-        <slot />
+      <main id="main-content" class="container-12">
+        <div class="grid-12">
+          <slot />
+        </div>
       </main>
       
-      <footer class="col-span-12 mt-16">
+      <footer>
         <slot name="footer" />
       </footer>
     </div>

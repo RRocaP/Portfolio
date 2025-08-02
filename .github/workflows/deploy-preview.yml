@@ -1,0 +1,105 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+# Concurrency group prevents overlapping preview deployments
+concurrency:
+  group: deploy-preview-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run content validation
+        run: |
+          chmod +x scripts/test-content.sh
+          ./scripts/test-content.sh
+        
+      - name: Build site
+        run: npm run build
+        
+      - name: Generate bundle report
+        run: |
+          # Calculate bundle sizes
+          CSS_SIZE=$(find dist -name "*.css" -exec stat -f%z {} \; | awk '{sum+=$1} END {print sum/1024 "kB"}')
+          JS_SIZE=$(find dist -name "*.js" -exec stat -f%z {} \; | awk '{sum+=$1} END {print sum/1024 "kB"}')
+          
+          echo "Bundle sizes:" >> $GITHUB_STEP_SUMMARY
+          echo "- CSS: $CSS_SIZE" >> $GITHUB_STEP_SUMMARY
+          echo "- JavaScript: $JS_SIZE" >> $GITHUB_STEP_SUMMARY
+          
+          # Save for PR comment
+          echo "CSS_SIZE=$CSS_SIZE" >> $GITHUB_ENV
+          echo "JS_SIZE=$JS_SIZE" >> $GITHUB_ENV
+        
+      - name: Deploy to Preview
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          destination_dir: pr-${{ github.event.number }}
+          
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
+            const previewUrl = `https://${{ github.repository_owner }}.github.io/Portfolio/pr-${prNumber}/`;
+            
+            const comment = `## 🚀 Preview Deployment
+            
+            Your changes have been deployed to a preview environment:
+            
+            **Preview URL:** ${previewUrl}
+            
+            ### Bundle Analysis
+            - **CSS:** ${{ env.CSS_SIZE }}
+            - **JavaScript:** ${{ env.JS_SIZE }}
+            
+            ### Test Results
+            - ✅ Content validation passed
+            - ✅ Build successful
+            - ✅ All locales available:
+              - [English](${previewUrl}en/)
+              - [Spanish](${previewUrl}es/)  
+              - [Catalan](${previewUrl}ca/)
+            
+            The preview will be updated automatically when you push new commits.`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+            
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://${{ github.repository_owner }}.github.io/Portfolio/pr-${{ github.event.number }}/en/
+            https://${{ github.repository_owner }}.github.io/Portfolio/pr-${{ github.event.number }}/es/
+            https://${{ github.repository_owner }}.github.io/Portfolio/pr-${{ github.event.number }}/ca/
+          configPath: './.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true

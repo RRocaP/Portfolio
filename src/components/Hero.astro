@@ -9,32 +9,34 @@ export interface Props {
 const { lang, strings } = Astro.props;
 ---
 
-<section class="col-span-12 min-h-screen flex items-center justify-center text-center">
-  <div class="max-w-4xl">
-    <h1 class="font-heading text-display-lg text-balance mb-6 text-body-text">
+<section class="col-span-12 min-h-screen flex items-center justify-center text-center py-20">
+  <div class="max-w-4xl px-4">
+    <h1 class="font-heading text-display-lg lg:text-display-xl text-balance mb-6 text-body-text">
       {strings.hero.name}
     </h1>
     
     <div class="w-24 h-1 bg-accent-yellow mx-auto mb-8 rounded-full"></div>
     
-    <h2 class="text-heading-xl text-text-muted mb-6 text-balance font-heading">
+    <h2 class="text-heading-xl lg:text-display-sm text-text-muted mb-6 text-balance font-heading">
       {strings.hero.title}
     </h2>
     
-    <p class="text-body-lg text-text-muted mb-12 max-w-prose mx-auto leading-relaxed">
+    <p class="text-body-lg lg:text-body-xl text-text-muted mb-12 max-w-prose mx-auto leading-relaxed text-justify">
       {strings.hero.tagline}
     </p>
     
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a 
         href="#research" 
-        class="inline-flex items-center justify-center px-8 py-3 bg-accent-yellow text-on-accent-text font-medium rounded-sm hover:bg-yellow-400 transition-colors focus-ring"
+        class="btn-primary"
+        aria-label="Explore research section"
       >
         {strings.hero.cta_research}
       </a>
       <a 
         href="#contact" 
-        class="inline-flex items-center justify-center px-8 py-3 border border-border text-body-text font-medium rounded-sm hover:bg-surface-1 transition-colors focus-ring"
+        class="btn-secondary"
+        aria-label="Go to contact section"
       >
         {strings.hero.cta_contact}
       </a>
