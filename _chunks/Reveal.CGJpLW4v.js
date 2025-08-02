@@ -73,6 +73,10 @@ Get in Touch
 </a> </div> </div> </div> <!-- Scroll indicator --> <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-pulse-subtle"> <svg width="24" height="24" class="text-text-muted"> <path d="M12 5v14m-7-7l7 7 7-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </div> </section>`;
 }, "/Users/ramon/Portfolio/src/components/Hero.astro", void 0);
 
+const $$AntimicrobialTimeline = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${maybeRenderHead()}<div id="antimicrobial-timeline-container" class="visualization-wrapper" data-astro-cid-sdq7ms27> <div id="antimicrobial-timeline-root" data-astro-cid-sdq7ms27></div> </div>  `;
+}, "/Users/ramon/Portfolio/src/components/AntimicrobialTimeline.astro", void 0);
+
 const $$Research = createComponent(($$result, $$props, $$slots) => {
   const researchAreas = [
     {
@@ -94,7 +98,7 @@ const $$Research = createComponent(($$result, $$props, $$slots) => {
       highlights: ["AAV engineering", "Tissue targeting", "Immune evasion"]
     }
   ];
-  return renderTemplate`${maybeRenderHead()}<section id="research" class="section-padding bg-surface-2"> <div class="container-custom"> <h2 class="text-display-sm text-center mb-4">Research Focus</h2> <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div> <div class="grid grid-auto-fit gap-8"> ${researchAreas.map((area, index) => renderTemplate`<article class="card group"> <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">${area.icon}</div> <h3 class="text-heading mb-4 gradient-text">${area.title}</h3> <p class="text-text-secondary mb-6 leading-relaxed">${area.description}</p> <ul class="space-y-2"> ${area.highlights.map((highlight) => renderTemplate`<li class="flex items-center text-sm text-text-muted"> <span class="w-1 h-1 bg-accent-red rounded-full mr-3"></span> ${highlight} </li>`)} </ul> </article>`)} </div> </div> </section>`;
+  return renderTemplate`${maybeRenderHead()}<section id="research" class="section-padding bg-surface-2"> <div class="container-custom"> <h2 class="text-display-sm text-center mb-4">Research Focus</h2> <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div> <div class="grid grid-auto-fit gap-8"> ${researchAreas.map((area, index) => renderTemplate`<article class="card group"> <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">${area.icon}</div> <h3 class="text-heading mb-4 gradient-text">${area.title}</h3> <p class="text-text-secondary mb-6 leading-relaxed">${area.description}</p> <ul class="space-y-2"> ${area.highlights.map((highlight) => renderTemplate`<li class="flex items-center text-sm text-text-muted"> <span class="w-1 h-1 bg-accent-red rounded-full mr-3"></span> ${highlight} </li>`)} </ul> </article>`)} </div> <!-- Antimicrobial Resistance Timeline --> <div class="mt-20"> ${renderComponent($$result, "AntimicrobialTimeline", $$AntimicrobialTimeline, {})} </div> </div> </section>`;
 }, "/Users/ramon/Portfolio/src/components/Research.astro", void 0);
 
 const $$Timeline = createComponent(($$result, $$props, $$slots) => {
