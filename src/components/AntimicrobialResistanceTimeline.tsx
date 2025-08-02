@@ -101,7 +101,7 @@ export default function AntimicrobialResistanceTimeline() {
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    const margin = { top: 80, right: 120, bottom: 80, left: 80 };
+    const margin = { top: 80, right: 200, bottom: 80, left: 120 }; // Increased right margin for legend
     const width = dimensions.width - margin.left - margin.right;
     const height = dimensions.height - margin.top - margin.bottom;
 
@@ -119,11 +119,27 @@ export default function AntimicrobialResistanceTimeline() {
       .range([0, height])
       .padding(0.3);
 
+    // Roma colormap from crameri palette (scientific color maps)
+    const romaColors = [
+      '#7E1900', // Deep red-brown
+      '#B73D1A', // Rust orange
+      '#E06E3B', // Orange
+      '#F5A572', // Light orange
+      '#FCD8AF', // Peach
+      '#E6E4E1', // Light gray
+      '#B4C5D7', // Light blue
+      '#7FA2C5', // Sky blue
+      '#4A7BB7', // Blue
+      '#2A4A7F', // Deep blue
+      '#0E1E44'  // Navy
+    ];
+    
+    const categories = Array.from(new Set(antibioticData.map(d => d.category)));
     const colorScale = d3.scaleOrdinal<string, string>()
-      .domain(Array.from(new Set(antibioticData.map(d => d.category))))
-      .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#E67E22']);
+      .domain(categories)
+      .range(romaColors.slice(0, categories.length));
 
-    // Grid lines
+    // Enhanced grid lines
     g.append('g')
       .attr('class', 'grid')
       .attr('transform', `translate(0,${height})`)
@@ -131,8 +147,10 @@ export default function AntimicrobialResistanceTimeline() {
         .tickSize(-height)
         .tickFormat(() => '')
       )
-      .style('stroke-dasharray', '3,3')
-      .style('opacity', 0.3);
+      .style('stroke-dasharray', '1,3')
+      .style('opacity', 0.15)
+      .selectAll('line')
+      .style('stroke', 'var(--border-subtle, #e0e0e0)');
 
     // X axis
     g.append('g')
@@ -154,13 +172,17 @@ export default function AntimicrobialResistanceTimeline() {
       .style('font-weight', '500')
       .text('Year');
 
-    // Y axis
-    g.append('g')
-      .call(d3.axisLeft(yScale))
-      .selectAll('text')
-      .attr('fill', 'var(--secondary, #666)')
+    // Enhanced Y axis
+    const yAxis = g.append('g')
+      .call(d3.axisLeft(yScale).tickSize(0).tickPadding(10));
+    
+    yAxis.select('.domain').remove();
+    
+    yAxis.selectAll('text')
+      .attr('fill', 'var(--primary, #333)')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
-      .style('font-size', '12px');
+      .style('font-size', '13px')
+      .style('font-weight', '500');
 
     // Timeline bars
     const bars = g.selectAll('.timeline-bar')
@@ -169,55 +191,132 @@ export default function AntimicrobialResistanceTimeline() {
       .append('g')
       .attr('class', 'timeline-bar');
 
-    // Introduction to resistance bars
+    // Add subtle gradient definitions
+    const defs = svg.append('defs');
+    
+    categories.forEach((category, i) => {
+      const gradient = defs.append('linearGradient')
+        .attr('id', `gradient-${category.replace(/\s+/g, '-')}`)
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '100%')
+        .attr('y2', '0%');
+      
+      gradient.append('stop')
+        .attr('offset', '0%')
+        .style('stop-color', colorScale(category))
+        .style('stop-opacity', 0.9);
+      
+      gradient.append('stop')
+        .attr('offset', '100%')
+        .style('stop-color', colorScale(category))
+        .style('stop-opacity', 0.7);
+    });
+
+    // Introduction to resistance bars with gradients
     bars.append('rect')
       .attr('x', (d: AntibioticData) => xScale(d.yearIntroduced))
       .attr('y', (d: AntibioticData) => yScale(d.antibiotic)!)
       .attr('width', (d: AntibioticData) => Math.max(0, xScale(d.yearResistanceDetected) - xScale(d.yearIntroduced)))
       .attr('height', yScale.bandwidth())
-      .attr('fill', (d: AntibioticData) => colorScale(d.category) as string)
-      .attr('opacity', 0.8)
-      .attr('rx', 4)
+      .attr('fill', (d: AntibioticData) => `url(#gradient-${d.category.replace(/\s+/g, '-')})`)
+      .attr('stroke', (d: AntibioticData) => colorScale(d.category))
+      .attr('stroke-width', 0.5)
+      .attr('opacity', 0.9)
+      .attr('rx', 8)
+      .style('filter', 'drop-shadow(0 3px 6px rgba(0,0,0,0.12))')
       .style('cursor', 'pointer')
+      .style('transition', 'all 0.3s ease')
       .on('mouseover', function(_event: MouseEvent, d: AntibioticData) {
-        d3.select(this).attr('opacity', 1);
+        d3.select(this)
+          .attr('opacity', 1)
+          .attr('stroke-width', 2)
+          .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))');
         setSelectedAntibiotic(d);
       })
       .on('mouseout', function() {
-        d3.select(this).attr('opacity', 0.8);
+        d3.select(this)
+          .attr('opacity', 0.9)
+          .attr('stroke-width', 0.5)
+          .style('filter', 'drop-shadow(0 3px 6px rgba(0,0,0,0.12))');
       });
 
-    // Resistance continuation (dashed)
+    // Resistance continuation with pattern
+    const patterns = defs.selectAll('.pattern')
+      .data(categories)
+      .enter()
+      .append('pattern')
+      .attr('id', (d: string) => `pattern-${d.replace(/\s+/g, '-')}`)
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('width', 8)
+      .attr('height', 8);
+    
+    patterns.append('rect')
+      .attr('width', 8)
+      .attr('height', 8)
+      .attr('fill', (d: string) => colorScale(d))
+      .attr('opacity', 0.15);
+    
+    patterns.append('line')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', 8)
+      .attr('y2', 8)
+      .attr('stroke', (d: string) => colorScale(d))
+      .attr('stroke-width', 1.5)
+      .attr('opacity', 0.3);
+
     bars.append('rect')
       .attr('x', (d: AntibioticData) => xScale(d.yearResistanceDetected))
       .attr('y', (d: AntibioticData) => yScale(d.antibiotic)!)
       .attr('width', (d: AntibioticData) => xScale(2025) - xScale(d.yearResistanceDetected))
       .attr('height', yScale.bandwidth())
-      .attr('fill', (d: AntibioticData) => colorScale(d.category as string))
-      .attr('opacity', 0.3)
-      .attr('rx', 4)
-      .style('stroke', (d: AntibioticData): string => colorScale(d.category))
-      .style('stroke-width', 2)
-      .style('stroke-dasharray', '5,5');
+      .attr('fill', (d: AntibioticData) => `url(#pattern-${d.category.replace(/\s+/g, '-')})`)
+      .attr('stroke', (d: AntibioticData) => colorScale(d.category))
+      .attr('stroke-width', 1)
+      .attr('opacity', 0.8)
+      .attr('rx', 8)
+      .style('stroke-dasharray', '12,4');
 
-    // Introduction markers
-    bars.append('circle')
+    // Enhanced introduction markers
+    const introMarkers = bars.append('g')
+      .attr('class', 'intro-marker');
+    
+    introMarkers.append('circle')
       .attr('cx', (d: AntibioticData) => xScale(d.yearIntroduced))
       .attr('cy', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
-      .attr('r', 6)
-      .attr('fill', 'white')
+      .attr('r', 8)
+      .attr('fill', 'var(--background, white)')
       .attr('stroke', (d: AntibioticData) => colorScale(d.category))
-      .attr('stroke-width', 3);
+      .attr('stroke-width', 3)
+      .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))');
+    
+    introMarkers.append('circle')
+      .attr('cx', (d: AntibioticData) => xScale(d.yearIntroduced))
+      .attr('cy', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
+      .attr('r', 4)
+      .attr('fill', (d: AntibioticData) => colorScale(d.category));
 
-    // Resistance detection markers
-    bars.append('text')
+    // Enhanced resistance detection markers
+    const resistanceMarkers = bars.append('g')
+      .attr('class', 'resistance-marker');
+    
+    resistanceMarkers.append('circle')
+      .attr('cx', (d: AntibioticData) => xScale(d.yearResistanceDetected))
+      .attr('cy', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
+      .attr('r', 10)
+      .attr('fill', '#DA291C')
+      .attr('opacity', 0.15);
+    
+    resistanceMarkers.append('text')
       .attr('x', (d: AntibioticData) => xScale(d.yearResistanceDetected))
       .attr('y', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
       .attr('dy', '0.35em')
       .attr('text-anchor', 'middle')
-      .style('font-size', '20px')
+      .style('font-size', '18px')
+      .style('font-weight', '700')
       .style('fill', '#DA291C')
-      .text('⚠');
+      .text('!');
 
     // Title
     svg.append('text')
@@ -225,40 +324,97 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('y', 30)
       .attr('text-anchor', 'middle')
       .attr('fill', 'var(--primary, #333)')
-      .style('font-size', '24px')
+      .style('font-size', '28px')
       .style('font-weight', '600')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .text('The Race Against Resistance: Antibiotic Timeline');
-
-    // Legend
-    const legend = svg.append('g')
-      .attr('transform', `translate(${dimensions.width - 100}, ${margin.top})`);
-
-    const categories = Array.from(new Set(antibioticData.map(d => d.category)));
     
-    legend.selectAll('.legend-item')
+    // Add subtitle
+    svg.append('text')
+      .attr('x', dimensions.width / 2)
+      .attr('y', 55)
+      .attr('text-anchor', 'middle')
+      .attr('fill', 'var(--secondary, #666)')
+      .style('font-size', '14px')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .text('Time from introduction to first detected resistance');
+
+    // Enhanced Legend with background
+    const legendWidth = 160;
+    const legendHeight = categories.length * 28 + 40;
+    
+    const legendGroup = svg.append('g')
+      .attr('transform', `translate(${dimensions.width - margin.right + 20}, ${margin.top})`);
+    
+    // Legend background
+    legendGroup.append('rect')
+      .attr('x', -10)
+      .attr('y', -20)
+      .attr('width', legendWidth)
+      .attr('height', legendHeight)
+      .attr('fill', 'var(--background, white)')
+      .attr('stroke', 'var(--border, #e0e0e0)')
+      .attr('stroke-width', 1)
+      .attr('rx', 8)
+      .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))');
+    
+    // Legend title
+    legendGroup.append('text')
+      .attr('x', legendWidth / 2 - 10)
+      .attr('y', -5)
+      .attr('text-anchor', 'middle')
+      .attr('fill', 'var(--primary, #333)')
+      .style('font-size', '14px')
+      .style('font-weight', '600')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .text('Antibiotic Classes');
+    
+    const legend = legendGroup.append('g')
+      .attr('transform', 'translate(0, 15)');
+    
+    const legendItems = legend.selectAll('.legend-item')
       .data(categories)
       .enter()
       .append('g')
       .attr('class', 'legend-item')
-      .attr('transform', (_d, i) => `translate(0, ${i * 25})`)
-      .each(function(d: string) {
-        const g = d3.select(this);
-        g.append('rect')
-          .attr('width', 18)
-          .attr('height', 18)
-          .attr('fill', colorScale(d as string))
-          .attr('rx', 3);
-        g.append('text')
-          .attr('x', -5)
-          .attr('y', 9)
-          .attr('dy', '0.35em')
-          .attr('fill', 'var(--secondary, #666)')
-          .style('text-anchor', 'end')
-          .style('font-size', '12px')
-          .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
-          .style('font-weight', '400')
-          .text(d);
+      .attr('transform', (_d, i) => `translate(10, ${i * 28})`)
+      .style('cursor', 'pointer');
+    
+    legendItems.append('rect')
+      .attr('width', 20)
+      .attr('height', 20)
+      .attr('fill', (d: string) => colorScale(d))
+      .attr('rx', 4)
+      .attr('stroke', 'var(--border-subtle, rgba(0,0,0,0.1))')
+      .attr('stroke-width', 1);
+    
+    legendItems.append('text')
+      .attr('x', 28)
+      .attr('y', 10)
+      .attr('dy', '0.35em')
+      .attr('fill', 'var(--secondary, #666)')
+      .style('font-size', '13px')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .style('font-weight', '400')
+      .text((d: string) => d);
+    
+    // Add hover effect to legend
+    legendItems
+      .on('mouseover', function(event: MouseEvent, category: string) {
+        // Highlight bars of this category
+        bars.selectAll('rect')
+          .attr('opacity', (d: AntibioticData) => d.category === category ? 1 : 0.2);
+        d3.select(this).select('rect')
+          .attr('stroke-width', 2)
+          .attr('stroke', 'var(--primary, #333)');
+      })
+      .on('mouseout', function() {
+        // Reset opacity
+        bars.selectAll('rect')
+          .attr('opacity', (_d, i) => i === 0 ? 0.8 : 0.3);
+        d3.select(this).select('rect')
+          .attr('stroke-width', 1)
+          .attr('stroke', 'var(--border-subtle, rgba(0,0,0,0.1))');
       });
 
     // Ramon's solution annotation
@@ -269,8 +425,9 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('x2', xScale(solutionYear))
       .attr('y2', height)
       .attr('stroke', '#50C878')
-      .attr('stroke-width', 3)
-      .attr('stroke-dasharray', '10,5');
+      .attr('stroke-width', 2)
+      .attr('stroke-dasharray', '10,5')
+      .attr('opacity', 0.7);
 
     g.append('text')
       .attr('x', xScale(solutionYear))
@@ -284,7 +441,7 @@ export default function AntimicrobialResistanceTimeline() {
   }, [dimensions]);
 
   return (
-    <div className="timeline-container">
+    <div className="timeline-container" style={{ position: 'relative' }}>
       <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />
       {selectedAntibiotic && (
         <div className="info-panel">
@@ -316,23 +473,33 @@ export default function AntimicrobialResistanceTimeline() {
         }
         .info-panel {
           position: absolute;
-          top: 100px;
-          left: 20px;
+          bottom: 20px;
+          right: 20px;
           background: var(--background, white);
           color: var(--primary, #333);
-          border: 1px solid var(--border, #ddd);
-          border-radius: 8px;
-          padding: 1rem;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          max-width: 300px;
+          border-radius: 12px;
+          padding: 1.5rem;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+          max-width: 320px;
           z-index: 10;
-          backdrop-filter: blur(10px);
-          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(12px);
+          background: rgba(255, 255, 255, 0.98);
+          border: 2px solid var(--accent-yellow, #FFD93D);
+          transform: translateY(0);
+          transition: all 0.3s ease;
+        }
+        .info-panel:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.15);
         }
         @media (prefers-color-scheme: dark) {
           .info-panel {
-            background: rgba(30, 30, 30, 0.95);
-            border-color: var(--border, #2a2a2a);
+            background: rgba(17, 17, 17, 0.98);
+            border: 2px solid var(--accent-yellow, #FFD93D);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+          }
+          .info-panel:hover {
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
           }
         }
         .info-panel h3 {
@@ -352,12 +519,27 @@ export default function AntimicrobialResistanceTimeline() {
           font-weight: 500;
         }
         .solution-box {
-          background: linear-gradient(135deg, rgba(80, 200, 120, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%);
-          border: 2px solid var(--accent-yellow, #FFD93D);
-          border-radius: 8px;
-          padding: 1.5rem;
-          margin-top: 2rem;
+          background: linear-gradient(135deg, rgba(80, 200, 120, 0.05) 0%, rgba(255, 217, 61, 0.05) 100%);
+          border: 2px solid transparent;
+          border-image: linear-gradient(135deg, #50C878, #FFD93D) 1;
+          border-radius: 12px;
+          padding: 2rem;
+          margin-top: 2.5rem;
           color: var(--primary, #333);
+          position: relative;
+          overflow: hidden;
+        }
+        .solution-box::before {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+          background: linear-gradient(135deg, #50C878, #FFD93D);
+          border-radius: 12px;
+          opacity: 0.1;
+          z-index: -1;
         }
         .solution-box h3 {
           color: var(--accent-red, #DA291C);
@@ -380,8 +562,20 @@ export default function AntimicrobialResistanceTimeline() {
         }
         @media (prefers-color-scheme: dark) {
           .solution-box {
-            background: linear-gradient(135deg, rgba(80, 200, 120, 0.05) 0%, rgba(255, 235, 59, 0.05) 100%);
-            border-color: var(--accent-yellow, #ffeb3b);
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.03) 0%, rgba(255, 235, 59, 0.03) 100%);
+          }
+          .solution-box::before {
+            opacity: 0.05;
+          }
+        }
+        @media (max-width: 768px) {
+          .info-panel {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            left: 10px;
+            max-width: none;
+            font-size: 0.9rem;
           }
         }
       `}</style>
