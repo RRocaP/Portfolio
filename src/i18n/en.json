@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "research": "Research",
+    "timeline": "Timeline", 
+    "publications": "Publications",
+    "contact": "Contact"
+  },
+  "hero": {
+    "name": "Ramon Roca Pinilla",
+    "title": "Biomedical Engineer & Molecular Biologist",
+    "tagline": "Fighting antimicrobial resistance through rigorous science",
+    "cta_research": "Explore Research",
+    "cta_contact": "Get in Touch"
+  },
+  "research": {
+    "title": "Research Focus",
+    "areas": {
+      "antimicrobial": {
+        "title": "Antimicrobial Resistance",
+        "description": "Developing next-generation therapies to combat drug-resistant pathogens through innovative molecular approaches.",
+        "highlights": ["CRISPR-based systems", "Novel drug targets", "Resistance mechanisms"]
+      },
+      "protein": {
+        "title": "Protein Engineering",
+        "description": "Designing and optimizing therapeutic proteins using computational modeling and directed evolution.",
+        "highlights": ["Structure-based design", "Machine learning", "Biophysical optimization"]
+      },
+      "gene": {
+        "title": "Gene Therapy",
+        "description": "Creating targeted delivery systems for genetic medicines with enhanced safety and efficacy.",
+        "highlights": ["AAV engineering", "Tissue targeting", "Immune evasion"]
+      }
+    }
+  },
+  "timeline": {
+    "title": "Academic Journey",
+    "institutions": {
+      "uab": "Autonomous University of Barcelona",
+      "ku_leuven": "KU Leuven"
+    }
+  },
+  "publications": {
+    "title": "Publications & Research",
+    "view_all": "View All Publications"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Interested in collaboration or have questions about my research? I'd love to hear from you.",
+    "email": "Email",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "orcid": "ORCID"
+  },
+  "footer": {
+    "copyright": "© 2024 Ramon Roca Pinilla. All rights reserved.",
+    "built_with": "Built with Astro and Tailwind CSS"
+  }
+}

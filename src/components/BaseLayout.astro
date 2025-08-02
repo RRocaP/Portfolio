@@ -1,0 +1,116 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/playfair-display';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { 
+  title, 
+  description = 'Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist fighting antimicrobial resistance through rigorous science',
+  lang = 'en'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Generate hreflang links
+const hreflangs = {
+  en: new URL('/Portfolio/en/', Astro.site).href,
+  es: new URL('/Portfolio/es/', Astro.site).href,
+  ca: new URL('/Portfolio/ca/', Astro.site).href,
+};
+
+// Language-specific meta
+const langMeta = {
+  en: { dir: 'ltr', locale: 'en_US' },
+  es: { dir: 'ltr', locale: 'es_ES' },
+  ca: { dir: 'ltr', locale: 'ca_ES' },
+};
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={langMeta[lang].dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/playfair-display-variable.woff2" as="font" type="font/woff2" crossorigin />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={langMeta[lang].locale} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Canonical and hreflang -->
+    <link rel="canonical" href={canonicalURL} />
+    {Object.entries(hreflangs).map(([hrefLang, href]) => (
+      <link rel="alternate" hreflang={hrefLang} href={href} />
+    ))}
+    
+    <title>{title}</title>
+  </head>
+  <body class="bg-primary-bg text-body-text font-body">
+    <div class="min-h-screen grid grid-rows-[auto_1fr_auto]">
+      <header>
+        <slot name="header" />
+      </header>
+      
+      <main id="main-content" class="container mx-auto max-w-container px-6 py-12 grid grid-cols-12 gap-6">
+        <slot />
+      </main>
+      
+      <footer class="col-span-12 mt-16">
+        <slot name="footer" />
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  /* Critical CSS */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Focus management */
+  *:focus {
+    outline: 2px solid theme('colors.accent-yellow');
+    outline-offset: 2px;
+  }
+  
+  /* Typography scale */
+  .prose {
+    max-width: theme('maxWidth.prose');
+    text-align: justify;
+    hyphens: auto;
+  }
+  
+  .prose-narrow {
+    max-width: theme('maxWidth.prose-narrow');
+  }
+</style>

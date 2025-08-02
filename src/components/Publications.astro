@@ -1,55 +1,85 @@
 ---
+export interface Props {
+  lang: 'en' | 'es' | 'ca';
+  strings: any;
+}
+
+const { lang, strings } = Astro.props;
+
 const publications = [
   {
-    title: "CRISPR-based antimicrobials: A new frontier in fighting drug resistance",
-    authors: "Roca Pinilla R, et al.",
+    title: "Novel antimicrobial peptides against drug-resistant pathogens",
+    authors: "Roca Pinilla, R., et al.",
     journal: "Nature Biotechnology",
-    year: 2024,
-    doi: "10.1038/s41587-024-12345"
+    year: "2024",
+    doi: "10.1038/nbt.2024.xxx",
+    type: "Research Article"
   },
   {
-    title: "Engineering AAV capsids for enhanced tissue-specific gene delivery",
-    authors: "Roca Pinilla R, Smith J, Johnson K",
-    journal: "Science Translational Medicine",
-    year: 2023,
-    doi: "10.1126/scitranslmed.abc1234"
-  },
-  {
-    title: "Machine learning approaches for protein stability prediction",
-    authors: "Johnson K, Roca Pinilla R, et al.",
-    journal: "Journal of Molecular Biology",
-    year: 2023,
-    doi: "10.1016/j.jmb.2023.167890"
+    title: "Protein engineering approaches for enhanced therapeutic efficacy",
+    authors: "Roca Pinilla, R., Garcia, M., Smith, J.",
+    journal: "Cell",
+    year: "2023", 
+    doi: "10.1016/j.cell.2023.xxx",
+    type: "Review"
   }
 ];
 ---
 
-<section id="publications" class="section-padding bg-surface-2">
-  <div class="container-custom">
-    <h2 class="text-display-sm text-center mb-4">Publications</h2>
-    <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
+<section id="publications" class="col-span-12 py-24">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="font-heading text-display-md text-center mb-16 text-balance">
+      {strings.publications.title}
+    </h2>
     
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="space-y-8">
       {publications.map((pub) => (
-        <article class="card hover:border-accent-red/50 transition-all duration-300 group">
-          <h3 class="text-body font-semibold mb-2 group-hover:text-accent-yellow transition-colors">
+        <article class="bg-surface-1 border border-border rounded-sm p-8 hover:border-accent-yellow/30 transition-colors">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-sm text-accent-yellow bg-accent-yellow/10 px-3 py-1 rounded border border-accent-yellow/20">
+              {pub.type}
+            </span>
+            <span class="text-sm text-text-muted">
+              {pub.year}
+            </span>
+          </div>
+          
+          <h3 class="font-heading text-heading-lg text-body-text mb-4 leading-tight">
             {pub.title}
           </h3>
-          <p class="text-text-secondary text-sm mb-3">{pub.authors}</p>
-          <div class="flex items-center gap-4 text-sm">
-            <span class="text-accent-red font-medium">{pub.journal}</span>
-            <span class="text-text-muted">{pub.year}</span>
+          
+          <p class="text-text-muted mb-4">
+            {pub.authors}
+          </p>
+          
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-text-muted">
+              <em>{pub.journal}</em>
+            </p>
+            
             <a 
               href={`https://doi.org/${pub.doi}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-accent-yellow hover:underline ml-auto"
+              class="text-sm text-accent-yellow hover:text-yellow-400 transition-colors focus-ring"
             >
-              DOI →
+              DOI: {pub.doi} →
             </a>
           </div>
         </article>
       ))}
+    </div>
+    
+    <div class="text-center mt-12">
+      <a 
+        href="https://orcid.org/0000-0002-1234-5678"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary inline-flex items-center gap-2 focus-ring"
+      >
+        {strings.publications.view_all}
+        <span>→</span>
+      </a>
     </div>
   </div>
 </section>

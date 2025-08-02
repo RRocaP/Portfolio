@@ -1,10 +1,8 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://rrocap.github.io',
   base: '/Portfolio',
@@ -14,8 +12,16 @@ export default defineConfig({
       nesting: true,
     }),
     react(),
-    mdx(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en',
+          es: 'es',
+          ca: 'ca'
+        }
+      }
+    }),
   ],
   build: {
     inlineStylesheets: 'auto',
@@ -42,16 +48,10 @@ export default defineConfig({
         },
       },
     },
-    ssr: {
-      noExternal: ['@fontsource/*'],
-    },
   },
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-      },
     },
   },
   compressHTML: true,

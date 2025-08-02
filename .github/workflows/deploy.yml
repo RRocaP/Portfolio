@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow on push to main branch
   push:
-    branches: [ main ]
-  # Allow manual trigger
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,26 +10,35 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Astro site
+      - name: Build site
         run: npm run build
 
-      - name: Upload artifact
+      - name: Generate bundle size report
+        run: |
+          npx bundlesize --json > dist-sizes.json || echo '{"status": "bundlesize not configured"}' > dist-sizes.json
+          cp dist-sizes.json dist/
+
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

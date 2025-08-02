@@ -318,12 +318,12 @@ export default function AntimicrobialResistanceTimeline() {
       .style('fill', '#DA291C')
       .text('!');
 
-    // Title
+    // Title with white text
     svg.append('text')
       .attr('x', dimensions.width / 2)
       .attr('y', 30)
       .attr('text-anchor', 'middle')
-      .attr('fill', 'var(--primary, #333)')
+      .attr('fill', '#F3F3F3')
       .style('font-size', '28px')
       .style('font-weight', '600')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
@@ -339,31 +339,19 @@ export default function AntimicrobialResistanceTimeline() {
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .text('Time from introduction to first detected resistance');
 
-    // Enhanced Legend with background
+    // Enhanced Legend with no background
     const legendWidth = 160;
     const legendHeight = categories.length * 28 + 40;
     
     const legendGroup = svg.append('g')
       .attr('transform', `translate(${dimensions.width - margin.right + 20}, ${margin.top})`);
     
-    // Legend background
-    legendGroup.append('rect')
-      .attr('x', -10)
-      .attr('y', -20)
-      .attr('width', legendWidth)
-      .attr('height', legendHeight)
-      .attr('fill', 'var(--background, white)')
-      .attr('stroke', 'var(--border, #e0e0e0)')
-      .attr('stroke-width', 1)
-      .attr('rx', 8)
-      .style('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))');
-    
-    // Legend title
+    // Legend title with white text
     legendGroup.append('text')
       .attr('x', legendWidth / 2 - 10)
       .attr('y', -5)
       .attr('text-anchor', 'middle')
-      .attr('fill', 'var(--primary, #333)')
+      .attr('fill', '#F3F3F3')
       .style('font-size', '14px')
       .style('font-weight', '600')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
@@ -392,7 +380,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('x', 28)
       .attr('y', 10)
       .attr('dy', '0.35em')
-      .attr('fill', 'var(--secondary, #666)')
+      .attr('fill', '#F3F3F3')
       .style('font-size', '13px')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .style('font-weight', '400')

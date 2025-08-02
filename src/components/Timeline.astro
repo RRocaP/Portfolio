@@ -1,50 +1,69 @@
 ---
-const timelineEvents = [
+export interface Props {
+  lang: 'en' | 'es' | 'ca';
+  strings: any;
+}
+
+const { lang, strings } = Astro.props;
+
+const timelineData = [
   {
-    year: "2024",
-    title: "PhD in Biomedical Sciences",
-    institution: "KU Leuven",
-    description: "Antimicrobial resistance mechanisms and novel therapeutic approaches"
+    year: "2020-Present",
+    institution: strings.timeline.institutions.uab,
+    degree: "PhD in Biotechnology",
+    description: "Autonomous University of Barcelona - Developing next-generation antimicrobial therapies",
+    location: "Barcelona, Spain"
   },
   {
-    year: "2020", 
-    title: "MSc in Molecular Biology",
-    institution: "University of Barcelona",
-    description: "Specialized in protein engineering and synthetic biology"
-  },
-  {
-    year: "2018",
-    title: "BSc in Biomedical Engineering", 
-    institution: "Polytechnic University of Catalonia",
-    description: "Focus on medical devices and computational biology"
+    year: "2019-2020", 
+    institution: strings.timeline.institutions.ku_leuven,
+    degree: "Research Collaboration",
+    description: "Protein engineering and computational modeling",
+    location: "Leuven, Belgium"
   }
 ];
 ---
 
-<section id="about" class="section-padding">
-  <div class="container-custom">
-    <h2 class="text-display-sm text-center mb-4">My Journey</h2>
-    <div class="w-24 h-1 bg-gradient-to-r from-accent-yellow to-accent-red mx-auto mb-16"></div>
+<section id="timeline" class="col-span-12 py-24 bg-surface-1">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="font-heading text-display-md text-center mb-16 text-balance">
+      {strings.timeline.title}
+    </h2>
     
     <div class="relative">
-      <!-- Timeline line -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-accent-yellow to-accent-red opacity-30"></div>
+      <div class="absolute left-4 top-0 bottom-0 w-px bg-border"></div>
       
-      <!-- Timeline events -->
       <div class="space-y-12">
-        {timelineEvents.map((event, index) => (
-          <div class={`relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
-            <div class={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
-              <div class="inline-block">
-                <span class="text-accent-yellow font-mono text-sm">{event.year}</span>
-                <h3 class="text-heading font-semibold mt-1">{event.title}</h3>
-                <p class="text-accent-red font-medium">{event.institution}</p>
-                <p class="text-text-secondary text-sm mt-2">{event.description}</p>
-              </div>
+        {timelineData.map((item) => (
+          <div class="relative flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 bg-accent-yellow rounded-full border-4 border-primary-bg flex items-center justify-center relative z-10">
+              <div class="w-2 h-2 bg-on-accent-text rounded-full"></div>
             </div>
             
-            <!-- Center dot -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-accent-red rounded-full border-4 border-primary-black"></div>
+            <div class="ml-8 flex-1">
+              <div class="bg-surface-1 border border-border rounded-sm p-6 hover:border-accent-yellow/30 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                  <h3 class="font-heading text-heading-lg text-accent-yellow mb-2 md:mb-0">
+                    {item.degree}
+                  </h3>
+                  <span class="text-sm text-text-muted bg-surface-1 px-3 py-1 rounded border border-border">
+                    {item.year}
+                  </span>
+                </div>
+                
+                <h4 class="text-body-lg font-medium text-body-text mb-2">
+                  {item.institution}
+                </h4>
+                
+                <p class="text-text-muted mb-2 prose">
+                  {item.description}
+                </p>
+                
+                <p class="text-sm text-text-muted">
+                  📍 {item.location}
+                </p>
+              </div>
+            </div>
           </div>
         ))}
       </div>

@@ -1,181 +1,46 @@
 ---
-import LanguageSwitcher from './LanguageSwitcher.astro';
-
 export interface Props {
-  lang?: string;
+  lang: 'en' | 'es' | 'ca';
+  strings: any;
 }
 
-const { lang = 'en' } = Astro.props;
+const { lang, strings } = Astro.props;
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navigation">
-  <div class="container-custom">
-    <div class="flex justify-between items-center h-20">
-      <a href="/Portfolio/" class="text-xl font-bold font-display text-text-primary hover:text-accent-yellow transition-colors">
-        RRP
-      </a>
+<nav class="sticky top-0 bg-primary-bg/95 backdrop-blur-sm border-b border-border z-50">
+  <div class="container mx-auto max-w-container px-6 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href={`/${lang}/`} class="text-body-text hover:text-accent-yellow transition-colors focus-ring">
+          RRP
+        </a>
+        
+        <div class="hidden md:flex space-x-6">
+          <a href="#research" class="text-text-muted hover:text-body-text transition-colors focus-ring">
+            {strings.nav.research}
+          </a>
+          <a href="#timeline" class="text-text-muted hover:text-body-text transition-colors focus-ring">
+            {strings.nav.timeline}
+          </a>
+          <a href="#publications" class="text-text-muted hover:text-body-text transition-colors focus-ring">
+            {strings.nav.publications}
+          </a>
+          <a href="#contact" class="text-text-muted hover:text-body-text transition-colors focus-ring">
+            {strings.nav.contact}
+          </a>
+        </div>
+      </div>
       
-      <button class="md:hidden relative w-8 h-6 flex flex-col justify-between" id="mobile-menu-toggle" aria-label="Toggle menu">
-        <span class="w-full h-0.5 bg-text-primary transition-all duration-300 origin-left"></span>
-        <span class="w-full h-0.5 bg-text-primary transition-all duration-300"></span>
-        <span class="w-full h-0.5 bg-text-primary transition-all duration-300 origin-left"></span>
-      </button>
-      
-      <ul class="hidden md:flex items-center gap-8" id="desktop-nav">
-        <li><a href="#home" class="nav-link">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#research" class="nav-link">Research</a></li>
-        <li><a href="#publications" class="nav-link">Publications</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-        <li class="ml-4 pl-4 border-l border-border-subtle">
-          <LanguageSwitcher currentLang={lang} />
-        </li>
-      </ul>
+      <div class="flex items-center space-x-4">
+        <select 
+          class="bg-surface-1 text-body-text border border-border rounded px-3 py-1 text-sm focus-ring"
+          onchange="window.location.href = this.value"
+        >
+          <option value="/Portfolio/en/" selected={lang === 'en'}>EN</option>
+          <option value="/Portfolio/es/" selected={lang === 'es'}>ES</option>
+          <option value="/Portfolio/ca/" selected={lang === 'ca'}>CA</option>
+        </select>
+      </div>
     </div>
   </div>
-  
-  <!-- Mobile menu -->
-  <div class="fixed inset-0 bg-primary-black/98 backdrop-blur-xl translate-x-full transition-transform duration-500 md:hidden" id="mobile-menu">
-    <ul class="flex flex-col items-center justify-center h-full gap-8">
-      <li><a href="#home" class="mobile-nav-link">Home</a></li>
-      <li><a href="#about" class="mobile-nav-link">About</a></li>
-      <li><a href="#research" class="mobile-nav-link">Research</a></li>
-      <li><a href="#publications" class="mobile-nav-link">Publications</a></li>
-      <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
-      <li class="mt-8">
-        <LanguageSwitcher currentLang={lang} />
-      </li>
-    </ul>
-  </div>
 </nav>
-
-<style>
-  .nav-link {
-    @apply text-text-secondary hover:text-text-primary font-medium transition-colors relative;
-  }
-  
-  .nav-link {
-    position: relative;
-    will-change: transform;
-    transition: transform 200ms ease-out;
-  }
-  
-  .nav-link::after {
-    content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-red;
-    will-change: transform;
-    transform-origin: left;
-    transition: transform 200ms ease-out;
-  }
-  
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    transform: scaleX(1);
-  }
-  
-  .nav-link::after {
-    transform: scaleX(0);
-  }
-  
-  .nav-link:hover {
-    transform: translateY(-1px);
-  }
-  
-  .lang-link {
-    @apply text-sm font-semibold text-text-muted hover:text-accent-yellow transition-colors px-2 py-1 rounded;
-  }
-  
-  .lang-link.active {
-    @apply text-accent-yellow bg-accent-yellow/10;
-  }
-  
-  .mobile-nav-link {
-    @apply text-3xl font-display font-bold text-text-secondary hover:text-accent-red transition-colors;
-  }
-  
-  #navigation {
-    will-change: transform;
-    transition: background-color 300ms ease-out, backdrop-filter 300ms ease-out;
-  }
-  
-  #navigation.scrolled {
-    @apply bg-primary-bg/95 backdrop-blur-xl border-b border-border-subtle;
-  }
-  
-  #mobile-menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translateY(0.625rem);
-  }
-  
-  #mobile-menu-toggle.active span:nth-child(2) {
-    @apply opacity-0;
-  }
-  
-  #mobile-menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-0.625rem);
-  }
-  
-  #mobile-menu.active {
-    @apply translate-x-0;
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navigation = document.getElementById('navigation');
-    const mobileToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-    const sections = document.querySelectorAll('section[id]');
-
-    // Mobile menu toggle
-    mobileToggle?.addEventListener('click', () => {
-      const isOpen = mobileMenu?.classList.contains('active');
-      mobileMenu?.classList.toggle('active');
-      mobileToggle?.classList.toggle('active');
-      document.body.style.overflow = isOpen ? '' : 'hidden';
-    });
-    
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu?.classList.remove('active');
-        mobileToggle?.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // Scroll effects
-    let lastScroll = 0;
-    const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      
-      if (currentScroll > 50) {
-        navigation?.classList.add('scrolled');
-      } else {
-        navigation?.classList.remove('scrolled');
-      }
-
-      // Active section highlighting
-      let currentActive = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-          currentActive = section.getAttribute('id') || '';
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href')?.includes(currentActive) && currentActive) {
-          link.classList.add('active');
-        }
-      });
-      
-      lastScroll = currentScroll;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-  });
-</script>

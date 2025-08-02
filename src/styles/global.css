@@ -1,149 +1,148 @@
-/* Inter Variable Font loaded via Google Fonts v2 API */
-@supports (font-variation-settings: normal) {
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-optical-sizing: auto;
-    font-feature-settings: 'liga' 1, 'calt' 1, 'cv01' 1, 'cv02' 1;
-  }
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Critical font loading */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/playfair-display/wght.css';
 
+/* Base styles */
 @layer base {
-  :root {
-    --scroll-behavior: smooth;
-  }
-
   html {
-    @apply scroll-smooth antialiased;
-    scrollbar-gutter: stable;
+    font-display: swap;
+    scroll-behavior: smooth;
   }
-
+  
   body {
-    @apply bg-primary-bg text-text-primary font-sans;
-    font-variation-settings: 'wght' 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-
-  ::selection {
-    @apply bg-accent-yellow text-primary-bg;
+  
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: theme('colors.accent-yellow');
+    color: theme('colors.on-accent-text');
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    font-weight: 500;
   }
-
-  /* Optimized scrollbar */
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-surface-1;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-border-strong rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-muted;
-  }
-
-  /* Focus styles for accessibility */
-  *:focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-accent-yellow;
-  }
-
-  /* Reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  
+  .skip-link:focus {
+    top: 6px;
   }
 }
 
+/* Component styles */
 @layer components {
+  .prose {
+    max-width: theme('maxWidth.prose');
+    text-align: justify;
+    hyphens: auto;
+    word-break: break-word;
+  }
+  
+  .prose p {
+    margin-bottom: 1.25em;
+    line-height: 1.6;
+  }
+  
+  .prose-narrow {
+    max-width: theme('maxWidth.prose-narrow');
+  }
+  
+  /* Focus management */
+  .focus-ring:focus {
+    outline: 2px solid theme('colors.accent-yellow');
+    outline-offset: 2px;
+  }
+  
+  /* Button components */
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-bg;
-    will-change: transform;
-    transition: transform 200ms ease-out, background-color 200ms ease-out, color 200ms ease-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    border-radius: 0.125rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
   }
   
-  .btn:hover {
-    transform: translateY(-2px);
-  }
-  
-  .btn:active {
-    transform: translateY(0);
-  }
-
   .btn-primary {
-    @apply bg-accent-red text-white hover:bg-opacity-90 focus-visible:ring-accent-red;
-  }
-
-  .btn-secondary {
-    @apply bg-transparent border-2 border-accent-yellow text-accent-yellow hover:bg-accent-yellow hover:text-primary-black focus-visible:ring-accent-yellow;
-  }
-
-  .btn-ghost {
-    @apply bg-transparent text-text-secondary hover:text-text-primary hover:bg-surface-elevated focus-visible:ring-text-secondary;
-  }
-
-  .section-padding {
-    @apply py-20 md:py-32;
-  }
-
-  .container-custom {
-    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
-  }
-
-  .gradient-text {
-    @apply bg-gradient-to-r from-accent-yellow to-accent-red bg-clip-text text-transparent;
-  }
-
-  .card {
-    @apply bg-surface-1 border border-border-subtle rounded-sm p-6;
-    will-change: transform;
-    transition: transform 300ms ease-out, border-color 300ms ease-out, box-shadow 300ms ease-out;
+    background-color: theme('colors.accent-yellow');
+    color: theme('colors.on-accent-text');
   }
   
-  .card:hover {
-    @apply border-border-strong;
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(214, 38, 56, 0.1);
+  .btn-primary:hover {
+    background-color: #e6be00;
   }
-
-  .animate-delay-1 {
-    animation-delay: 0.1s;
+  
+  .btn-secondary {
+    background-color: transparent;
+    color: theme('colors.body-text');
+    border-color: theme('colors.border');
   }
-
-  .animate-delay-2 {
-    animation-delay: 0.2s;
-  }
-
-  .animate-delay-3 {
-    animation-delay: 0.3s;
+  
+  .btn-secondary:hover {
+    background-color: theme('colors.surface-1');
   }
 }
 
+/* Utilities */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-
-  .gpu-accelerated {
-    transform: translateZ(0);
-    will-change: transform;
+  
+  /* Animation utilities */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-
-  .mask-gradient-y {
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
   }
-
-  .grid-auto-fit {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  
+  /* High contrast support */
+  @media (prefers-contrast: high) {
+    .text-text-muted {
+      color: theme('colors.body-text');
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    body {
+      background: white !important;
+      color: black !important;
+    }
   }
 }

@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Inici",
+    "research": "Recerca",
+    "timeline": "Trajectòria",
+    "publications": "Publicacions",
+    "contact": "Contacte"
+  },
+  "hero": {
+    "name": "Ramon Roca Pinilla",
+    "title": "Enginyer Biomèdic i Biòleg Molecular",
+    "tagline": "Combatent la resistència antimicrobiana a través de ciència rigorosa",
+    "cta_research": "Explorar Recerca",
+    "cta_contact": "Contactar"
+  },
+  "research": {
+    "title": "Enfocament de Recerca",
+    "areas": {
+      "antimicrobial": {
+        "title": "Resistència Antimicrobiana",
+        "description": "Desenvolupant teràpies de nova generació per combatre patògens resistents a medicaments a través d'enfocaments moleculars innovadors.",
+        "highlights": ["Sistemes basats en CRISPR", "Noves dianes farmacològiques", "Mecanismes de resistència"]
+      },
+      "protein": {
+        "title": "Enginyeria de Proteïnes",
+        "description": "Dissenyant i optimitzant proteïnes terapèutiques usant modelatge computacional i evolució dirigida.",
+        "highlights": ["Disseny basat en estructura", "Aprenentatge automàtic", "Optimització biofísica"]
+      },
+      "gene": {
+        "title": "Teràpia Gènica",
+        "description": "Creant sistemes de lliurament dirigits per a medicines genètiques amb major seguretat i eficàcia.",
+        "highlights": ["Enginyeria d'AAV", "Direccionament tissular", "Evasió immune"]
+      }
+    }
+  },
+  "timeline": {
+    "title": "Trajectòria Acadèmica",
+    "institutions": {
+      "uab": "Universitat Autònoma de Barcelona",
+      "ku_leuven": "KU Leuven"
+    }
+  },
+  "publications": {
+    "title": "Publicacions i Recerca",
+    "view_all": "Veure Totes les Publicacions"
+  },
+  "contact": {
+    "title": "Contacte",
+    "description": "Interessat en col·laboració o tens preguntes sobre la meva recerca? M'agradaria sentir-te.",
+    "email": "Correu electrònic",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "orcid": "ORCID"
+  },
+  "footer": {
+    "copyright": "© 2024 Ramon Roca Pinilla. Tots els drets reservats.",
+    "built_with": "Construït amb Astro i Tailwind CSS"
+  }
+}

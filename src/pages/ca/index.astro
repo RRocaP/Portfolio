@@ -1,29 +1,33 @@
 ---
-import Base from '../../layouts/Base.astro';
+import BaseLayout from '../../components/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import Research from '../../components/Research.astro';
 import Timeline from '../../components/Timeline.astro';
 import Publications from '../../components/Publications.astro';
 import Contact from '../../components/Contact.astro';
-import Reveal from '../../components/Reveal.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import strings from '../../i18n/ca.json';
+
+const lang = 'ca';
 ---
 
-<Base title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular" lang="ca">
-  <Hero 
-    title="Ramon Roca Pinilla"
-    subtitle="Enginyer Biomèdic i Biòleg Molecular"
-    tagline="Combatent la resistència antimicrobiana amb ciència rigorosa"
-  />
-  <Reveal>
-    <Timeline />
-  </Reveal>
-  <Reveal>
-    <Research />
-  </Reveal>
-  <Reveal>
-    <Publications />
-  </Reveal>
-  <Reveal>
-    <Contact />
-  </Reveal>
-</Base>
+<BaseLayout 
+  title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular"
+  description="Combatent la resistència antimicrobiana a través de ciència rigorosa. Doctorand a la Universitat Autònoma de Barcelona especialitzat en enginyeria de proteïnes i teràpia gènica."
+  lang={lang}
+>
+  <Navigation slot="header" lang={lang} strings={strings} />
+  
+  <Hero lang={lang} strings={strings} />
+  
+  <Research lang={lang} strings={strings} />
+  
+  <Timeline lang={lang} strings={strings} />
+  
+  <Publications lang={lang} strings={strings} />
+  
+  <Contact lang={lang} strings={strings} />
+  
+  <Footer slot="footer" lang={lang} strings={strings} />
+</BaseLayout>

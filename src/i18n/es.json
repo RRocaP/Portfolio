@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "research": "Investigación",
+    "timeline": "Trayectoria",
+    "publications": "Publicaciones",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "name": "Ramon Roca Pinilla",
+    "title": "Ingeniero Biomédico y Biólogo Molecular",
+    "tagline": "Combatiendo la resistencia antimicrobiana a través de ciencia rigurosa",
+    "cta_research": "Explorar Investigación",
+    "cta_contact": "Contactar"
+  },
+  "research": {
+    "title": "Enfoque de Investigación",
+    "areas": {
+      "antimicrobial": {
+        "title": "Resistencia Antimicrobiana",
+        "description": "Desarrollando terapias de próxima generación para combatir patógenos resistentes a medicamentos a través de enfoques moleculares innovadores.",
+        "highlights": ["Sistemas basados en CRISPR", "Nuevas dianas farmacológicas", "Mecanismos de resistencia"]
+      },
+      "protein": {
+        "title": "Ingeniería de Proteínas",
+        "description": "Diseñando y optimizando proteínas terapéuticas usando modelado computacional y evolución dirigida.",
+        "highlights": ["Diseño basado en estructura", "Aprendizaje automático", "Optimización biofísica"]
+      },
+      "gene": {
+        "title": "Terapia Génica",
+        "description": "Creando sistemas de entrega dirigidos para medicinas genéticas con mayor seguridad y eficacia.",
+        "highlights": ["Ingeniería de AAV", "Direccionamiento tisular", "Evasión inmune"]
+      }
+    }
+  },
+  "timeline": {
+    "title": "Trayectoria Académica",
+    "institutions": {
+      "uab": "Universidad Autónoma de Barcelona",
+      "ku_leuven": "KU Leuven"
+    }
+  },
+  "publications": {
+    "title": "Publicaciones e Investigación",
+    "view_all": "Ver Todas las Publicaciones"
+  },
+  "contact": {
+    "title": "Contacto",
+    "description": "¿Interesado en colaboración o tienes preguntas sobre mi investigación? Me encantaría escucharte.",
+    "email": "Correo electrónico",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "orcid": "ORCID"
+  },
+  "footer": {
+    "copyright": "© 2024 Ramon Roca Pinilla. Todos los derechos reservados.",
+    "built_with": "Construido con Astro y Tailwind CSS"
+  }
+}
