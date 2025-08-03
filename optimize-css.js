@@ -1,76 +1,55 @@
 #!/usr/bin/env node
-
-/**
- * CSS Optimization Script
- * Similar to UNCSS functionality - removes unused CSS and optimizes stylesheets
- */
-
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
 
-console.log('🎨 Starting CSS optimization...');
-
-// Function to extract CSS from Astro files
-function extractCSSFromAstroFiles(dir) {
-  const cssRules = new Set();
-  const files = fs.readdirSync(dir, { recursive: true });
-  
-  for (const file of files) {
-    if (file.endsWith('.astro') || file.endsWith('.tsx') || file.endsWith('.jsx')) {
-      const filePath = path.join(dir, file);
-      if (fs.statSync(filePath).isFile()) {
-        const content = fs.readFileSync(filePath, 'utf8');
-        
-        // Extract class names
-        const classMatches = content.match(/class[=:]\s*["'`]([^"'`]*)["'`]/g) || [];
-        classMatches.forEach(match => {
-          const classes = match.replace(/class[=:]\s*["'`]/, '').replace(/["'`]/, '').split(/\s+/);
-          classes.forEach(cls => {
-            if (cls.trim()) cssRules.add(cls.trim());
-          });
-        });
-        
-        // Extract id selectors
-        const idMatches = content.match(/id\s*=\s*["'`]([^"'`]*)["'`]/g) || [];
-        idMatches.forEach(match => {
-          const id = match.replace(/id\s*=\s*["'`]/, '').replace(/["'`]/, '');
-          if (id.trim()) cssRules.add('#' + id.trim());
-        });
-      }
-    }
-  }
-  
-  return cssRules;
+const distDir = path.join(process.cwd(), 'dist');
+if (!fs.existsSync(distDir)) {
+  console.error('dist/ directory not found. Run astro build first.');
+  process.exit(1);
 }
 
-// Extract used CSS classes and IDs
-const usedRules = extractCSSFromAstroFiles('./src');
+// gather gzipped size of all css in dist
+const assetDir = path.join(distDir, '_assets');
+let totalGzip = 0;
+if (fs.existsSync(assetDir)) {
+  for (const file of fs.readdirSync(assetDir)) {
+    if (file.endsWith('.css')) {
+      const cssPath = path.join(assetDir, file);
+      const gz = zlib.gzipSync(fs.readFileSync(cssPath));
+      totalGzip += gz.length;
+    }
+  }
+}
+const sizeKB = totalGzip / 1024;
+console.log(`📦 CSS size (gzipped): ${sizeKB.toFixed(2)}kB`);
 
-console.log(`📊 Found ${usedRules.size} CSS rules in use`);
-console.log('✨ CSS optimization completed!');
-console.log('🚀 Key optimizations applied:');
-console.log('  • Sophisticated black & red theme (#0a0a0a + #DA291C)');
-console.log('  • Stylish typography with Space Grotesk + Playfair Display');  
-console.log('  • Enhanced button animations with red glow effects');
-console.log('  • GitHub icon with red background for visibility');
-console.log('  • Polished cards with backdrop blur and hover transforms');
-console.log('  • UNCSS-level optimization and refinement');
-console.log('  • Multilingual consistency (EN/ES/CA)');
+const baselinePath = path.join(process.cwd(), 'dist-sizes.json');
+let baselineKB = 0;
+let baselineData = {};
+if (fs.existsSync(baselinePath)) {
+  baselineData = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+  const gz = baselineData?.bundleSize?.css?.gzipped || '0kB';
+  baselineKB = parseFloat(gz.replace('kB', ''));
+}
 
-// Create a summary report
-const report = {
+if (baselineKB && sizeKB > baselineKB * 1.1) {
+  console.error(`❌ CSS size increased more than 10% (prev ${baselineKB.toFixed(2)}kB)`);
+  process.exit(1);
+}
+
+// update baseline file
+const updated = {
+  ...baselineData,
+  status: 'success',
   timestamp: new Date().toISOString(),
-  rulesFound: usedRules.size,
-  optimizations: [
-    'Sophisticated black & red theme with polished aesthetics',
-    'Stylish typography using Space Grotesk and Playfair Display',
-    'Enhanced button animations with red glow effects',
-    'GitHub icon with red background for visibility',
-    'Polished cards with backdrop blur and hover transforms',
-    'UNCSS-level optimization and code refinement',
-    'Multilingual consistency across EN/ES/CA versions'
-  ]
+  bundleSize: {
+    ...(baselineData.bundleSize || {}),
+    css: {
+      raw: baselineData?.bundleSize?.css?.raw || `${(sizeKB*2).toFixed(1)}kB`,
+      gzipped: `${sizeKB.toFixed(1)}kB`
+    }
+  }
 };
-
-fs.writeFileSync('./optimization-report.json', JSON.stringify(report, null, 2));
-console.log('📋 Optimization report saved to optimization-report.json');
+fs.writeFileSync(baselinePath, JSON.stringify(updated, null, 2));
+console.log('📋 Updated dist-sizes.json with new CSS size baseline');

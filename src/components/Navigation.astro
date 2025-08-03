@@ -5,6 +5,11 @@ export interface Props {
 }
 
 const { lang, strings } = Astro.props;
+const languages = [
+  { code: 'en', label: 'EN' },
+  { code: 'es', label: 'ES' },
+  { code: 'ca', label: 'CA' }
+];
 ---
 
 <nav class="sticky top-0 bg-primary-bg/95 backdrop-blur-sm border-b border-border z-50">
@@ -32,13 +37,15 @@ const { lang, strings } = Astro.props;
       </div>
       
       <div class="flex items-center space-x-4">
-        <select 
+        <select
           class="bg-surface-1 text-body-text border border-border rounded px-3 py-1 text-sm focus-ring"
           onchange="window.location.href = this.value"
         >
-          <option value="/Portfolio/en/" selected={lang === 'en'}>EN</option>
-          <option value="/Portfolio/es/" selected={lang === 'es'}>ES</option>
-          <option value="/Portfolio/ca/" selected={lang === 'ca'}>CA</option>
+          {languages.map((l) => (
+            <option value={`/Portfolio/${l.code}/`} selected={lang === l.code}>
+              {l.label}
+            </option>
+          ))}
         </select>
       </div>
     </div>
