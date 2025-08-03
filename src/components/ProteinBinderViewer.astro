@@ -1,11 +1,11 @@
 ---
-// This component will display a 3D protein viewer using NGL Viewer.
+// This component will display a 3D protein binder viewer using NGL Viewer.
 // It's designed to be stylish and match the existing aesthetic of the portfolio.
 ---
 
 <div class="protein-viewer-container">
-  <div id="ngl-viewer" style="width: 100%; height: 400px;"></div>
-  <p class="viewer-caption">Human Cathelicidin LL-37 (PDB: 2K6O) - An Antimicrobial Peptide</p>
+  <div id="ngl-binder-viewer" style="width: 100%; height: 400px;"></div>
+  <p class="viewer-caption">De Novo Designed Protein (PDB: 8KCK) - A Computationally Designed Binder</p>
 </div>
 
 <script is:inline>
@@ -27,15 +27,15 @@
   document.addEventListener('DOMContentLoaded', async () => {
     try {
       const NGL = await loadNGLViewer();
-      const stage = new NGL.Stage("ngl-viewer");
+      const stage = new NGL.Stage("ngl-binder-viewer");
 
       // Handle window resizing
       window.addEventListener("resize", function () {
         stage.handleResize();
       });
 
-      // Load the PDB structure for Human Cathelicidin LL-37 (PDB ID: 2K6O)
-      stage.loadFile("rcsb://2K6O", { defaultRepresentation: true }).then(function (component) {
+      // Load the PDB structure for the de novo designed protein (PDB ID: 8KCK)
+      stage.loadFile("rcsb://8KCK", { defaultRepresentation: true }).then(function (component) {
         // Clear default representation and add custom ones for better styling
         component.removeAllRepresentations();
 
@@ -59,6 +59,7 @@
 </script>
 
 <style>
+  /* Reusing styles from ProteinViewer.astro for consistency */
   .protein-viewer-container {
     background: var(--background-alt);
     padding: var(--space-md);
@@ -69,7 +70,7 @@
     border: 1px solid var(--border);
   }
 
-  #ngl-viewer {
+  #ngl-binder-viewer {
     border-radius: 4px;
     overflow: hidden; /* Ensures the viewer respects border-radius */
     background-color: var(--background); /* Match background for seamless look */
@@ -87,7 +88,7 @@
     .protein-viewer-container {
       padding: var(--space-sm);
     }
-    #ngl-viewer {
+    #ngl-binder-viewer {
       height: 300px; /* Adjust height for smaller screens */
     }
   }
@@ -97,7 +98,7 @@
     .protein-viewer-container {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-    #ngl-viewer {
+    #ngl-binder-viewer {
       background-color: #1a1a1a; /* Darker background for NGL Viewer in dark mode */
     }
   }

@@ -1,22 +1,22 @@
 ---
-// Wrapper component for the Antimicrobial Resistance Timeline
+// Wrapper component for the Research Impact Dashboard
 ---
 
-<div id="antimicrobial-timeline-container" class="visualization-wrapper">
-  <div id="antimicrobial-timeline-root"></div>
+<div id="research-impact-container" class="visualization-wrapper">
+  <div id="research-impact-root"></div>
 </div>
 
 <script>
-  import AntimicrobialResistanceTimeline from './AntimicrobialResistanceTimeline.tsx';
+  import ResearchImpactDashboard from './ResearchImpactDashboard.tsx';
   import React from 'react';
   import ReactDOM from 'react-dom/client';
 
   // Wait for DOM to be ready
   document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('antimicrobial-timeline-root');
+    const container = document.getElementById('research-impact-root');
     if (container) {
       const root = ReactDOM.createRoot(container);
-      root.render(React.createElement(AntimicrobialResistanceTimeline));
+      root.render(React.createElement(ResearchImpactDashboard));
     }
   });
 </script>

@@ -1,22 +1,22 @@
 ---
-// Wrapper component for the Antimicrobial Resistance Timeline
+// Wrapper component for the Gene Therapy Visualization
 ---
 
-<div id="antimicrobial-timeline-container" class="visualization-wrapper">
-  <div id="antimicrobial-timeline-root"></div>
+<div id="gene-therapy-container" class="visualization-wrapper">
+  <div id="gene-therapy-root"></div>
 </div>
 
 <script>
-  import AntimicrobialResistanceTimeline from './AntimicrobialResistanceTimeline.tsx';
+  import GeneTherapyVisualization from './GeneTherapyVisualization.tsx';
   import React from 'react';
   import ReactDOM from 'react-dom/client';
 
   // Wait for DOM to be ready
   document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('antimicrobial-timeline-root');
+    const container = document.getElementById('gene-therapy-root');
     if (container) {
       const root = ReactDOM.createRoot(container);
-      root.render(React.createElement(AntimicrobialResistanceTimeline));
+      root.render(React.createElement(GeneTherapyVisualization));
     }
   });
 </script>
