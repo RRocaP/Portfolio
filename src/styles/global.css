@@ -2,20 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Critical font loading with font-display: swap */
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/playfair-display/wght.css';
-
-/* Explicit font-display declarations */
-@font-face {
-  font-family: 'Inter Variable';
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display Variable';
-  font-display: swap;
-}
+/* Critical font loading handled via HTML head */
 
 /* Base styles */
 @layer base {
@@ -73,38 +60,6 @@
     outline-offset: 2px;
   }
   
-  /* Button components */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 2rem;
-    font-weight: 500;
-    border-radius: 0.125rem;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    cursor: pointer;
-    border: 1px solid transparent;
-  }
-  
-  .btn-primary {
-    background-color: theme('colors.accent-yellow');
-    color: theme('colors.on-accent-text');
-  }
-  
-  .btn-primary:hover {
-    background-color: #e6be00;
-  }
-  
-  .btn-secondary {
-    background-color: transparent;
-    color: theme('colors.body-text');
-    border-color: theme('colors.border');
-  }
-  
-  .btn-secondary:hover {
-    background-color: theme('colors.surface-1');
-  }
 }
 
 /* Utilities */

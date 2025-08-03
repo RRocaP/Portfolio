@@ -3,23 +3,6 @@
 import AntimicrobialResistanceTimeline from './AntimicrobialResistanceTimeline.tsx';
 ---
 
-<div class="visualization-wrapper">
+<div class="my-12 p-8 md:my-8 md:p-4 bg-surface-1 border border-surface-2 rounded-lg">
   <AntimicrobialResistanceTimeline client:visible />
 </div>
-
-<style>
-  .visualization-wrapper {
-    margin: 3rem 0;
-    padding: 2rem;
-    background: var(--surface-1, #111);
-    border-radius: 12px;
-    border: 1px solid var(--surface-2, #181818);
-  }
-
-  @media (max-width: 768px) {
-    .visualization-wrapper {
-      padding: 1rem;
-      margin: 2rem 0;
-    }
-  }
-</style>

@@ -1,10 +1,10 @@
 {
   "status": "success",
-  "timestamp": "2024-08-02T00:56:00Z",
+  "timestamp": "2025-08-03T13:24:51Z",
   "bundleSize": {
     "css": {
-      "raw": "18.2kB",
-      "gzipped": "4.8kB"
+      "raw": "20.5kB",
+      "gzipped": "2.2kB"
     },
     "javascript": {
       "client": "135.61kB",
