@@ -1,0 +1,44 @@
+---
+import ProteinEngineeringInteractive from './ProteinEngineeringInteractive.tsx';
+import GeneTherapyVisualization from './GeneTherapyVisualization.tsx';
+import ResearchImpactDashboard from './ResearchImpactDashboard.tsx';
+
+export interface Props {
+  lang: 'en' | 'es' | 'ca';
+  strings: any;
+}
+
+const { lang, strings } = Astro.props;
+---
+
+<section id="interactive-research" class="col-span-12 py-24 bg-surface-1">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="font-heading text-display-md text-center mb-16 text-balance">
+      Interactive Research Visualizations
+    </h2>
+    
+    <!-- Protein Engineering Interactive -->
+    <div class="mb-24">
+      <h3 class="font-heading text-heading-xl mb-8 text-accent-yellow">
+        Protein Engineering Designer
+      </h3>
+      <ProteinEngineeringInteractive client:visible />
+    </div>
+    
+    <!-- Gene Therapy Visualization -->
+    <div class="mb-24">
+      <h3 class="font-heading text-heading-xl mb-8 text-accent-yellow">
+        AAV Gene Therapy Targeting
+      </h3>
+      <GeneTherapyVisualization client:visible />
+    </div>
+    
+    <!-- Research Impact Dashboard -->
+    <div>
+      <h3 class="font-heading text-heading-xl mb-8 text-accent-yellow">
+        Research Impact Metrics
+      </h3>
+      <ResearchImpactDashboard client:visible />
+    </div>
+  </div>
+</section>

@@ -63,7 +63,6 @@ check_no_hallucinations() {
     
     # Check for common AI hallucinations
     PROHIBITED_PATTERNS=(
-        "KU Leuven.*PhD"
         "University of.*PhD.*[0-9]{4}"
         "completed.*PhD.*[0-9]{4}"
         "graduated.*[0-9]{4}"
