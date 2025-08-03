@@ -567,23 +567,6 @@ body {
 
 /* Skip link */
 
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: #FFD300;
-  color: #000000;
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 4px;
-  z-index: 1000;
-  font-weight: 500;
-}
-
-.skip-link:focus {
-  top: 6px;
-}
-
 .\!container {
   width: 100% !important;
 }
@@ -639,41 +622,6 @@ body {
 
   .container {
     max-width: 1536px;
-  }
-}
-
-.container-12 {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  max-width: 1280px;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-@media (min-width: 640px) {
-  .container-12 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-12 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-.grid-12 {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (min-width: 1024px) {
-  .grid-12 {
-    gap: 1.5rem;
   }
 }
 
@@ -854,6 +802,18 @@ body {
 
 .btn-secondary:hover {
   background-color: #111111;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .fixed {
@@ -1064,10 +1024,6 @@ body {
 
 .resize {
   resize: both;
-}
-
-.grid-rows-\[auto_1fr_auto\] {
-  grid-template-rows: auto 1fr auto;
 }
 
 .flex-col {
@@ -1448,46 +1404,6 @@ body {
   --tw-ring-offset-color: #000000;
 }
 
-.skip-link {
-  border-width: 0;
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.skip-link:focus {
-  padding: inherit;
-  margin: inherit;
-  position: static;
-  width: auto;
-  height: auto;
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 50;
-  border-radius: 0.25rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 211 0 / var(--tw-bg-opacity, 1));
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
-}
-
 .text-balance {
   text-wrap: balance;
 }
@@ -1577,6 +1493,29 @@ a:not([class]):hover {
 }
 
 /* Screen reader only content */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
 
 /* Print styles */
 

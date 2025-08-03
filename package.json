@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "tailwindcss -i src/styles/global.css -o src/styles/tailwind.css && astro build && node scripts/optimize-css.js",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint src",

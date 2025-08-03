@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-08-03T13:34:42.430Z",
-  "originalBytes": 19383,
-  "optimizedBytes": 16147,
-  "unusedBytes": 3236,
-  "unusedPercent": 0.16695042047154723,
-  "gzippedSize": 3797
+  "timestamp": "2025-08-03T22:36:12.031Z",
+  "originalBytes": 15714,
+  "optimizedBytes": 12184,
+  "unusedBytes": 3530,
+  "unusedPercent": 0.22464044800814562,
+  "gzippedSize": 3440
 }
