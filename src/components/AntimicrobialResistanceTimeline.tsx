@@ -305,7 +305,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('cx', (d: AntibioticData) => xScale(d.yearResistanceDetected))
       .attr('cy', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
       .attr('r', 10)
-      .attr('fill', '#DA291C')
+      .attr('fill', '#D72638')
       .attr('opacity', 0.15);
     
     resistanceMarkers.append('text')
@@ -315,7 +315,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('text-anchor', 'middle')
       .style('font-size', '18px')
       .style('font-weight', '700')
-      .style('fill', '#DA291C')
+      .style('fill', '#D72638')
       .text('!');
 
     // Title with white text
@@ -472,7 +472,7 @@ export default function AntimicrobialResistanceTimeline() {
           z-index: 10;
           backdrop-filter: blur(12px);
           background: rgba(255, 255, 255, 0.98);
-          border: 2px solid var(--accent-yellow, #FFD93D);
+          border: 2px solid var(--accent-yellow, #FFD300);
           transform: translateY(0);
           transition: all 0.3s ease;
         }
@@ -483,7 +483,7 @@ export default function AntimicrobialResistanceTimeline() {
         @media (prefers-color-scheme: dark) {
           .info-panel {
             background: rgba(17, 17, 17, 0.98);
-            border: 2px solid var(--accent-yellow, #FFD93D);
+            border: 2px solid var(--accent-yellow, #FFD300);
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
           }
           .info-panel:hover {
@@ -492,7 +492,7 @@ export default function AntimicrobialResistanceTimeline() {
         }
         .info-panel h3 {
           margin: 0 0 0.5rem 0;
-          color: var(--accent-red, #DA291C);
+          color: var(--accent-red, #D72638);
           font-weight: 600;
           font-size: 1.1rem;
         }
@@ -509,7 +509,7 @@ export default function AntimicrobialResistanceTimeline() {
         .solution-box {
           background: linear-gradient(135deg, rgba(80, 200, 120, 0.05) 0%, rgba(255, 217, 61, 0.05) 100%);
           border: 2px solid transparent;
-          border-image: linear-gradient(135deg, #50C878, #FFD93D) 1;
+          border-image: linear-gradient(135deg, #50C878, #FFD300) 1;
           border-radius: 12px;
           padding: 2rem;
           margin-top: 2.5rem;
@@ -524,13 +524,13 @@ export default function AntimicrobialResistanceTimeline() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(135deg, #50C878, #FFD93D);
+          background: linear-gradient(135deg, #50C878, #FFD300);
           border-radius: 12px;
           opacity: 0.1;
           z-index: -1;
         }
         .solution-box h3 {
-          color: var(--accent-red, #DA291C);
+          color: var(--accent-red, #D72638);
           margin-bottom: 1rem;
           font-weight: 600;
           font-size: 1.2rem;

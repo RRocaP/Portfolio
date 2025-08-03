@@ -1,6 +1,4 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource-variable/playfair-display';
 import '../styles/global.css';
 
 export interface Props {
@@ -40,9 +38,10 @@ const langMeta = {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/playfair-display-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Inter variable font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet" />
     
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -75,13 +74,13 @@ const langMeta = {
       <header>
         <slot name="header" />
       </header>
-      
+
       <main id="main-content" class="container-12">
         <div class="grid-12">
           <slot />
         </div>
       </main>
-      
+
       <footer>
         <slot name="footer" />
       </footer>

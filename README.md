@@ -5,8 +5,8 @@ A bold, minimalistic portfolio showcasing biomedical engineering and molecular b
 ## 🚀 Tech Stack
 
 - **Astro 4.14.2** - Static site generator
-- **Tailwind CSS v3** - Utility-first CSS framework  
-- **Inter Variable + Playfair Display** - Typography via @fontsource-variable
+- **Tailwind CSS v3** - Utility-first CSS framework
+- **Inter Variable** - Single typeface loaded from Google Fonts
 - **React 18** - For interactive components (antibiotic timeline)
 - **TypeScript** - Type safety
 - **Sharp** - Image optimization
@@ -14,15 +14,16 @@ A bold, minimalistic portfolio showcasing biomedical engineering and molecular b
 ## 🎨 Design System
 
 ### Color Palette
-- **Primary Background**: `#2B0000` (Dark red)
-- **Surface**: `#400000` (Medium red)
-- **Accent Yellow**: `#FFD300` (High contrast)
-- **Body Text**: `#F3F3F3` (Light gray)
-- **Text Muted**: `#B8B8B8` (Medium gray)
+- **Primary Background**: `#000000`
+- **Surface 1**: `#111111`
+- **Surface 2**: `#181818`
+- **Accent Yellow**: `#FFD300`
+- **Accent Red**: `#D72638`
+- **Body Text**: `#F3F3F3`
+- **Text Muted**: `#B8B8B8`
 
 ### Typography
-- **Body**: Inter Variable (400-600 weight)
-- **Headings**: Playfair Display Variable (400-700 weight)
+- **Body & Headings**: Inter Variable with `font-display: swap`
 - **Max-width**: 1280px centered grid
 - **Line length**: 45-75 characters for optimal readability
 - **Text alignment**: Justified paragraphs
@@ -60,11 +61,17 @@ npm run build
 # Preview production build
 npm run preview
 
+# Accessibility audit
+npm run a11y
+
 # Type checking
 npm run typecheck
 
 # Linting
 npm run lint
+
+# Deploy to GitHub Pages (via CI)
+git push origin main
 ```
 
 ## 🏗️ Project Structure

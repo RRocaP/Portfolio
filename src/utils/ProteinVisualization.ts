@@ -154,7 +154,7 @@ class ProteinVisualization {
     const pointsPerTurn = 20;
     const totalPoints = turns * pointsPerTurn;
     
-    ctx.strokeStyle = '#DA291C';
+    ctx.strokeStyle = '#D72638';
     ctx.lineWidth = 3;
     ctx.beginPath();
     
@@ -192,7 +192,7 @@ class ProteinVisualization {
       const projY = y * scale;
       const radius = 8 * scale;
       
-      ctx.fillStyle = z > 0 ? '#FFD93D' : '#DA291C';
+      ctx.fillStyle = z > 0 ? '#FFD300' : '#D72638';
       ctx.beginPath();
       ctx.arc(projX, projY, radius, 0, Math.PI * 2);
       ctx.fill();

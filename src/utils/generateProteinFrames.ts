@@ -236,7 +236,7 @@ class ProteinFrameGenerator {
     const totalPoints = turns * pointsPerTurn;
     
     // Draw backbone
-    ctx.strokeStyle = '#DA291C';
+    ctx.strokeStyle = '#D72638';
     ctx.lineWidth = 4;
     ctx.beginPath();
     
