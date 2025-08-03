@@ -2,20 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Critical font loading with font-display: swap */
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/playfair-display/wght.css';
-
-/* Explicit font-display declarations */
-@font-face {
-  font-family: 'Inter Variable';
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display Variable';
-  font-display: swap;
-}
+/* Fonts loaded via Google Fonts with font-display swap */
 
 /* Base styles */
 @layer base {
@@ -93,7 +80,7 @@
   }
   
   .btn-primary:hover {
-    background-color: #e6be00;
+    filter: brightness(1.1);
   }
   
   .btn-secondary {

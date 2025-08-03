@@ -3,26 +3,24 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     colors: {
-      // Design System - Bold Dark Red Palette
-      'primary-bg': '#2B0000',
-      'surface-1': '#400000', 
-      'surface-2': '#600000',
+      'primary-bg': '#000000',
+      'surface-1': '#111111',
+      'surface-2': '#181818',
       'accent-yellow': '#FFD300',
+      'accent-red': '#D72638',
       'on-accent-text': '#000000',
       'body-text': '#F3F3F3',
       'text-muted': '#B8B8B8',
-      'border': '#600000',
-      // System colors
-      'white': '#ffffff',
-      'black': '#000000',
-      'transparent': 'transparent',
-      'current': 'currentColor',
+      'border': '#181818',
+      white: '#ffffff',
+      black: '#000000',
+      transparent: 'transparent',
+      current: 'currentColor',
     },
     fontFamily: {
       body: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
-      heading: ['Playfair Display Variable', 'Playfair Display', 'serif'],
+      heading: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
-      serif: ['Playfair Display Variable', 'Playfair Display', 'serif'],
     },
     fontSize: {
       'display-xl': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],

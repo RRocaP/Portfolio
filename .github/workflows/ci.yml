@@ -42,6 +42,12 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+
+      - name: Accessibility audit
+        run: |
+          npx pa11y dist/en/index.html
+          npx pa11y dist/es/index.html
+          npx pa11y dist/ca/index.html
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
