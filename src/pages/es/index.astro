@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../components/BaseLayout.astro';
+import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import Research from '../../components/Research.astro';
 import Timeline from '../../components/Timeline.astro';
@@ -13,12 +13,11 @@ import strings from '../../i18n/es.json';
 const lang = 'es';
 ---
 
-<BaseLayout 
+<Layout 
   title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular"
   description="Combatiendo la resistencia antimicrobiana a través de ciencia rigurosa. Doctorando en la Universidad Autónoma de Barcelona especializado en ingeniería de proteínas y terapia génica."
-  lang={lang}
 >
-  <Navigation slot="header" lang={lang} strings={strings} />
+  <Navigation lang={lang} strings={strings} />
   
   <Hero lang={lang} strings={strings} />
   
@@ -32,5 +31,5 @@ const lang = 'es';
   
   <Contact lang={lang} strings={strings} />
   
-  <Footer slot="footer" lang={lang} strings={strings} />
-</BaseLayout>
+  <Footer lang={lang} strings={strings} />
+</Layout>
