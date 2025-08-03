@@ -9,7 +9,7 @@ const { lang, strings } = Astro.props;
 
 <section id="contact" class="col-span-12 py-24 bg-surface-1">
   <div class="max-w-4xl mx-auto text-center">
-    <h2 class="font-heading text-display-md mb-8 text-balance">
+    <h2 class="font-sans text-display-md mb-8 text-balance">
       {strings.contact.title}
     </h2>
     
@@ -17,13 +17,13 @@ const { lang, strings } = Astro.props;
       {strings.contact.description}
     </p>
     
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="auto-grid">
       <a 
         href="mailto:ramon.roca@example.com"
         class="group bg-primary-bg border border-border rounded-sm p-6 hover:border-accent-yellow/30 transition-colors focus-ring"
       >
         <div class="text-3xl mb-4">📧</div>
-        <h3 class="font-heading text-heading-sm text-accent-yellow mb-2">
+        <h3 class="font-sans text-heading-sm text-accent-yellow mb-2">
           {strings.contact.email}
         </h3>
         <p class="text-sm text-text-muted group-hover:text-body-text transition-colors">
@@ -38,7 +38,7 @@ const { lang, strings } = Astro.props;
         class="group bg-primary-bg border border-border rounded-sm p-6 hover:border-accent-yellow/30 transition-colors focus-ring"
       >
         <div class="text-3xl mb-4">💼</div>
-        <h3 class="font-heading text-heading-sm text-accent-yellow mb-2">
+        <h3 class="font-sans text-heading-sm text-accent-yellow mb-2">
           {strings.contact.linkedin}
         </h3>
         <p class="text-sm text-text-muted group-hover:text-body-text transition-colors">
@@ -53,7 +53,7 @@ const { lang, strings } = Astro.props;
         class="group bg-primary-bg border border-border rounded-sm p-6 hover:border-accent-yellow/30 transition-colors focus-ring"
       >
         <div class="text-3xl mb-4">💻</div>
-        <h3 class="font-heading text-heading-sm text-accent-yellow mb-2">
+        <h3 class="font-sans text-heading-sm text-accent-yellow mb-2">
           {strings.contact.github}
         </h3>
         <p class="text-sm text-text-muted group-hover:text-body-text transition-colors">
@@ -68,7 +68,7 @@ const { lang, strings } = Astro.props;
         class="group bg-primary-bg border border-border rounded-sm p-6 hover:border-accent-yellow/30 transition-colors focus-ring"
       >
         <div class="text-3xl mb-4">🔬</div>
-        <h3 class="font-heading text-heading-sm text-accent-yellow mb-2">
+        <h3 class="font-sans text-heading-sm text-accent-yellow mb-2">
           {strings.contact.orcid}
         </h3>
         <p class="text-sm text-text-muted group-hover:text-body-text transition-colors">

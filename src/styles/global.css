@@ -1,21 +1,9 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Critical font loading with font-display: swap */
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/playfair-display/wght.css';
 
-/* Explicit font-display declarations */
-@font-face {
-  font-family: 'Inter Variable';
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display Variable';
-  font-display: swap;
-}
 
 /* Base styles */
 @layer base {
