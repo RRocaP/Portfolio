@@ -1,0 +1,181 @@
+---
+// PublicationsSection component
+---
+
+<section id="publications" class="section publications-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" data-animate="fade-up">
+        Selected Publications
+      </h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="publications-filter" data-animate="fade-down">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="peptides">Peptides</button>
+      <button class="filter-btn" data-filter="gene-therapy"
+        >Gene Therapy</button
+      >
+      <button class="filter-btn" data-filter="ai-ml">AI/ML</button>
+    </div>
+
+    <div class="publications-grid">
+      <article
+        class="publication-card"
+        data-category="peptides ai-ml"
+        data-animate="fade-up"
+      >
+        <div class="publication-content">
+          <h3 class="publication-title">
+            <a
+              href="https://www.nature.com/articles/s41598-022-07325-x"
+              target="_blank"
+              rel="noopener"
+            >
+              Antimicrobial peptide design via machine learning
+            </a>
+          </h3>
+          <div class="publication-meta">
+            <span class="journal">Nature Scientific Reports</span>
+            <span class="year">2022</span>
+          </div>
+          <p class="publication-abstract">
+            Novel approach to designing antimicrobial peptides using deep
+            learning models trained on structural and functional data.
+          </p>
+          <div class="publication-metrics">
+            <span class="metric">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                ></path>
+                <path d="M8 12l2 2 4-4"></path>
+              </svg>
+              45 citations
+            </span>
+            <span class="metric">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"
+                ></path>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              Open Access
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article
+        class="publication-card"
+        data-category="gene-therapy"
+        data-animate="fade-up"
+        data-delay="100"
+      >
+        <div class="publication-content">
+          <h3 class="publication-title">
+            <a href="#" target="_blank" rel="noopener">
+              Tissue-specific AAV engineering for enhanced gene delivery
+            </a>
+          </h3>
+          <div class="publication-meta">
+            <span class="journal">Gene Therapy</span>
+            <span class="year">2023</span>
+          </div>
+          <p class="publication-abstract">
+            Development of engineered AAV vectors with enhanced specificity
+            for cardiac and neuronal tissues through directed evolution.
+          </p>
+          <div class="publication-metrics">
+            <span class="metric">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                ></path>
+                <path d="M8 12l2 2 4-4"></path>
+              </svg>
+              28 citations
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article
+        class="publication-card"
+        data-category="ai-ml peptides"
+        data-animate="fade-up"
+        data-delay="200"
+      >
+        <div class="publication-content">
+          <h3 class="publication-title">
+            <a href="#" target="_blank" rel="noopener">
+              High-throughput screening platform for peptide therapeutics
+            </a>
+          </h3>
+          <div class="publication-meta">
+            <span class="journal">J. Biomolecular Screening</span>
+            <span class="year">2023</span>
+          </div>
+          <p class="publication-abstract">
+            Automated platform combining robotics and AI for rapid therapeutic
+            peptide discovery with 100x throughput improvement.
+          </p>
+          <div class="publication-metrics">
+            <span class="metric">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                ></path>
+                <path d="M8 12l2 2 4-4"></path>
+              </svg>
+              15 citations
+            </span>
+            <span class="metric">
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <path d="M9 9h6v6H9z"></path>
+              </svg>
+              Featured Article
+            </span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

@@ -78,7 +78,7 @@ export const ProteinVisualizationReact: React.FC<ProteinVisualizationProps> = ({
           isLoading: false
         }));
       } catch (error) {
-        console.error('Error loading frames:', error);
+        // Error loading frames - fail silently in production
         // Generate synthetic frames as fallback
         generateSyntheticFrames();
       }

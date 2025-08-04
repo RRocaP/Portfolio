@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { scaleOrdinal, scaleSqrt } from 'd3-scale';
+import { format } from 'd3-format';
 
 interface AAVVector {
   serotype: string;

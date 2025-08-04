@@ -59,14 +59,14 @@ class ProteinFrameGenerator {
     await fs.mkdir(this.outputDir, { recursive: true });
     
     // Fetch protein structure data
-    console.log(`Fetching structure data for PDB ID: ${this.pdbId}...`);
+    // Fetching structure data for PDB ID
     this.structureData = await this.fetchPDBData();
     
     // Generate frames
-    console.log(`Generating ${this.frameCount} frames...`);
+    // Generating frames
     await this.generateFrames();
     
-    console.log('Frame generation complete!');
+    // Frame generation complete
   }
 
   async fetchPDBData() {
@@ -130,7 +130,7 @@ class ProteinFrameGenerator {
       
       // Progress indicator
       if ((i + 1) % 10 === 0) {
-        console.log(`Generated ${i + 1}/${this.frameCount} frames...`);
+        // Frame generation progress
       }
     }
   }
@@ -328,7 +328,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   
   const generator = new ProteinFrameGenerator(options);
-  generator.init().catch(console.error);
+  generator.init().catch((error) => {
+    // Error initializing protein generator
+  });
 }
 
 export default ProteinFrameGenerator;

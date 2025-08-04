@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { scaleLinear } from 'd3-scale';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { line, area, curveMonotoneX } from 'd3-shape';
+import { extent, max } from 'd3-array';
+import { format } from 'd3-format';
+import { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide, SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
+import { drag } from 'd3-drag';
 
 interface CitationData {
   year: number;
@@ -7,7 +14,7 @@ interface CitationData {
   cumulativeCitations: number;
 }
 
-interface CollaboratorNode extends d3.SimulationNodeDatum {
+interface CollaboratorNode extends SimulationNodeDatum {
   id: string;
   name: string;
   institution: string;
@@ -15,7 +22,7 @@ interface CollaboratorNode extends d3.SimulationNodeDatum {
   projects: number;
 }
 
-interface CollaboratorLink extends d3.SimulationLinkDatum<CollaboratorNode> {
+interface CollaboratorLink extends SimulationLinkDatum<CollaboratorNode> {
   source: string | CollaboratorNode;
   target: string | CollaboratorNode;
   strength: number;
@@ -120,7 +127,7 @@ export default function ResearchImpactDashboard() {
   useEffect(() => {
     if (!citationChartRef.current) return;
 
-    const svg = d3.select(citationChartRef.current);
+    const svg = select(citationChartRef.current);
     svg.selectAll('*').remove();
 
     const margin = { top: 20, right: 80, bottom: 50, left: 70 };
@@ -131,12 +138,12 @@ export default function ResearchImpactDashboard() {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Scales
-    const xScale = d3.scaleLinear()
-      .domain(d3.extent(citationData, d => d.year) as [number, number])
+    const xScale = scaleLinear()
+      .domain(extent(citationData, d => d.year) as [number, number])
       .range([0, width]);
 
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(citationData, d => 
+    const yScale = scaleLinear()
+      .domain([0, max(citationData, d => 
         selectedMetric === 'citations' ? d.citations : d.cumulativeCitations
       )!])
       .range([height, 0]);
@@ -145,7 +152,7 @@ export default function ResearchImpactDashboard() {
     g.append('g')
       .attr('class', 'grid')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale)
+      .call(axisBottom(xScale)
         .tickSize(-height)
         .tickFormat(() => '')
       )
@@ -154,7 +161,7 @@ export default function ResearchImpactDashboard() {
 
     g.append('g')
       .attr('class', 'grid')
-      .call(d3.axisLeft(yScale)
+      .call(axisLeft(yScale)
         .tickSize(-width)
         .tickFormat(() => '')
       )
@@ -164,36 +171,36 @@ export default function ResearchImpactDashboard() {
     // Axes
     g.append('g')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale).tickFormat(d3.format('d')));
+      .call(axisBottom(xScale).tickFormat(format('d')));
 
     g.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(axisLeft(yScale));
 
     // Line
-    const line = d3.line<CitationData>()
+    const lineGenerator = line<CitationData>()
       .x(d => xScale(d.year))
       .y(d => yScale(selectedMetric === 'citations' ? d.citations : d.cumulativeCitations))
-      .curve(d3.curveMonotoneX);
+      .curve(curveMonotoneX);
 
     g.append('path')
       .datum(citationData)
       .attr('fill', 'none')
       .attr('stroke', '#DA291C')
       .attr('stroke-width', 3)
-      .attr('d', line);
+      .attr('d', lineGenerator);
 
     // Area
-    const area = d3.area<CitationData>()
+    const areaGenerator = area<CitationData>()
       .x(d => xScale(d.year))
       .y0(height)
       .y1(d => yScale(selectedMetric === 'citations' ? d.citations : d.cumulativeCitations))
-      .curve(d3.curveMonotoneX);
+      .curve(curveMonotoneX);
 
     g.append('path')
       .datum(citationData)
       .attr('fill', '#DA291C')
       .attr('opacity', 0.1)
-      .attr('d', area);
+      .attr('d', areaGenerator);
 
     // Points
     g.selectAll('.citation-point')
@@ -228,21 +235,21 @@ export default function ResearchImpactDashboard() {
   useEffect(() => {
     if (!networkRef.current) return;
 
-    const svg = d3.select(networkRef.current);
+    const svg = select(networkRef.current);
     svg.selectAll('*').remove();
 
     const width = 600;
     const height = 400;
 
     // Create force simulation
-    const simulation = d3.forceSimulation(collaboratorData as any)
-      .force('link', d3.forceLink(collaboratorLinks)
+    const simulation = forceSimulation(collaboratorData as any)
+      .force('link', forceLink(collaboratorLinks)
         .id((d: any) => d.id)
         .distance(d => 100 / d.strength)
         .strength(d => d.strength / 10))
-      .force('charge', d3.forceManyBody().strength(-300))
-      .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(30));
+      .force('charge', forceManyBody().strength(-300))
+      .force('center', forceCenter(width / 2, height / 2))
+      .force('collision', forceCollide().radius(30));
 
     // Links
     const link = svg.append('g')
@@ -260,7 +267,7 @@ export default function ResearchImpactDashboard() {
       .data(collaboratorData)
       .enter()
       .append('g')
-      .call(d3.drag<any, any>()
+      .call(drag<any, any>()
         .on('start', dragStarted)
         .on('drag', dragged)
         .on('end', dragEnded) as any);
@@ -288,7 +295,7 @@ export default function ResearchImpactDashboard() {
       .style('fill', d => d.type === 'primary' ? 'white' : 'black');
 
     // Tooltip
-    const tooltip = d3.select('body').append('div')
+    const tooltip = select('body').append('div')
       .attr('class', 'network-tooltip')
       .style('opacity', 0)
       .style('position', 'absolute')

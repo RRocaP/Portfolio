@@ -1,0 +1,647 @@
+#!/usr/bin/env node
+
+/**
+ * Critical CSS Extraction Script
+ * Extracts and optimizes critical CSS for above-the-fold content
+ * Supports both light and dark themes
+ */
+
+import { promises as fs } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Critical CSS selectors for above-the-fold content
+const CRITICAL_SELECTORS = [
+  // CSS Reset and base styles
+  '*', '*::before', '*::after',
+  'html', 'body',
+  
+  // Typography essentials
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'p', 'a',
+  
+  // Navigation critical styles
+  '.navigation',
+  '.nav-wrapper',
+  '.logo',
+  '.nav-links',
+  '.mobile-menu-toggle',
+  '.hamburger-line',
+  '.mobile-overlay',
+  
+  // Hero section
+  'section',
+  '.hero',
+  '.hero-content',
+  '.hero-title',
+  '.hero-tagline',
+  
+  // Button styles
+  '.btn',
+  '.btn-primary',
+  '.btn-secondary',
+  
+  // Layout utilities
+  '.container',
+  '.container-12',
+  '.grid',
+  '.grid-12',
+  '.flex',
+  '.col-span-12',
+  
+  // Skip links for accessibility
+  '.skip-links',
+  '.skip-link',
+  '.sr-only',
+  
+  // Focus management
+  ':focus-visible',
+  
+  // Responsive utilities
+  '@media (max-width: 768px)',
+  '@media (min-width: 640px)',
+  '@media (min-width: 1024px)',
+  
+  // Reduced motion
+  '@media (prefers-reduced-motion: reduce)',
+  '@media (prefers-reduced-motion: no-preference)',
+  
+  // Dark mode
+  '@media (prefers-color-scheme: dark)',
+  
+  // High contrast
+  '@media (prefers-contrast: high)'
+];
+
+// Extract critical CSS from Layout.astro global styles
+function extractFromLayoutStyles(content) {
+  const styleMatch = content.match(/<style is:global>([\s\S]*?)<\/style>/);
+  if (!styleMatch) return '';
+  
+  const cssContent = styleMatch[1];
+  const lines = cssContent.split('\n');
+  const criticalCSS = [];
+  let inCriticalSection = false;
+  let braceDepth = 0;
+  let currentRule = '';
+  
+  for (let line of lines) {
+    const trimmedLine = line.trim();
+    
+    // Skip comments
+    if (trimmedLine.startsWith('/*') || trimmedLine.includes('*/')) {
+      continue;
+    }
+    
+    // Count braces to track rule blocks
+    const openBraces = (line.match(/\{/g) || []).length;
+    const closeBraces = (line.match(/\}/g) || []).length;
+    braceDepth += openBraces - closeBraces;
+    
+    // Check if this line starts a critical rule
+    if (braceDepth === 1 && trimmedLine.includes('{')) {
+      const selector = trimmedLine.split('{')[0].trim();
+      inCriticalSection = isCriticalSelector(selector);
+      if (inCriticalSection) {
+        currentRule = line;
+      }
+    } else if (inCriticalSection) {
+      currentRule += '\n' + line;
+    }
+    
+    // End of rule block
+    if (braceDepth === 0 && inCriticalSection && currentRule) {
+      criticalCSS.push(currentRule);
+      currentRule = '';
+      inCriticalSection = false;
+    }
+  }
+  
+  return criticalCSS.join('\n');
+}
+
+// Check if a selector is critical
+function isCriticalSelector(selector) {
+  // CSS custom properties (CSS variables) are always critical
+  if (selector.includes(':root')) return true;
+  
+  // Media queries for responsive and accessibility
+  if (selector.startsWith('@media')) {
+    return CRITICAL_SELECTORS.some(critical => 
+      selector.includes(critical.replace('@media ', ''))
+    );
+  }
+  
+  // Check against critical selectors
+  return CRITICAL_SELECTORS.some(critical => {
+    if (critical.startsWith('@media')) return false;
+    return selector.includes(critical) || 
+           selector.match(new RegExp(critical.replace('.', '\\.').replace('*', '.*')));
+  });
+}
+
+// Extract critical CSS from global.css
+async function extractFromGlobalCSS() {
+  try {
+    const globalCSSPath = path.join(__dirname, '../src/styles/global.css');
+    const content = await fs.readFile(globalCSSPath, 'utf-8');
+    
+    const criticalCSS = [];
+    const lines = content.split('\n');
+    let inCriticalSection = false;
+    let currentRule = '';
+    let braceDepth = 0;
+    
+    for (let line of lines) {
+      const trimmedLine = line.trim();
+      
+      // Skip Tailwind directives
+      if (trimmedLine.startsWith('@tailwind')) continue;
+      
+      // Skip comments
+      if (trimmedLine.startsWith('/*') || trimmedLine.includes('*/')) continue;
+      
+      // Handle @layer blocks
+      if (trimmedLine.startsWith('@layer base') || trimmedLine.startsWith('@layer components')) {
+        inCriticalSection = true;
+        continue;
+      }
+      
+      if (trimmedLine === '}' && line.indexOf('}') === line.length - 1 && braceDepth === 0) {
+        // End of @layer block
+        inCriticalSection = false;
+        continue;
+      }
+      
+      // Count braces
+      const openBraces = (line.match(/\{/g) || []).length;
+      const closeBraces = (line.match(/\}/g) || []).length;
+      braceDepth += openBraces - closeBraces;
+      
+      if (inCriticalSection || isCriticalSelector(trimmedLine)) {
+        if (!inCriticalSection && braceDepth === 1) {
+          currentRule = line;
+          inCriticalSection = true;
+        } else if (inCriticalSection) {
+          currentRule += '\n' + line;
+        }
+        
+        if (braceDepth === 0 && currentRule) {
+          criticalCSS.push(currentRule);
+          currentRule = '';
+          inCriticalSection = false;
+        }
+      }
+    }
+    
+    return criticalCSS.join('\n');
+  } catch (error) {
+    console.warn('Could not read global.css:', error.message);
+    return '';
+  }
+}
+
+// Generate optimized critical CSS
+async function generateCriticalCSS() {
+  console.log('🔍 Extracting critical CSS...');
+  
+  // Read Layout.astro
+  const layoutPath = path.join(__dirname, '../src/layouts/Layout.astro');
+  const layoutContent = await fs.readFile(layoutPath, 'utf-8');
+  
+  // Extract from Layout.astro global styles
+  const layoutCriticalCSS = extractFromLayoutStyles(layoutContent);
+  
+  // Extract from global.css
+  const globalCriticalCSS = await extractFromGlobalCSS();
+  
+  // Generate complete critical CSS
+  const criticalCSS = `
+/* Critical CSS for Above-the-Fold Content */
+/* Generated by extract-critical-css.js */
+
+/* === CSS CUSTOM PROPERTIES === */
+:root {
+  /* Modern System Font Stack */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  
+  /* Color System - Light Theme */
+  --color-primary-bg: #000000;
+  --color-surface-1: #111111;
+  --color-surface-2: #181818;
+  --color-accent-yellow: #FFD300;
+  --color-on-accent-text: #000000;
+  --color-body-text: #F3F3F3;
+  --color-text-muted: #B8B8B8;
+  --color-border: #181818;
+  
+  /* Typography Scale */
+  --font-size-display-xl: 4.5rem;
+  --font-size-display-lg: 3.75rem;
+  --font-size-heading-xl: 2rem;
+  --font-size-heading-lg: 1.75rem;
+  --font-size-body-lg: 1.125rem;
+  --font-size-body-md: 1rem;
+  
+  /* Spacing */
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary-bg: #000000;
+    --color-surface-1: #111111;
+    --color-surface-2: #181818;
+    --color-body-text: #F3F3F3;
+    --color-text-muted: #B8B8B8;
+  }
+}
+
+/* === RESET & BASE STYLES === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-md);
+  line-height: 1.6;
+  color: var(--color-body-text);
+  background-color: var(--color-primary-bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-body-text);
+  margin-bottom: var(--space-4);
+}
+
+h1 {
+  font-size: var(--font-size-display-lg);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--font-size-heading-xl);
+  font-weight: 300;
+}
+
+p {
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-body-text);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-yellow);
+}
+
+/* === NAVIGATION === */
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  position: relative;
+}
+
+.logo {
+  font-size: var(--font-size-heading-lg);
+  font-weight: 600;
+  color: var(--color-body-text);
+  letter-spacing: -0.025em;
+  transition: color var(--transition-base);
+}
+
+.logo:hover {
+  color: var(--color-accent-yellow);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: var(--color-body-text);
+  font-weight: 500;
+  position: relative;
+  transition: all var(--transition-base);
+  padding: 0.5rem 0;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-accent-yellow);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 48px;
+  height: 48px;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.hamburger-line {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--color-body-text);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+  margin-bottom: 4px;
+}
+
+.hamburger-line:last-child {
+  margin-bottom: 0;
+}
+
+/* === LAYOUT UTILITIES === */
+.container-12 {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
+
+.flex {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* === BUTTONS === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  border-radius: 0.125rem;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn-primary {
+  background-color: var(--color-accent-yellow);
+  color: var(--color-on-accent-text);
+}
+
+.btn-primary:hover {
+  background-color: #e6be00;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-body-text);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-1);
+}
+
+/* === HERO SECTION === */
+section {
+  contain: layout style;
+}
+
+/* === ACCESSIBILITY === */
+.skip-links {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  z-index: 1000;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-accent-yellow);
+  color: var(--color-on-accent-text);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-yellow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (min-width: 640px) {
+  .container-12 {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+  
+  .grid-12 {
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-12 {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-primary-bg);
+    flex-direction: column;
+    padding: var(--space-8);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    gap: var(--space-4);
+    transition: all 0.3s ease;
+    transform: translateY(-100vh);
+    z-index: 50;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .nav-links.active {
+    transform: translateY(0);
+  }
+  
+  .nav-links a {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    justify-content: flex-start;
+    border-radius: 0.5rem;
+  }
+  
+  .nav-links a:hover {
+    background-color: var(--color-surface-1);
+  }
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === HIGH CONTRAST === */
+@media (prefers-contrast: high) {
+  .navigation {
+    border-bottom: 2px solid var(--color-body-text);
+  }
+  
+  :focus-visible {
+    outline: 3px solid var(--color-accent-yellow);
+  }
+}
+`.trim();
+
+  // Write critical CSS to file
+  const outputPath = path.join(__dirname, '../src/styles/critical.css');
+  await fs.writeFile(outputPath, criticalCSS);
+  
+  // Calculate size
+  const size = Buffer.byteLength(criticalCSS, 'utf8');
+  const sizeKB = (size / 1024).toFixed(2);
+  
+  console.log(`✅ Critical CSS generated: ${sizeKB}KB`);
+  console.log(`📁 Saved to: ${outputPath}`);
+  
+  if (size > 14000) {
+    console.warn(`⚠️  Critical CSS is ${sizeKB}KB, recommend keeping under 14KB`);
+  }
+  
+  return criticalCSS;
+}
+
+// Main execution
+if (import.meta.url === `file://${process.argv[1]}`) {
+  generateCriticalCSS().catch(console.error);
+}
+
+export { generateCriticalCSS };

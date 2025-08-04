@@ -2,110 +2,97 @@
 ---
 
 <nav id="navigation" class="navigation" data-animate="fade-down">
-  <div class="container">
+  <div class="container-12">
     <div class="nav-wrapper">
       <a href="#home" class="logo link-underline">Ramon Roca Pinilla</a>
       
-      <button class="mobile-menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button 
+        class="mobile-menu-toggle" 
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+        type="button"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="sr-only">Menu</span>
       </button>
       
-      <ul class="nav-links">
-        <li><a href="/Portfolio/">Home</a></li>
-        <li><a href="/Portfolio/#about">About</a></li>
-        <li><a href="/Portfolio/#research">Research</a></li>
-        <li><a href="/Portfolio/#publications">Publications</a></li>
-        <li><a href="/Portfolio/#contact">Contact</a></li>
-        <li class="lang-switcher">
-          <a href="/Portfolio/en/">EN</a>
-          <a href="/Portfolio/es/">ES</a>
-          <a href="/Portfolio/ca/">CA</a>
+      <ul id="nav-links" class="nav-links" role="menubar">
+        <li role="none"><a href="/Portfolio/" role="menuitem">Home</a></li>
+        <li role="none"><a href="/Portfolio/#about" role="menuitem">About</a></li>
+        <li role="none"><a href="/Portfolio/#research" role="menuitem">Research</a></li>
+        <li role="none"><a href="/Portfolio/#publications" role="menuitem">Publications</a></li>
+        <li role="none"><a href="/Portfolio/#contact" role="menuitem">Contact</a></li>
+        <li class="lang-switcher" role="none">
+          <span class="lang-label sr-only">Language:</span>
+          <a href="/Portfolio/en/" role="menuitem" aria-label="Switch to English">EN</a>
+          <a href="/Portfolio/es/" role="menuitem" aria-label="Switch to Spanish">ES</a>
+          <a href="/Portfolio/ca/" role="menuitem" aria-label="Switch to Catalan">CA</a>
         </li>
       </ul>
+      
+      <!-- Mobile menu overlay -->
+      <div class="mobile-overlay" aria-hidden="true"></div>
     </div>
   </div>
 </nav>
 
 <style>
   .navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    @apply fixed top-0 left-0 right-0 z-50;
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    z-index: var(--z-fixed);
-    box-shadow: var(--shadow-xs);
-    transition: all var(--transition-slow);
+    transition: all 0.3s ease;
     contain: layout style;
+    border-bottom: 1px solid theme('colors.border');
   }
 
   @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
     .navigation {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.85);
     }
   }
 
   .nav-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-4) 0;
+    @apply flex justify-between items-center py-4 relative;
   }
 
   .logo {
-    font-family: var(--font-sans);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    letter-spacing: var(--tracking-tight);
-    transition: color var(--transition-fast);
-    /* Remove default link styles */
+    @apply text-heading-lg font-semibold text-body-text tracking-tight transition-colors duration-200;
     background-image: none;
   }
 
   .logo:hover {
-    color: var(--color-catalan-red);
+    @apply text-accent-yellow;
   }
 
   .nav-links {
-    display: flex;
-    list-style: none;
-    gap: var(--space-8);
-    align-items: center;
-    margin: 0;
-    padding: 0;
+    @apply flex list-none gap-8 items-center m-0 p-0;
   }
 
   .nav-links a {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-sm);
-    position: relative;
-    transition: all var(--transition-fast);
-    padding: var(--space-2) 0;
-    /* Remove default link underline */
+    @apply text-body-text font-medium text-body-sm relative transition-all duration-200 py-2 px-0;
     background-image: none;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-links a::after {
     content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--color-catalan-red);
+    @apply absolute bottom-0 left-0 w-full h-0.5 bg-accent-yellow;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform var(--transition-base);
+    transition: transform 0.3s ease;
   }
 
   .nav-links a:hover {
-    color: var(--color-catalan-red);
+    @apply text-accent-yellow;
   }
 
   .nav-links a:hover::after {
@@ -114,92 +101,87 @@
   }
 
   .lang-switcher {
-    display: flex;
-    gap: var(--space-2);
-    margin-left: var(--space-4);
-    padding-left: var(--space-4);
-    border-left: 1px solid var(--color-border-light);
+    @apply flex gap-2 ml-4 pl-4;
+    border-left: 1px solid theme('colors.border');
   }
 
   .lang-switcher a {
-    font-size: var(--font-size-xs);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-base);
-    transition: all var(--transition-fast);
+    @apply text-body-sm px-2 py-1 rounded transition-all duration-200;
+    min-height: 44px;
+    min-width: 44px;
   }
 
   .lang-switcher a:hover {
-    background: var(--color-bg-secondary);
+    @apply bg-surface-1;
   }
 
   .lang-switcher a:hover::after {
-    display: none;
+    @apply hidden;
   }
 
+  /* Mobile menu toggle */
   .mobile-menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+    @apply hidden flex-col justify-center items-center bg-transparent border-none cursor-pointer p-2 relative;
+    width: 48px;
+    height: 48px;
+    min-height: 44px;
+    min-width: 44px;
   }
 
-  .mobile-menu-toggle span {
-    width: 100%;
-    height: 2px;
-    background: var(--color-text-primary);
-    transition: all var(--transition-slow);
-    border-radius: var(--radius-full);
+  .hamburger-line {
+    @apply block w-6 h-0.5 bg-body-text rounded-full transition-all duration-300 ease-in-out;
+    transform-origin: center;
   }
 
-  .mobile-menu-toggle:hover span {
-    background: var(--color-catalan-red);
+  .hamburger-line:nth-child(1) {
+    margin-bottom: 4px;
   }
 
-  /* Dark mode adjustments */
-  @media (prefers-color-scheme: dark) {
-    .navigation {
-      background: rgba(10, 10, 10, 0.95);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
+  .hamburger-line:nth-child(2) {
+    margin-bottom: 4px;
+  }
 
-    @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
-      .navigation {
-        background: rgba(10, 10, 10, 0.85);
-      }
-    }
+  .mobile-menu-toggle:hover .hamburger-line {
+    @apply bg-accent-yellow;
+  }
 
-    .nav-links a:hover {
-      color: var(--color-text-accent);
-    }
+  /* Hamburger animation states */
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
 
-    .nav-links a::after {
-      background: var(--color-text-accent);
-    }
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .mobile-menu-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Mobile overlay */
+  .mobile-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 opacity-0 pointer-events-none transition-opacity duration-300;
+    z-index: 40;
+  }
+
+  .mobile-overlay.active {
+    @apply opacity-100 pointer-events-auto;
   }
 
   /* Mobile responsive */
   @media (max-width: 768px) {
     .mobile-menu-toggle {
-      display: flex;
+      @apply flex;
     }
 
     .nav-links {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--color-bg-primary);
-      flex-direction: column;
-      padding: var(--space-8);
-      box-shadow: var(--shadow-lg);
+      @apply absolute top-full left-0 right-0 bg-primary-bg flex-col p-8 shadow-lg gap-4 transition-all duration-300 ease-in-out;
       transform: translateY(-100vh);
-      transition: transform var(--transition-slow);
-      gap: var(--space-4);
+      z-index: 50;
+      border-top: 1px solid theme('colors.border');
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
     }
 
     .nav-links.active {
@@ -207,74 +189,258 @@
     }
 
     .nav-links a {
-      width: 100%;
-      padding: var(--space-3) 0;
-      font-size: var(--font-size-base);
+      @apply w-full py-3 text-body-md justify-start px-4 rounded-lg;
+    }
+
+    .nav-links a:hover {
+      @apply bg-surface-1;
     }
 
     .lang-switcher {
-      margin-left: 0;
-      padding-left: 0;
+      @apply ml-0 pl-0 pt-4 w-full justify-center;
       border-left: none;
-      border-top: 1px solid var(--color-border-light);
-      padding-top: var(--space-4);
-      width: 100%;
-      justify-content: center;
+      border-top: 1px solid theme('colors.border');
     }
 
-    /* Dark mode mobile menu */
-    @media (prefers-color-scheme: dark) {
-      .nav-links {
-        background: var(--color-bg-secondary);
-      }
+    .lang-switcher a {
+      @apply px-4 py-2 bg-surface-1 rounded-lg;
     }
+  }
+
+  /* Focus management */
+  .navigation a:focus-visible,
+  .mobile-menu-toggle:focus-visible {
+    @apply outline-2 outline-accent-yellow outline-offset-2;
   }
 
   /* Scroll state */
   .navigation.scrolled {
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .navigation,
+    .nav-links,
+    .hamburger-line,
+    .mobile-overlay,
+    .nav-links a::after {
+      transition: none;
+    }
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .navigation {
+      border-bottom: 2px solid theme('colors.body-text');
+    }
+    
+    .nav-links a:focus-visible,
+    .mobile-menu-toggle:focus-visible {
+      outline: 3px solid theme('colors.accent-yellow');
+    }
+  }
+  
+  /* Progressive enhancement - no JS fallback */
+  .no-js .mobile-menu-toggle {
+    @apply hidden;
+  }
+  
+  .no-js .nav-links {
+    @apply static transform-none;
   }
 </style>
 
 <script>
-  const mobileToggle = document.querySelector('.mobile-menu-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  const navigation = document.querySelector('.navigation');
-  
-  // Mobile menu toggle
-  mobileToggle?.addEventListener('click', () => {
-    navLinks?.classList.toggle('active');
-  });
-  
-  // Close mobile menu when clicking a link
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks?.classList.remove('active');
+  interface FocusTrap {
+    activate(): void;
+    deactivate(): void;
+  }
+
+  class MobileNavigation {
+    private mobileToggle: HTMLButtonElement | null;
+    private navLinks: HTMLElement | null;
+    private navigation: HTMLElement | null;
+    private overlay: HTMLElement | null;
+    private focusableElements: HTMLElement[] = [];
+    private lastFocusedElement: HTMLElement | null = null;
+    private isMenuOpen = false;
+
+    constructor() {
+      this.mobileToggle = document.querySelector('.mobile-menu-toggle');
+      this.navLinks = document.querySelector('.nav-links');
+      this.navigation = document.querySelector('.navigation');
+      this.overlay = document.querySelector('.mobile-overlay');
+      
+      this.init();
+    }
+
+    private init(): void {
+      if (!this.mobileToggle || !this.navLinks || !this.navigation || !this.overlay) return;
+
+      // Remove no-js class for progressive enhancement
+      document.documentElement.classList.remove('no-js');
+
+      // Set up event listeners
+      this.mobileToggle.addEventListener('click', this.handleToggleClick.bind(this));
+      this.overlay.addEventListener('click', this.closeMenu.bind(this));
+      document.addEventListener('keydown', this.handleKeyDown.bind(this));
+      
+      // Close menu when clicking nav links
+      this.navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', this.closeMenu.bind(this));
+      });
+
+      // Update focusable elements
+      this.updateFocusableElements();
+
+      // Set up scroll detection
+      this.setupScrollDetection();
+    }
+
+    private handleToggleClick(): void {
+      if (this.isMenuOpen) {
+        this.closeMenu();
+      } else {
+        this.openMenu();
+      }
+    }
+
+    private openMenu(): void {
+      if (!this.mobileToggle || !this.navLinks || !this.overlay) return;
+
+      this.isMenuOpen = true;
+      this.lastFocusedElement = document.activeElement as HTMLElement;
+
+      // Update ARIA states
+      this.mobileToggle.setAttribute('aria-expanded', 'true');
+      this.navLinks.classList.add('active');
+      this.overlay.classList.add('active');
+      this.overlay.setAttribute('aria-hidden', 'false');
+
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+
+      // Set focus to first focusable element in menu
+      this.trapFocus();
+    }
+
+    private closeMenu(): void {
+      if (!this.mobileToggle || !this.navLinks || !this.overlay) return;
+
+      this.isMenuOpen = false;
+
+      // Update ARIA states
+      this.mobileToggle.setAttribute('aria-expanded', 'false');
+      this.navLinks.classList.remove('active');
+      this.overlay.classList.remove('active');
+      this.overlay.setAttribute('aria-hidden', 'true');
+
+      // Restore body scroll
+      document.body.style.overflow = '';
+
+      // Return focus to toggle button
+      if (this.lastFocusedElement) {
+        this.lastFocusedElement.focus();
+      } else {
+        this.mobileToggle.focus();
+      }
+    }
+
+    private handleKeyDown(event: KeyboardEvent): void {
+      if (!this.isMenuOpen) return;
+
+      switch (event.key) {
+        case 'Escape':
+          event.preventDefault();
+          this.closeMenu();
+          break;
+        case 'Tab':
+          this.handleTabKey(event);
+          break;
+      }
+    }
+
+    private handleTabKey(event: KeyboardEvent): void {
+      if (this.focusableElements.length === 0) return;
+
+      const firstElement = this.focusableElements[0];
+      const lastElement = this.focusableElements[this.focusableElements.length - 1];
+
+      if (event.shiftKey) {
+        // Shift + Tab: moving backwards
+        if (document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        // Tab: moving forwards
+        if (document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+
+    private trapFocus(): void {
+      if (this.focusableElements.length > 0) {
+        this.focusableElements[0].focus();
+      }
+    }
+
+    private updateFocusableElements(): void {
+      if (!this.navLinks) return;
+
+      const focusableSelectors = [
+        'a[href]',
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+      ].join(', ');
+
+      this.focusableElements = Array.from(
+        this.navLinks.querySelectorAll(focusableSelectors)
+      ) as HTMLElement[];
+    }
+
+    private setupScrollDetection(): void {
+      let lastScroll = 0;
+      const scrollThreshold = 50;
+      let scrollTimeout: number | null = null;
+
+      const handleScroll = (): void => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll > scrollThreshold) {
+          this.navigation?.classList.add('scrolled');
+        } else {
+          this.navigation?.classList.remove('scrolled');
+        }
+
+        lastScroll = currentScroll;
+      };
+
+      // Throttle scroll events for better performance
+      window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+          window.cancelAnimationFrame(scrollTimeout);
+        }
+        scrollTimeout = window.requestAnimationFrame(handleScroll);
+      }, { passive: true });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new MobileNavigation();
     });
-  });
-  
-  // Add scroll detection for shadow effect
-  let lastScroll: number = 0;
-  const scrollThreshold = 50;
-  
-  const handleScroll = () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > scrollThreshold) {
-      navigation?.classList.add('scrolled');
-    } else {
-      navigation?.classList.remove('scrolled');
-    }
-    
-    lastScroll = currentScroll;
-  };
-  
-  // Throttle scroll events for better performance
-  let scrollTimeout: number | null;
-  window.addEventListener('scroll', () => {
-    if (scrollTimeout) {
-      window.cancelAnimationFrame(scrollTimeout);
-    }
-    scrollTimeout = window.requestAnimationFrame(handleScroll);
-  }, { passive: true });
+  } else {
+    new MobileNavigation();
+  }
+
+  // Add no-js class initially for progressive enhancement
+  document.documentElement.classList.add('no-js');
 </script>

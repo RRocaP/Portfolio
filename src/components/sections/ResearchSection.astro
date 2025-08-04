@@ -1,0 +1,112 @@
+---
+// Research Section Component
+import ProteinStructure from '../ProteinStructure.astro';
+import SimpleTimeline from '../SimpleTimeline';
+---
+
+<section id="research" class="section research-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" data-animate="fade-up">Research Focus</h2>
+      <div class="section-divider"></div>
+      <p class="section-description">
+        Bridging computational biology and experimental validation to create
+        transformative medical solutions
+      </p>
+    </div>
+
+    <div class="research-showcase">
+      <ProteinStructure />
+    </div>
+
+    <div class="research-grid">
+      <article class="research-card" data-animate="scale-up">
+        <div class="card-header">
+          <div class="card-icon-wrapper">
+            <svg
+              class="card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="card-title">AI-Designed Antimicrobials</h3>
+        </div>
+        <p class="card-description">
+          Engineering next-generation peptides to combat antibiotic-resistant
+          superbugs using deep learning and molecular dynamics simulations.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Deep Learning</span>
+          <span class="tag">Peptide Design</span>
+          <span class="tag">MD Simulations</span>
+        </div>
+      </article>
+
+      <article class="research-card" data-animate="scale-up" data-delay="100">
+        <div class="card-header">
+          <div class="card-icon-wrapper">
+            <svg
+              class="card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-title">Gene Therapy Optimization</h3>
+        </div>
+        <p class="card-description">
+          Developing tissue-specific AAV vectors for targeted gene delivery,
+          with focus on treating Friedreich's ataxia and other genetic
+          disorders.
+        </p>
+        <div class="card-tags">
+          <span class="tag">AAV Engineering</span>
+          <span class="tag">Gene Delivery</span>
+          <span class="tag">Tissue Targeting</span>
+        </div>
+      </article>
+
+      <article class="research-card" data-animate="scale-up" data-delay="200">
+        <div class="card-header">
+          <div class="card-icon-wrapper">
+            <svg
+              class="card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">High-Throughput Screening</h3>
+        </div>
+        <p class="card-description">
+          Implementing automated discovery pipelines that accelerate the
+          identification of therapeutic candidates from months to days.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Automation</span>
+          <span class="tag">Drug Discovery</span>
+          <span class="tag">AI Pipeline</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Interactive Timeline Component -->
+    <div class="timeline-section">
+      <h3 class="subsection-title">Antimicrobial Resistance Timeline</h3>
+      <SimpleTimeline client:visible />
+    </div>
+  </div>
+</section>

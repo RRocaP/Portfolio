@@ -1,87 +1,62 @@
+// Dynamically fetch (at build time) the list of publications from ORCID so we
+// always display the authoritative record instead of a manually-maintained
+// placeholder array.
 
-export const publications = [
-  {
-    title: "Tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T generation",
-    year: "2024",
-    journal: "Molecular Therapy",
-    featured: true,
-  },
-  {
-    title: "Harnessing whole human liver ex situ normothermic perfusion for preclinical AAV vector evaluation",
-    year: "2024",
-    journal: "Nature Communications",
-    featured: true,
-  },
-  {
-    title: "Antibiofilm surfaces based on the immobilization of a novel recombinant antimicrobial multidomain protein using self-assembly monolayers",
-    year: "2023",
-    journal: "Materials Advances",
-  },
-  {
-    title: "Antimicrobial Applications of Inclusion Bodies",
-    year: "2023",
-    journal: "Methods in Molecular Biology",
-  },
-  {
-    title: "Characterization of the humanized FRG mouse model and development of an AAV-LK03 variant with improved liver lobular biodistribution.",
-    year: "2023",
-    journal: "Molecular Therapy - Methods & Clinical Development",
-  },
-  {
-    title: "Functional Inclusion Bodies",
-    year: "2022",
-    journal: "Trends in Biotechnology",
-  },
-  {
-    title: "The future of recombinant host defense peptides.",
-    year: "2022",
-    journal: "Biotechnology Advances",
-  },
-  {
-    title: "Antimicrobial potential of Recombinant Host Defense Peptides produced as soluble and nanoclusters",
-    year: "2021",
-    journal: "Scientific Reports",
-    featured: true,
-  },
-  {
-    title: "Sequence edition of single domains modulates the final immune and antimicrobial potential of a new generation of multidomain recombinant proteins",
-    year: "2021",
-    journal: "Journal of Biological Engineering",
-    featured: true,
-  },
-  {
-    title: "Selecting Subpopulations of High-Quality Protein Conformers among Conformational Mixtures of Recombinant Bovine MMP-9 Solubilized from Inclusion Bodies",
-    year: "2020",
-    journal: "International Journal of Molecular Sciences",
-  },
-  {
-    title: "A new generation of recombinant polypeptides combines multiple protein domains for effective antimicrobial activity",
-    year: "2020",
-    journal: "Microbial Cell Factories",
-  },
-  {
-    title: "Recombinant protein-based nanoparticles: Elucidating their inflammatory effects in vivo and their potential as a new therapeutic format",
-    year: "2019",
-    journal: "Journal of Controlled Release",
-  },
-  {
-    title: "Exploring the use of leucine zippers for the generation of a new class of inclusion bodies for pharma and biotechnological applications.",
-    year: "2019",
-    journal: "bioRxiv",
-  },
-  {
-    title: "CCL21-loaded 3D hydrogels for T cell expansion and differentiation.",
-    year: "2018",
-    journal: "Biomaterials",
-  },
-  {
-    title: "A new approach to obtain pure and active proteins from Lactococcus lactis protein aggregates",
-    year: "2017",
-    journal: "Microbial Cell Factories",
-  },
-  {
-    title: "Enhanced bioactivity of recombinant antimicrobial peptides through optimized expression systems",
-    year: "2019",
-    journal: "Applied Microbiology and Biotechnology",
-  },
-];
+const ORCID_ID = '0000-0002-7393-6200';
+const ORCID_WORKS_ENDPOINT = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`;
+
+/**
+ * Fetch the public works for the configured ORCID profile and transform them
+ * into the structure expected by the site.
+ *
+ * Each returned object contains:
+ *   { title: string, year: string, journal: string | undefined, featured: bool }
+ */
+async function fetchPublications() {
+  const res = await fetch(ORCID_WORKS_ENDPOINT, {
+    headers: { Accept: 'application/json' },
+  });
+
+  if (!res.ok) {
+    console.error(`Failed to fetch ORCID works: ${res.status}`);
+    return [];
+  }
+
+  const data = await res.json();
+
+  if (!data.group) return [];
+
+  const publications = [];
+
+  for (const group of data.group) {
+    // Each group may contain multiple summaries (e.g., different versions).
+    // We take the first summary which is typically the most complete.
+    const summary = group['work-summary'][0];
+
+    const title = summary.title?.title?.value ?? 'Untitled';
+
+    // ORCID stores the publication date as { year: { value: '2024' } }.
+    let year = summary['publication-date']?.year?.value;
+    if (!year && summary?.created_date?.value) {
+      const d = new Date(summary.created_date.value);
+      year = d.getUTCFullYear().toString();
+    }
+
+    const journal = summary['journal-title']?.value ?? undefined;
+
+    publications.push({ title, year, journal });
+  }
+
+  // Sort descending by year (missing year goes last).
+  publications.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+
+  // Mark the three most recent works as featured to keep the homepage layout
+  // visually similar to the original design.
+  publications.forEach((pub, idx) => {
+    pub.featured = idx < 3;
+  });
+
+  return publications;
+}
+
+export const publications = await fetchPublications();
