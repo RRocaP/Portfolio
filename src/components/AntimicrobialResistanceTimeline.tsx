@@ -274,8 +274,10 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('x', dimensions.width / 2)
       .attr('y', 60)
       .attr('text-anchor', 'middle')
-      .style('font-size', '16px')
-      .style('fill', '#666')
+      .style('font-size', '20px')
+      .style('font-weight', '500')
+      .style('fill', '#e0e0e0')
+      .style('text-shadow', '2px 2px 4px rgba(0,0,0,0.5)')
       .text('Timeline showing introduction year and resistance emergence');
 
   }, [dimensions]);
@@ -308,16 +310,19 @@ export default function AntimicrobialResistanceTimeline() {
         .timeline-container {
           position: relative;
           margin: 2rem 0;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          padding: 2rem;
         }
         .info-panel {
           position: absolute;
           top: 100px;
           left: 20px;
-          background: white;
-          border: 1px solid #ddd;
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 8px;
           padding: 1rem;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 6px rgba(0,0,0,0.2);
           max-width: 300px;
           z-index: 10;
         }

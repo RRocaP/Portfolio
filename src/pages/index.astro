@@ -97,6 +97,85 @@ import Footer from '../components/Footer.astro';
     </div>
   </section>
 
+  <!-- Journey Timeline with Dashed Path -->
+  <section id="journey" class="section journey-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">My Journey</h2>
+        <div class="section-divider"></div>
+      </div>
+      
+      <div class="timeline-roadmap">
+        <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
+          <path d="M 100,500 Q 300,400 400,300 T 600,200 Q 800,150 1000,100" 
+                stroke="url(#gradient-path)" 
+                stroke-width="3" 
+                fill="none" 
+                stroke-dasharray="8,4"
+                opacity="0.3"/>
+          <defs>
+            <linearGradient id="gradient-path" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#DA291C;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        <div class="timeline-content">
+          <div class="timeline-item" style="--index: 1">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2013</span>
+              <h3>B.S. Biotechnology</h3>
+              <p>Universitat Autònoma de Barcelona</p>
+              <small>Foundation in molecular biology</small>
+            </div>
+          </div>
+          
+          <div class="timeline-item" style="--index: 2">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2015</span>
+              <h3>M.S. Biomedical Engineering</h3>
+              <p>UC Irvine</p>
+              <small>Engineering approaches to biological problems</small>
+            </div>
+          </div>
+          
+          <div class="timeline-item" style="--index: 3">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2020</span>
+              <h3>Ph.D. in Biomedicine</h3>
+              <p>Autonomous University of Barcelona</p>
+              <small>Molecular Biology & Biochemistry</small>
+            </div>
+          </div>
+          
+          <div class="timeline-item" style="--index: 4">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2021</span>
+              <h3>Postdoctoral Researcher</h3>
+              <p>Children's Medical Research Institute</p>
+              <small>Translational Vectorology Unit • Sydney</small>
+            </div>
+          </div>
+          
+          <div class="timeline-item" style="--index: 5">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card highlight">
+              <span class="timeline-year">Now</span>
+              <h3>Fighting Drug Resistance</h3>
+              <p>Next-Gen Antimicrobials</p>
+              <small>AI meets wet-lab validation</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Research Section with Interactive Elements -->
   <section id="research" class="section research-section">
     <div class="container">
@@ -1485,6 +1564,126 @@ import Footer from '../components/Footer.astro';
   ::-moz-selection {
     background: var(--color-primary);
     color: white;
+  }
+
+  /* Journey Timeline Styles */
+  .journey-section {
+    padding: 4rem 0;
+    background: var(--color-background-secondary);
+  }
+
+  .timeline-roadmap {
+    position: relative;
+    min-height: 600px;
+    margin-top: 3rem;
+  }
+
+  .timeline-path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .timeline-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  .timeline-item {
+    position: relative;
+    animation: fadeInUp 0.6s ease-out forwards;
+    animation-delay: calc(var(--index) * 0.1s);
+    opacity: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: var(--color-primary);
+    border: 3px solid var(--color-background);
+    border-radius: 50%;
+    z-index: 3;
+  }
+
+  .timeline-card {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .timeline-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(218, 41, 28, 0.1);
+  }
+
+  .timeline-card.highlight {
+    background: linear-gradient(135deg, rgba(218, 41, 28, 0.1), rgba(255, 217, 61, 0.1));
+    border-color: var(--color-accent);
+  }
+
+  .timeline-year {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-card h3 {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    color: var(--color-text);
+  }
+
+  .timeline-card p {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin: 0.25rem 0;
+  }
+
+  .timeline-card small {
+    font-size: 0.85rem;
+    color: var(--color-text-tertiary);
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Text Justification - Apply to all content paragraphs */
+  p, .lead-text, .section-description, .card-description, 
+  .research-card p, .hero-tagline, .about-content p,
+  .skill-tag {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  /* Keep center alignment for specific elements */
+  .hero-title, .hero-subtitle, .section-title, 
+  .stat-label, .timeline-card, .contact-info,
+  .section-header, .hero-content {
+    text-align: center !important;
   }
 </style>
 
