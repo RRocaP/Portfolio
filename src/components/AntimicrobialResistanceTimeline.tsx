@@ -231,15 +231,7 @@ export default function AntimicrobialResistanceTimeline() {
       .style('fill', '#DA291C')
       .text('⚠');
 
-    // Title
-    svg.append('text')
-      .attr('x', dimensions.width / 2)
-      .attr('y', 30)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '32px')
-      .style('font-weight', 'bold')
-      .style('fill', '#ffffff')
-      .text('The Race Against Resistance: Antibiotic Timeline');
+    // Title removed per user request
 
     // Legend
     const legend = svg.append('g')

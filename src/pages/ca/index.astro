@@ -996,6 +996,67 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     }
   }
   
+  /* Patents Section */
+  .patents-section {
+    background: var(--background);
+    position: relative;
+  }
+
+  .patents-list {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .patent-card {
+    background: var(--background-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .patent-card:hover {
+    border-color: var(--accent-yellow);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(218, 41, 28, 0.1);
+  }
+
+  .patent-year {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow));
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .patent-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .patent-details {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .patent-status {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .patent-inventors {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
   /* Dark Mode */
   @media (prefers-color-scheme: dark) {
     :root {
