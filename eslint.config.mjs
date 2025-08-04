@@ -1,5 +1,4 @@
 import js from '@eslint/js';
-import astroEslintParser from 'eslint-plugin-astro';
 
 export default [
   js.configs.recommended,
