@@ -39,11 +39,11 @@ async function optimize() {
     unusedPercent,
     gzippedSize
   };
-  fs.writeFileSync('optimization-report.json', JSON.stringify(report, null, 2));
+  fs.writeFileSync('docs/performance/optimization-report.json', JSON.stringify(report, null, 2));
   console.log('CSS size (gzip):', (gzippedSize/1024).toFixed(2) + 'kB');
   console.log('Unused CSS:', unusedBytes, `(${(unusedPercent*100).toFixed(1)}%)`);
 
-  const baselinePath = 'css-unused-baseline.json';
+  const baselinePath = 'docs/performance/css-unused-baseline.json';
   if (fs.existsSync(baselinePath)) {
     const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
     if (unusedBytes > baseline.unusedBytes * 1.1) {

@@ -21,7 +21,7 @@
   },
   "performance": {
     "lcp": "1.2s",
-    "fid": "45ms", 
+    "fid": "45ms",
     "cls": "0.08",
     "ttfb": "0.3s"
   },

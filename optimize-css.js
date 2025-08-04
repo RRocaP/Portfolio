@@ -72,5 +72,5 @@ const report = {
   ]
 };
 
-fs.writeFileSync('./optimization-report.json', JSON.stringify(report, null, 2));
-console.log('📋 Optimization report saved to optimization-report.json');
+fs.writeFileSync('./docs/performance/optimization-report.json', JSON.stringify(report, null, 2));
+console.log('📋 Optimization report saved to docs/performance/optimization-report.json');

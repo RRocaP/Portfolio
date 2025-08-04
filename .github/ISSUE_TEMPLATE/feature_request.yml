@@ -1,0 +1,193 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for the portfolio
+title: '[Feature]: '
+labels: ['enhancement', 'needs-discussion']
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide detailed information about your request to help us understand and evaluate it.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this hasn't been requested before
+          required: true
+        - label: I have read the [Contributing Guidelines](../../CONTRIBUTING.md)
+          required: true
+        - label: This feature aligns with the project's academic and professional focus
+          required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: Describe the feature you want...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What's the motivation?
+      placeholder: |
+        Is your feature request related to a problem? Please describe.
+        A clear and concise description of what the problem is.
+        Ex. I'm always frustrated when [...]
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: Feature Category
+      description: What category does this feature fall into?
+      options:
+        - UI/UX Enhancement
+        - Performance Improvement
+        - Accessibility Enhancement
+        - New Interactive Visualization
+        - Internationalization
+        - Documentation
+        - Developer Experience
+        - SEO/Metadata
+        - Content Management
+        - Design System Component
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Critical (Essential for project success)
+        - High (Important improvement)
+        - Medium (Nice to have)
+        - Low (Minor enhancement)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Simple (Minor changes, low effort)
+        - Medium (Moderate changes, some effort)
+        - Complex (Major changes, significant effort)
+        - Not sure
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions or features you've considered
+      placeholder: A clear and concise description of any alternative solutions or features you've considered.
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Describe this feature from a user's perspective
+      placeholder: |
+        As a [type of user]
+        I want [some goal]
+        So that [some reason/benefit]
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What would need to be true for this feature to be considered complete?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+
+  - type: checkboxes
+    id: technical-considerations
+    attributes:
+      label: Technical Considerations
+      description: Are there any specific technical requirements or considerations?
+      options:
+        - label: This feature requires new dependencies
+        - label: This feature affects build/deployment process
+        - label: This feature requires database/data changes
+        - label: This feature affects performance
+        - label: This feature requires internationalization support
+        - label: This feature affects accessibility
+        - label: This feature requires responsive design considerations
+
+  - type: textarea
+    id: mockups-wireframes
+    attributes:
+      label: Mockups/Wireframes
+      description: |
+        If applicable, add mockups, wireframes, or visual examples.
+        You can drag and drop images here.
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples/References
+      description: Links to similar features or implementations you've seen elsewhere
+      placeholder: |
+        Provide links or descriptions of similar features from other sites/projects
+        that demonstrate what you're looking for.
+
+  - type: checkboxes
+    id: implementation-help
+    attributes:
+      label: Implementation
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I would like to implement this feature myself
+        - label: I can help with testing and feedback
+        - label: I can provide design/UX input
+        - label: I can help with documentation
+        - label: I prefer someone else implements this
+
+  - type: dropdown
+    id: target-audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit most from this feature?
+      options:
+        - Academic/Research Community
+        - Potential Employers/Collaborators
+        - General Website Visitors
+        - Mobile Users
+        - Screen Reader Users
+        - International Users
+        - Developers/Contributors
+        - All Users
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or information about the feature request here.

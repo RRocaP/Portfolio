@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation Hub
+    url: https://github.com/RRocaP/Portfolio/blob/main/docs/README.md
+    about: Comprehensive project documentation and guides
+  - name: 🎨 Design System (Storybook)
+    url: https://github.com/RRocaP/Portfolio/blob/main/STORYBOOK.md
+    about: Interactive component library and design system documentation
+  - name: 🚀 Getting Started Guide
+    url: https://github.com/RRocaP/Portfolio/blob/main/GETTING_STARTED.md
+    about: Complete setup instructions for new contributors
+  - name: 🤝 Contributing Guidelines
+    url: https://github.com/RRocaP/Portfolio/blob/main/CONTRIBUTING.md
+    about: How to contribute to this academic portfolio project
