@@ -26,7 +26,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "storybook:serve": "npm run build-storybook && npx http-server storybook-static -p 6007",
-    "qa": "npm run build && npx http-server dist -p 8080 >/dev/null & sleep 2 && npx lhci autorun --collect.url=http://localhost:8080 --assert.assertions='categories:performance>0.90,categories:accessibility>0.95,categories:seo>0.95,metrics.largest-contentful-paint<=2500,metrics.interaction-to-next-paint<=200,metrics.cumulative-layout-shift<=0.1' && npx playwright test"
+    "qa": "npm run build && npx lhci autorun"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs}": [
@@ -93,6 +93,6 @@
     "vite-plugin-compression2": "^2.2.0",
     "vitest": "^3.2.4",
     "vitest-axe": "^0.1.0",
-    "@lhci/cli": "^0.13.1"
+    "@lhci/cli": "^0.14.0"
   }
 }

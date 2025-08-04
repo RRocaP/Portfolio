@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { format } from 'd3-format';
 
 interface AntibioticData {
   antibiotic: string;
@@ -98,7 +101,7 @@ export default function AntimicrobialResistanceTimeline() {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const svg = d3.select(svgRef.current);
+    const svg = select(svgRef.current);
     svg.selectAll('*').remove();
 
     const margin = { top: 80, right: 120, bottom: 80, left: 80 };
@@ -110,11 +113,11 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Scales
-    const xScale = d3.scaleLinear()
+    const xScale = scaleLinear()
       .domain([1940, 2025])
       .range([0, width]);
 
-    const yScale = d3.scaleBand()
+    const yScale = scaleBand()
       .domain(antibioticData.map(d => d.antibiotic))
       .range([0, height])
       .padding(0.3);
@@ -132,7 +135,7 @@ export default function AntimicrobialResistanceTimeline() {
       '#00197e'  // Deep blue
     ];
     
-    const colorScale = d3.scaleOrdinal<string, string>()
+    const colorScale = scaleOrdinal<string, string>()
       .domain(Array.from(new Set(antibioticData.map(d => d.category))))
       .range(romaOColors);
 
@@ -140,7 +143,7 @@ export default function AntimicrobialResistanceTimeline() {
     g.append('g')
       .attr('class', 'grid')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale)
+      .call(axisBottom(xScale)
         .tickSize(-height)
         .tickFormat(() => '')
       )
@@ -150,8 +153,8 @@ export default function AntimicrobialResistanceTimeline() {
     // X axis
     const xAxis = g.append('g')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale)
-        .tickFormat(d3.format('d'))
+      .call(axisBottom(xScale)
+        .tickFormat(format('d'))
         .ticks(10));
     
     xAxis.selectAll('text')
@@ -169,7 +172,7 @@ export default function AntimicrobialResistanceTimeline() {
 
     // Y axis
     g.append('g')
-      .call(d3.axisLeft(yScale))
+      .call(axisLeft(yScale))
       .selectAll('text')
       .style('font-size', '14px')
       .style('font-weight', '600');
@@ -192,11 +195,11 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('rx', 4)
       .style('cursor', 'pointer')
       .on('mouseover', function(_event: MouseEvent, d: AntibioticData) {
-        d3.select(this).attr('opacity', 1);
+        select(this).attr('opacity', 1);
         setSelectedAntibiotic(d);
       })
       .on('mouseout', function() {
-        d3.select(this).attr('opacity', 0.8);
+        select(this).attr('opacity', 0.8);
       });
 
     // Resistance continuation (dashed)
@@ -246,7 +249,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('class', 'legend-item')
       .attr('transform', (_d, i) => `translate(0, ${i * 25})`)
       .each(function(d: string) {
-        const g = d3.select(this);
+        const g = select(this);
         g.append('rect')
           .attr('width', 18)
           .attr('height', 18)
