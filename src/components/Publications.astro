@@ -174,14 +174,23 @@ const publications = [
       ))}
     </div>
     
-    <div class="text-center mt-12">
+    <div class="text-center mt-12 flex justify-center gap-4">
       <a 
         href="https://orcid.org/0000-0002-7393-6200"
         target="_blank"
         rel="noopener noreferrer"
         class="btn-secondary inline-flex items-center gap-2 focus-ring"
       >
-        {strings.publications.view_all}
+        ORCID Profile
+        <span>→</span>
+      </a>
+      <a 
+        href={`https://scholar.google.com/citations?user=t73kFuAAAAAJ&hl=${lang}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-secondary inline-flex items-center gap-2 focus-ring"
+      >
+        Google Scholar
         <span>→</span>
       </a>
     </div>
