@@ -7,7 +7,7 @@ interface CitationData {
   cumulativeCitations: number;
 }
 
-interface CollaboratorNode {
+interface CollaboratorNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   institution: string;
@@ -15,9 +15,9 @@ interface CollaboratorNode {
   projects: number;
 }
 
-interface CollaboratorLink {
-  source: string;
-  target: string;
+interface CollaboratorLink extends d3.SimulationLinkDatum<CollaboratorNode> {
+  source: string | CollaboratorNode;
+  target: string | CollaboratorNode;
   strength: number;
 }
 

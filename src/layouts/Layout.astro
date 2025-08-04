@@ -18,7 +18,26 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js"></script>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rrocap.github.io/Portfolio/" />
+    <meta property="og:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
+    <meta property="og:site_name" content="Ramon Roca Pinilla - Portfolio" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
+    
+    <!-- Additional SEO Tags -->
+    <meta name="author" content="Ramon Roca Pinilla" />
+    <meta name="keywords" content="biomedical engineering, molecular biology, antimicrobial peptides, gene therapy, protein design, AI, machine learning" />
+    <link rel="canonical" href="https://rrocap.github.io/Portfolio/" />
+    <script defer src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -33,6 +52,37 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
       .hero { min-height: 100vh; }
       .navigation { position: fixed; top: 0; left: 0; right: 0; height: 72px; }
     </style>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ramon Roca Pinilla",
+      "jobTitle": "Biomedical Engineer & Molecular Biologist",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Children's Medical Research Institute"
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of California, Irvine"
+        },
+        {
+          "@type": "CollegeOrUniversity", 
+          "name": "Autonomous University of Barcelona"
+        }
+      ],
+      "sameAs": [
+        "https://orcid.org/0000-0002-7393-6200",
+        "https://github.com/RRocaP",
+        "https://www.linkedin.com/in/ramonrocapinilla"
+      ],
+      "url": "https://rrocap.github.io/Portfolio/",
+      "description": "Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most"
+    }
+    </script>
   </head>
   <body>
     <slot />

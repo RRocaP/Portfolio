@@ -88,7 +88,6 @@ class ProteinVisualization {
       await Promise.all(framePromises);
       this.hideLoading();
     } catch (error) {
-      console.error('Error loading frames:', error);
       // Fallback to generating synthetic frames
       this.generateSyntheticFrames();
       this.hideLoading();
@@ -121,7 +120,6 @@ class ProteinVisualization {
     const tempCtx = tempCanvas.getContext('2d');
     
     if (!tempCtx) {
-      console.error('Failed to get 2D context for synthetic frames canvas.');
       return;
     }
 
