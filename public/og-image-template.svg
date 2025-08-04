@@ -1,0 +1,35 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DA291C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="50" y2="100" stroke="rgba(255,217,61,0.1)" stroke-width="2"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#pattern)"/>
+  
+  <!-- Content -->
+  <!-- Main title -->
+  <text x="600" y="180" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">Ramon Roca Pinilla</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="240" font-family="Arial, sans-serif" font-size="32" fill="#FFD93D" text-anchor="middle">Biomedical Engineer &amp; Molecular Biologist</text>
+  
+  <!-- Tagline -->
+  <text x="600" y="320" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">Engineering next-generation gene therapies</text>
+  <text x="600" y="355" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle">and antimicrobial solutions</text>
+  
+  <!-- Stats -->
+  <text x="120" y="500" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFD93D">16+ Publications</text>
+  <text x="350" y="500" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFD93D">250+ Citations</text>
+  <text x="580" y="500" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFD93D">3 Patents</text>
+  
+  <!-- Website -->
+  <text x="1150" y="600" font-family="Arial, sans-serif" font-size="16" fill="rgba(255,255,255,0.8)" text-anchor="end">rrocap.github.io/Portfolio</text>
+</svg>
