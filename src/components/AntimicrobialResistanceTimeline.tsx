@@ -238,6 +238,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('text-anchor', 'middle')
       .style('font-size', '32px')
       .style('font-weight', 'bold')
+      .style('fill', '#ffffff')
       .text('The Race Against Resistance: Antibiotic Timeline');
 
     // Legend
