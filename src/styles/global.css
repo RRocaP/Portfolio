@@ -4,20 +4,19 @@
 
 /* Critical font loading with font-display: swap */
 
-
 /* Base styles */
 @layer base {
   html {
     font-display: swap;
     scroll-behavior: smooth;
   }
-  
+
   body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Skip link */
   .skip-link {
     position: absolute;
@@ -31,7 +30,7 @@
     z-index: 1000;
     font-weight: 500;
   }
-  
+
   .skip-link:focus {
     top: 6px;
   }
@@ -45,22 +44,22 @@
     hyphens: auto;
     word-break: break-word;
   }
-  
+
   .prose p {
     margin-bottom: 1.25em;
     line-height: 1.6;
   }
-  
+
   .prose-narrow {
     max-width: theme('maxWidth.prose-narrow');
   }
-  
+
   /* Focus management */
   .focus-ring:focus {
     outline: 2px solid theme('colors.accent-yellow');
     outline-offset: 2px;
   }
-  
+
   /* Button components */
   .btn {
     display: inline-flex;
@@ -74,22 +73,22 @@
     cursor: pointer;
     border: 1px solid transparent;
   }
-  
+
   .btn-primary {
     background-color: theme('colors.accent-yellow');
     color: theme('colors.on-accent-text');
   }
-  
+
   .btn-primary:hover {
     background-color: #e6be00;
   }
-  
+
   .btn-secondary {
     background-color: transparent;
     color: theme('colors.body-text');
     border-color: theme('colors.border');
   }
-  
+
   .btn-secondary:hover {
     background-color: theme('colors.surface-1');
   }
@@ -100,7 +99,7 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   /* Animation utilities */
   @keyframes fade-in-up {
     from {
@@ -112,7 +111,7 @@
       transform: translateY(0);
     }
   }
-  
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     * {
@@ -120,61 +119,66 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-    
+
     html {
       scroll-behavior: auto;
     }
   }
-  
+
   /* High contrast support */
   @media (prefers-contrast: high) {
     .text-text-muted {
       color: theme('colors.body-text');
     }
-    
+
     /* Increase border contrast */
     .border {
       border-color: theme('colors.body-text') !important;
     }
-    
+
     /* Enhance focus rings */
     .focus-ring:focus {
       outline: 3px solid theme('colors.accent-yellow');
       outline-offset: 2px;
     }
   }
-  
+
   /* WCAG 2.2-AA Accessibility Features */
-  
+
   /* Focus indicators */
   *:focus-visible {
     outline: 2px solid theme('colors.accent-yellow');
     outline-offset: 2px;
     border-radius: 2px;
   }
-  
+
   /* Remove focus for mouse users, keep for keyboard */
   *:focus:not(:focus-visible) {
     outline: none;
   }
-  
+
   /* Ensure minimum target size (44px) */
-  a, button, [role="button"], input, select, textarea {
+  a,
+  button,
+  [role='button'],
+  input,
+  select,
+  textarea {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Improved link styling */
   a:not([class]) {
     color: theme('colors.accent-yellow');
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  
+
   a:not([class]):hover {
     text-decoration-thickness: 2px;
   }
-  
+
   /* Screen reader only content */
   .sr-only {
     position: absolute;
@@ -187,7 +191,7 @@
     white-space: nowrap;
     border: 0;
   }
-  
+
   .sr-only:focus {
     position: static;
     width: auto;
@@ -198,13 +202,212 @@
     clip: auto;
     white-space: normal;
   }
-  
+
+  /* Academic Profile Cards */
+  .academic-profiles-section {
+    background: linear-gradient(
+      135deg,
+      theme('colors.accent-yellow') / 0.03,
+      theme('colors.accent-yellow') / 0.08
+    );
+    border: 1px solid theme('colors.accent-yellow') / 0.2;
+    backdrop-filter: blur(10px);
+    position: relative;
+  }
+
+  .academic-profiles-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      theme('colors.accent-yellow') / 0.5,
+      transparent
+    );
+  }
+
+  .academic-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: theme('colors.surface-1');
+    border: 1px solid theme('colors.border');
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-height: 5rem;
+  }
+
+  .academic-profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      theme('colors.accent-yellow') / 0.1,
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  .academic-profile-card:hover {
+    transform: translateY(-2px);
+    border-color: theme('colors.accent-yellow') / 0.4;
+    box-shadow: 0 8px 25px theme('colors.accent-yellow') / 0.15;
+    background: theme('colors.surface-2');
+  }
+
+  .academic-profile-card:hover::before {
+    left: 100%;
+  }
+
+  .academic-profile-card:hover .profile-arrow {
+    transform: translate(2px, -2px);
+    color: theme('colors.accent-yellow');
+  }
+
+  .academic-profile-card:active {
+    transform: translateY(0);
+  }
+
+  .profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .orcid-icon {
+    background: linear-gradient(135deg, #a6ce39, #4c9f38);
+    color: white;
+  }
+
+  .scholar-icon {
+    background: linear-gradient(135deg, #4285f4, #1557b7);
+    color: white;
+  }
+
+  .academic-profile-card:hover .profile-icon {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px currentColor / 0.3;
+  }
+
+  .profile-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .profile-title {
+    font-size: theme('fontSize.heading-sm.0');
+    line-height: theme('fontSize.heading-sm.1.lineHeight');
+    font-weight: 600;
+    color: theme('colors.body-text');
+    margin-bottom: 0.25rem;
+  }
+
+  .profile-description {
+    font-size: theme('fontSize.body-sm.0');
+    line-height: theme('fontSize.body-sm.1.lineHeight');
+    color: theme('colors.text-muted');
+    margin-bottom: 0.5rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+
+  .profile-stats {
+    font-size: theme('fontSize.body-sm.0') * 0.9;
+    color: theme('colors.text-muted') / 0.8;
+    font-weight: 500;
+  }
+
+  .profile-arrow {
+    color: theme('colors.text-muted');
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+
+  /* Mobile responsive adjustments */
+  @media (max-width: 640px) {
+    .academic-profile-card {
+      padding: 1.25rem;
+      gap: 0.875rem;
+    }
+
+    .profile-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .profile-title {
+      font-size: theme('fontSize.body-lg.0');
+    }
+
+    .profile-description,
+    .profile-stats {
+      font-size: theme('fontSize.body-sm.0') * 0.875;
+    }
+  }
+
+  /* High contrast mode enhancements */
+  @media (prefers-contrast: high) {
+    .academic-profile-card {
+      border-width: 2px;
+    }
+
+    .academic-profile-card:hover {
+      border-color: theme('colors.accent-yellow');
+    }
+
+    .orcid-icon,
+    .scholar-icon {
+      background: theme('colors.accent-yellow');
+      color: theme('colors.on-accent-text');
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .academic-profile-card,
+    .profile-icon,
+    .profile-arrow,
+    .academic-profile-card::before {
+      transition: none;
+    }
+
+    .academic-profile-card:hover {
+      transform: none;
+    }
+
+    .academic-profile-card:hover .profile-icon {
+      transform: none;
+    }
+
+    .academic-profile-card:hover .profile-arrow {
+      transform: none;
+    }
+  }
+
   /* Print styles */
   @media print {
     .no-print {
       display: none !important;
     }
-    
+
     body {
       background: white !important;
       color: black !important;

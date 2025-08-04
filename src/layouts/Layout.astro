@@ -6,10 +6,13 @@ export interface Props {
   description?: string;
 }
 
-const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies" } = Astro.props;
+const {
+  title,
+  description = 'Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies',
+} = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,71 +21,102 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rrocap.github.io/Portfolio/" />
-    <meta property="og:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
+    <meta
+      property="og:image"
+      content="https://rrocap.github.io/Portfolio/og-image.png"
+    />
     <meta property="og:site_name" content="Ramon Roca Pinilla - Portfolio" />
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
-    
+    <meta
+      name="twitter:image"
+      content="https://rrocap.github.io/Portfolio/og-image.png"
+    />
+
     <!-- Additional SEO Tags -->
     <meta name="author" content="Ramon Roca Pinilla" />
-    <meta name="keywords" content="biomedical engineering, molecular biology, antimicrobial peptides, gene therapy, protein design, AI, machine learning" />
+    <meta
+      name="keywords"
+      content="biomedical engineering, molecular biology, antimicrobial peptides, gene therapy, protein design, AI, machine learning"
+    />
     <link rel="canonical" href="https://rrocap.github.io/Portfolio/" />
-    <script defer src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
     <!-- Performance optimizations -->
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
     <!-- Critical CSS for above-the-fold content -->
     <style>
       /* Critical CSS - Prevent layout shift */
-      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-      .hero { min-height: 100vh; }
-      .navigation { position: fixed; top: 0; left: 0; right: 0; height: 72px; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      .hero {
+        min-height: 100vh;
+      }
+      .navigation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 72px;
+      }
     </style>
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ramon Roca Pinilla",
-      "jobTitle": "Biomedical Engineer & Molecular Biologist",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Children's Medical Research Institute"
-      },
-      "alumniOf": [
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "University of California, Irvine"
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ramon Roca Pinilla",
+        "jobTitle": "Biomedical Engineer & Molecular Biologist",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Children's Medical Research Institute"
         },
-        {
-          "@type": "CollegeOrUniversity", 
-          "name": "Autonomous University of Barcelona"
-        }
-      ],
-      "sameAs": [
-        "https://orcid.org/0000-0002-7393-6200",
-        "https://github.com/RRocaP",
-        "https://www.linkedin.com/in/ramonrocapinilla"
-      ],
-      "url": "https://rrocap.github.io/Portfolio/",
-      "description": "Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most"
-    }
+        "alumniOf": [
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "University of California, Irvine"
+          },
+          {
+            "@type": "CollegeOrUniversity",
+            "name": "Autonomous University of Barcelona"
+          }
+        ],
+        "sameAs": [
+          "https://orcid.org/0000-0002-5670-7959",
+          "https://github.com/RRocaP",
+          "https://www.linkedin.com/in/ramonrocapinilla"
+        ],
+        "url": "https://rrocap.github.io/Portfolio/",
+        "description": "Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most"
+      }
     </script>
   </head>
   <body>
@@ -91,14 +125,14 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <a href="#navigation" class="skip-link">Skip to navigation</a>
     </div>
-    
+
     <slot />
     <AnimationStyles />
-    
+
     <!-- Animation Scripts -->
     <script>
       // Animation initialization script
-      (function() {
+      (function () {
         // Animation Configuration
         const ANIMATION_CONFIG = {
           threshold: 0.1,
@@ -116,65 +150,78 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
             return;
           }
 
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              const targetElement = entry.target as HTMLElement;
-              if (entry.isIntersecting) {
-                const delay = parseFloat(targetElement.dataset.animateDelay || '0');
-                setTimeout(() => {
-                  targetElement.classList.add('animate-in');
-                }, delay);
-
-                if (targetElement.dataset.animateOnce !== 'false') {
-                  observer.unobserve(targetElement);
-                }
-              } else if (targetElement.dataset.animateOnce === 'false') {
-                targetElement.classList.remove('animate-in');
-              }
-            });
-          }, {
-            threshold: ANIMATION_CONFIG.threshold,
-            rootMargin: ANIMATION_CONFIG.rootMargin,
-          });
-
-          const staggerObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              const targetElement = entry.target as HTMLElement;
-              if (entry.isIntersecting) {
-                targetElement.classList.add('animate-in');
-                
-                const children = Array.from(targetElement.children) as HTMLElement[];
-                children.forEach((child, index) => {
+          const observer = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                const targetElement = entry.target as HTMLElement;
+                if (entry.isIntersecting) {
+                  const delay = parseFloat(
+                    targetElement.dataset.animateDelay || '0'
+                  );
                   setTimeout(() => {
-                    child.style.transitionDelay = `${index * ANIMATION_CONFIG.staggerDelay}ms`;
-                  }, 0);
-                });
+                    targetElement.classList.add('animate-in');
+                  }, delay);
 
-                if (targetElement.dataset.animateOnce !== 'false') {
-                  staggerObserver.unobserve(targetElement);
+                  if (targetElement.dataset.animateOnce !== 'false') {
+                    observer.unobserve(targetElement);
+                  }
+                } else if (targetElement.dataset.animateOnce === 'false') {
+                  targetElement.classList.remove('animate-in');
                 }
-              }
-            });
-          }, {
-            threshold: ANIMATION_CONFIG.threshold,
-            rootMargin: ANIMATION_CONFIG.rootMargin,
-          });
+              });
+            },
+            {
+              threshold: ANIMATION_CONFIG.threshold,
+              rootMargin: ANIMATION_CONFIG.rootMargin,
+            }
+          );
+
+          const staggerObserver = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                const targetElement = entry.target as HTMLElement;
+                if (entry.isIntersecting) {
+                  targetElement.classList.add('animate-in');
+
+                  const children = Array.from(
+                    targetElement.children
+                  ) as HTMLElement[];
+                  children.forEach((child, index) => {
+                    setTimeout(() => {
+                      child.style.transitionDelay = `${index * ANIMATION_CONFIG.staggerDelay}ms`;
+                    }, 0);
+                  });
+
+                  if (targetElement.dataset.animateOnce !== 'false') {
+                    staggerObserver.unobserve(targetElement);
+                  }
+                }
+              });
+            },
+            {
+              threshold: ANIMATION_CONFIG.threshold,
+              rootMargin: ANIMATION_CONFIG.rootMargin,
+            }
+          );
 
           document.querySelectorAll('[data-animate]').forEach(element => {
             element.classList.add('will-animate');
             observer.observe(element);
           });
 
-          document.querySelectorAll('[data-animate-children]').forEach(element => {
-            element.classList.add('will-animate');
-            staggerObserver.observe(element);
-          });
+          document
+            .querySelectorAll('[data-animate-children]')
+            .forEach(element => {
+              element.classList.add('will-animate');
+              staggerObserver.observe(element);
+            });
         }
 
         // Initialize parallax scrolling effects
         function initParallax() {
-          const parallaxElements = document.querySelectorAll('.parallax-element');
-          
+          const parallaxElements =
+            document.querySelectorAll('.parallax-element');
+
           if (parallaxElements.length === 0) return;
 
           let ticking = false;
@@ -186,8 +233,11 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
             parallaxElements.forEach(element => {
               const htmlElement = element as HTMLElement;
               const rect = htmlElement.getBoundingClientRect();
-              const speed = parseFloat(htmlElement.dataset.parallaxSpeed || String(ANIMATION_CONFIG.parallaxSpeed));
-              
+              const speed = parseFloat(
+                htmlElement.dataset.parallaxSpeed ||
+                  String(ANIMATION_CONFIG.parallaxSpeed)
+              );
+
               if (rect.bottom >= 0 && rect.top <= viewportHeight) {
                 const yPos = -(scrolled * speed);
                 htmlElement.style.transform = `translate3d(0, ${yPos}px, 0)`;
@@ -213,19 +263,22 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
           document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
               e.preventDefault();
-              
+
               const targetId = this.getAttribute('href');
               if (targetId === '#') return;
-              
+
               const targetElement = document.querySelector(targetId);
               if (!targetElement) return;
 
               const headerHeight = 80;
-              const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+              const targetPosition =
+                targetElement.getBoundingClientRect().top +
+                window.pageYOffset -
+                headerHeight;
 
               window.scrollTo({
                 top: targetPosition,
-                behavior: 'smooth'
+                behavior: 'smooth',
               });
 
               if (history.pushState) {
@@ -236,12 +289,16 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
         }
 
         // Initialize typewriter effect
-        function initTypewriter(element: HTMLElement, text: string, speed = 50) {
+        function initTypewriter(
+          element: HTMLElement,
+          text: string,
+          speed = 50
+        ) {
           if (!element) return;
 
           element.textContent = '';
           element.classList.add('typewriter');
-          
+
           let index = 0;
 
           function type() {
@@ -261,14 +318,16 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
 
         // Add hover effects to cards
         function initCardHoverEffects() {
-          const cards = document.querySelectorAll('.research-card, .publication-card, .contact-card');
-          
+          const cards = document.querySelectorAll(
+            '.research-card, .publication-card, .contact-card'
+          );
+
           cards.forEach(card => {
-            card.addEventListener('mouseenter', function(e: MouseEvent) {
+            card.addEventListener('mouseenter', function (e: MouseEvent) {
               const rect = this.getBoundingClientRect();
               const x = (e as MouseEvent).clientX - rect.left;
               const y = (e as MouseEvent).clientY - rect.top;
-              
+
               (this as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
               (this as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
             });
@@ -319,8 +378,8 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
               } else if (shape.type === 'triangle') {
                 element.style.width = '0';
                 element.style.height = '0';
-                element.style.borderLeft = `${shape.size/2}px solid transparent`;
-                element.style.borderRight = `${shape.size/2}px solid transparent`;
+                element.style.borderLeft = `${shape.size / 2}px solid transparent`;
+                element.style.borderRight = `${shape.size / 2}px solid transparent`;
                 element.style.borderBottom = `${shape.size}px solid ${shape.color}`;
                 element.style.background = 'transparent';
               }
@@ -348,8 +407,8 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
   /* Modern CSS Custom Properties with Better Theming */
   :root {
     /* Color System - Enhanced with better contrast ratios */
-    --color-catalan-red: #DA291C;
-    --color-catalan-yellow: #FFD93D;
+    --color-catalan-red: #da291c;
+    --color-catalan-yellow: #ffd93d;
     --color-primary-900: #0f0f0f;
     --color-primary-800: #1a1a1a;
     --color-primary-700: #2d2d2d;
@@ -360,7 +419,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --color-primary-200: #d4d4d4;
     --color-primary-100: #f5f5f5;
     --color-primary-50: #fafafa;
-    
+
     /* Semantic Color Mappings */
     --color-text-primary: var(--color-primary-800);
     --color-text-secondary: var(--color-primary-600);
@@ -371,15 +430,17 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --color-bg-tertiary: var(--color-primary-100);
     --color-border-light: #e5e7eb;
     --color-border-medium: #d1d5db;
-    
+
     /* Modern System Font Stack with Performance Optimization */
-    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
-                 "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, 
-                 "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, 
-                 "Liberation Mono", Menlo, monospace;
-    
+    --font-sans:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Inter',
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji';
+    --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+    --font-mono:
+      ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono',
+      Menlo, monospace;
+
     /* Fluid Typography Scale with clamp() */
     --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
     --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
@@ -390,14 +451,14 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --font-size-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem);
     --font-size-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem);
     --font-size-5xl: clamp(3rem, 2rem + 5vw, 4rem);
-    
+
     /* Font Weights */
     --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    
+
     /* Spacing Scale (8px base) */
     --space-0: 0;
     --space-1: 0.25rem;
@@ -413,7 +474,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --space-20: 5rem;
     --space-24: 6rem;
     --space-32: 8rem;
-    
+
     /* Line Heights */
     --leading-none: 1;
     --leading-tight: 1.25;
@@ -421,7 +482,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --leading-normal: 1.5;
     --leading-relaxed: 1.625;
     --leading-loose: 1.75;
-    
+
     /* Letter Spacing */
     --tracking-tighter: -0.05em;
     --tracking-tight: -0.025em;
@@ -429,7 +490,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --tracking-wide: 0.025em;
     --tracking-wider: 0.05em;
     --tracking-widest: 0.1em;
-    
+
     /* Border Radius */
     --radius-sm: 0.125rem;
     --radius-base: 0.25rem;
@@ -439,20 +500,23 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --radius-2xl: 1rem;
     --radius-3xl: 1.5rem;
     --radius-full: 9999px;
-    
+
     /* Shadows - Modern, Subtle */
     --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-base: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-base:
+      0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-md:
+      0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-lg:
+      0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-    
+
     /* Transitions */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     /* Z-index Scale */
     --z-below: -1;
     --z-base: 0;
@@ -463,12 +527,12 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     --z-modal: 1400;
     --z-popover: 1500;
     --z-tooltip: 1600;
-    
+
     /* Content Width */
     --content-max-width: 72rem;
     --content-prose-width: 65ch;
   }
-  
+
   /* Dark Mode Custom Properties */
   @media (prefers-color-scheme: dark) {
     :root {
@@ -481,27 +545,33 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
       --color-bg-tertiary: #262626;
       --color-border-light: #404040;
       --color-border-medium: #525252;
-      
+
       /* Adjusted shadows for dark mode */
       --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-      --shadow-base: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-      --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-      --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+      --shadow-sm:
+        0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+      --shadow-base:
+        0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+      --shadow-md:
+        0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+      --shadow-lg:
+        0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
       --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.6);
     }
   }
-  
+
   /* Modern CSS Reset with Performance Optimizations */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
-  
+
   * {
     margin: 0;
     padding: 0;
   }
-  
+
   /* Prevent font size adjustment on mobile */
   html {
     -webkit-text-size-adjust: 100%;
@@ -515,19 +585,21 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     /* Set base font size for rem calculations */
     font-size: 16px;
   }
-  
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-    
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }
-  
+
   /* Body Styles with Modern Typography */
   body {
     font-family: var(--font-sans);
@@ -537,16 +609,24 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
     /* Improve text rendering */
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1,
+      'calt' 1;
     /* Prevent text selection on UI elements */
     -webkit-tap-highlight-color: transparent;
     /* Optimize scrolling performance */
     overflow-x: hidden;
     min-height: 100vh;
   }
-  
+
   /* Modern Heading Styles with Fluid Typography */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-tight);
@@ -554,12 +634,16 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     margin-bottom: var(--space-4);
     color: var(--color-text-primary);
     /* Enable better kerning for headings */
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1,
+      'calt' 1,
+      'ss01' 1;
     /* Optimize for performance */
     will-change: transform;
     contain: layout style;
   }
-  
+
   h1 {
     font-size: var(--font-size-5xl);
     font-weight: var(--font-weight-light);
@@ -567,33 +651,33 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     line-height: var(--leading-none);
     margin-bottom: var(--space-6);
   }
-  
+
   h2 {
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-light);
     margin-bottom: var(--space-5);
   }
-  
+
   h3 {
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-normal);
   }
-  
+
   h4 {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-medium);
   }
-  
+
   h5 {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-medium);
   }
-  
+
   h6 {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
   }
-  
+
   /* Paragraph Styles with Optimal Reading Experience */
   p {
     margin-bottom: var(--space-5);
@@ -604,7 +688,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     hyphens: auto;
     word-break: break-word;
   }
-  
+
   /* Modern Link Styles with Micro-interactions */
   a {
     color: var(--color-text-primary);
@@ -620,21 +704,22 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;
-    transition: background-size var(--transition-base), 
-                color var(--transition-fast);
+    transition:
+      background-size var(--transition-base),
+      color var(--transition-fast);
   }
-  
+
   a:hover {
     color: var(--color-text-accent);
     background-size: 100% 1px;
   }
-  
+
   a:focus-visible {
     outline: 2px solid var(--color-text-accent);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }
-  
+
   /* Modern Container with Responsive Padding */
   .container {
     width: 100%;
@@ -644,21 +729,21 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     padding-left: var(--space-4);
     padding-right: var(--space-4);
   }
-  
+
   @media (min-width: 640px) {
     .container {
       padding-left: var(--space-6);
       padding-right: var(--space-6);
     }
   }
-  
+
   @media (min-width: 1024px) {
     .container {
       padding-left: var(--space-8);
       padding-right: var(--space-8);
     }
   }
-  
+
   /* Section Spacing with Fluid Values */
   .section {
     padding-top: clamp(var(--space-16), 10vw, var(--space-24));
@@ -666,18 +751,18 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     /* Optimize paint performance */
     contain: layout style;
   }
-  
+
   /* Utility Classes for Modern Layouts */
   .grid {
     display: grid;
     gap: var(--space-4);
   }
-  
+
   .flex {
     display: flex;
     gap: var(--space-4);
   }
-  
+
   /* Image Optimization */
   img {
     max-width: 100%;
@@ -688,53 +773,56 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     /* Lazy loading support */
     loading: lazy;
   }
-  
+
   /* Modern Form Elements */
-  input, textarea, select, button {
+  input,
+  textarea,
+  select,
+  button {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     color: inherit;
   }
-  
+
   /* Focus Styles for Accessibility */
   :focus-visible {
     outline: 2px solid var(--color-text-accent);
     outline-offset: 2px;
   }
-  
+
   /* Selection Styles */
   ::selection {
     background-color: var(--color-catalan-red);
     color: white;
   }
-  
+
   /* Modern Scrollbar Styles */
   ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: var(--color-bg-secondary);
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-primary-400);
     border-radius: var(--radius-full);
     border: 3px solid var(--color-bg-secondary);
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary-500);
   }
-  
+
   /* Support for Firefox */
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--color-primary-400) var(--color-bg-secondary);
   }
-  
+
   /* Utility: Visually Hidden (Accessible) */
   .sr-only {
     position: absolute;
@@ -747,7 +835,7 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
     white-space: nowrap;
     border-width: 0;
   }
-  
+
   /* Print Styles */
   @media print {
     body {
@@ -756,22 +844,28 @@ const { title, description = "Ramon Roca Pinilla - Biomedical engineer and molec
       color: #000;
       background: #fff;
     }
-    
+
     .no-print {
       display: none !important;
     }
-    
+
     a {
       color: #000;
       text-decoration: underline;
     }
-    
-    h1, h2, h3, h4, h5, h6 {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       page-break-after: avoid;
       page-break-inside: avoid;
     }
-    
-    img, figure {
+
+    img,
+    figure {
       page-break-inside: avoid;
     }
   }

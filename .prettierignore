@@ -1,0 +1,37 @@
+# Build outputs
+dist/
+.astro/
+node_modules/
+
+# Generated files
+*.min.js
+*.min.css
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache
+.eslintcache
+.npm
+.yarn
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Public assets that shouldn't be formatted
+public/
