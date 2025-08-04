@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import ProteinStructure from '../components/ProteinStructure.astro';
-import AntimicrobialResistanceTimeline from '../components/AntimicrobialResistanceTimeline';
+import SimpleTimeline from '../components/SimpleTimeline';
 import Timeline from '../components/Timeline.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -318,7 +318,7 @@ import Footer from '../components/Footer.astro';
       <!-- Interactive Timeline Component -->
       <div class="timeline-section">
         <h3 class="subsection-title">Antimicrobial Resistance Timeline</h3>
-        <AntimicrobialResistanceTimeline client:visible />
+        <SimpleTimeline client:visible />
       </div>
     </div>
   </section>
