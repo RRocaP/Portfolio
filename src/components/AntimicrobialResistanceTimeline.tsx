@@ -119,9 +119,22 @@ export default function AntimicrobialResistanceTimeline() {
       .range([0, height])
       .padding(0.3);
 
+    // RomaO colormap from Fabio Crameri's scientific colormaps
+    const romaOColors = [
+      '#7e1900', // Dark red-brown
+      '#ae5d00', // Orange-brown  
+      '#da9100', // Gold
+      '#f4be2f', // Yellow-gold
+      '#fcdfa6', // Light yellow
+      '#a6dff4', // Light blue
+      '#2f91be', // Blue
+      '#005dae', // Dark blue
+      '#00197e'  // Deep blue
+    ];
+    
     const colorScale = d3.scaleOrdinal<string, string>()
       .domain(Array.from(new Set(antibioticData.map(d => d.category))))
-      .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#F39C12']);
+      .range(romaOColors);
 
     // Grid lines
     g.append('g')
@@ -135,22 +148,31 @@ export default function AntimicrobialResistanceTimeline() {
       .style('opacity', 0.3);
 
     // X axis
-    g.append('g')
+    const xAxis = g.append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale)
         .tickFormat(d3.format('d'))
-        .ticks(10))
-      .append('text')
+        .ticks(10));
+    
+    xAxis.selectAll('text')
+      .style('font-size', '14px')
+      .style('font-weight', '500');
+    
+    xAxis.append('text')
       .attr('x', width / 2)
       .attr('y', 50)
       .attr('fill', 'black')
       .style('text-anchor', 'middle')
-      .style('font-size', '14px')
+      .style('font-size', '18px')
+      .style('font-weight', 'bold')
       .text('Year');
 
     // Y axis
     g.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(yScale))
+      .selectAll('text')
+      .style('font-size', '14px')
+      .style('font-weight', '600');
 
     // Timeline bars
     const bars = g.selectAll('.timeline-bar')
@@ -214,7 +236,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('x', dimensions.width / 2)
       .attr('y', 30)
       .attr('text-anchor', 'middle')
-      .style('font-size', '24px')
+      .style('font-size', '32px')
       .style('font-weight', 'bold')
       .text('The Race Against Resistance: Antibiotic Timeline');
 
@@ -242,29 +264,19 @@ export default function AntimicrobialResistanceTimeline() {
           .attr('y', 9)
           .attr('dy', '0.35em')
           .style('text-anchor', 'end')
-          .style('font-size', '12px')
+          .style('font-size', '14px')
+          .style('font-weight', '500')
           .text(d);
       });
 
-    // Ramon's solution annotation
-    const solutionYear = 2024;
-    g.append('line')
-      .attr('x1', xScale(solutionYear))
-      .attr('y1', 0)
-      .attr('x2', xScale(solutionYear))
-      .attr('y2', height)
-      .attr('stroke', '#50C878')
-      .attr('stroke-width', 3)
-      .attr('stroke-dasharray', '10,5');
-
-    g.append('text')
-      .attr('x', xScale(solutionYear))
-      .attr('y', -20)
+    // Add subtitle about resistance timeline
+    svg.append('text')
+      .attr('x', dimensions.width / 2)
+      .attr('y', 60)
       .attr('text-anchor', 'middle')
-      .style('font-size', '14px')
-      .style('font-weight', 'bold')
-      .style('fill', '#50C878')
-      .text("Ramon's Approach →");
+      .style('font-size', '16px')
+      .style('fill', '#666')
+      .text('Timeline showing introduction year and resistance emergence');
 
   }, [dimensions]);
 
@@ -282,16 +294,15 @@ export default function AntimicrobialResistanceTimeline() {
           <p><em>{selectedAntibiotic.impact}</em></p>
         </div>
       )}
-      <div className="solution-box">
-        <h3>Ramon's Solution: Modular Antimicrobial Proteins</h3>
-        <p>Instead of traditional antibiotics, I engineer proteins with multiple functional domains that:</p>
+      <div className="insights-box">
+        <h3>Key Insights</h3>
+        <p>The timeline reveals a critical pattern: resistance emergence is accelerating over time.</p>
         <ul>
-          <li>Target multiple bacterial systems simultaneously</li>
-          <li>Recruit the immune system for enhanced killing</li>
-          <li>Prevent biofilm formation</li>
-          <li>Are customizable for specific infections</li>
+          <li>Early antibiotics (1940s-1960s): Resistance within 0-7 years</li>
+          <li>Modern antibiotics (2000s+): Resistance within 1-2 years</li>
+          <li>Average time to resistance: Less than 5 years</li>
         </ul>
-        <p>This multi-target approach makes resistance evolution significantly harder for bacteria.</p>
+        <p>This highlights the urgent need for novel antimicrobial strategies beyond traditional small molecules.</p>
       </div>
       <style>{`
         .timeline-container {
@@ -312,28 +323,36 @@ export default function AntimicrobialResistanceTimeline() {
         }
         .info-panel h3 {
           margin: 0 0 0.5rem 0;
-          color: #DA291C;
+          color: #7e1900;
+          font-size: 1.3rem;
         }
         .info-panel p {
           margin: 0.25rem 0;
-          font-size: 0.9rem;
+          font-size: 1rem;
+          line-height: 1.5;
         }
-        .solution-box {
-          background: linear-gradient(135deg, rgba(80, 200, 120, 0.1) 0%, rgba(255, 217, 61, 0.1) 100%);
-          border: 2px solid #50C878;
+        .insights-box {
+          background: linear-gradient(135deg, rgba(126, 25, 0, 0.05) 0%, rgba(0, 25, 126, 0.05) 100%);
+          border: 2px solid #ae5d00;
           border-radius: 8px;
           padding: 1.5rem;
           margin-top: 2rem;
         }
-        .solution-box h3 {
-          color: #50C878;
+        .insights-box h3 {
+          color: #7e1900;
           margin-bottom: 1rem;
+          font-size: 1.4rem;
         }
-        .solution-box ul {
+        .insights-box p {
+          font-size: 1.1rem;
+          line-height: 1.6;
+        }
+        .insights-box ul {
           margin-left: 1.5rem;
         }
-        .solution-box li {
+        .insights-box li {
           margin: 0.5rem 0;
+          font-size: 1.05rem;
         }
       `}</style>
     </div>
