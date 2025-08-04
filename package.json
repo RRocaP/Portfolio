@@ -114,6 +114,6 @@
     "vite-plugin-compression2": "^2.2.0",
     "vitest": "^3.2.4",
     "vitest-axe": "^0.1.0",
-    "@lhci/cli": "^0.13.0"
+    "@lhci/cli": "^0.15.1"
   }
 }
