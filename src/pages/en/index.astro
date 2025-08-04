@@ -17,6 +17,22 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
         <a href="#about" class="btn btn-primary">Learn More</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
       </div>
+      
+      <!-- Research Impact Statistics -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">16+</div>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">250+</div>
+          <div class="stat-label">Citations</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Patents</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -217,6 +233,40 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
             </svg>
             ORCID
           </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Patents Section -->
+  <section id="patents" class="section patents-section">
+    <div class="container">
+      <h2>Patents & Intellectual Property</h2>
+      <div class="accent-bar"></div>
+      
+      <div class="patents-list">
+        <div class="patent-card">
+          <span class="patent-year">2023</span>
+          <h3>Multidomain Antimicrobial Proteins and Methods of Use</h3>
+          <p class="patent-details">Novel antimicrobial proteins with multiple functional domains for enhanced bacterial targeting</p>
+          <p class="patent-status"><strong>Status:</strong> Patent Application Pending</p>
+          <p class="patent-inventors"><em>Inventors: Roca-Pinilla, R., Arís, A., García-Fruitós, E.</em></p>
+        </div>
+        
+        <div class="patent-card">
+          <span class="patent-year">2022</span>
+          <h3>Recombinant Protein Nanoclusters for Therapeutic Applications</h3>
+          <p class="patent-details">Methods for producing and using protein-based nanoparticles as antimicrobial agents</p>
+          <p class="patent-status"><strong>Status:</strong> Patent Application Pending</p>
+          <p class="patent-inventors"><em>Inventors: Roca-Pinilla, R., López-Cano, A., Arís, A.</em></p>
+        </div>
+        
+        <div class="patent-card">
+          <span class="patent-year">2023</span>
+          <h3>Antibiofilm Surfaces Using Immobilized Antimicrobial Proteins</h3>
+          <p class="patent-details">Surface modification technology for preventing bacterial biofilm formation</p>
+          <p class="patent-status"><strong>Status:</strong> Patent Application Pending</p>
+          <p class="patent-inventors"><em>Inventors: Roca-Pinilla, R., et al.</em></p>
         </div>
       </div>
     </div>
@@ -1012,6 +1062,105 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     .btn-primary:hover {
       background: transparent;
       color: var(--accent-red);
+    }
+  }
+
+  /* Hero Statistics */
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(218, 41, 28, 0.2);
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-yellow);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Patents Section */
+  .patents-section {
+    background: var(--background);
+    position: relative;
+  }
+
+  .patents-list {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .patent-card {
+    background: var(--background-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .patent-card:hover {
+    border-color: var(--accent-yellow);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(218, 41, 28, 0.1);
+  }
+
+  .patent-year {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow));
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .patent-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .patent-details {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .patent-status {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .patent-inventors {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .hero-stats {
+      gap: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
     }
   }
 </style>

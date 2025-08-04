@@ -1,0 +1,80 @@
+---
+export interface Props {
+  lang: 'en' | 'es' | 'ca';
+  strings: any;
+}
+
+const { lang, strings } = Astro.props;
+
+const patents = [
+  {
+    title: "Multidomain antimicrobial proteins and methods of use",
+    inventors: "Roca-Pinilla, R., Arís, A., García-Fruitós, E.",
+    patentNumber: "Pending",
+    year: "2023",
+    description: "Novel antimicrobial proteins with multiple functional domains for enhanced bacterial targeting",
+    type: "Patent Application"
+  },
+  {
+    title: "Recombinant protein nanoclusters for therapeutic applications",
+    inventors: "Roca-Pinilla, R., López-Cano, A., Arís, A.",
+    patentNumber: "Pending",
+    year: "2022",
+    description: "Methods for producing and using protein-based nanoparticles as antimicrobial agents",
+    type: "Patent Application"
+  },
+  {
+    title: "Antibiofilm surfaces using immobilized antimicrobial proteins",
+    inventors: "Roca-Pinilla, R., et al.",
+    patentNumber: "Pending",
+    year: "2023",
+    description: "Surface modification technology for preventing bacterial biofilm formation",
+    type: "Patent Application"
+  }
+];
+---
+
+<section id="patents" class="col-span-12 py-24 bg-surface-1">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="font-sans text-display-md text-center mb-16 text-balance">
+      Patents & Intellectual Property
+    </h2>
+    
+    <div class="space-y-8">
+      {patents.map((patent) => (
+        <article class="bg-background border border-border rounded-sm p-8 hover:border-accent-yellow/30 transition-colors">
+          <div class="flex items-start justify-between mb-4">
+            <span class="text-sm text-accent-yellow bg-accent-yellow/10 px-3 py-1 rounded border border-accent-yellow/20">
+              {patent.type}
+            </span>
+            <span class="text-sm text-text-muted">
+              {patent.year}
+            </span>
+          </div>
+          
+          <h3 class="font-sans text-heading-lg text-body-text mb-4 leading-tight">
+            {patent.title}
+          </h3>
+          
+          <p class="text-text-muted mb-2">
+            <strong>Inventors:</strong> {patent.inventors}
+          </p>
+          
+          <p class="text-text-muted mb-4">
+            <strong>Status:</strong> {patent.patentNumber}
+          </p>
+          
+          <p class="text-sm text-text-muted italic">
+            {patent.description}
+          </p>
+        </article>
+      ))}
+    </div>
+    
+    <div class="mt-12 p-6 bg-accent-yellow/5 border border-accent-yellow/20 rounded">
+      <p class="text-center text-text-muted">
+        <strong>Note:</strong> Additional patent applications in preparation related to AAV vector engineering and antimicrobial peptide technologies.
+      </p>
+    </div>
+  </div>
+</section>
