@@ -25,9 +25,18 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const NGL = await loadNGLViewer();
-      const stage = new NGL.Stage("ngl-viewer");
+    const viewerElement = document.getElementById('ngl-viewer');
+    if (!viewerElement) return;
+    
+    let isLoaded = false;
+    
+    const initViewer = async () => {
+      if (isLoaded) return;
+      isLoaded = true;
+      
+      try {
+        const NGL = await loadNGLViewer();
+        const stage = new NGL.Stage("ngl-viewer");
 
       // Handle window resizing
       window.addEventListener("resize", function () {
@@ -35,7 +44,7 @@
       });
 
       // Load the PDB structure for Human Cathelicidin LL-37 (PDB ID: 2K6O)
-      stage.loadFile("rcsb://2K6O", { defaultRepresentation: true }).then(function (component) {
+      stage.loadFile("https://mmtf.rcsb.org/v1.0/full/2K6O", { defaultRepresentation: true }).then(function (component) {
         // Clear default representation and add custom ones for better styling
         component.removeAllRepresentations();
 
@@ -52,9 +61,22 @@
         component.autoView();
       });
 
-    } catch (error) {
-      console.error("Failed to load NGL Viewer:", error);
-    }
+      } catch (error) {
+        console.error("Failed to load NGL Viewer:", error);
+      }
+    };
+    
+    // Use Intersection Observer for lazy loading
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          initViewer();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    observer.observe(viewerElement);
   });
 </script>
 

@@ -1,7 +1,17 @@
 <script>
   declare var NGL: any;
   document.addEventListener('DOMContentLoaded', function () {
-    var stage = new NGL.Stage("ngl-viewer");
+    const viewerElement = document.getElementById('ngl-viewer');
+    if (!viewerElement) return;
+    
+    let stage: any = null;
+    let isLoaded = false;
+    
+    const initViewer = () => {
+      if (isLoaded) return;
+      isLoaded = true;
+      
+      stage = new NGL.Stage("ngl-viewer");
 
     // Set transparent background
     stage.setParameters({ backgroundColor: "transparent" });
@@ -19,7 +29,7 @@
 
     // Function to load and style a protein
     function loadAndStyleProtein(pdbId: string, colorScheme: any, position: number[] | undefined, selectionColor: string) {
-        stage.loadFile("rcsb://" + pdbId, { defaultRepresentation: false }).then(function (component: any) {
+        stage.loadFile("https://mmtf.rcsb.org/v1.0/full/" + pdbId, { defaultRepresentation: false }).then(function (component: any) {
             component.addRepresentation("cartoon", {
                 color: colorScheme,
                 quality: "smooth",
@@ -66,7 +76,20 @@
 
     // Handle window resizing
     window.addEventListener('resize', function () {
-        stage.handleResize();
+        if (stage) stage.handleResize();
     });
+    };
+    
+    // Use Intersection Observer for lazy loading
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          initViewer();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    observer.observe(viewerElement);
   });
 </script>
