@@ -1,27 +1,53 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+// Get current language from URL
+const currentLang = Astro.url.pathname.split('/')[2] || 'en';
 ---
 
-<nav class="navigation">
+<nav class="navigation" role="navigation" aria-label="Main navigation">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="/Portfolio/" class="logo">Ramon Roca Pinilla</a>
+      <a href="/Portfolio/" class="logo" aria-label="Home - Ramon Roca Pinilla">
+        <span aria-hidden="true">Ramon Roca Pinilla</span>
+      </a>
       
-      <button class="mobile-menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button 
+        class="mobile-menu-toggle" 
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
       
-      <ul class="nav-links">
-        <li><a href="/Portfolio/" class="nav-link">Home</a></li>
-        <li><a href="/Portfolio/#about" class="nav-link">About</a></li>
-        <li><a href="/Portfolio/#research" class="nav-link">Research</a></li>
-        <li><a href="/Portfolio/#publications" class="nav-link">Publications</a></li>
-        <li><a href="/Portfolio/#contact" class="nav-link">Contact</a></li>
-        <li class="lang-switcher">
-          <a href="/Portfolio/en/" class="lang-link">EN</a>
-          <a href="/Portfolio/es/" class="lang-link">ES</a>
-          <a href="/Portfolio/ca/" class="lang-link">CA</a>
+      <ul class="nav-links" id="nav-menu" role="menubar">
+        <li role="none">
+          <a href="/Portfolio/" class="nav-link" role="menuitem" aria-current="page">Home</a>
+        </li>
+        <li role="none">
+          <a href="/Portfolio/#about" class="nav-link" role="menuitem">About</a>
+        </li>
+        <li role="none">
+          <a href="/Portfolio/#research" class="nav-link" role="menuitem">Research</a>
+        </li>
+        <li role="none">
+          <a href="/Portfolio/#publications" class="nav-link" role="menuitem">Publications</a>
+        </li>
+        <li role="none">
+          <a href="/Portfolio/#contact" class="nav-link" role="menuitem">Contact</a>
+        </li>
+        <li class="lang-switcher" role="none">
+          <div role="group" aria-label="Language selector">
+            <a href="/Portfolio/en/" class={`lang-link ${currentLang === 'en' ? 'active' : ''}`} 
+               role="menuitem" hreflang="en" aria-label="English">EN</a>
+            <a href="/Portfolio/es/" class={`lang-link ${currentLang === 'es' ? 'active' : ''}`} 
+               role="menuitem" hreflang="es" aria-label="Español">ES</a>
+            <a href="/Portfolio/ca/" class={`lang-link ${currentLang === 'ca' ? 'active' : ''}`} 
+               role="menuitem" hreflang="ca" aria-label="Català">CA</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -118,9 +144,46 @@
     transition: all 0.2s ease;
   }
 
-  .lang-switcher .lang-link:hover {
+  .lang-switcher .lang-link.active {
     color: var(--accent-red);
-    background: rgba(var(--accent-red-rgb), 0.1);
+    background: rgba(218, 41, 28, 0.1);
+    border-color: var(--accent-red);
+  }
+
+  /* Focus styles for accessibility */
+  .nav-link:focus,
+  .lang-link:focus,
+  .logo:focus,
+  .mobile-menu-toggle:focus {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* High contrast support */
+  @media (prefers-contrast: high) {
+    .nav-link, .lang-link, .logo {
+      font-weight: var(--font-weight-bold);
+    }
+    
+    .nav-link:hover, .lang-link:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .nav-links .nav-link,
+    .lang-switcher .lang-link,
+    .mobile-menu-toggle span {
+      transition: none;
+    }
+    
+    .nav-links .nav-link:hover,
+    .nav-links .nav-link.active {
+      transform: none;
+    }
   }
 
   .mobile-menu-toggle {
@@ -228,80 +291,236 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const navigation = document.querySelector('.navigation');
-    const mobileToggle = document.querySelector('.mobile-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const navItems = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section[id]');
+  // Modern navigation with enhanced accessibility and performance
+  class NavigationManager {
+    constructor() {
+      this.navigation = document.querySelector('.navigation');
+      this.mobileToggle = document.querySelector('.mobile-menu-toggle');
+      this.navLinks = document.querySelector('.nav-links');
+      this.navItems = document.querySelectorAll('.nav-link');
+      this.sections = document.querySelectorAll('section[id]');
+      this.isMenuOpen = false;
+      this.scrollTimeout = null;
+      
+      this.init();
+    }
 
-    // Add RGB variables to root for dynamic opacity
-    const style = getComputedStyle(document.body);
-    const backgroundRgb = style.getPropertyValue('--background').match(/\d+/g);
-    const accentRedRgb = style.getPropertyValue('--accent-red').match(/\d+/g);
-    document.documentElement.style.setProperty('--background-rgb', backgroundRgb.join(','));
-    document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb.join(','));
+    init() {
+      this.setupRGBVariables();
+      this.setupMobileMenu();
+      this.setupScrollHandler();
+      this.setupKeyboardNavigation();
+      this.setupFocusManagement();
+      this.handleInitialLoad();
+    }
 
-    // Dark mode specific RGB values
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const updateDarkModeRgb = () => {
-      if (darkModeMediaQuery.matches) {
-        const darkBackgroundRgb = getComputedStyle(document.documentElement).getPropertyValue('--background').match(/\d+/g);
-        document.documentElement.style.setProperty('--background-rgb-dark', darkBackgroundRgb.join(','));
-      } else {
-        document.documentElement.style.removeProperty('--background-rgb-dark');
+    setupRGBVariables() {
+      // Extract RGB values for dynamic opacity
+      const computeRGB = (property) => {
+        const color = getComputedStyle(document.documentElement).getPropertyValue(property);
+        const rgb = color.match(/\d+/g);
+        return rgb ? rgb.join(',') : null;
+      };
+
+      const backgroundRgb = computeRGB('--background');
+      const accentRedRgb = computeRGB('--accent-red');
+      
+      if (backgroundRgb) {
+        document.documentElement.style.setProperty('--background-rgb', backgroundRgb);
       }
-    };
-    updateDarkModeRgb();
-    darkModeMediaQuery.addEventListener('change', updateDarkModeRgb);
+      if (accentRedRgb) {
+        document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb);
+      }
 
-    // Mobile menu toggle
-    mobileToggle?.addEventListener('click', () => {
-      navLinks?.classList.toggle('active');
-      mobileToggle?.classList.toggle('active');
-    });
-    
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks?.classList.remove('active');
-        mobileToggle?.classList.remove('active');
+      // Handle dark mode changes
+      const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const updateDarkModeRgb = () => {
+        if (darkModeQuery.matches) {
+          const darkBgRgb = computeRGB('--background');
+          if (darkBgRgb) {
+            document.documentElement.style.setProperty('--background-rgb-dark', darkBgRgb);
+          }
+        }
+      };
+      
+      updateDarkModeRgb();
+      darkModeQuery.addEventListener('change', updateDarkModeRgb);
+    }
+
+    setupMobileMenu() {
+      if (!this.mobileToggle || !this.navLinks) return;
+
+      this.mobileToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleMobileMenu();
       });
-    });
 
-    // Optimized scroll handler with debouncing and passive listeners
-    let scrollTimeout;
-    const handleScroll = () => {
-      // Immediate scroll bar effect for better responsiveness
-      if (window.scrollY > 50) {
-        navigation?.classList.add('scrolled');
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (this.isMenuOpen && !this.navigation.contains(e.target)) {
+          this.closeMobileMenu();
+        }
+      });
+
+      // Close menu when clicking nav links
+      this.navItems.forEach(link => {
+        link.addEventListener('click', () => {
+          if (this.isMenuOpen) {
+            this.closeMobileMenu();
+          }
+        });
+      });
+    }
+
+    toggleMobileMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+      
+      this.navLinks.classList.toggle('active', this.isMenuOpen);
+      this.mobileToggle.classList.toggle('active', this.isMenuOpen);
+      this.mobileToggle.setAttribute('aria-expanded', this.isMenuOpen.toString());
+      
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+      
+      // Focus management
+      if (this.isMenuOpen) {
+        // Focus first nav link when menu opens
+        const firstNavLink = this.navLinks.querySelector('.nav-link');
+        firstNavLink?.focus();
       } else {
-        navigation?.classList.remove('scrolled');
+        // Return focus to toggle button when menu closes
+        this.mobileToggle.focus();
       }
+    }
 
-      // Debounce active link highlighting for performance
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        let currentActive = '';
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - navigation.offsetHeight - 20;
-          const sectionHeight = section.clientHeight;
-          if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-            currentActive = section.getAttribute('id');
+    closeMobileMenu() {
+      if (!this.isMenuOpen) return;
+      
+      this.isMenuOpen = false;
+      this.navLinks.classList.remove('active');
+      this.mobileToggle.classList.remove('active');
+      this.mobileToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    setupScrollHandler() {
+      const handleScroll = () => {
+        // Immediate visual feedback for navigation bar
+        requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            this.navigation.classList.add('scrolled');
+          } else {
+            this.navigation.classList.remove('scrolled');
           }
         });
 
-        navItems.forEach(item => {
-          item.classList.remove('active');
-          if (item.getAttribute('href')?.includes(currentActive)) {
-            item.classList.add('active');
-          }
-        });
-      }, 16); // ~60fps debounce
-    };
+        // Debounced active link highlighting for performance
+        if (this.scrollTimeout) {
+          clearTimeout(this.scrollTimeout);
+        }
+        
+        this.scrollTimeout = setTimeout(() => {
+          this.updateActiveNavigation();
+        }, 16); // 60fps throttle
+      };
 
-    // Use passive listeners for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Call on load to set initial state
-  });
+      // Use passive listener for better scroll performance
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    updateActiveNavigation() {
+      let currentSection = '';
+      const offset = this.navigation.offsetHeight + 50; // Account for fixed header
+
+      this.sections.forEach(section => {
+        const sectionTop = section.offsetTop - offset;
+        const sectionHeight = section.clientHeight;
+        
+        if (window.pageYOffset >= sectionTop && 
+            window.pageYOffset < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      // Update active states
+      this.navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        const isActive = href?.includes(currentSection) || 
+                        (currentSection === '' && href === '/Portfolio/');
+        
+        item.classList.toggle('active', isActive);
+        item.setAttribute('aria-current', isActive ? 'page' : 'false');
+      });
+    }
+
+    setupKeyboardNavigation() {
+      // Enhanced keyboard navigation for mobile menu
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isMenuOpen) {
+          this.closeMobileMenu();
+        }
+        
+        // Arrow key navigation within menu
+        if (this.isMenuOpen && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+          e.preventDefault();
+          this.navigateMenu(e.key === 'ArrowDown' ? 1 : -1);
+        }
+      });
+    }
+
+    navigateMenu(direction) {
+      const focusableItems = Array.from(this.navLinks.querySelectorAll('a'));
+      const currentIndex = focusableItems.indexOf(document.activeElement);
+      let nextIndex = currentIndex + direction;
+      
+      if (nextIndex < 0) {
+        nextIndex = focusableItems.length - 1;
+      } else if (nextIndex >= focusableItems.length) {
+        nextIndex = 0;
+      }
+      
+      focusableItems[nextIndex]?.focus();
+    }
+
+    setupFocusManagement() {
+      // Trap focus within mobile menu when open
+      this.navLinks.addEventListener('keydown', (e) => {
+        if (!this.isMenuOpen || e.key !== 'Tab') return;
+        
+        const focusableElements = this.navLinks.querySelectorAll('a');
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      });
+    }
+
+    handleInitialLoad() {
+      // Set initial active state and scroll position
+      this.updateActiveNavigation();
+      
+      // Handle page reload with hash
+      if (window.location.hash) {
+        setTimeout(() => {
+          const target = document.querySelector(window.location.hash);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new NavigationManager());
+  } else {
+    new NavigationManager();
+  }
 </script>

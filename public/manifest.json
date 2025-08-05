@@ -1,0 +1,21 @@
+{
+  "name": "Ramon Roca Pinilla - Portfolio",
+  "short_name": "Ramon Roca",
+  "description": "Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies",
+  "start_url": "/Portfolio/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#DA291C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Portfolio/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "portfolio", "science"],
+  "lang": "en",
+  "dir": "ltr"
+}

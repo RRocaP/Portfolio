@@ -1,18 +1,23 @@
 ---
 ---
 
-<div class="scroll-indicator">
-  <div class="mouse">
+<button 
+  class="scroll-indicator"
+  aria-label="Scroll down to about section"
+  role="button"
+  tabindex="0"
+>
+  <div class="mouse" aria-hidden="true">
     <div class="wheel"></div>
   </div>
-  <div class="scroll-text">Scroll down</div>
-  <div class="arrow-down">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M7 13l3 3 7-7"/>
-      <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"/>
+  <span class="scroll-text">Scroll down</span>
+  <div class="arrow-down" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" role="presentation">
+      <path d="M12 5v14"/>
+      <path d="m19 12-7 7-7-7"/>
     </svg>
   </div>
-</div>
+</button>
 
 <style>
   .scroll-indicator {
@@ -135,32 +140,111 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    const handleScroll = () => {
+  // Enhanced scroll indicator with accessibility and performance
+  class ScrollIndicatorManager {
+    constructor() {
+      this.indicator = document.querySelector('.scroll-indicator');
+      this.isVisible = true;
+      this.scrollThreshold = 0.3; // 30% of viewport height
+      
+      this.init();
+    }
+
+    init() {
+      if (!this.indicator) return;
+      
+      this.setupScrollHandler();
+      this.setupClickHandler();
+      this.setupKeyboardHandler();
+    }
+
+    setupScrollHandler() {
+      let ticking = false;
+      
+      const handleScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            this.updateVisibility();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+
+      // Use passive listener for better performance
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      
+      // Set initial state
+      this.updateVisibility();
+    }
+
+    updateVisibility() {
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
+      const shouldHide = scrollPosition > windowHeight * this.scrollThreshold;
       
-      // Hide indicator after scrolling 30% of viewport height
-      if (scrollPosition > windowHeight * 0.3) {
-        scrollIndicator?.classList.add('hidden');
-      } else {
-        scrollIndicator?.classList.remove('hidden');
+      if (shouldHide !== !this.isVisible) {
+        this.isVisible = !shouldHide;
+        this.indicator.classList.toggle('hidden', shouldHide);
+        
+        // Update ARIA attributes for screen readers
+        this.indicator.setAttribute('aria-hidden', shouldHide.toString());
+        
+        if (shouldHide) {
+          this.indicator.setAttribute('tabindex', '-1');
+        } else {
+          this.indicator.setAttribute('tabindex', '0');
+        }
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    
-    // Click handler to scroll to next section
-    scrollIndicator?.addEventListener('click', () => {
+    setupClickHandler() {
+      this.indicator.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.scrollToNextSection();
+      });
+    }
+
+    setupKeyboardHandler() {
+      this.indicator.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.scrollToNextSection();
+        }
+      });
+    }
+
+    scrollToNextSection() {
       const aboutSection = document.getElementById('about');
+      
       if (aboutSection) {
-        aboutSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
+        // Smooth scroll with better browser support
+        if ('scrollBehavior' in document.documentElement.style) {
+          aboutSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        } else {
+          // Fallback for older browsers
+          const targetPosition = aboutSection.offsetTop - 80; // Account for fixed header
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+        
+        // Focus management for accessibility
+        setTimeout(() => {
+          aboutSection.focus();
+        }, 1000); // Wait for scroll to complete
       }
-    });
-  });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new ScrollIndicatorManager());
+  } else {
+    new ScrollIndicatorManager();
+  }
 </script>
