@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "build:analyze": "npm run build && npm run bundle-analyzer",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "gh-pages -d dist",
@@ -15,8 +16,12 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "test:run": "vitest run",
     "audit": "npm audit",
-    "audit:fix": "npm audit fix"
+    "audit:fix": "npm audit fix",
+    "bundle-analyzer": "node scripts/bundle-analyzer.js",
+    "lighthouse": "lhci autorun",
+    "quality-check": "npm run lint:check && npm run type-check && npm run test:run"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
@@ -26,6 +31,8 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.14.0",
+    "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@types/d3": "^7.4.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
