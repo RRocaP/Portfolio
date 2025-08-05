@@ -1,0 +1,21 @@
+# Security Headers for GitHub Pages
+# Note: GitHub Pages has limited support for custom headers
+# These would be applicable if hosting elsewhere
+
+# Content Security Policy
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'
+
+# X-Frame-Options
+X-Frame-Options: DENY
+
+# X-Content-Type-Options
+X-Content-Type-Options: nosniff
+
+# Referrer Policy
+Referrer-Policy: strict-origin-when-cross-origin
+
+# Permissions Policy
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Strict Transport Security (HTTPS only)
+Strict-Transport-Security: max-age=31536000; includeSubDomains
