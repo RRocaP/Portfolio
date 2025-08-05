@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "security:openssf-scorecard"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "🔄 Dependency Updates",
+  "rangeStrategy": "bump",
+  "labels": ["dependencies"],
+  "assignees": ["RRocaP"],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "assignees": ["RRocaP"]
+  },
+  "schedule": ["before 9am on monday"],
+  "timezone": "Australia/Sydney",
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["typescript", "@typescript-eslint/parser", "@typescript-eslint/eslint-plugin"],
+      "groupName": "TypeScript"
+    },
+    {
+      "matchPackageNames": ["vitest", "@vitest/ui", "@vitest/coverage-v8"],
+      "groupName": "Vitest"
+    },
+    {
+      "matchPackageNames": ["astro", "@astrojs/react"],
+      "groupName": "Astro"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "*": [
+    "npm run lint:check",
+    "npm run type-check"
+  ],
+  "*.{ts,tsx,astro}": [
+    "npm run lint"
+  ],
+  "src/**/*.{ts,tsx}": [
+    "npm run test:run -- --passWithNoTests"
+  ]
+}
