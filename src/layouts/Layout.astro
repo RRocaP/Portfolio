@@ -15,6 +15,66 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ramon Roca Pinilla",
+      "jobTitle": "Biomedical Engineer & Molecular Biologist",
+      "description": "Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies through AI-driven protein engineering",
+      "url": "https://rrocap.github.io/Portfolio/",
+      "sameAs": [
+        "https://www.linkedin.com/in/ramonrocapinilla/",
+        "https://github.com/RRocaP",
+        "https://orcid.org/0000-0002-7393-6200",
+        "https://scholar.google.com/citations?hl=fr&user=jYIZGT0AAAAJ"
+      ],
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Children's Medical Research Institute",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Sydney",
+          "addressCountry": "Australia"
+        }
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Universitat Autònoma de Barcelona"
+        },
+        {
+          "@type": "EducationalOrganization", 
+          "name": "UC Irvine"
+        }
+      ],
+      "knowsAbout": [
+        "Biomedical Engineering",
+        "Molecular Biology", 
+        "Protein Engineering",
+        "Antimicrobial Development",
+        "AI-driven Drug Discovery",
+        "Vector Systems"
+      ]
+    }
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rrocap.github.io/Portfolio/">
+    <meta property="og:title" content="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
+    <meta property="og:description" content="Developing next-generation antimicrobial therapies through AI-driven protein engineering">
+    <meta property="og:image" content="https://rrocap.github.io/Portfolio/profile.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://rrocap.github.io/Portfolio/">
+    <meta property="twitter:title" content="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
+    <meta property="twitter:description" content="Developing next-generation antimicrobial therapies through AI-driven protein engineering">
+    <meta property="twitter:image" content="https://rrocap.github.io/Portfolio/profile.jpg">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
