@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rrocap.github.io/Portfolio/sitemap.xml
+
+# Optimize crawling
+Crawl-delay: 1
+
+# Block access to source maps and config files
+Disallow: /*.map$
+Disallow: /astro.config.*
+Disallow: /package*.json
+Disallow: /tsconfig.json
+Disallow: /.eslintrc.*
+Disallow: /.prettierrc.*
+
+# Allow specific assets
+Allow: /favicon.svg
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /profile.jpg
