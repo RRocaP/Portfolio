@@ -37,9 +37,9 @@ const t = {
         <li><a href={`${base}#publications`} class="nav-link">{t.publications}</a></li>
         <li><a href={`${base}#contact`} class="nav-link">{t.contact}</a></li>
         <li class="lang-switcher">
-          <a href="/Portfolio/en/" class="lang-link">EN</a>
-          <a href="/Portfolio/es/" class="lang-link">ES</a>
-          <a href="/Portfolio/ca/" class="lang-link">CA</a>
+          <a href="/Portfolio/en/" class={`lang-link ${lang==='en' ? 'active' : ''}`}>EN</a>
+          <a href="/Portfolio/es/" class={`lang-link ${lang==='es' ? 'active' : ''}`}>ES</a>
+          <a href="/Portfolio/ca/" class={`lang-link ${lang==='ca' ? 'active' : ''}`}>CA</a>
         </li>
       </ul>
     </div>
@@ -139,6 +139,12 @@ const t = {
   .lang-switcher .lang-link:hover {
     color: var(--accent-red);
     background: rgba(var(--accent-red-rgb), 0.1);
+  }
+
+  .lang-switcher .lang-link.active {
+    color: var(--background);
+    background: var(--gradient-catalan);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
   }
 
   .mobile-menu-toggle {

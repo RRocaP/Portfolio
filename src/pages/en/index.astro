@@ -135,6 +135,20 @@ import { publications } from '../../data/publications.js';
       
       <AntimicrobialTimeline />
       
+      <div class="metrics animate-fade-in-up">
+        <div class="metric">
+          <span class="metric-value">15+</span>
+          <span class="metric-label">Peer‑reviewed papers</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">500+</span>
+          <span class="metric-label">Citations (Scholar)</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value">10</span>
+          <span class="metric-label">Journals & venues</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -610,6 +624,37 @@ import { publications } from '../../data/publications.js';
     line-height: 1.6;
   }
 
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .metric {
+    background: var(--background-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+  }
+  .metric-value {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+    background: var(--gradient-catalan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .metric-label {
+    display: block;
+    color: var(--tertiary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
   /* Publications Section */
   .publications-section {
     background: var(--background-alt);
@@ -628,49 +673,16 @@ import { publications } from '../../data/publications.js';
     opacity: 0.02;
   }
 
-  .publications-list {
-    display: grid;
-    gap: 2rem;
-  }
+  .publications-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+  .publication-card { display: block; background: var(--background-card); border: 1px solid var(--border); border-left: 4px solid var(--accent-red); padding: var(--space-md); border-radius: 12px; transition: all 0.25s ease; text-decoration: none; }
+  .publication-card:hover { transform: translateY(-4px); border-color: var(--accent-red); box-shadow: 0 12px 36px rgba(218, 41, 28, 0.12); }
+  .publication-card.featured { background: linear-gradient(135deg, rgba(218, 41, 28, 0.05) 0%, rgba(255, 217, 61, 0.05) 100%); border-color: var(--accent-red); border-left-width: 6px; }
 
-  .publication-card {
-    background: var(--background);
-    padding: var(--space-lg) 0;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    transition: all 0.2s ease;
-  }
+  .pub-year { display: inline-block; font-size: 0.85rem; color: var(--accent-red); margin-bottom: 0.5rem; font-weight: 600; }
 
-  .publication-card:last-child {
-    border-bottom: none;
-  }
+  .publication-card h3 { font-size: 1.1rem; margin-bottom: 0.25rem; color: var(--primary); }
 
-  .publication-card.featured {
-    padding-left: var(--space-sm);
-    border-left: 2px solid var(--accent-red);
-  }
-
-  .pub-year {
-    color: var(--tertiary);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-light);
-    margin-bottom: var(--space-xs);
-    display: inline-block;
-  }
-
-  .publication-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary);
-    max-width: 80%;
-  }
-
-  .pub-journal {
-    color: var(--secondary);
-    font-size: 0.9rem;
-    margin-bottom: var(--space-sm);
-    font-weight: var(--font-weight-light);
-  }
+  .pub-journal { color: var(--tertiary); font-size: 0.95rem; }
 
   .pub-links {
     display: flex;
