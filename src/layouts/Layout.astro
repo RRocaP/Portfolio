@@ -328,7 +328,7 @@ const { title, lang = 'en' } = Astro.props;
       top: -12vh; right: -18vw;
       width: 64vw; height: 64vw;
       background:
-        radial-gradient(40% 50% at 48% 52%, rgba(var(--accent-red-rgb), 0.22) 0%, rgba(var(--accent-red-rgb), 0.10) 40%, rgba(0,0,0,0) 75%),
+        radial-gradient(40% 50% at 48% 52%, rgba(var(--accent-red-rgb), 0.28) 0%, rgba(var(--accent-red-rgb), 0.14) 40%, rgba(0,0,0,0) 75%),
         radial-gradient(12% 14% at 30% 70%, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
       filter: blur(80px);
       transform: rotate(-6deg);
@@ -349,12 +349,12 @@ const { title, lang = 'en' } = Astro.props;
     @media (prefers-reduced-motion: reduce) { .hero-accent::before, .hero-accent::after { animation: none; } }
     @keyframes slow-drift {
       0%   { transform: translate3d(0, 0, 0) rotate(-6deg); }
-      50%  { transform: translate3d(6px, -5px, 0) rotate(-5deg); }
+      50%  { transform: translate3d(7px, -6px, 0) rotate(-4.8deg); }
       100% { transform: translate3d(0, 0, 0) rotate(-6deg); }
     }
     @keyframes slow-drift-2 {
       0%   { transform: translate3d(0, 0, 0) rotate(2deg); }
-      50%  { transform: translate3d(-5px, 6px, 0) rotate(3deg); }
+      50%  { transform: translate3d(-6px, 7px, 0) rotate(3.2deg); }
       100% { transform: translate3d(0, 0, 0) rotate(2deg); }
     }
     @media (max-width: 480px) {
