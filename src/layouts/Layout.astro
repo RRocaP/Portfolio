@@ -78,7 +78,7 @@ const { title, lang = 'en' } = Astro.props;
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <slot />
@@ -126,8 +126,8 @@ const { title, lang = 'en' } = Astro.props;
     --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     
     /* Typography - Stylish Font Stack */
-    --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Playfair Display', Georgia, serif;
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
     
     --font-weight-extralight: 200;
@@ -188,10 +188,10 @@ const { title, lang = 'en' } = Astro.props;
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: var(--font-weight-bold);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.025em;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
     color: var(--primary);
   }
 

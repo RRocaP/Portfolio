@@ -11,19 +11,15 @@ import { publications } from '../../data/publications.js';
   <Navigation />
   <ScrollIndicator />
   
-  <!-- Hero Section -->
   <section id="home" class="hero">
-    <div class="hero-background">
-      <div class="hero-pattern"></div>
-    </div>
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer & Molecular Biologist</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Science-first therapeutics. No buzzwords, just results.</p>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer • Molecular Biologist</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Protein engineering and antimicrobial research.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
-          <a href="#about" class="btn btn-primary">Learn More</a>
-          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+          <a href="#research" class="btn btn-primary">View Research</a>
+          <a href="#publications" class="btn btn-outline">Publications</a>
         </div>
       </div>
     </div>
@@ -128,9 +124,7 @@ import { publications } from '../../data/publications.js';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
-        <p class="lead">
-          At the intersection of computation and biology, I leverage AI-driven protein engineering to design the next generation of therapeutics—from tackling drug-resistant infections to developing oncolytic therapies.
-        </p>
+        <p class="lead">I design and test antimicrobial proteins and viral vectors using computation and experiment.</p>
       </div>
       
       <AntimicrobialTimeline />
@@ -194,9 +188,7 @@ import { publications } from '../../data/publications.js';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
-        <p class="lead">
-          Interested in innovative antimicrobial approaches, vector systems, or testing ideas at the interface of computation and biology? I'd love to hear from you.
-        </p>
+        <p class="lead">Open to collaborations in antimicrobial proteins, vector systems, and data-driven design.</p>
         
         <div class="contact-info">
           <div class="contact-card">
@@ -274,54 +266,8 @@ import { publications } from '../../data/publications.js';
     padding-top: 80px;
   }
 
-  .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-  }
-
-  .hero-pattern {
-    width: 100%;
-    height: 100%;
-    background: 
-      linear-gradient(135deg, transparent 25%, rgba(218, 41, 28, 0.03) 25%, rgba(218, 41, 28, 0.03) 50%, transparent 50%, transparent 75%, rgba(218, 41, 28, 0.06) 75%),
-      linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.01) 25%, rgba(255, 255, 255, 0.01) 50%, transparent 50%, transparent 75%, rgba(218, 41, 28, 0.02) 75%);
-    background-size: 60px 60px;
-    animation: pattern-shift 25s linear infinite;
-  }
-
-  @keyframes pattern-shift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-  
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 70%;
-    height: 150%;
-    background: linear-gradient(45deg, var(--accent-yellow) 0%, transparent 70%);
-    opacity: 0.05;
-    transform: rotate(-15deg);
-    z-index: 0;
-  }
-  
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: 10%;
-    left: 5%;
-    width: 100px;
-    height: 100px;
-    border: 2px solid var(--accent-red);
-    opacity: 0.1;
-    transform: rotate(45deg);
-    z-index: 0;
+  .hero {
+    background: var(--background);
   }
 
   .hero-content {
@@ -331,25 +277,34 @@ import { publications } from '../../data/publications.js';
   }
 
   .hero-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    margin-bottom: 1rem;
+    font-size: clamp(2.75rem, 7vw, 4.5rem);
+    margin-bottom: 0.5rem;
     color: var(--primary);
     font-family: var(--font-display);
-    font-weight: var(--font-weight-black);
-    letter-spacing: -0.03em;
-    text-shadow: 0 0 30px rgba(218, 41, 28, 0.3);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .hero-title::after {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin: 14px auto 0;
+    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
+    border-radius: 2px;
   }
 
   .hero-subtitle {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--secondary);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
   }
 
   .hero-tagline {
-    font-size: 1.1rem;
-    color: var(--text-light);
+    font-size: 1rem;
+    color: var(--tertiary);
     margin-bottom: 2rem;
   }
 

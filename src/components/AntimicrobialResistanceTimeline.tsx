@@ -119,9 +119,13 @@ export default function AntimicrobialResistanceTimeline() {
       .range([0, height])
       .padding(0.3);
 
+    // CMC (Crameri) inspired discrete palette for high contrast (batlow-inspired)
+    const cmcPalette = [
+      '#011959', '#20496E', '#4C6E70', '#7E9171', '#BFB56F', '#FBD065', '#FC9662'
+    ];
     const colorScale = d3.scaleOrdinal<string, string>()
       .domain(Array.from(new Set(antibioticData.map(d => d.category))))
-      .range(['#DA291C', '#FFD93D', '#4A90E2', '#50C878', '#FF6B6B', '#9B59B6', '#E67E22']);
+      .range(cmcPalette);
 
     // Grid lines
     g.append('g')
@@ -216,7 +220,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('dy', '0.35em')
       .attr('text-anchor', 'middle')
       .style('font-size', '20px')
-      .style('fill', '#DA291C')
+      .style('fill', '#FBD065')
       .text('⚠');
 
     // Title
@@ -268,7 +272,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('y1', 0)
       .attr('x2', xScale(solutionYear))
       .attr('y2', height)
-      .attr('stroke', '#50C878')
+      .attr('stroke', '#7E9171')
       .attr('stroke-width', 3)
       .attr('stroke-dasharray', '10,5');
 
@@ -278,7 +282,7 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .style('font-weight', 'bold')
-      .style('fill', '#50C878')
+      .style('fill', '#7E9171')
       .text("Next-Gen Solutions →");
 
   }, [dimensions]);
