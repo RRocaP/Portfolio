@@ -332,11 +332,31 @@ const { title, lang = 'en' } = Astro.props;
       transform: rotate(-6deg);
       animation: slow-drift 12s ease-in-out infinite;
     }
-    @media (prefers-reduced-motion: reduce) { .hero-accent::before { animation: none; } }
+    /* Subtle dark-red secondary shape (Claude-inspired), minimal */
+    .hero-accent::after {
+      content: '';
+      position: absolute;
+      bottom: -18vh; left: -22vw;
+      width: 48vw; height: 48vw;
+      background: conic-gradient(from 120deg at 50% 50%, rgba(var(--accent-red-rgb), 0.08) 0deg, rgba(0,0,0,0) 90deg);
+      filter: blur(60px);
+      transform: rotate(2deg);
+      animation: slow-drift-2 16s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) { .hero-accent::before, .hero-accent::after { animation: none; } }
     @keyframes slow-drift {
       0%   { transform: translate3d(0, 0, 0) rotate(-6deg); }
       50%  { transform: translate3d(6px, -5px, 0) rotate(-5deg); }
       100% { transform: translate3d(0, 0, 0) rotate(-6deg); }
+    }
+    @keyframes slow-drift-2 {
+      0%   { transform: translate3d(0, 0, 0) rotate(2deg); }
+      50%  { transform: translate3d(-5px, 6px, 0) rotate(3deg); }
+      100% { transform: translate3d(0, 0, 0) rotate(2deg); }
+    }
+    @media (max-width: 480px) {
+      .hero-accent::before { width: 80vw; height: 80vw; right: -30vw; top: -18vh; filter: blur(60px); }
+      .hero-accent::after { width: 60vw; height: 60vw; left: -30vw; bottom: -20vh; filter: blur(50px); }
     }
   }
 </style>
