@@ -1,4 +1,6 @@
 ---
+import '../styles/tailwind.css';
+
 export interface Props {
   title: string;
   lang?: 'en' | 'es' | 'ca';
@@ -87,7 +89,9 @@ const { title, lang = 'en' } = Astro.props;
   </head>
   <body>
     <a class="skip-link" href="#home">Skip to content</a>
-    <slot />
+    <div class="min-h-screen bg-background text-white">
+      <slot />
+    </div>
   </body>
 </html>
 

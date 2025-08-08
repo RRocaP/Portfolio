@@ -14,17 +14,17 @@ import { metrics } from '../../data/metrics.ts';
   <ScrollIndicator />
   
   <!-- Hero mínimo -->
-  <section id="home" class="hero">
+  <section id="home" class="hero relative isolate overflow-hidden">
     <div class="hero-accent" aria-hidden="true"></div>
     <GeometricBackground red="#DC2626" accent="#EF4444" />
-    <div class="container">
+    <div class="container mx-auto px-6 lg:px-8">
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
         <p class="hero-subtitle animate-fade-in-up animate-delay-1">Ingeniero Biomédico • Biólogo Molecular</p>
         <p class="hero-tagline animate-fade-in-up animate-delay-2">Ingeniería de proteínas y antimicrobianos.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-3">
-          <a href="#research" class="btn btn-primary">Ver investigación</a>
-          <a href="#publications" class="btn btn-outline">Publicaciones</a>
+        <div class="hero-cta animate-fade-in-up animate-delay-3 mt-6 flex items-center gap-x-6">
+          <a href="#research" class="rounded-md bg-[var(--accent-red)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--accent-red-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-red)]">Ver investigación</a>
+          <a href="#publications" class="text-sm font-semibold leading-6 text-white/80 hover:text-white">Publicaciones <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
