@@ -320,17 +320,23 @@ const { title, lang = 'en' } = Astro.props;
       color: var(--accent-red);
     }
 
-    /* Unified minimal hero accent for all languages */
-    .hero-accent { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+    /* Unified minimal hero accent: single top-right red glow with gentle drift */
+    .hero-accent { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
     .hero-accent::before {
       content: '';
       position: absolute;
-      bottom: -22vh;
-      right: -24vw;
-      width: 66vw; height: 66vw;
-      background: radial-gradient(45% 50% at 50% 50%, rgba(var(--accent-red-rgb), 0.16) 0%, rgba(var(--accent-red-rgb), 0.08) 35%, rgba(0,0,0,0) 70%);
+      top: -12vh; right: -18vw;
+      width: 58vw; height: 58vw;
+      background: radial-gradient(45% 50% at 50% 50%, rgba(var(--accent-red-rgb), 0.12) 0%, rgba(var(--accent-red-rgb), 0.06) 35%, rgba(0,0,0,0) 70%);
       filter: blur(70px);
-      transform: rotate(-10deg);
+      transform: rotate(-6deg);
+      animation: slow-drift 12s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) { .hero-accent::before { animation: none; } }
+    @keyframes slow-drift {
+      0%   { transform: translate3d(0, 0, 0) rotate(-6deg); }
+      50%  { transform: translate3d(6px, -5px, 0) rotate(-5deg); }
+      100% { transform: translate3d(0, 0, 0) rotate(-6deg); }
     }
   }
 </style>
