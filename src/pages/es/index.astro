@@ -5,6 +5,8 @@ import ScrollIndicator from '../../components/ScrollIndicator.astro';
 import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro';
 import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
+import GeometricBackground from '../../components/GeometricBackground.astro';
+import { metrics } from '../../data/metrics.ts';
 ---
 
 <Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular" lang="es">
@@ -14,6 +16,7 @@ import { publications } from '../../data/publications.js';
   <!-- Hero mínimo -->
   <section id="home" class="hero">
     <div class="hero-accent" aria-hidden="true"></div>
+    <GeometricBackground red="#DC2626" accent="#EF4444" />
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
@@ -100,7 +103,7 @@ import { publications } from '../../data/publications.js';
           </div>
           
           <div class="profile-end animate-fade-in-up animate-delay-4">
-            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" />
+            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
               <p>Convirtiendo algoritmos en terapias</p>
@@ -163,9 +166,9 @@ import { publications } from '../../data/publications.js';
       
       <AntimicrobialTimeline />
       
-      <div class="metrics animate-fade-in-up">
+      <div class="metrics animate-fade-in-up" aria-label="Métricas clave">
         <div class="metric">
-          <span class="metric-value">15+</span>
+          <span class="metric-value">{metrics.publications}</span>
           <span class="metric-label">Artículos revisados</span>
         </div>
         <div class="metric">

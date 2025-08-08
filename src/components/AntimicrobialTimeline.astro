@@ -6,29 +6,40 @@
   <div id="antimicrobial-timeline-root"></div>
 </div>
 
-<script>
-  import AntimicrobialResistanceTimeline from './AntimicrobialResistanceTimeline.tsx';
-  import React from 'react';
-  import ReactDOM from 'react-dom/client';
-
-  // Wait for DOM to be ready
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('antimicrobial-timeline-root');
-    if (container) {
+<script type="module">
+  // Lazy-hydrate the React timeline when it scrolls into view
+  const container = document.getElementById('antimicrobial-timeline-root');
+  if (container) {
+    const loadTimeline = async () => {
+      const [{ default: AntimicrobialResistanceTimeline }, React, ReactDOM] = await Promise.all([
+        import('./AntimicrobialResistanceTimeline.tsx'),
+        import('react'),
+        import('react-dom/client')
+      ]);
       const root = ReactDOM.createRoot(container);
       root.render(React.createElement(AntimicrobialResistanceTimeline));
+    };
+
+    // Use IntersectionObserver to defer loading until visible
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            io.disconnect();
+            loadTimeline();
+          }
+        });
+      }, { rootMargin: '200px 0px' });
+      io.observe(container);
+    } else {
+      // Fallback for very old browsers
+      loadTimeline();
     }
-  });
+  }
 </script>
 
 <style>
-  .visualization-wrapper {
-    margin: 3rem 0;
-    padding: 2rem;
-    background: var(--color-bg-primary);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-  }
+  .visualization-wrapper { margin: 3rem 0; padding: 0; background: transparent; }
 
   @media (max-width: 768px) {
     .visualization-wrapper {

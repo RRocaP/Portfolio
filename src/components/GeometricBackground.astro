@@ -1,0 +1,67 @@
+---
+export interface Props { red?: string; accent?: string }
+const { red = '#DC2626', accent = '#EF4444' } = Astro.props as Props;
+const rungLines = Array.from({ length: 18 }).map((_, i) => {
+  const x0 = 110 + i * 55;
+  const y0 = 540 - i * 20;
+  return `<line x1="${x0}" y1="${y0}" x2="${x0 + 60}" y2="${y0 - 20}" stroke="#ffffff" opacity="0.06" stroke-width="1" />`;
+}).join('');
+const nodes = [[1040,420],[980,360],[1080,340],[1020,300],[1120,280],[960,300]];
+const nodeCirclesStr = nodes.map(([cx, cy]) => `<circle cx="${cx}" cy="${cy}" r=\"3.5\" fill=\"#ffffff\" opacity=\"0.7\" />`).join('');
+const networkPath = 'M980 360 L1040 420 L1080 340 L1020 300 L1120 280 L960 300 Z';
+---
+
+<div class="geo-bg" aria-hidden="true">
+  <svg class="geo-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Decorative geometric background">
+    <defs>
+      <linearGradient id="g-red" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color={red} stop-opacity="0.55" />
+        <stop offset="100%" stop-color={accent} stop-opacity="0.25" />
+      </linearGradient>
+      <linearGradient id="g-wire" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="0.00" />
+      </linearGradient>
+      <filter id="blur-1">
+        <feGaussianBlur stdDeviation="12" />
+      </filter>
+      <pattern id="hex" width="60" height="52" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+        <!-- Hexagon grid (protein lattice metaphor) -->
+        <path d="M30 2 L58 17 L58 45 L30 60 L2 45 L2 17 Z" fill="none" stroke="url(#g-red)" stroke-width="1" opacity="0.25" />
+      </pattern>
+    </defs>
+
+    <g filter="url(#blur-1)">
+      <circle cx="980" cy="-40" r="300" fill="url(#g-red)" opacity="0.35" class="drift-1" />
+    </g>
+
+    <rect x="0" y="0" width="1200" height="600" fill="url(#hex)" />
+
+    <g class="helix">
+      <path class="strand" d="M 80 560 C 200 520, 160 420, 260 380 S 360 260, 460 240 560 220, 660 200 760 180, 860 160 980 120, 1100 100" stroke="url(#g-wire)" stroke-width="2" fill="none" />
+      <path class="strand" d="M 80 520 C 200 480, 160 380, 260 340 S 360 220, 460 200 560 180, 660 160 760 140, 860 120 980 80, 1100 60" stroke="url(#g-wire)" stroke-width="2" fill="none" />
+      <g set:html={rungLines} />
+    </g>
+
+    <g class="network">
+      <g set:html={nodeCirclesStr} />
+      <path d={networkPath} stroke="#ffffff" opacity="0.08" stroke-width="1" fill="none" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .geo-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .geo-svg { width: 100%; height: 100%; display: block; }
+  .drift-1 { transform-origin: 980px -40px; animation: drift 16s ease-in-out infinite; }
+  .helix { transform-origin: 600px 300px; animation: float 18s ease-in-out infinite; }
+  .network { transform-origin: 1040px 340px; animation: pulse 10s ease-in-out infinite; }
+
+  @keyframes drift { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(6px,-4px) rotate(-2deg); } 100% { transform: translate(0,0) rotate(0deg);} }
+  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px);} 100% { transform: translateY(0px);} }
+  @keyframes pulse { 0% { opacity: 0.55; } 50% { opacity: 0.85; } 100% { opacity: 0.55; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drift-1, .helix, .network { animation: none !important; }
+  }
+</style>
