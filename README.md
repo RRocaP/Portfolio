@@ -1,16 +1,14 @@
-## Hi there 👋
+# Portfolio
 
-<!--
-**RRocaP/RRocaP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+A personal portfolio built with [Astro](https://astro.build/).
 
-Here are some ideas to get you started:
+## Available Scripts
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- `npm run build` — Generate the production build.
+- `npm run serve` — Serve the built site locally.
+- `npm run css:purge` — Remove unused CSS from the final output.
+- `npm run images:opt` — Optimize images in the project.
+- `npm run lint:a11y` — Run accessibility lint checks.
+
+Install dependencies with `npm install` and use these scripts as needed.
+
