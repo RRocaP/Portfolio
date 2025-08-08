@@ -319,5 +319,18 @@ const { title, lang = 'en' } = Astro.props;
       background: transparent;
       color: var(--accent-red);
     }
+
+    /* Unified minimal hero accent for all languages */
+    .hero-accent { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+    .hero-accent::before {
+      content: '';
+      position: absolute;
+      bottom: -22vh;
+      right: -24vw;
+      width: 66vw; height: 66vw;
+      background: radial-gradient(45% 50% at 50% 50%, rgba(var(--accent-red-rgb), 0.16) 0%, rgba(var(--accent-red-rgb), 0.08) 35%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      transform: rotate(-10deg);
+    }
   }
 </style>
