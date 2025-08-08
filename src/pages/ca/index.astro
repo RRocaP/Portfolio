@@ -7,7 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 ---
 
-<Layout title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular">
+<Layout title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular" lang="ca">
   <Navigation />
   <ScrollIndicator />
   
@@ -20,7 +20,7 @@ import { publications } from '../../data/publications.js';
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
         <p class="hero-subtitle animate-fade-in-up animate-delay-1">Enginyer Biomèdic i Biòleg Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Dissenyant teràpies que resisteixen el rigor científic</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Ciència primer. Sense paraules de moda: resultats.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
           <a href="#about" class="btn btn-primary">Saber Més</a>
           <a href="#contact" class="btn btn-outline">Contacte</a>
@@ -112,17 +112,11 @@ import { publications } from '../../data/publications.js';
       </div>
       
       <div class="about-text animate-fade-in-up">
-        <p class="lead">
-          Sóc biotecnòleg, enginyer biomèdic i biòleg molecular, i treballo per tancar la bretxa entre el que la IA pot imaginar i el que la medicina realment necessita.
-        </p>
-        
-        <p>
-          El meu treball se situa a l'avantguarda de la revolució de la IA en el descobriment de fàrmacs. Aprofito el poder computacional per abordar infeccions resistents als medicaments mitjançant l'enginyeria de proteïnes, ensenyant essencialment a les proteïnes velles nous trucs per combatre els superbacteris. Tot i que encara no he tractat pacients directament, la meva Estrella Polar és traslladar aquests descobriments de l'algoritme a la clínica, on puguin tenir un impacte tangible.
-        </p>
-        
-        <p>
-          El meu enfocament és directe: aprofitar la IA per accelerar el descobriment, validar cada troballa al laboratori i mantenir-me ancorat en la realitat científica. La missió és convertir algoritmes intel·ligents i un treball de laboratori meticulós en teràpies antiinfeccioses eficaces, sense exageracions ni dreceres, només ciència sòlida que avança a la velocitat de la tecnologia moderna.
-        </p>
+        <p class="lead">Biotecnòleg i enginyer biomèdic centrat en l’enginyeria de proteïnes i vectors per a aplicacions antimicrobianes i traslacionals.</p>
+
+        <p>Desenvolupo i caracteritzo proteïnes recombinants i vectors virals, combinant disseny computacional amb validació al laboratori. La recerca actual inclou andamis proteics antimicrobians, cossos d’inclusió com a biomaterials funcionals i desenvolupament de vectors AAV.</p>
+
+        <p>Les publicacions i afiliacions mostrades reflecteixen els meus registres verificats a ORCID (0000‑0002‑7393‑6200) i Google Scholar.</p>
       </div>
     </div>
   </section>
@@ -183,11 +177,11 @@ import { publications } from '../../data/publications.js';
       
       <div class="publications-list">
         {publications.map(pub => (
-          <div class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`}>
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
             <span class="pub-year">{pub.year}</span>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
-          </div>
+          </a>
         ))}
       </div>
         
@@ -761,7 +755,7 @@ import { publications } from '../../data/publications.js';
   .contact-card h3 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
-    color: var(--primary-black);
+    color: var(--primary);
   }
 
   .social-links {

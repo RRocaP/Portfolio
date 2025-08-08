@@ -1,10 +1,28 @@
 ---
+const { url } = Astro;
+// Determine active language from the current path
+const segments = url.pathname.split('/').filter(Boolean);
+let lang = 'en';
+if (segments[0] === 'Portfolio' && ['en','es','ca'].includes(segments[1] || '')) {
+  lang = segments[1];
+} else if (['en','es','ca'].includes(segments[0] || '')) {
+  lang = segments[0];
+}
+const base = `/Portfolio/${lang}/`;
+
+const t = {
+  en: { home: 'Home', about: 'About', research: 'Research', publications: 'Publications', contact: 'Contact' },
+  es: { home: 'Inicio', about: 'Sobre mí', research: 'Investigación', publications: 'Publicaciones', contact: 'Contacto' },
+  ca: { home: 'Inici', about: 'Sobre mi', research: 'Recerca', publications: 'Publicacions', contact: 'Contacte' },
+}[lang] || {
+  home: 'Home', about: 'About', research: 'Research', publications: 'Publications', contact: 'Contact'
+};
 ---
 
 <nav class="navigation">
   <div class="container">
     <div class="nav-wrapper">
-      <a href="/Portfolio/" class="logo">Ramon Roca Pinilla</a>
+      <a href={base} class="logo">Ramon Roca Pinilla</a>
       
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -13,11 +31,11 @@
       </button>
       
       <ul class="nav-links">
-        <li><a href="/Portfolio/" class="nav-link">Home</a></li>
-        <li><a href="/Portfolio/#about" class="nav-link">About</a></li>
-        <li><a href="/Portfolio/#research" class="nav-link">Research</a></li>
-        <li><a href="/Portfolio/#publications" class="nav-link">Publications</a></li>
-        <li><a href="/Portfolio/#contact" class="nav-link">Contact</a></li>
+        <li><a href={base} class="nav-link">{t.home}</a></li>
+        <li><a href={`${base}#about`} class="nav-link">{t.about}</a></li>
+        <li><a href={`${base}#research`} class="nav-link">{t.research}</a></li>
+        <li><a href={`${base}#publications`} class="nav-link">{t.publications}</a></li>
+        <li><a href={`${base}#contact`} class="nav-link">{t.contact}</a></li>
         <li class="lang-switcher">
           <a href="/Portfolio/en/" class="lang-link">EN</a>
           <a href="/Portfolio/es/" class="lang-link">ES</a>
@@ -236,11 +254,12 @@
     const sections = document.querySelectorAll('section[id]');
 
     // Add RGB variables to root for dynamic opacity
-    const style = getComputedStyle(document.body);
-    const backgroundRgb = style.getPropertyValue('--background').match(/\d+/g);
-    const accentRedRgb = style.getPropertyValue('--accent-red').match(/\d+/g);
-    document.documentElement.style.setProperty('--background-rgb', backgroundRgb.join(','));
-    document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb.join(','));
+    // Use predefined RGB helpers from CSS variables
+    const style = getComputedStyle(document.documentElement);
+    const backgroundRgb = style.getPropertyValue('--background-rgb').trim();
+    const accentRedRgb = style.getPropertyValue('--accent-red-rgb').trim();
+    if (backgroundRgb) document.documentElement.style.setProperty('--background-rgb', backgroundRgb);
+    if (accentRedRgb) document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb);
 
     // Dark mode specific RGB values
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

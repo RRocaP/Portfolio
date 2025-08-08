@@ -7,7 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 ---
 
-<Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
+<Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist" lang="en">
   <Navigation />
   <ScrollIndicator />
   
@@ -20,7 +20,7 @@ import { publications } from '../../data/publications.js';
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
         <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer & Molecular Biologist</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Designing therapies that stand up to rigorous science</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Science-first therapeutics. No buzzwords, just results.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
           <a href="#about" class="btn btn-primary">Learn More</a>
           <a href="#contact" class="btn btn-outline">Get in Touch</a>
@@ -112,17 +112,11 @@ import { publications } from '../../data/publications.js';
       </div>
       
       <div class="about-text animate-fade-in-up">
-        <p class="lead">
-          I am a biotechnologist, biomedical engineer, and molecular biologist working to bridge the gap between what AI can imagine and what medicine truly needs.
-        </p>
-        
-        <p>
-          My work is at the forefront of the AI revolution in drug discovery. I harness computational power to tackle drug-resistant infections through protein engineering—essentially teaching old proteins new tricks to fight superbugs. While I have not yet treated patients directly, my North Star is translating these discoveries from algorithm to clinic, where they can make a tangible impact.
-        </p>
-        
-        <p>
-          My approach is straightforward: leverage AI to accelerate discovery, validate every finding at the bench, and remain grounded in scientific reality. The mission is to turn smart algorithms and meticulous lab work into effective anti-infective therapies—no hype, no shortcuts, just sound science moving at the speed of modern technology.
-        </p>
+        <p class="lead">Biotechnologist and biomedical engineer focused on protein and vector engineering for antimicrobial and translational applications.</p>
+
+        <p>I develop and characterize recombinant proteins and viral vectors, combining computational design with wet‑lab validation. Current work spans antimicrobial protein scaffolds, inclusion bodies as functional biomaterials, and AAV vector development.</p>
+
+        <p>Publications and affiliations shown here reflect my verified records on ORCID (0000‑0002‑7393‑6200) and Google Scholar.</p>
       </div>
     </div>
   </section>
@@ -153,11 +147,11 @@ import { publications } from '../../data/publications.js';
       
       <div class="publications-list">
         {publications.map(pub => (
-          <div class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`}>
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
             <span class="pub-year">{pub.year}</span>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
-          </div>
+          </a>
         ))}
       </div>
         
@@ -667,7 +661,7 @@ import { publications } from '../../data/publications.js';
   .publication-card h3 {
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
-    color: var(--primary-black);
+    color: var(--primary);
     max-width: 80%;
   }
 

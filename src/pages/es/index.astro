@@ -7,7 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 ---
 
-<Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular">
+<Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular" lang="es">
   <Navigation />
   <ScrollIndicator />
   
@@ -20,7 +20,7 @@ import { publications } from '../../data/publications.js';
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
         <p class="hero-subtitle animate-fade-in-up animate-delay-1">Ingeniero Biomédico y Biólogo Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Diseñando terapias que resisten el rigor científico</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Ciencia primero. Sin palabras de moda: resultados.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
           <a href="#about" class="btn btn-primary">Saber Más</a>
           <a href="#contact" class="btn btn-outline">Contacto</a>
@@ -112,17 +112,11 @@ import { publications } from '../../data/publications.js';
       </div>
       
       <div class="about-text animate-fade-in-up">
-        <p class="lead">
-          Soy biotecnólogo, ingeniero biomédico y biólogo molecular, y trabajo para cerrar la brecha entre lo que la IA puede imaginar y lo que la medicina realmente necesita.
-        </p>
-        
-        <p>
-          Mi trabajo se sitúa en la vanguardia de la revolución de la IA en el descubrimiento de fármacos. Aprovecho el poder computacional para abordar infecciones resistentes a los medicamentos mediante la ingeniería de proteínas, enseñando esencialmente a las proteínas viejas nuevos trucos para combatir las superbacterias. Aunque todavía no he tratado pacientes directamente, mi Estrella Polar es trasladar estos descubrimientos del algoritmo a la clínica, donde puedan tener un impacto tangible.
-        </p>
-        
-        <p>
-          Mi enfoque es directo: aprovechar la IA para acelerar el descubrimiento, validar cada hallazgo en el laboratorio y mantenerme anclado en la realidad científica. La misión es convertir algoritmos inteligentes y un trabajo de laboratorio meticuloso en terapias antiinfecciosas eficaces, sin exageraciones ni atajos, solo ciencia sólida que avanza a la velocidad de la tecnología moderna.
-        </p>
+        <p class="lead">Biotecnólogo e ingeniero biomédico centrado en ingeniería de proteínas y vectores para aplicaciones antimicrobianas y traslacionales.</p>
+
+        <p>Desarrollo y caracterizo proteínas recombinantes y vectores virales, combinando diseño computacional con validación experimental. El trabajo actual abarca andamiajes proteicos antimicrobianos, cuerpos de inclusión como biomateriales funcionales y desarrollo de vectores AAV.</p>
+
+        <p>Las publicaciones y afiliaciones mostradas reflejan mis registros verificados en ORCID (0000‑0002‑7393‑6200) y Google Scholar.</p>
       </div>
     </div>
   </section>
@@ -183,11 +177,11 @@ import { publications } from '../../data/publications.js';
       
       <div class="publications-list">
         {publications.map(pub => (
-          <div class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`}>
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
             <span class="pub-year">{pub.year}</span>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
-          </div>
+          </a>
         ))}
       </div>
         
@@ -731,7 +725,7 @@ import { publications } from '../../data/publications.js';
   .contact-card h3 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
-    color: var(--primary-black);
+    color: var(--primary);
   }
 
   .social-links {
