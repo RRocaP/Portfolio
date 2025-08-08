@@ -327,21 +327,24 @@ const { title, lang = 'en' } = Astro.props;
       position: absolute;
       top: -12vh; right: -18vw;
       width: 64vw; height: 64vw;
-      background: radial-gradient(45% 50% at 50% 50%, rgba(var(--accent-red-rgb), 0.18) 0%, rgba(var(--accent-red-rgb), 0.10) 38%, rgba(0,0,0,0) 72%);
+      background:
+        radial-gradient(40% 50% at 48% 52%, rgba(var(--accent-red-rgb), 0.22) 0%, rgba(var(--accent-red-rgb), 0.10) 40%, rgba(0,0,0,0) 75%),
+        radial-gradient(12% 14% at 30% 70%, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
       filter: blur(80px);
       transform: rotate(-6deg);
       animation: slow-drift 12s ease-in-out infinite;
     }
-    /* Subtle dark-red secondary shape (Claude-inspired), minimal */
+    /* Subtle dark secondary shape (Claude-inspired), minimal */
     .hero-accent::after {
       content: '';
       position: absolute;
-      bottom: -18vh; left: -22vw;
-      width: 48vw; height: 48vw;
-      background: conic-gradient(from 120deg at 50% 50%, rgba(var(--accent-red-rgb), 0.08) 0deg, rgba(0,0,0,0) 90deg);
-      filter: blur(60px);
-      transform: rotate(2deg);
-      animation: slow-drift-2 16s ease-in-out infinite;
+      bottom: -16vh; left: -20vw;
+      width: 52vw; height: 52vw;
+      background:
+        radial-gradient(40% 40% at 50% 50%, rgba(24,24,24, 0.75) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(55px);
+      transform: rotate(1deg);
+      animation: slow-drift-2 18s ease-in-out infinite;
     }
     @media (prefers-reduced-motion: reduce) { .hero-accent::before, .hero-accent::after { animation: none; } }
     @keyframes slow-drift {
