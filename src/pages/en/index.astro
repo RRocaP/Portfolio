@@ -12,14 +12,15 @@ import { publications } from '../../data/publications.js';
   <ScrollIndicator />
   
   <section id="home" class="hero">
+    <div class="hero-gradient" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
         <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer • Molecular Biologist</p>
         <p class="hero-tagline animate-fade-in-up animate-delay-2">Protein engineering and antimicrobial research.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
-          <a href="#research" class="btn btn-primary">View Research</a>
-          <a href="#publications" class="btn btn-outline">Publications</a>
+          <a href="#about" class="btn btn-primary">Learn More</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
         </div>
       </div>
     </div>
@@ -266,9 +267,7 @@ import { publications } from '../../data/publications.js';
     padding-top: 80px;
   }
 
-  .hero {
-    background: var(--background);
-  }
+  .hero { background: var(--background); }
 
   .hero-content {
     text-align: center;
@@ -277,36 +276,25 @@ import { publications } from '../../data/publications.js';
   }
 
   .hero-title {
-    font-size: clamp(2.75rem, 7vw, 4.5rem);
-    margin-bottom: 0.5rem;
-    color: var(--primary);
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    position: relative;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
   }
-  .hero-title::after {
-    content: '';
-    display: block;
-    width: 72px;
-    height: 4px;
-    margin: 14px auto 0;
-    background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
-    border-radius: 2px;
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--secondary);
-    margin-bottom: 0.25rem;
-    font-weight: 500;
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(60% 60% at 50% 30%, rgba(var(--accent-red-rgb),0.10) 0%, rgba(0,0,0,0) 60%),
+                radial-gradient(40% 40% at 70% 20%, rgba(255,217,61,0.08) 0%, rgba(0,0,0,0) 60%);
+    pointer-events: none;
   }
 
-  .hero-tagline {
-    font-size: 1rem;
-    color: var(--tertiary);
-    margin-bottom: 2rem;
-  }
+  .hero-subtitle { font-size: 1.15rem; color: var(--secondary); margin-bottom: 0.25rem; font-weight: 600; }
+
+  .hero-tagline { font-size: 1rem; color: var(--tertiary); margin-bottom: 2rem; }
 
   .hero-cta {
     display: flex;
@@ -323,42 +311,13 @@ import { publications } from '../../data/publications.js';
     display: inline-block;
   }
 
-  .btn-primary {
-    background: var(--accent-red);
-    color: var(--background);
-    border: 1px solid var(--accent-red);
-    box-shadow: 0 4px 15px rgba(218, 41, 28, 0.4);
-    font-family: var(--font-primary);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+  .btn-primary { background: var(--accent-red); color: var(--background); border: 1px solid var(--accent-red); box-shadow: 0 4px 15px rgba(218, 41, 28, 0.4); }
 
-  .btn-primary:hover {
-    background: var(--accent-red-hover);
-    border-color: var(--accent-red-hover);
-    color: var(--background);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(218, 41, 28, 0.6);
-  }
+  .btn-primary:hover { background: var(--accent-red-hover); border-color: var(--accent-red-hover); color: var(--background); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(218,41,28,0.5); }
 
-  .btn-outline {
-    border: 2px solid var(--border-light);
-    color: var(--secondary);
-    background: transparent;
-    font-family: var(--font-primary);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+  .btn-outline { border: 1.5px solid var(--border-light); color: var(--secondary); background: transparent; }
 
-  .btn-outline:hover {
-    background: var(--background-elevated);
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-  }
+  .btn-outline:hover { background: var(--background-elevated); border-color: var(--accent-red); color: var(--accent-red); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.08); }
 
   /* Sections */
   .section {
