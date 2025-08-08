@@ -101,8 +101,13 @@ export default function AntimicrobialResistanceTimeline() {
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    // Balanced margins to visually center the plot, with extra bottom for the legend
-    const margin = { top: 80, right: 80, bottom: 140, left: 80 };
+    // Compute dynamic left margin based on longest label to avoid clipping (e.g., "Fluoroquinolones")
+    const maxLabelChars = d3.max(antibioticData, (d) => d.antibiotic.length) ?? 12;
+    const charPx = 7.5; // approx char width
+    const dynamicLeft = Math.min(260, Math.max(90, 24 + maxLabelChars * charPx));
+
+    // Balanced margins with extra bottom for the legend
+    const margin = { top: 80, right: 80, bottom: 140, left: dynamicLeft };
     const width = dimensions.width - margin.left - margin.right;
     const height = dimensions.height - margin.top - margin.bottom;
 
@@ -159,13 +164,15 @@ export default function AntimicrobialResistanceTimeline() {
       .style('font-weight', '500')
       .text('Year');
 
-    // Y axis
-    g.append('g')
-      .call(d3.axisLeft(yScale))
+    // Y axis with safe spacing so long labels are fully readable
+    const yAxis = g.append('g').call(d3.axisLeft(yScale));
+    yAxis
       .selectAll('text')
       .attr('fill', 'var(--secondary, #666)')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
-      .style('font-size', '12px');
+      .style('font-size', dimensions.width < 520 ? '11px' : '12px')
+      .attr('dx', '-4')
+      .style('text-anchor', 'end');
 
     // Timeline bars
     const bars = g.selectAll('.timeline-bar')
