@@ -267,7 +267,12 @@ import { publications } from '../../data/publications.js';
     padding-top: 80px;
   }
 
-  .hero { background: var(--background); }
+  .hero {
+    background: var(--background);
+    /* Use darker Claude-style red only for this page's hero */
+    --accent-red: #D72638;
+    --accent-red-rgb: 215, 38, 56;
+  }
 
   .hero-content {
     text-align: center;
@@ -282,6 +287,17 @@ import { publications } from '../../data/publications.js';
     letter-spacing: -0.015em;
     color: var(--primary);
     margin-bottom: 0.5rem;
+    position: relative;
+  }
+  .hero-title::after {
+    content: '';
+    display: block;
+    width: 68px;
+    height: 2px;
+    margin: 14px auto 0;
+    background: var(--accent-red);
+    opacity: 0.9;
+    border-radius: 1px;
   }
   .hero-accent {
     position: absolute;
@@ -344,6 +360,15 @@ import { publications } from '../../data/publications.js';
   /* Sections */
   .section {
     padding: calc(var(--space-xl) * 1.5) 0;
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(2.25rem, 9vw, 3rem); }
+    .hero-subtitle { font-size: 1rem; }
+    .hero-cta { flex-direction: column; }
+    .btn { width: 100%; max-width: 280px; }
+    .hero-accent::before { width: 80vw; height: 80vw; right: -30vw; top: -18vh; filter: blur(60px); }
   }
 
   /* About Section - Timeline Roadmap */
