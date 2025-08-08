@@ -80,7 +80,7 @@ const antibioticData: AntibioticData[] = [
 export default function AntimicrobialResistanceTimeline() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedAntibiotic, setSelectedAntibiotic] = useState<AntibioticData | null>(null);
-  const [dimensions, setDimensions] = useState({ width: 1000, height: 600 });
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 620 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -101,7 +101,8 @@ export default function AntimicrobialResistanceTimeline() {
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    const margin = { top: 80, right: 120, bottom: 80, left: 80 };
+    // Balanced margins to visually center the plot, with extra bottom for the legend
+    const margin = { top: 80, right: 80, bottom: 140, left: 80 };
     const width = dimensions.width - margin.left - margin.right;
     const height = dimensions.height - margin.top - margin.bottom;
 
@@ -234,36 +235,41 @@ export default function AntimicrobialResistanceTimeline() {
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .text('The Race Against Resistance: Antibiotic Timeline');
 
-    // Legend
-    const legend = svg.append('g')
-      .attr('transform', `translate(${dimensions.width - 100}, ${margin.top})`);
-
+    // Legend (centered horizontally under the plot)
     const categories = Array.from(new Set(antibioticData.map(d => d.category)));
-    
-    legend.selectAll('.legend-item')
-      .data(categories)
-      .enter()
-      .append('g')
-      .attr('class', 'legend-item')
-      .attr('transform', (_d, i) => `translate(0, ${i * 25})`)
-      .each(function(d: string) {
-        const g = d3.select(this);
-        g.append('rect')
-          .attr('width', 18)
-          .attr('height', 18)
-          .attr('fill', colorScale(d as string))
-          .attr('rx', 3);
-        g.append('text')
-          .attr('x', -5)
-          .attr('y', 9)
-          .attr('dy', '0.35em')
-          .attr('fill', 'var(--secondary, #666)')
-          .style('text-anchor', 'end')
-          .style('font-size', '12px')
-          .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
-          .style('font-weight', '400')
-          .text(d);
-      });
+    const approxTextWidth = (label: string) => Math.max(50, label.length * 7);
+    const legendItems = categories.map(c => ({
+      label: c,
+      color: colorScale(c),
+      width: 18 + 8 + approxTextWidth(c) + 16 // rect + gap + text + padding
+    }));
+    const totalLegendWidth = legendItems.reduce((acc, it) => acc + it.width, 0);
+    const startX = Math.max(0, (width - totalLegendWidth) / 2);
+
+    const legend = g.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(0, ${height + 50})`);
+
+    let cursorX = startX;
+    legendItems.forEach((it) => {
+      const item = legend.append('g').attr('transform', `translate(${cursorX}, 0)`);
+      item.append('rect')
+        .attr('width', 18)
+        .attr('height', 18)
+        .attr('fill', it.color)
+        .attr('rx', 3);
+      item.append('text')
+        .attr('x', 18 + 8)
+        .attr('y', 9)
+        .attr('dy', '0.35em')
+        .attr('fill', 'var(--secondary, #666)')
+        .style('text-anchor', 'start')
+        .style('font-size', '12px')
+        .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+        .style('font-weight', '400')
+        .text(it.label);
+      cursorX += it.width;
+    });
 
     // Ramon's solution annotation
     const solutionYear = 2024;
@@ -289,7 +295,7 @@ export default function AntimicrobialResistanceTimeline() {
 
   return (
     <div className="timeline-container">
-      <svg ref={svgRef} width={dimensions.width} height={dimensions.height} />
+      <svg ref={svgRef} className="timeline-svg" width={dimensions.width} height={dimensions.height} />
       {selectedAntibiotic && (
         <div className="info-panel">
           <h3>{selectedAntibiotic.antibiotic}</h3>
@@ -302,15 +308,27 @@ export default function AntimicrobialResistanceTimeline() {
         </div>
       )}
       <div className="solution-box">
-        <h3>Next-Generation Antimicrobial Proteins</h3>
-        <p>Engineering proteins with multiple functional domains that:</p>
-        <ul>
-          <li>Target multiple bacterial systems simultaneously</li>
-          <li>Recruit the immune system for enhanced killing</li>
-          <li>Prevent biofilm formation</li>
-          <li>Are customizable for specific infections</li>
-        </ul>
-        <p>This multi-target approach makes resistance evolution significantly harder for bacteria.</p>
+        <h3>Next‑Generation Antimicrobial Proteins</h3>
+        <p>
+          I design modular proteins that combine orthogonal mechanisms—membrane disruption, enzymatic cell‑wall attack, and
+          biofilm dispersion—to make resistance evolution much harder. I tune domain order and linkers for potency, stability and
+          manufacturability, then validate at the bench against priority pathogens.
+        </p>
+        <div className="bullets">
+          <ul>
+            <li>Multiple mechanisms in one scaffold (membrane, enzymatic, anti‑biofilm)</li>
+            <li>Rational linkers and domain ordering; production‑aware constructs</li>
+            <li>Vector delivery feasibility where relevant (AAV and related systems)</li>
+            <li>Bench assays: MIC/MBEC, time‑kill, biofilm, and resistance‑trajectory tracking</li>
+          </ul>
+          <ul>
+            <li>Rapid in‑silico design and screening</li>
+            <li>Cloning strategy and construct design</li>
+            <li>Expression/solubility optimization; inclusion‑body rescue when useful</li>
+            <li>Reproducible analysis and clear reporting for decisions</li>
+          </ul>
+        </div>
+        <p className="closing">If you’re exploring hard‑to‑treat infections or want to test a concept quickly, I’m keen to collaborate.</p>
       </div>
       <style>{`
         .timeline-container {
@@ -318,6 +336,7 @@ export default function AntimicrobialResistanceTimeline() {
           margin: 2rem 0;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
+        .timeline-svg { display: block; margin: 0 auto; }
         .info-panel {
           position: absolute;
           top: 100px;
@@ -356,38 +375,22 @@ export default function AntimicrobialResistanceTimeline() {
           font-weight: 500;
         }
         .solution-box {
-          background: linear-gradient(135deg, rgba(80, 200, 120, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%);
-          border: 2px solid var(--accent-yellow, #FFD93D);
-          border-radius: 8px;
-          padding: 1.5rem;
-          margin-top: 2rem;
-          color: var(--primary, #333);
+          max-width: 960px;
+          margin: 2.5rem auto 0;
+          padding: 1.5rem 1.75rem;
+          background: var(--background-card, #1e1e1e);
+          border: 1px solid var(--border, #333);
+          border-left: 3px solid var(--accent-red, #DA291C);
+          border-radius: 12px;
+          color: var(--primary, #eaeaea);
         }
-        .solution-box h3 {
-          color: var(--accent-red, #DA291C);
-          margin-bottom: 1rem;
-          font-weight: 600;
-          font-size: 1.2rem;
-        }
-        .solution-box p {
-          color: var(--secondary, #666);
-          line-height: 1.6;
-          margin-bottom: 1rem;
-        }
-        .solution-box ul {
-          margin-left: 1.5rem;
-          color: var(--secondary, #666);
-        }
-        .solution-box li {
-          margin: 0.5rem 0;
-          line-height: 1.5;
-        }
-        @media (prefers-color-scheme: dark) {
-          .solution-box {
-            background: linear-gradient(135deg, rgba(80, 200, 120, 0.05) 0%, rgba(255, 235, 59, 0.05) 100%);
-            border-color: var(--accent-yellow, #ffeb3b);
-          }
-        }
+        .solution-box h3 { margin: 0 0 0.75rem 0; font-weight: 700; font-size: 1.2rem; color: var(--accent-red, #DA291C); }
+        .solution-box p { color: var(--secondary, #b5b5b5); line-height: 1.7; margin-bottom: 1rem; }
+        .bullets { display: grid; grid-template-columns: 1fr; gap: 0.5rem 1.5rem; margin: 0.5rem 0 0.5rem; }
+        .bullets ul { margin: 0; padding-left: 1.1rem; color: var(--secondary, #b5b5b5); }
+        .bullets li { margin: 0.35rem 0; line-height: 1.5; }
+        .closing { margin-top: 0.75rem; }
+        @media (min-width: 900px) { .bullets { grid-template-columns: 1fr 1fr; } }
       `}</style>
     </div>
   );
