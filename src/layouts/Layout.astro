@@ -101,29 +101,39 @@ const { title, lang = 'en' } = Astro.props;
     --catalan-red: #DA291C;
     --catalan-yellow: #FFD93D;
 
-    /* Base tokens */
-    --primary: #F5F5F5;
-    --secondary: #D4D4D4;
-    --tertiary: #A3A3A3;
-    --accent-red: #DC2626; /* primary red */
-    --accent-red-hover: #EF4444;
-    --accent-red-bg: rgba(220, 38, 38, 0.10);
+    /* Enhanced biological aesthetic - inspired by blood cells and molecular structures */
+    --primary: #F8F9FA;
+    --secondary: #DEE2E6;
+    --tertiary: #ADB5BD;
+    --accent-red: #DC143C; /* Deeper crimson like oxygenated blood */
+    --accent-red-hover: #FF1744;
+    --accent-red-bg: rgba(220, 20, 60, 0.12);
+    --accent-red-subtle: rgba(220, 20, 60, 0.08);
     --accent-yellow: #FFD93D;
+    --accent-molecular: #E91E63; /* Pink accent for molecular highlights */
     --gradient-catalan: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
+    --gradient-blood: linear-gradient(135deg, #DC143C 0%, #8B0000 50%, #DC143C 100%);
+    --gradient-molecular: linear-gradient(45deg, #DC143C 0%, #E91E63 50%, #FF1744 100%);
 
-    /* Background surfaces */
-    --background: #0A0A0A;
-    --background-alt: #171717;
-    --background-card: #1E1E1E;
-    --background-elevated: #252525;
+    /* Sophisticated dark surfaces with subtle molecular warmth */
+    --background: #0D0D0D; /* Slightly warmer black */
+    --background-alt: #1A1A1A; /* Charcoal with warmth */
+    --background-card: #212121; /* Elevated card surface */
+    --background-elevated: #2A2A2A; /* Highest elevation */
+    --background-molecular: rgba(220, 20, 60, 0.03); /* Subtle red tint for special elements */
+    --background-glass: rgba(13, 13, 13, 0.85); /* Glassmorphism effect */
     /* RGB helpers */
-    --background-rgb: 10, 10, 10;
-    --accent-red-rgb: 220, 38, 38;
+    --background-rgb: 13, 13, 13;
+    --accent-red-rgb: 220, 20, 60;
+    --accent-molecular-rgb: 233, 30, 99;
 
-    /* Borders */
-    --border: #333333; /* Dark borders */
-    --border-light: #404040; /* Lighter borders */
-    --border-red: rgba(218, 41, 28, 0.3); /* Red-tinted borders */
+    /* Refined border system with molecular inspiration */
+    --border: #353535; /* Subtle elevation */
+    --border-light: #424242; /* Interactive elements */
+    --border-elevated: #4A4A4A; /* Hover states */
+    --border-red: rgba(220, 20, 60, 0.35); /* Crimson accents */
+    --border-molecular: rgba(233, 30, 99, 0.25); /* Molecular pink */
+    --border-glass: rgba(255, 255, 255, 0.08); /* Glassmorphism borders */
     
     /* Supporting colors for dark theme */
     --text-primary: #ffffff;
@@ -282,19 +292,23 @@ const { title, lang = 'en' } = Astro.props;
     }
   }
 
-  /* Dark Mode */
+  /* Enhanced Dark Mode with sophisticated molecular palette */
   @media (prefers-color-scheme: dark) {
     :root {
-      --primary: #EAEAEA;
-      --secondary: #BDBDBD;
-      --tertiary: #8C8C8C;
-      --background: #0A0A0A;
-      --background-alt: #141414;
-      --border: #2A2A2A;
-      --accent-red: #F03A3A;
+      --primary: #F0F0F0;
+      --secondary: #C1C1C1;
+      --tertiary: #909090;
+      --background: #0D0D0D;
+      --background-alt: #1A1A1A;
+      --background-card: #212121;
+      --background-elevated: #2A2A2A;
+      --border: #353535;
+      --accent-red: #FF1744; /* Brighter red for dark mode */
       --accent-yellow: #FFD93D;
-      --background-rgb: 10, 10, 10;
-      --accent-red-rgb: 240, 58, 58;
+      --accent-molecular: #E91E63;
+      --background-rgb: 13, 13, 13;
+      --accent-red-rgb: 255, 23, 68;
+      --accent-molecular-rgb: 233, 30, 99;
     }
     
     body {

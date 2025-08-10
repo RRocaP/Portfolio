@@ -1,0 +1,250 @@
+---
+// Enhanced animations for a more engaging portfolio experience
+---
+
+<style>
+  /* Molecular-inspired pulse animation for buttons */
+  @keyframes molecular-pulse {
+    0% { 
+      box-shadow: 0 0 0 0 rgba(var(--accent-red-rgb), 0.4);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(var(--accent-red-rgb), 0);
+      transform: scale(1.02);
+    }
+    100% { 
+      box-shadow: 0 0 0 0 rgba(var(--accent-red-rgb), 0);
+      transform: scale(1);
+    }
+  }
+
+  /* Floating animation for cards */
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(0.5deg); }
+    75% { transform: translateY(-2px) rotate(-0.3deg); }
+  }
+
+  /* Sophisticated fade-in with scale */
+  @keyframes fade-in-scale {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Staggered reveal for timeline items */
+  @keyframes stagger-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+      filter: blur(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  /* Molecular bond-like connection animation */
+  @keyframes bond-formation {
+    0% {
+      stroke-dashoffset: 100;
+      opacity: 0.3;
+    }
+    50% {
+      stroke-dashoffset: 50;
+      opacity: 0.6;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.4;
+    }
+  }
+
+  /* Apply animations to elements */
+  .btn-primary {
+    animation: molecular-pulse 2.5s ease-in-out infinite;
+  }
+
+  .btn-primary:hover {
+    animation-play-state: paused;
+  }
+
+  .timeline-card {
+    animation: gentle-float 6s ease-in-out infinite;
+  }
+
+  .timeline-card:nth-child(2n) {
+    animation-delay: -2s;
+  }
+
+  .timeline-card:nth-child(3n) {
+    animation-delay: -4s;
+  }
+
+  .publication-card,
+  .research-card,
+  .contact-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .publication-card:hover,
+  .research-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 20px 40px rgba(var(--accent-red-rgb), 0.1),
+      0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Enhanced timeline path animation */
+  .timeline-path path {
+    animation: bond-formation 3s ease-in-out forwards;
+    stroke-dasharray: 8, 4;
+  }
+
+  /* Intersection Observer triggered animations */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered animations for grouped elements */
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: stagger-reveal 0.6s ease-out forwards;
+  }
+
+  .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-item:nth-child(5) { animation-delay: 0.5s; }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary,
+    .timeline-card,
+    .timeline-path path {
+      animation: none;
+    }
+    
+    .publication-card:hover,
+    .research-card:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(var(--accent-red-rgb), 0.15);
+    }
+    
+    .animate-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Subtle parallax effect for hero background */
+  .hero-parallax {
+    will-change: transform;
+  }
+
+  /* Smooth morphing effect for navigation */
+  .nav-morph {
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+
+  /* Enhanced focus indicators */
+  .enhanced-focus:focus-visible {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(var(--accent-red-rgb), 0.2);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Enhanced Intersection Observer for scroll-triggered animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '-10% 0px -10% 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Add stagger effect to child elements
+          const staggerItems = entry.target.querySelectorAll('.stagger-child');
+          staggerItems.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add('stagger-item');
+            }, index * 100);
+          });
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with scroll animation classes
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Subtle parallax effect for hero background
+    const heroAccent = document.querySelector('.hero-accent');
+    if (heroAccent && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let ticking = false;
+      
+      const updateParallax = () => {
+        const scrolled = window.pageYOffset;
+        const parallaxSpeed = scrolled * 0.3;
+        
+        if (heroAccent) {
+          heroAccent.style.transform = `translate3d(0, ${parallaxSpeed}px, 0)`;
+        }
+        
+        ticking = false;
+      };
+
+      const requestParallaxUpdate = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+    }
+
+    // Enhanced button hover effects with sound-like feedback
+    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+    buttons.forEach(button => {
+      button.addEventListener('mouseenter', (e) => {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          e.target.style.transform = 'scale(1.05)';
+        }
+      });
+      
+      button.addEventListener('mouseleave', (e) => {
+        e.target.style.transform = 'scale(1)';
+      });
+    });
+
+    // Add focus enhancement to interactive elements
+    document.querySelectorAll('button, a, input, select, textarea').forEach(el => {
+      el.classList.add('enhanced-focus');
+    });
+  });
+</script>

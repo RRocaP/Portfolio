@@ -7,6 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
+import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular" lang="ca">
@@ -20,11 +21,12 @@ import { metrics } from '../../data/metrics.ts';
     <div class="container mx-auto px-6 lg:px-8">
       <div class="hero-content max-w-3xl">
         <h1 class="hero-title animate-fade-in-up tracking-tight">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/80">Enginyer Biomèdic • Biòleg Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/70">Enginyeria de proteïnes i antimicrobians.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-3 mt-6 flex items-center gap-x-6">
-          <a href="#research" class="rounded-md bg-[var(--accent-red)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--accent-red-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-red)]">Veure recerca</a>
-          <a href="#publications" class="text-sm font-semibold leading-6 text-white/80 hover:text-white">Publicacions <span aria-hidden="true">→</span></a>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/85">Enginyer Biomèdic & Arquitecte Molecular</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/75">Dissenyant la pròxima generació de proteïnes que salven vides, una molècula alhora.</p>
+        <p class="hero-subtext animate-fade-in-up animate-delay-3 text-white/65">Perquè en un món on els bacteris es tornen més intel·ligents, la nostra medicina també ho ha de ser.</p>
+        <div class="hero-cta animate-fade-in-up animate-delay-4 mt-8 flex items-center gap-x-6">
+          <a href="#research" class="btn btn-primary glow-effect">Veure la Meva Recerca</a>
+          <a href="#about" class="btn btn-secondary">La Meva Història <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
@@ -33,7 +35,7 @@ import { metrics } from '../../data/metrics.ts';
   <!-- About Section with Timeline Roadmap -->
   <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">El Meu Camí</h2>
+      <h2 class="section-title animate-fade-in-up">Com He Arribat Fins Aquí</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -266,6 +268,7 @@ import { metrics } from '../../data/metrics.ts';
   </section>
 
   <Footer />
+  <EnhancedAnimations />
 </Layout>
 
 <style>

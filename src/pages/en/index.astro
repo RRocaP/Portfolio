@@ -7,6 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
+import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist" lang="en">
@@ -19,20 +20,21 @@ import { metrics } from '../../data/metrics.ts';
     <div class="container mx-auto px-6 lg:px-8">
       <div class="hero-content max-w-3xl">
         <h1 class="hero-title animate-fade-in-up tracking-tight">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/80">Biomedical Engineer • Molecular Biologist</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/70">Protein engineering and antimicrobial research.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-3 mt-6 flex items-center gap-x-6">
-          <a href="#about" class="rounded-md bg-[var(--accent-red)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--accent-red-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-red)]">Learn More</a>
-          <a href="#contact" class="text-sm font-semibold leading-6 text-white/80 hover:text-white">Get in Touch <span aria-hidden="true">→</span></a>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/85">Biomedical Engineer & Molecular Architect</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/75">Designing the next generation of life-saving proteins, one molecule at a time.</p>
+        <p class="hero-subtext animate-fade-in-up animate-delay-3 text-white/65">Because in a world where bacteria are getting smarter, our medicine needs to get smarter too.</p>
+        <div class="hero-cta animate-fade-in-up animate-delay-4 mt-8 flex items-center gap-x-6">
+          <a href="#research" class="btn btn-primary glow-effect">See My Research</a>
+          <a href="#about" class="btn btn-secondary">My Story <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- About Section with Timeline Roadmap -->
-  <section id="about" class="section about-section">
+  <section id="about" class="section about-section animate-on-scroll">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">My Journey</h2>
+      <h2 class="section-title animate-fade-in-up">How I Got Here</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -51,53 +53,53 @@ import { metrics } from '../../data/metrics.ts';
         </svg>
         
         <div class="timeline-content">
-          <div class="timeline-item animate-fade-in-up" style="--index: 1">
+          <div class="timeline-item stagger-child" style="--index: 1">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2013</span>
-              <h3>B.S. Biotechnology</h3>
+              <h3>First Love: Biotechnology</h3>
               <p>Universitat Autònoma de Barcelona</p>
-              <small>Foundation in molecular biology and biotech applications</small>
+              <small>Where I first fell in love with the elegance of molecular machines</small>
             </div>
           </div>
           
-          <div class="timeline-item animate-fade-in-up" style="--index: 2">
+          <div class="timeline-item stagger-child" style="--index: 2">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2015</span>
-              <h3>M.S. Biomedical Engineering</h3>
+              <h3>California Dreaming</h3>
               <p>UC Irvine</p>
-              <small>Engineering approaches to biological problems</small>
+              <small>Learning to think like an engineer while staying fascinated by biology</small>
             </div>
           </div>
           
-          <div class="timeline-item animate-fade-in-up" style="--index: 3">
+          <div class="timeline-item stagger-child" style="--index: 3">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2020</span>
-              <h3>Ph.D. in Biomedicine</h3>
+              <h3>Deep Dive into Proteins</h3>
               <p>Autonomous University of Barcelona</p>
-              <small>Molecular Biology & Biochemistry • Protein engineering expertise</small>
+              <small>Five years of getting intimate with protein structures and their secrets</small>
             </div>
           </div>
           
-          <div class="timeline-item animate-fade-in-up" style="--index: 4">
+          <div class="timeline-item stagger-child" style="--index: 4">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2021</span>
-              <h3>Postdoctoral Researcher</h3>
+              <h3>Down Under Discovery</h3>
               <p>Children's Medical Research Institute</p>
-              <small>Translational Vectorology Unit • Sydney, Australia</small>
+              <small>Where viral vectors became my allies in the fight for better medicine</small>
             </div>
           </div>
           
-          <div class="timeline-item animate-fade-in-up" style="--index: 5">
+          <div class="timeline-item stagger-child" style="--index: 5">
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Now</span>
-              <h3>Fighting Drug Resistance</h3>
-              <p>Next-Gen Antimicrobials</p>
-              <small>Computational discovery meets wet-lab validation</small>
+              <h3>The Real Challenge</h3>
+              <p>Outsmarting Superbugs</p>
+              <small>Using AI and intuition to design proteins that bacteria can't resist</small>
             </div>
           </div>
           
@@ -105,30 +107,32 @@ import { metrics } from '../../data/metrics.ts';
             <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
-              <p>Turning algorithms into therapies</p>
+              <p>Where curiosity meets impact</p>
             </div>
           </div>
         </div>
       </div>
       
       <div class="about-text animate-fade-in-up">
-        <p class="lead">Biotechnologist and biomedical engineer focused on protein and vector engineering for antimicrobial and translational applications.</p>
+        <p class="lead">I'm the kind of person who gets excited about protein structures at 3 AM and thinks bacterial resistance mechanisms are fascinating puzzles to solve.</p>
 
-        <p>I develop and characterize recombinant proteins and viral vectors, combining computational design with wet‑lab validation. Current work spans antimicrobial protein scaffolds, inclusion bodies as functional biomaterials, and AAV vector development.</p>
+        <p>My work lives at the intersection of computational design and hands-on experimentation. I spend my days designing proteins that could save lives, then head to the lab to see if they actually work. It's equal parts detective work, engineering challenge, and creative problem-solving.</p>
+        
+        <p>The antimicrobial crisis isn't just a scientific challenge—it's personal. Every protein I design, every experiment I run, is a step toward a world where a simple infection doesn't become a life sentence.</p>
 
-        <p>Publications and affiliations shown here reflect my verified records on ORCID (0000‑0002‑7393‑6200) and Google Scholar.</p>
+        <p><small>Everything here is verified through my ORCID (0000‑0002‑7393‑6200) and Google Scholar profiles. Science is built on trust, and transparency matters.</small></p>
       </div>
     </div>
   </section>
 
   <!-- Research Section -->
-  <section id="research" class="section research-section">
+  <section id="research" class="section research-section animate-on-scroll">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Research</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
-        <p class="lead">I design, build, and test antimicrobial proteins and viral vectors, pairing computational design with careful, iterative bench work to understand what works and why.</p>
+        <p class="lead">Think of me as a molecular architect. I design proteins that can outsmart the smartest bacteria, then roll up my sleeves in the lab to see if my blueprints actually work in the real world.</p>
       </div>
       
       <AntimicrobialTimeline />
@@ -152,14 +156,14 @@ import { metrics } from '../../data/metrics.ts';
 
 
   <!-- Publications Section -->
-  <section id="publications" class="section publications-section">
+  <section id="publications" class="section publications-section animate-on-scroll">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Selected Publications</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="publications-list">
-        {publications.map(pub => (
-          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
+        {publications.map((pub, index) => (
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} stagger-child`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined} style={`animation-delay: ${index * 0.1}s`}>
             <span class="pub-year">{pub.year}</span>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
@@ -186,13 +190,13 @@ import { metrics } from '../../data/metrics.ts';
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="section contact-section">
+  <section id="contact" class="section contact-section animate-on-scroll">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Let's Connect</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
-        <p class="lead">Open to collaborations in antimicrobial proteins, vector systems, and data-driven design.</p>
+        <p class="lead">Got an impossible protein problem? A crazy idea for fighting superbugs? Or just want to chat about molecular biology over coffee? Let's talk.</p>
         
         <div class="contact-info">
           <div class="contact-card">
@@ -234,6 +238,7 @@ import { metrics } from '../../data/metrics.ts';
   </section>
 
   <Footer />
+  <EnhancedAnimations />
 </Layout>
 
 <style>
@@ -332,7 +337,8 @@ import { metrics } from '../../data/metrics.ts';
 
   .hero-subtitle { font-size: 1.15rem; color: var(--secondary); margin-bottom: 0.25rem; font-weight: 600; }
 
-  .hero-tagline { font-size: 1rem; color: var(--tertiary); margin-bottom: 2rem; }
+  .hero-tagline { font-size: 1.1rem; color: var(--tertiary); margin-bottom: 1rem; }
+  .hero-subtext { font-size: 0.95rem; color: var(--tertiary); margin-bottom: 2rem; font-style: italic; opacity: 0.8; }
 
   .hero-cta {
     display: flex;
@@ -359,6 +365,45 @@ import { metrics } from '../../data/metrics.ts';
   .btn-outline { border: 1.5px solid var(--border-light); color: var(--secondary); background: transparent; }
 
   .btn-outline:hover { background: var(--background-elevated); border-color: var(--accent-red); color: var(--accent-red); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.08); }
+  
+  .btn-secondary { 
+    background: transparent; 
+    color: var(--primary); 
+    border: 2px solid var(--border-light); 
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  .btn-secondary:hover {
+    background: var(--background-molecular);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--accent-red-rgb), 0.15);
+  }
+  
+  .glow-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glow-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  .glow-effect:hover::before {
+    left: 100%;
+  }
 
   /* Sections */
   .section {
