@@ -311,9 +311,10 @@ import { metrics } from '../../data/metrics.ts';
   }
 
   .hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+    text-align: left;
+    max-width: 900px;
+    margin: 0;
+    margin-left: 8vw;
     position: relative;
     z-index: 10;
   }
@@ -323,26 +324,66 @@ import { metrics } from '../../data/metrics.ts';
     z-index: 10;
   }
 
-  .hero-title { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 0.5rem; color: var(--primary); font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em; position: relative; }
-  .hero-title::after { content: ''; display: block; width: 80px; height: 3px; margin: 14px auto 0; background: var(--accent-red); opacity: 0.95; border-radius: 1.5px; }
+  .hero-title { 
+    font-size: clamp(3rem, 8vw, 5rem); 
+    margin-bottom: 0.5rem; 
+    color: var(--primary); 
+    font-family: var(--font-display); 
+    font-weight: 800; 
+    letter-spacing: -0.015em; 
+    position: relative; 
+  }
+  .hero-title::after { 
+    content: ''; 
+    display: block; 
+    width: 80px; 
+    height: 3px; 
+    margin: 14px 0; 
+    background: var(--accent-red); 
+    opacity: 0.95; 
+    border-radius: 1.5px; 
+  }
 
   /* Mobile tweaks */
   @media (max-width: 480px) {
+    .hero-content {
+      text-align: center;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
     .hero-title { font-size: clamp(2.25rem, 9vw, 3rem); }
+    .hero-title::after { margin: 14px auto 0; }
     .hero-subtitle { font-size: 1rem; }
-    .hero-cta { flex-direction: column; }
+    .hero-tagline { margin: 0 auto 2rem; }
+    .hero-cta { 
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
     .btn { width: 100%; max-width: 280px; }
   }
-  .hero-title::after { content: ''; display: block; width: 72px; height: 4px; margin: 14px auto 0; background: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-yellow) 100%); border-radius: 2px; }
 
-  .hero-subtitle { font-size: 1.15rem; color: var(--secondary); margin-bottom: 0.25rem; font-weight: 600; }
+  .hero-subtitle { 
+    font-size: 1.15rem; 
+    color: var(--secondary); 
+    margin-bottom: 0.5rem; 
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
-  .hero-tagline { font-size: 1rem; color: var(--tertiary); margin-bottom: 2rem; }
+  .hero-tagline { 
+    font-size: 1.1rem; 
+    color: var(--tertiary); 
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    max-width: 600px;
+  }
 
   .hero-cta {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    gap: 1.2rem;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
   .metrics {
