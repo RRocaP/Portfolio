@@ -281,8 +281,8 @@ const t = {
     // Optimized scroll handler with debouncing and passive listeners
     let scrollTimeout;
     const handleScroll = () => {
-      // Immediate scroll bar effect for better responsiveness
-      if (window.scrollY > 50) {
+      // Keep background fully transparent near top; only add backdrop once user has meaningfully scrolled
+      if (window.scrollY > 120) {
         navigation?.classList.add('scrolled');
       } else {
         navigation?.classList.remove('scrolled');
