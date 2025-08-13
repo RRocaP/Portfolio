@@ -7,34 +7,32 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
-import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist" lang="en">
   <Navigation />
   <ScrollIndicator />
   
-  <section id="home" class="hero relative isolate overflow-hidden pt-20 pb-24 sm:pb-28 lg:pt-24 lg:pb-32">
+  <section id="home" class="hero">
     <div class="hero-accent" aria-hidden="true"></div>
     <GeometricBackground red="#DC2626" accent="#EF4444" />
-    <div class="container mx-auto px-6 lg:px-8">
-      <div class="hero-content max-w-3xl">
-        <h1 class="hero-title animate-fade-in-up tracking-tight">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/85">Biomedical Engineer & Molecular Biologist</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/75">Engineering antimicrobial proteins and gene therapies through computational design.</p>
-        <p class="hero-subtext animate-fade-in-up animate-delay-3 text-white/65">Addressing the antimicrobial resistance crisis with innovative therapeutic solutions.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-4 mt-8 flex items-center gap-x-6">
-          <a href="#research" class="btn btn-primary glow-effect">See My Research</a>
-          <a href="#about" class="btn btn-secondary">My Story <span aria-hidden="true">→</span></a>
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Biomedical Engineer • Molecular Biologist</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Protein engineering and antimicrobial research.</p>
+        <div class="hero-cta animate-fade-in-up animate-delay-3">
+          <a href="#about" class="btn btn-primary">Learn More</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- About Section with Timeline Roadmap -->
-  <section id="about" class="section about-section animate-on-scroll">
+  <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">How I Got Here</h2>
+      <h2 class="section-title animate-fade-in-up">My Journey</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -53,53 +51,53 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
         </svg>
         
         <div class="timeline-content">
-          <div class="timeline-item stagger-child" style="--index: 1">
+          <div class="timeline-item animate-fade-in-up" style="--index: 1">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2013</span>
-              <h3>Biotechnology Foundation</h3>
+              <h3>B.S. Biotechnology</h3>
               <p>Universitat Autònoma de Barcelona</p>
-              <small>Discovered the elegance of molecular machines and cellular systems</small>
+              <small>Foundation in molecular biology and biotech applications</small>
             </div>
           </div>
           
-          <div class="timeline-item stagger-child" style="--index: 2">
+          <div class="timeline-item animate-fade-in-up" style="--index: 2">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2015</span>
-              <h3>Engineering Perspective</h3>
+              <h3>M.S. Biomedical Engineering</h3>
               <p>UC Irvine</p>
-              <small>Learned to approach biological problems with engineering precision</small>
+              <small>Engineering approaches to biological problems</small>
             </div>
           </div>
           
-          <div class="timeline-item stagger-child" style="--index: 3">
+          <div class="timeline-item animate-fade-in-up" style="--index: 3">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2020</span>
-              <h3>PhD in Molecular Biology</h3>
+              <h3>Ph.D. in Biomedicine</h3>
               <p>Autonomous University of Barcelona</p>
-              <small>Five years mastering protein engineering and structural biology</small>
+              <small>Molecular Biology & Biochemistry • Protein engineering expertise</small>
             </div>
           </div>
           
-          <div class="timeline-item stagger-child" style="--index: 4">
+          <div class="timeline-item animate-fade-in-up" style="--index: 4">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2021</span>
-              <h3>Gene Therapy Research</h3>
+              <h3>Postdoctoral Researcher</h3>
               <p>Children's Medical Research Institute</p>
-              <small>Developing viral vectors for next-generation therapeutics</small>
+              <small>Translational Vectorology Unit • Sydney, Australia</small>
             </div>
           </div>
           
-          <div class="timeline-item stagger-child" style="--index: 5">
+          <div class="timeline-item animate-fade-in-up" style="--index: 5">
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Now</span>
-              <h3>Current Focus</h3>
-              <p>Antimicrobial Research</p>
-              <small>Designing proteins to combat antibiotic-resistant bacteria</small>
+              <h3>Fighting Drug Resistance</h3>
+              <p>Next-Gen Antimicrobials</p>
+              <small>Computational discovery meets wet-lab validation</small>
             </div>
           </div>
           
@@ -107,53 +105,30 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
-              <p>Biomedical Engineering & Molecular Biology</p>
+              <p>Turning algorithms into therapies</p>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="about-text-styled animate-fade-in-up">
-        <div class="about-intro">
-          <h3 class="about-title">
-            <span class="title-accent">My Story</span>
-            <span class="title-line"></span>
-          </h3>
-          <p class="lead text-left">My passion lies in understanding protein structures and solving the complex puzzles of bacterial resistance mechanisms.</p>
-        </div>
+      <div class="about-text animate-fade-in-up">
+        <p class="lead">Biotechnologist and biomedical engineer focused on protein and vector engineering for antimicrobial and translational applications.</p>
 
-        <div class="about-content-grid">
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.2s">
-            <div class="block-accent"></div>
-            <p>My work lives at the intersection of computational design and hands-on experimentation. I spend my days designing proteins that could save lives, then head to the lab to see if they actually work.</p>
-          </div>
-          
-          <div class="content-block align-right animate-fade-in-up" style="--delay: 0.4s">
-            <p>It's equal parts detective work, engineering challenge, and creative problem-solving.</p>
-            <div class="block-accent"></div>
-          </div>
+        <p>I develop and characterize recombinant proteins and viral vectors, combining computational design with wet‑lab validation. Current work spans antimicrobial protein scaffolds, inclusion bodies as functional biomaterials, and AAV vector development.</p>
 
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.6s">
-            <div class="block-accent"></div>
-            <p>The antimicrobial crisis isn't just a scientific challenge—it's personal. Every protein I design, every experiment I run, is a step toward a world where a simple infection doesn't become a life sentence.</p>
-          </div>
-        </div>
-
-        <div class="verification-note">
-          <p><small>Everything here is verified through my ORCID (0000‑0002‑7393‑6200) and Google Scholar profiles. Science is built on trust, and transparency matters.</small></p>
-        </div>
+        <p>Publications and affiliations shown here reflect my verified records on ORCID (0000‑0002‑7393‑6200) and Google Scholar.</p>
       </div>
     </div>
   </section>
 
   <!-- Research Section -->
-  <section id="research" class="section research-section animate-on-scroll">
+  <section id="research" class="section research-section">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Research</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
-        <p class="lead">I design antimicrobial proteins using computational methods, then validate these designs through rigorous experimental work in the laboratory.</p>
+        <p class="lead">I design and test antimicrobial proteins and viral vectors using computation and experiment.</p>
       </div>
       
       <AntimicrobialTimeline />
@@ -177,14 +152,14 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 
 
   <!-- Publications Section -->
-  <section id="publications" class="section publications-section animate-on-scroll">
+  <section id="publications" class="section publications-section">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Selected Publications</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="publications-list">
-        {publications.map((pub, index) => (
-          <a class={`publication-card ${pub.featured ? 'featured' : ''} stagger-child`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined} style={`animation-delay: ${index * 0.1}s`}>
+        {publications.map(pub => (
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
             <span class="pub-year">{pub.year}</span>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
@@ -211,7 +186,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="section contact-section animate-on-scroll">
+  <section id="contact" class="section contact-section">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">Let's Connect</h2>
       <div class="accent-bar animate-fade-in-up"></div>
@@ -259,7 +234,6 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   </section>
 
   <Footer />
-  <EnhancedAnimations />
 </Layout>
 
 <style>
@@ -358,8 +332,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 
   .hero-subtitle { font-size: 1.15rem; color: var(--secondary); margin-bottom: 0.25rem; font-weight: 600; }
 
-  .hero-tagline { font-size: 1.1rem; color: var(--tertiary); margin-bottom: 1rem; }
-  .hero-subtext { font-size: 0.95rem; color: var(--tertiary); margin-bottom: 2rem; font-style: italic; opacity: 0.8; }
+  .hero-tagline { font-size: 1rem; color: var(--tertiary); margin-bottom: 2rem; }
 
   .hero-cta {
     display: flex;
@@ -386,45 +359,6 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   .btn-outline { border: 1.5px solid var(--border-light); color: var(--secondary); background: transparent; }
 
   .btn-outline:hover { background: var(--background-elevated); border-color: var(--accent-red); color: var(--accent-red); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.08); }
-  
-  .btn-secondary { 
-    background: transparent; 
-    color: var(--primary); 
-    border: 2px solid var(--border-light); 
-    padding: 0.75rem 2rem;
-    border-radius: 50px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    display: inline-block;
-  }
-  
-  .btn-secondary:hover {
-    background: var(--background-molecular);
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--accent-red-rgb), 0.15);
-  }
-  
-  .glow-effect {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .glow-effect::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.6s ease;
-  }
-  
-  .glow-effect:hover::before {
-    left: 100%;
-  }
 
   /* Sections */
   .section {

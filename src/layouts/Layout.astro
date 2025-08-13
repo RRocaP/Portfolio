@@ -1,6 +1,4 @@
 ---
-import '../styles/tailwind.css';
-
 export interface Props {
   title: string;
   lang?: 'en' | 'es' | 'ca';
@@ -89,9 +87,7 @@ const { title, lang = 'en' } = Astro.props;
   </head>
   <body>
     <a class="skip-link" href="#home">Skip to content</a>
-    <div class="min-h-screen bg-background text-white">
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
 
@@ -101,39 +97,29 @@ const { title, lang = 'en' } = Astro.props;
     --catalan-red: #DA291C;
     --catalan-yellow: #FFD93D;
 
-    /* Enhanced biological aesthetic - inspired by blood cells and molecular structures */
-    --primary: #F8F9FA;
-    --secondary: #DEE2E6;
-    --tertiary: #ADB5BD;
-    --accent-red: #DC143C; /* Deeper crimson like oxygenated blood */
-    --accent-red-hover: #FF1744;
-    --accent-red-bg: rgba(220, 20, 60, 0.12);
-    --accent-red-subtle: rgba(220, 20, 60, 0.08);
+    /* Base tokens */
+    --primary: #F5F5F5;
+    --secondary: #D4D4D4;
+    --tertiary: #A3A3A3;
+    --accent-red: #DC2626; /* primary red */
+    --accent-red-hover: #EF4444;
+    --accent-red-bg: rgba(220, 38, 38, 0.10);
     --accent-yellow: #FFD93D;
-    --accent-molecular: #E91E63; /* Pink accent for molecular highlights */
     --gradient-catalan: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-yellow) 100%);
-    --gradient-blood: linear-gradient(135deg, #DC143C 0%, #8B0000 50%, #DC143C 100%);
-    --gradient-molecular: linear-gradient(45deg, #DC143C 0%, #E91E63 50%, #FF1744 100%);
 
-    /* Sophisticated dark surfaces with subtle molecular warmth */
-    --background: #0D0D0D; /* Slightly warmer black */
-    --background-alt: #1A1A1A; /* Charcoal with warmth */
-    --background-card: #212121; /* Elevated card surface */
-    --background-elevated: #2A2A2A; /* Highest elevation */
-    --background-molecular: rgba(220, 20, 60, 0.03); /* Subtle red tint for special elements */
-    --background-glass: rgba(13, 13, 13, 0.85); /* Glassmorphism effect */
+    /* Background surfaces */
+    --background: #0A0A0A;
+    --background-alt: #171717;
+    --background-card: #1E1E1E;
+    --background-elevated: #252525;
     /* RGB helpers */
-    --background-rgb: 13, 13, 13;
-    --accent-red-rgb: 220, 20, 60;
-    --accent-molecular-rgb: 233, 30, 99;
+    --background-rgb: 10, 10, 10;
+    --accent-red-rgb: 220, 38, 38;
 
-    /* Refined border system with molecular inspiration */
-    --border: #353535; /* Subtle elevation */
-    --border-light: #424242; /* Interactive elements */
-    --border-elevated: #4A4A4A; /* Hover states */
-    --border-red: rgba(220, 20, 60, 0.35); /* Crimson accents */
-    --border-molecular: rgba(233, 30, 99, 0.25); /* Molecular pink */
-    --border-glass: rgba(255, 255, 255, 0.08); /* Glassmorphism borders */
+    /* Borders */
+    --border: #333333; /* Dark borders */
+    --border-light: #404040; /* Lighter borders */
+    --border-red: rgba(218, 41, 28, 0.3); /* Red-tinted borders */
     
     /* Supporting colors for dark theme */
     --text-primary: #ffffff;
@@ -292,23 +278,19 @@ const { title, lang = 'en' } = Astro.props;
     }
   }
 
-  /* Enhanced Dark Mode with sophisticated molecular palette */
+  /* Dark Mode */
   @media (prefers-color-scheme: dark) {
     :root {
-      --primary: #F0F0F0;
-      --secondary: #C1C1C1;
-      --tertiary: #909090;
-      --background: #0D0D0D;
-      --background-alt: #1A1A1A;
-      --background-card: #212121;
-      --background-elevated: #2A2A2A;
-      --border: #353535;
-      --accent-red: #FF1744; /* Brighter red for dark mode */
+      --primary: #EAEAEA;
+      --secondary: #BDBDBD;
+      --tertiary: #8C8C8C;
+      --background: #0A0A0A;
+      --background-alt: #141414;
+      --border: #2A2A2A;
+      --accent-red: #F03A3A;
       --accent-yellow: #FFD93D;
-      --accent-molecular: #E91E63;
-      --background-rgb: 13, 13, 13;
-      --accent-red-rgb: 255, 23, 68;
-      --accent-molecular-rgb: 233, 30, 99;
+      --background-rgb: 10, 10, 10;
+      --accent-red-rgb: 240, 58, 58;
     }
     
     body {
@@ -394,131 +376,6 @@ const { title, lang = 'en' } = Astro.props;
     @media (max-width: 480px) {
       .hero-accent::before { width: 80vw; height: 80vw; right: -30vw; top: -18vh; filter: blur(60px); }
       .hero-accent::after { width: 60vw; height: 60vw; left: -30vw; bottom: -20vh; filter: blur(50px); }
-    }
-    
-    /* Stylish About Text Layout */
-    .about-text-styled {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    
-    .about-intro {
-      margin-bottom: 3rem;
-    }
-    
-    .about-title {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    
-    .title-accent {
-      color: var(--red-500);
-      position: relative;
-      padding-left: 0.5rem;
-    }
-    
-    .title-accent::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 100%;
-      background: var(--red-500);
-    }
-    
-    .title-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--red-500) 0%, transparent 100%);
-    }
-    
-    .about-content-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    
-    .content-block {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      animation-delay: var(--delay, 0s);
-    }
-    
-    .content-block p {
-      margin: 0;
-      text-align: left;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.85);
-    }
-    
-    .content-block.align-left {
-      padding-left: 0;
-    }
-    
-    .content-block.align-right {
-      flex-direction: row-reverse;
-      padding-left: 15%;
-    }
-    
-    @media (min-width: 768px) {
-      .content-block.align-right {
-        padding-left: 25%;
-      }
-    }
-    
-    .block-accent {
-      width: 4px;
-      height: 60px;
-      background: linear-gradient(180deg, var(--red-500) 0%, var(--red-600) 100%);
-      flex-shrink: 0;
-      position: relative;
-    }
-    
-    .block-accent::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
-      background: var(--red-500);
-      border-radius: 50%;
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
-    }
-    
-    .verification-note {
-      margin-top: 3rem;
-      padding: 0;
-      background: transparent;
-      border: none;
-    }
-    
-    .verification-note p {
-      margin: 0;
-      text-align: justify;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.875rem;
-    }
-    
-    .about-text-styled .lead {
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 0;
-    }
-    
-    /* Remove old justified text styles */
-    .about-text p {
-      text-align: left !important;
     }
   }
 </style>

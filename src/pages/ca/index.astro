@@ -7,7 +7,6 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
-import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Enginyer Biomèdic i Biòleg Molecular" lang="ca">
@@ -15,18 +14,17 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   <ScrollIndicator />
   
   <!-- Hero minimalista -->
-  <section id="home" class="hero relative isolate overflow-hidden pt-20 pb-24 sm:pb-28 lg:pt-24 lg:pb-32">
+  <section id="home" class="hero">
     <div class="hero-accent" aria-hidden="true"></div>
     <GeometricBackground red="#DC2626" accent="#EF4444" />
-    <div class="container mx-auto px-6 lg:px-8">
-      <div class="hero-content max-w-3xl">
-        <h1 class="hero-title animate-fade-in-up tracking-tight">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/85">Enginyer Biomèdic & Biòleg Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/75">Enginyeria de proteïnes antimicrobianes i teràpies gèniques mitjançant disseny computacional.</p>
-        <p class="hero-subtext animate-fade-in-up animate-delay-3 text-white/65">Abordant la crisi de resistència antimicrobiana amb solucions terapèutiques innovadores.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-4 mt-8 flex items-center gap-x-6">
-          <a href="#research" class="btn btn-primary glow-effect">Veure la Meva Recerca</a>
-          <a href="#about" class="btn btn-secondary">La Meva Història <span aria-hidden="true">→</span></a>
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Enginyer Biomèdic • Biòleg Molecular</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Enginyeria de proteïnes i antimicrobians.</p>
+        <div class="hero-cta animate-fade-in-up animate-delay-3">
+          <a href="#research" class="btn btn-primary">Veure recerca</a>
+          <a href="#publications" class="btn btn-outline">Publicacions</a>
         </div>
       </div>
     </div>
@@ -35,7 +33,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   <!-- About Section with Timeline Roadmap -->
   <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">Com He Arribat Fins Aquí</h2>
+      <h2 class="section-title animate-fade-in-up">El Meu Camí</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -98,9 +96,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Ara</span>
-              <h3>Focus Actual</h3>
-              <p>Investigació Antimicrobiana</p>
-              <small>Dissenyant proteïnes per combatre bacteris resistents als antibiòtics</small>
+              <h3>Lluitant contra la Resistència als Fàrmacs</h3>
+              <p>Antimicrobians de Nova Generació</p>
+              <small>El descobriment computacional s'uneix a la validació al laboratori</small>
             </div>
           </div>
           
@@ -108,41 +106,18 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
-              <p>Enginyeria Biomèdica i Biologia Molecular</p>
+              <p>Convertint algoritmes en teràpies</p>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="about-text-styled animate-fade-in-up">
-        <div class="about-intro">
-          <h3 class="about-title">
-            <span class="title-accent">La Meva Història</span>
-            <span class="title-line"></span>
-          </h3>
-          <p class="lead text-left">La meva passió rau en entendre les estructures proteiques i resoldre els complexos trencaclosques dels mecanismes de resistència bacteriana.</p>
-        </div>
+      <div class="about-text animate-fade-in-up">
+        <p class="lead">Biotecnòleg i enginyer biomèdic centrat en l’enginyeria de proteïnes i vectors per a aplicacions antimicrobianes i traslacionals.</p>
 
-        <div class="about-content-grid">
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.2s">
-            <div class="block-accent"></div>
-            <p>El meu treball viu a la intersecció del disseny computacional i l'experimentació pràctica. Passo els dies dissenyant proteïnes que podrien salvar vides, després vaig al laboratori per veure si realment funcionen.</p>
-          </div>
-          
-          <div class="content-block align-right animate-fade-in-up" style="--delay: 0.4s">
-            <p>És a parts iguals treball detectivesc, desafiament d'enginyeria i resolució creativa de problemes.</p>
-            <div class="block-accent"></div>
-          </div>
+        <p>Desenvolupo i caracteritzo proteïnes recombinants i vectors virals, combinant disseny computacional amb validació al laboratori. La recerca actual inclou andamis proteics antimicrobians, cossos d’inclusió com a biomaterials funcionals i desenvolupament de vectors AAV.</p>
 
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.6s">
-            <div class="block-accent"></div>
-            <p>La crisi antimicrobiana no és només un desafiament científic—és personal. Cada proteïna que dissenyo, cada experiment que faig, és un pas cap a un món on una simple infecció no es converteix en una sentència de per vida.</p>
-          </div>
-        </div>
-
-        <div class="verification-note">
-          <p><small>Tot el que apareix aquí està verificat a través dels meus perfils ORCID (0000‑0002‑7393‑6200) i Google Scholar. La ciència es construeix sobre la confiança, i la transparència importa.</small></p>
-        </div>
+        <p>Les publicacions i afiliacions mostrades reflecteixen els meus registres verificats a ORCID (0000‑0002‑7393‑6200) i Google Scholar.</p>
       </div>
     </div>
   </section>
@@ -154,7 +129,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
-        <p class="lead">Dissenyo, construeixo i avaluo proteïnes antimicrobianes i vectors virals, combinant el disseny computacional amb un treball de laboratori rigorós i iteratiu per entendre què funciona i per què.</p>
+        <p class="lead">Dissenyo i provo proteïnes antimicrobianes i vectors virals amb suport computacional i validació experimental.</p>
       </div>
       
       <div class="research-areas">
@@ -196,10 +171,10 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
           <span class="metric-value">{metrics.publications}</span>
           <span class="metric-label">Articles revisats</span>
         </div>
-          <div class="metric">
-          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
+        <div class="metric">
+          <span class="metric-value">500+</span>
           <span class="metric-label">Cites (Scholar)</span>
-          </div>
+        </div>
         <div class="metric">
           <span class="metric-value">10</span>
           <span class="metric-label">Revistes i jornades</span>
@@ -249,7 +224,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
-        <p class="lead">Obert a col·laboracions en proteïnes antimicrobianes, sistemes de vectors i disseny guiat per dades.</p>
+        <p class="lead">Benvingudes les col·laboracions en disseny de proteïnes antimicrobianes, sistemes de vectors virals i enfocaments computacionals per al desenvolupament terapèutic.</p>
         
         <div class="contact-info">
           <div class="contact-card animate-fade-in-up">
@@ -291,7 +266,6 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   </section>
 
   <Footer />
-  <EnhancedAnimations />
 </Layout>
 
 <style>

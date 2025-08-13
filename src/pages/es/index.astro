@@ -7,7 +7,6 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
-import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular" lang="es">
@@ -15,18 +14,17 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   <ScrollIndicator />
   
   <!-- Hero mínimo -->
-  <section id="home" class="hero relative isolate overflow-hidden pt-20 pb-24 sm:pb-28 lg:pt-24 lg:pb-32">
+  <section id="home" class="hero">
     <div class="hero-accent" aria-hidden="true"></div>
     <GeometricBackground red="#DC2626" accent="#EF4444" />
-    <div class="container mx-auto px-6 lg:px-8">
-      <div class="hero-content max-w-3xl">
-        <h1 class="hero-title animate-fade-in-up tracking-tight">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1 text-white/85">Ingeniero Biomédico & Biólogo Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2 text-white/75">Ingeniería de proteínas antimicrobianas y terapias génicas mediante diseño computacional.</p>
-        <p class="hero-subtext animate-fade-in-up animate-delay-3 text-white/65">Abordando la crisis de resistencia antimicrobiana con soluciones terapéuticas innovadoras.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-4 mt-8 flex items-center gap-x-6">
-          <a href="#research" class="btn btn-primary glow-effect">Ver Mi Investigación</a>
-          <a href="#about" class="btn btn-secondary">Mi Historia <span aria-hidden="true">→</span></a>
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
+        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Ingeniero Biomédico • Biólogo Molecular</p>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Ingeniería de proteínas y antimicrobianos.</p>
+        <div class="hero-cta animate-fade-in-up animate-delay-3">
+          <a href="#research" class="btn btn-primary">Ver investigación</a>
+          <a href="#publications" class="btn btn-outline">Publicaciones</a>
         </div>
       </div>
     </div>
@@ -35,7 +33,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   <!-- About Section with Timeline Roadmap -->
   <section id="about" class="section about-section">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">Cómo Llegué Aquí</h2>
+      <h2 class="section-title animate-fade-in-up">Mi Trayectoria</h2>
       
       <div class="timeline-roadmap">
         <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
@@ -58,9 +56,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2013</span>
-              <h3>Fundamentos en Biotecnología</h3>
+              <h3>Grado en Biotecnología</h3>
               <p>Universitat Autònoma de Barcelona</p>
-              <small>Descubrí la elegancia de las máquinas moleculares y sistemas celulares</small>
+              <small>Fundamentos en biología molecular y aplicaciones biotecnológicas</small>
             </div>
           </div>
           
@@ -68,9 +66,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2015</span>
-              <h3>Perspectiva de Ingeniería</h3>
+              <h3>Máster en Ingeniería Biomédica</h3>
               <p>UC Irvine</p>
-              <small>Aprendí a abordar problemas biológicos con precisión ingenieril</small>
+              <small>Enfoques de ingeniería para problemas biológicos</small>
             </div>
           </div>
           
@@ -78,9 +76,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2020</span>
-              <h3>Doctorado en Biología Molecular</h3>
+              <h3>Doctorado en Biomedicina</h3>
               <p>Universitat Autònoma de Barcelona</p>
-              <small>Cinco años dominando la ingeniería de proteínas y biología estructural</small>
+              <small>Biología Molecular y Bioquímica • Experiencia en ingeniería de proteínas</small>
             </div>
           </div>
           
@@ -88,9 +86,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card">
               <span class="timeline-year">2021</span>
-              <h3>Investigación en Terapia Génica</h3>
+              <h3>Investigador Postdoctoral</h3>
               <p>Children's Medical Research Institute</p>
-              <small>Desarrollando vectores virales para terapéuticas de próxima generación</small>
+              <small>Unidad de Vectorología Traslacional • Sídney, Australia</small>
             </div>
           </div>
           
@@ -98,9 +96,9 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <div class="timeline-dot"></div>
             <div class="timeline-card highlight">
               <span class="timeline-year">Ahora</span>
-              <h3>Enfoque Actual</h3>
-              <p>Investigación Antimicrobiana</p>
-              <small>Diseñando proteínas para combatir bacterias resistentes a antibióticos</small>
+              <h3>Luchando contra la Resistencia a Fármacos</h3>
+              <p>Antimicrobianos de Nueva Generación</p>
+              <small>El descubrimiento computacional se une a la validación en el laboratorio</small>
             </div>
           </div>
           
@@ -108,41 +106,18 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
             <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
-              <p>Ingeniería Biomédica y Biología Molecular</p>
+              <p>Convirtiendo algoritmos en terapias</p>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="about-text-styled animate-fade-in-up">
-        <div class="about-intro">
-          <h3 class="about-title">
-            <span class="title-accent">Mi Historia</span>
-            <span class="title-line"></span>
-          </h3>
-          <p class="lead text-left">Mi pasión radica en entender las estructuras proteicas y resolver los complejos puzzles de los mecanismos de resistencia bacteriana.</p>
-        </div>
+      <div class="about-text animate-fade-in-up">
+        <p class="lead">Biotecnólogo e ingeniero biomédico centrado en ingeniería de proteínas y vectores para aplicaciones antimicrobianas y traslacionales.</p>
 
-        <div class="about-content-grid">
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.2s">
-            <div class="block-accent"></div>
-            <p>Mi trabajo vive en la intersección del diseño computacional y la experimentación práctica. Paso mis días diseñando proteínas que podrían salvar vidas, luego voy al laboratorio a ver si realmente funcionan.</p>
-          </div>
-          
-          <div class="content-block align-right animate-fade-in-up" style="--delay: 0.4s">
-            <p>Es a partes iguales trabajo detectivesco, desafío de ingeniería y resolución creativa de problemas.</p>
-            <div class="block-accent"></div>
-          </div>
+        <p>Desarrollo y caracterizo proteínas recombinantes y vectores virales, combinando diseño computacional con validación experimental. El trabajo actual abarca andamiajes proteicos antimicrobianos, cuerpos de inclusión como biomateriales funcionales y desarrollo de vectores AAV.</p>
 
-          <div class="content-block align-left animate-fade-in-up" style="--delay: 0.6s">
-            <div class="block-accent"></div>
-            <p>La crisis antimicrobiana no es solo un desafío científico—es personal. Cada proteína que diseño, cada experimento que hago, es un paso hacia un mundo donde una simple infección no se convierte en una sentencia de por vida.</p>
-          </div>
-        </div>
-
-        <div class="verification-note">
-          <p><small>Todo lo que aparece aquí está verificado a través de mis perfiles ORCID (0000‑0002‑7393‑6200) y Google Scholar. La ciencia se construye sobre la confianza, y la transparencia importa.</small></p>
-        </div>
+        <p>Las publicaciones y afiliaciones mostradas reflejan mis registros verificados en ORCID (0000‑0002‑7393‑6200) y Google Scholar.</p>
       </div>
     </div>
   </section>
@@ -154,7 +129,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
-        <p class="lead">Diseño proteínas antimicrobianas utilizando métodos computacionales, luego valido estos diseños mediante trabajo experimental riguroso en el laboratorio.</p>
+        <p class="lead">Diseño y pruebo proteínas antimicrobianas y vectores virales con apoyo computacional y validación experimental.</p>
       </div>
       
       <div class="research-areas">
@@ -196,10 +171,10 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
           <span class="metric-value">{metrics.publications}</span>
           <span class="metric-label">Artículos revisados</span>
         </div>
-          <div class="metric">
-          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
+        <div class="metric">
+          <span class="metric-value">500+</span>
           <span class="metric-label">Citas (Scholar)</span>
-          </div>
+        </div>
         <div class="metric">
           <span class="metric-value">10</span>
           <span class="metric-label">Revistas y congresos</span>
@@ -249,7 +224,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
-        <p class="lead">Abierto a colaboraciones en proteínas antimicrobianas, sistemas de vectores y diseño guiado por datos.</p>
+        <p class="lead">Bienvenidas las colaboraciones en diseño de proteínas antimicrobianas, sistemas de vectores virales y enfoques computacionales para el desarrollo terapéutico.</p>
         
         <div class="contact-info">
           <div class="contact-card animate-fade-in-up">
@@ -291,7 +266,6 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
   </section>
 
   <Footer />
-  <EnhancedAnimations />
 </Layout>
 
 <style>

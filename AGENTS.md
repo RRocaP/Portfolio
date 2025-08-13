@@ -48,6 +48,7 @@ Where to edit
 
 Plot palette for Python (if used offline)
 - Existing scripts use cmcrameri (e.g., vikO) already.
+- Files: plot_thle2_sirna.py, plot_both_sirna.py
 
 Fonts
 - Linked in src/layouts/Layout.astro head: Outfit (display) and Inter (body).
@@ -116,3 +117,4 @@ Support commands (gh)
 - gh auth status -h github.com
 - gh run list -R RRocaP/Portfolio --limit 5
 - gh run view <run-id> -R RRocaP/Portfolio
+
