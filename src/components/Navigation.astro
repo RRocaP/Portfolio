@@ -22,7 +22,10 @@ const t = {
 <nav class="navigation" aria-label="Primary">
   <div class="container">
     <div class="nav-wrapper">
-      <a href={base} class="logo">Ramon Roca Pinilla</a>
+      <a href={base} class="logo" aria-label="Ramon Roca Pinilla - Portfolio Home">
+        <span style="font-weight: 300;">Ramon</span>
+        <span style="font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--accent-red) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Roca Pinilla</span>
+      </a>
       
   <button class="mobile-menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-navigation">
         <span></span>
@@ -76,17 +79,35 @@ const t = {
 
   .logo {
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: var(--primary);
     text-decoration: none;
-    letter-spacing: -0.01em;
-    opacity: 0.9;
-    transition: opacity 0.2s ease;
+    letter-spacing: -0.02em;
+    opacity: 1;
+    transition: all 0.3s ease;
+    position: relative;
   }
   
   .logo:hover {
-    opacity: 1;
+    color: var(--accent-red);
+    transform: translateY(-1px);
+  }
+  
+  /* Add a subtle gradient effect to the logo */
+  .logo::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-yellow));
+    transition: width 0.3s ease;
+  }
+  
+  .logo:hover::after {
+    width: 100%;
   }
 
   .nav-links {
