@@ -14,6 +14,7 @@ import ProcessFlow from '../../components/ProcessFlow.astro';
 import NarrativeBlock from '../../components/NarrativeBlock.astro';
 import ImpactStrip from '../../components/ImpactStrip.astro';
 import Timeline from '../../components/Timeline.astro';
+import SmartVideo from '../../components/SmartVideo.astro';
 ---
 
 <Layout
@@ -118,10 +119,22 @@ import Timeline from '../../components/Timeline.astro';
       
       <div class="publications-list">
         {publications.map(pub => (
-          <a class={`publication-card ${pub.featured ? 'featured' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
-            <span class="pub-year">{pub.year}</span>
+          <a class={`publication-card ${pub.featured ? 'featured' : ''} ${pub.firstAuthor ? 'first-author' : ''} animate-fade-in-up`} href={pub.url || '#'} target={pub.url ? '_blank' : undefined} rel={pub.url ? 'noopener' : undefined}>
+            <div class="pub-header">
+              <span class="pub-year">{pub.year}</span>
+              {pub.firstAuthor && <span class="fa-badge" title="Primer Autor">PA</span>}
+              {pub.researchArea && <span class="research-area">{pub.researchArea}</span>}
+            </div>
             <h3>{pub.title}</h3>
             <p class="pub-journal">{pub.journal}</p>
+            {pub.videoNarrative && (
+              <p class="video-narrative">
+                <svg class="video-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                {pub.videoNarrative}
+              </p>
+            )}
           </a>
         ))}
       </div>

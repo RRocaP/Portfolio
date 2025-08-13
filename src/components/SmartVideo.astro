@@ -1,0 +1,128 @@
+---
+export interface Props {
+  mp4Src: string;
+  webmSrc?: string;
+  poster: string;
+  aspect?: '16/9' | '21/9' | '1/1' | '9/16';
+  autoplay?: boolean;
+  ariaLabel?: string;
+  className?: string;
+}
+
+const { 
+  mp4Src, 
+  webmSrc, 
+  poster, 
+  aspect = '16/9', 
+  autoplay = true,
+  ariaLabel = 'Background video',
+  className = ''
+} = Astro.props;
+
+// Determine aspect ratio classes
+const aspectClasses = {
+  '16/9': 'aspect-video',
+  '21/9': 'aspect-[21/9]', 
+  '1/1': 'aspect-square',
+  '9/16': 'aspect-[9/16]'
+};
+
+const aspectClass = aspectClasses[aspect] || 'aspect-video';
+---
+
+<div class={`relative w-full overflow-hidden rounded-2xl shadow-lg ${aspectClass} ${className}`}>
+  <video
+    class="h-full w-full object-cover video-element"
+    playsinline
+    muted
+    loop
+    preload="metadata"
+    {...(autoplay ? { autoplay: true } : {})}
+    poster={poster}
+    aria-label={ariaLabel}
+    role="img"
+  >
+    {webmSrc && <source src={webmSrc} type="video/webm" />}
+    <source src={mp4Src} type="video/mp4" />
+    <!-- Fallback for unsupported video -->
+    <img src={poster} alt={ariaLabel} class="h-full w-full object-cover" />
+  </video>
+  
+  <!-- Reduced motion fallback -->
+  <noscript>
+    <img src={poster} alt={ariaLabel} class="h-full w-full object-cover" />
+  </noscript>
+  
+  <!-- Static fallback for reduced motion preference -->
+  <img 
+    src={poster} 
+    alt={ariaLabel} 
+    class="h-full w-full object-cover reduced-motion-fallback hidden"
+    aria-hidden="true"
+  />
+</div>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .video-element {
+      display: none !important;
+    }
+    .reduced-motion-fallback {
+      display: block !important;
+    }
+  }
+  
+  /* Enhanced focus management for accessibility */
+  .video-element:focus {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+  }
+  
+  /* Ensure smooth loading */
+  video {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  video:not([poster]) {
+    background-color: var(--background-alt);
+  }
+</style>
+
+<script>
+  // Enhanced video loading and error handling
+  document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('.video-element');
+    
+    videos.forEach((video) => {
+      // Handle loading states
+      video.addEventListener('loadstart', () => {
+        video.style.opacity = '0.8';
+      });
+      
+      video.addEventListener('loadeddata', () => {
+        video.style.opacity = '1';
+      });
+      
+      // Handle errors gracefully
+      video.addEventListener('error', () => {
+        const poster = video.getAttribute('poster');
+        const ariaLabel = video.getAttribute('aria-label') || '';
+        
+        if (poster) {
+          const img = document.createElement('img');
+          img.src = poster;
+          img.alt = ariaLabel;
+          img.className = 'h-full w-full object-cover';
+          
+          video.parentNode?.replaceChild(img, video);
+        }
+      });
+      
+      // Respect user's reduced motion preference
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        video.pause();
+        video.style.display = 'none';
+      }
+    });
+  });
+</script>
