@@ -1,11 +1,13 @@
 ---
-// Gradient mesh inspired by Latent Labs
+// Matte black/red hero with glow effects
 ---
 
 <div class="hero-gradient">
-  <div class="gradient-orb gradient-orb-1"></div>
-  <div class="gradient-orb gradient-orb-2"></div>
-  <div class="gradient-mesh"></div>
+  <div class="matte-layer"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+  <div class="glow-orb glow-orb-3"></div>
+  <canvas id="particles-canvas"></canvas>
 </div>
 
 <style>
@@ -14,51 +16,148 @@
     inset: 0;
     z-index: 1;
     overflow: hidden;
-    opacity: 0.4;
+    background: linear-gradient(135deg, 
+      rgb(15, 15, 15) 0%, 
+      rgb(10, 10, 10) 50%, 
+      rgb(20, 10, 10) 100%);
   }
   
-  .gradient-orb {
+  .matte-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, 
+      rgba(139, 0, 0, 0.15) 0%, 
+      transparent 40%),
+      radial-gradient(ellipse at bottom left, 
+      rgba(220, 38, 38, 0.1) 0%, 
+      transparent 40%);
+    mix-blend-mode: multiply;
+  }
+  
+  .glow-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    animation: float-orb 20s ease-in-out infinite;
+    filter: blur(100px);
+    animation: pulse-glow 8s ease-in-out infinite;
+    mix-blend-mode: screen;
   }
   
-  .gradient-orb-1 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle at center, rgba(220, 38, 38, 0.3), transparent);
-    top: -200px;
-    right: -100px;
+  .glow-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at center, 
+      rgba(220, 38, 38, 0.4), 
+      rgba(139, 0, 0, 0.2),
+      transparent);
+    top: -20%;
+    right: -10%;
   }
   
-  .gradient-orb-2 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle at center, rgba(220, 38, 38, 0.2), transparent);
-    bottom: -100px;
-    left: 10%;
+  .glow-orb-2 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle at center, 
+      rgba(220, 38, 38, 0.3), 
+      transparent);
+    bottom: -15%;
+    left: 5%;
+    animation-delay: -3s;
+  }
+  
+  .glow-orb-3 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle at center, 
+      rgba(255, 0, 0, 0.2), 
+      transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation-delay: -5s;
   }
   
-  .gradient-mesh {
+  #particles-canvas {
     position: absolute;
     inset: 0;
-    background-image: 
-      radial-gradient(at 20% 80%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
-      radial-gradient(at 80% 20%, rgba(139, 0, 0, 0.05) 0px, transparent 50%),
-      radial-gradient(at 40% 40%, rgba(255, 0, 0, 0.03) 0px, transparent 50%);
+    opacity: 0.6;
   }
   
-  @keyframes float-orb {
+  @keyframes pulse-glow {
     0%, 100% {
-      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+      transform: scale(1);
     }
-    33% {
-      transform: translate(30px, -30px) scale(1.1);
-    }
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
+    50% {
+      opacity: 0.6;
+      transform: scale(1.1);
     }
   }
 </style>
+
+<script>
+  // Floating particles effect
+  const canvas = document.getElementById('particles-canvas') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles: any[] = [];
+    
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    
+    const createParticle = () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 0.5,
+      speedX: (Math.random() - 0.5) * 0.5,
+      speedY: (Math.random() - 0.5) * 0.5,
+      opacity: Math.random() * 0.5 + 0.2
+    });
+    
+    const init = () => {
+      resize();
+      particles = Array(30).fill(null).map(createParticle);
+    };
+    
+    const animate = () => {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+        
+        ctx.globalAlpha = particle.opacity;
+        ctx.fillStyle = '#DC2626';
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Add glow
+        const gradient = ctx.createRadialGradient(
+          particle.x, particle.y, 0,
+          particle.x, particle.y, particle.size * 4
+        );
+        gradient.addColorStop(0, 'rgba(220, 38, 38, 0.3)');
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(
+          particle.x - particle.size * 4,
+          particle.y - particle.size * 4,
+          particle.size * 8,
+          particle.size * 8
+        );
+      });
+      
+      requestAnimationFrame(animate);
+    };
+    
+    init();
+    animate();
+    window.addEventListener('resize', resize);
+  }
+</script>

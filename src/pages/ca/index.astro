@@ -7,6 +7,9 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
 import { metrics } from '../../data/metrics.ts';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import CallToAction from '../../components/CallToAction.astro';
 ---
 
 <Layout
@@ -165,6 +168,15 @@ import { metrics } from '../../data/metrics.ts';
       </div>
     </div>
   </section>
+
+  <!-- Feature Grid Section -->
+  <FeatureGrid lang="ca" />
+
+  <!-- FAQ Accordion Section -->
+  <FAQAccordion lang="ca" />
+
+  <!-- Call to Action Section -->
+  <CallToAction lang="ca" />
 
   <!-- Publications Section -->
   <section id="publications" class="section publications-section">
