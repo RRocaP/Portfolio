@@ -23,8 +23,38 @@
       ]);
       container.classList.remove('timeline-loading');
       container.innerHTML = '';
+      
+      // Create error boundary wrapper
+      const ErrorBoundary = class extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { hasError: false };
+        }
+        
+        static getDerivedStateFromError(error) {
+          return { hasError: true };
+        }
+        
+        render() {
+          if (this.state.hasError) {
+            return React.createElement('div', { 
+              style: { 
+                padding: '2rem', 
+                textAlign: 'center',
+                color: 'var(--tertiary)'
+              }
+            }, 'Timeline temporarily unavailable');
+          }
+          return this.props.children;
+        }
+      };
+      
       const root = ReactDOM.createRoot(container);
-      root.render(React.createElement(AntimicrobialResistanceTimeline));
+      root.render(
+        React.createElement(ErrorBoundary, null,
+          React.createElement(AntimicrobialResistanceTimeline)
+        )
+      );
     };
 
     // Use IntersectionObserver to defer loading until visible
