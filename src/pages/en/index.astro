@@ -14,7 +14,6 @@ import { metrics } from '../../data/metrics.ts';
   <ScrollIndicator />
   
   <section id="home" class="hero">
-    <div class="hero-accent" aria-hidden="true"></div>
     <GeometricBackground red="#DC2626" accent="#EF4444" />
     <div class="container">
       <div class="hero-content">
@@ -307,33 +306,6 @@ import { metrics } from '../../data/metrics.ts';
     opacity: 0.95;
     border-radius: 1.5px;
   }
-  .hero-accent {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-  .hero-accent::before {
-    content: '';
-    position: absolute;
-    top: -20vh;
-    right: -25vw;
-    width: 70vw;
-    height: 70vw;
-    background: conic-gradient(from 210deg at 70% 30%, rgba(var(--accent-red-rgb), 0.22) 0deg, rgba(0,0,0,0) 60deg);
-    filter: blur(80px);
-    transform: rotate(-8deg);
-  }
-  .hero-accent::after {
-    content: '';
-    position: absolute;
-    top: 12vh;
-    left: -15vw;
-    width: 40vw;
-    height: 40vw;
-    background: radial-gradient(40% 40% at 50% 50%, rgba(255,255,255,0.06), transparent 70%);
-    filter: blur(40px);
-  }
 
   .hero-subtitle { font-size: 1.15rem; color: var(--secondary); margin-bottom: 0.25rem; font-weight: 600; }
 
@@ -376,7 +348,6 @@ import { metrics } from '../../data/metrics.ts';
     .hero-subtitle { font-size: 1rem; }
     .hero-cta { flex-direction: column; }
     .btn { width: 100%; max-width: 280px; }
-    .hero-accent::before { width: 80vw; height: 80vw; right: -30vw; top: -18vh; filter: blur(60px); }
   }
 
   /* About Section - Timeline Roadmap */
