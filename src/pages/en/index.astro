@@ -13,6 +13,7 @@ import { metrics } from '../../data/metrics.ts';
 import FeatureGrid from '../../components/FeatureGrid.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import CallToAction from '../../components/CallToAction.astro';
+import ProcessFlow from '../../components/ProcessFlow.astro';
 ---
 
 <Layout
@@ -175,6 +176,7 @@ import CallToAction from '../../components/CallToAction.astro';
     </div>
   </section>
 
+  <ProcessFlow lang="en" />
 
   <!-- Feature Grid Section -->
   <FeatureGrid lang="en" />
@@ -420,7 +422,8 @@ import CallToAction from '../../components/CallToAction.astro';
     position: relative;
     overflow: hidden;
     padding-top: 80px;
-    background: #0f0f0f;
+    /* Remove background to show geometric design */
+    background: transparent;
     /* Use darker Claude-style red only for this page's hero */
     --accent-red: #D72638;
     --accent-red-rgb: 215, 38, 56;
