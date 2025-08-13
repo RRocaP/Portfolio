@@ -19,23 +19,23 @@ const t = {
 };
 ---
 
-<nav class="navigation">
+<nav class="navigation" aria-label="Primary">
   <div class="container">
     <div class="nav-wrapper">
       <a href={base} class="logo">Ramon Roca Pinilla</a>
       
-      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+  <button class="mobile-menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
       
-      <ul class="nav-links">
-        <li><a href={base} class="nav-link">{t.home}</a></li>
-        <li><a href={`${base}#about`} class="nav-link">{t.about}</a></li>
-        <li><a href={`${base}#research`} class="nav-link">{t.research}</a></li>
-        <li><a href={`${base}#publications`} class="nav-link">{t.publications}</a></li>
-        <li><a href={`${base}#contact`} class="nav-link">{t.contact}</a></li>
+  <ul class="nav-links" id="primary-navigation" role="menubar">
+  <li role="none"><a role="menuitem" href={base} class="nav-link">{t.home}</a></li>
+  <li role="none"><a role="menuitem" href={`${base}#about`} class="nav-link">{t.about}</a></li>
+  <li role="none"><a role="menuitem" href={`${base}#research`} class="nav-link">{t.research}</a></li>
+  <li role="none"><a role="menuitem" href={`${base}#publications`} class="nav-link">{t.publications}</a></li>
+  <li role="none"><a role="menuitem" href={`${base}#contact`} class="nav-link">{t.contact}</a></li>
         <li class="lang-switcher">
           <a href="/Portfolio/en/" class={`lang-link ${lang==='en' ? 'active' : ''}`}>EN</a>
           <a href="/Portfolio/es/" class={`lang-link ${lang==='es' ? 'active' : ''}`}>ES</a>
@@ -254,6 +254,8 @@ const t = {
 
     // Mobile menu toggle
     mobileToggle?.addEventListener('click', () => {
+      const expanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', String(!expanded));
       navLinks?.classList.toggle('active');
       mobileToggle?.classList.toggle('active');
     });
@@ -261,8 +263,9 @@ const t = {
     // Close mobile menu when clicking a link
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks?.classList.remove('active');
-        mobileToggle?.classList.remove('active');
+  navLinks?.classList.remove('active');
+  mobileToggle?.classList.remove('active');
+  mobileToggle?.setAttribute('aria-expanded', 'false');
       });
     });
 

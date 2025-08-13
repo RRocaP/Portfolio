@@ -18,9 +18,16 @@ import { metrics } from '../../data/metrics.ts';
     <GeometricBackground red="#DC2626" accent="#EF4444" />
     <div class="container">
       <div class="hero-content">
-        <h1 class="hero-title animate-fade-in-up">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-delay-1">Ingeniero Biomédico • Biólogo Molecular</p>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Ingeniería de proteínas y antimicrobianos.</p>
+        <h1 class="hero-title animate-fade-in-up">
+          <span class="hero-name-first">Ramon</span>
+          <span class="hero-name-last">Roca Pinilla</span>
+        </h1>
+        <div class="hero-subtitle animate-fade-in-up animate-delay-1">
+          <span>Ingeniero Biomédico</span>
+          <span class="subtitle-divider"></span>
+          <span>Biólogo Molecular</span>
+        </div>
+        <p class="hero-tagline animate-fade-in-up animate-delay-2">Ingeniería de proteínas para combatir la resistencia antimicrobiana mediante diseño computacional y validación experimental.</p>
         <div class="hero-cta animate-fade-in-up animate-delay-3">
           <a href="#research" class="btn btn-primary">Ver investigación</a>
           <a href="#publications" class="btn btn-outline">Publicaciones</a>
@@ -129,38 +136,6 @@ import { metrics } from '../../data/metrics.ts';
       
       <div class="research-intro animate-fade-in-up">
         <p class="lead">Diseño y pruebo proteínas antimicrobianas y vectores virales con apoyo computacional y validación experimental.</p>
-      </div>
-      
-      <div class="research-areas">
-        <div class="research-card animate-fade-in-up">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-          </div>
-          <h3>Descubrimiento Computacional</h3>
-          <p>Uso de algoritmos avanzados y aprendizaje automático para identificar nuevos compuestos antimicrobianos y predecir su eficacia contra patógenos resistentes.</p>
-        </div>
-        
-        <div class="research-card animate-fade-in-up animate-delay-1">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <h3>Validación en Laboratorio</h3>
-          <p>Validación experimental rigurosa de predicciones computacionales mediante técnicas de biología molecular de vanguardia y ensayos antimicrobianos.</p>
-        </div>
-        
-        <div class="research-card animate-fade-in-up animate-delay-2">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 7V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v3m0 10v3a2 2 0 01-2 2h-3m-10 0H6a2 2 0 01-2-2v-3m5-8h6M12 9v6" />
-            </svg>
-          </div>
-          <h3>Ingeniería de Vectores Virales y Proteínas</h3>
-          <p>Diseño e ingeniería de vectores virales y proteínas terapéuticas para garantizar una entrega y actividad eficaces, manteniendo la escalabilidad de producción.</p>
-        </div>
       </div>
       
       <AntimicrobialTimeline />
@@ -323,33 +298,62 @@ import { metrics } from '../../data/metrics.ts';
     z-index: 10;
   }
 
-  .hero-title { 
-    font-size: clamp(3rem, 8vw, 5rem); 
-    margin-bottom: 0.5rem; 
-    color: var(--primary); 
-    font-family: var(--font-display); 
-    font-weight: 800; 
-    letter-spacing: -0.015em; 
-    position: relative; 
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    color: var(--primary);
+    margin-bottom: 1rem;
+    position: relative;
+    line-height: 1.1;
   }
-  .hero-title::after { 
-    content: ''; 
-    display: block; 
-    width: 80px; 
-    height: 3px; 
-    margin: 14px 0; 
-    background: var(--accent-red); 
-    opacity: 0.95; 
-    border-radius: 1.5px; 
+  
+  .hero-name-first {
+    font-weight: 300;
+    display: block;
+    margin-bottom: -0.1em;
+    letter-spacing: -0.01em;
+  }
+  
+  .hero-name-last {
+    font-weight: 700;
+    display: block;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent-red) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    margin: 20px 0;
+    background: linear-gradient(90deg, var(--accent-red), transparent);
+    opacity: 0.6;
+    border-radius: 1px;
   }
 
   .hero-subtitle { 
-    font-size: 1.15rem; 
+    font-size: 0.95rem; 
     color: var(--secondary); 
-    margin-bottom: 0.5rem; 
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem; 
+    font-weight: 500;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0.9;
+  }
+  
+  .subtitle-divider {
+    width: 4px;
+    height: 4px;
+    background: var(--accent-red);
+    border-radius: 50%;
+    opacity: 0.5;
   }
 
   /* Mobile tweaks */
@@ -359,9 +363,10 @@ import { metrics } from '../../data/metrics.ts';
       margin: 0 auto;
       padding: 0 1.5rem;
     }
-    .hero-title { font-size: clamp(2.25rem, 9vw, 3rem); }
+    .hero-name-first, .hero-name-last { display: inline; }
+    .hero-title { font-size: clamp(2rem, 8vw, 2.75rem); }
     .hero-title::after { margin: 14px auto 0; }
-    .hero-subtitle { font-size: 1rem; }
+    .hero-subtitle { font-size: 0.85rem; justify-content: center; }
     .hero-tagline { margin: 0 auto 2rem; }
     .hero-cta { 
       flex-direction: column;
@@ -372,11 +377,14 @@ import { metrics } from '../../data/metrics.ts';
   }
 
   .hero-tagline { 
-    font-size: 1.1rem; 
+    font-size: 1.2rem; 
     color: var(--tertiary); 
-    margin-bottom: 2.5rem;
-    line-height: 1.6;
-    max-width: 600px;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+    max-width: 580px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    opacity: 0.85;
   }
 
   .hero-cta {
