@@ -139,7 +139,7 @@ import { metrics } from '../../data/metrics.ts';
           <span class="metric-label">Peer‑reviewed papers</span>
           </div>
           <div class="metric">
-          <span class="metric-value">500+</span>
+          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
           <span class="metric-label">Citations (Scholar)</span>
           </div>
           <div class="metric">
@@ -192,7 +192,7 @@ import { metrics } from '../../data/metrics.ts';
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
-        <p class="lead">Open to collaborations in antimicrobial proteins, vector systems, and data-driven design.</p>
+        <p class="lead">I welcome collaborations on antimicrobial protein design, viral vector systems, and computational approaches to therapeutic development.</p>
         
         <div class="contact-info">
           <div class="contact-card">
