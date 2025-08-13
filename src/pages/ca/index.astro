@@ -103,7 +103,7 @@ import { metrics } from '../../data/metrics.ts';
           </div>
           
           <div class="profile-end animate-fade-in-up animate-delay-4">
-            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
+            <img src="/Portfolio/profile.jpg" alt="Retrat de Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
               <p>Convertint algoritmes en teràpies</p>
@@ -172,7 +172,7 @@ import { metrics } from '../../data/metrics.ts';
           <span class="metric-label">Articles revisats</span>
         </div>
         <div class="metric">
-          <span class="metric-value">500+</span>
+          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
           <span class="metric-label">Cites (Scholar)</span>
         </div>
         <div class="metric">
@@ -317,6 +317,13 @@ import { metrics } from '../../data/metrics.ts';
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .hero .container {
+    position: relative;
+    z-index: 10;
   }
 
   .hero-title { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 0.5rem; color: var(--primary); font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em; position: relative; }

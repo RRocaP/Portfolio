@@ -61,8 +61,8 @@ const t = {
   }
 
   .navigation.scrolled {
-    background: rgba(var(--background-rgb), 0.95); /* Use RGB for opacity */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow on scroll */
+    background: rgba(var(--background-rgb), 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
   .nav-wrapper {
@@ -238,16 +238,9 @@ const t = {
 
   /* Dark Mode adjustments */
   @media (prefers-color-scheme: dark) {
-    .navigation.scrolled {
-      background: rgba(var(--background-rgb-dark), 0.95);
-      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
-    }
-    .mobile-menu-toggle span {
-      background: var(--primary); /* Ensure lines are visible in dark mode */
-    }
-    .nav-links {
-      background: var(--background); /* Match dark mode background */
-    }
+    .navigation.scrolled { box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05); }
+    .mobile-menu-toggle span { background: var(--primary); }
+    .nav-links { background: var(--background); }
   }
 </style>
 
@@ -258,27 +251,6 @@ const t = {
     const navLinks = document.querySelector('.nav-links');
     const navItems = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section[id]');
-
-    // Add RGB variables to root for dynamic opacity
-    // Use predefined RGB helpers from CSS variables
-    const style = getComputedStyle(document.documentElement);
-    const backgroundRgb = style.getPropertyValue('--background-rgb').trim();
-    const accentRedRgb = style.getPropertyValue('--accent-red-rgb').trim();
-    if (backgroundRgb) document.documentElement.style.setProperty('--background-rgb', backgroundRgb);
-    if (accentRedRgb) document.documentElement.style.setProperty('--accent-red-rgb', accentRedRgb);
-
-    // Dark mode specific RGB values
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const updateDarkModeRgb = () => {
-      if (darkModeMediaQuery.matches) {
-        const darkBackgroundRgb = getComputedStyle(document.documentElement).getPropertyValue('--background').match(/\d+/g);
-        document.documentElement.style.setProperty('--background-rgb-dark', darkBackgroundRgb.join(','));
-      } else {
-        document.documentElement.style.removeProperty('--background-rgb-dark');
-      }
-    };
-    updateDarkModeRgb();
-    darkModeMediaQuery.addEventListener('change', updateDarkModeRgb);
 
     // Mobile menu toggle
     mobileToggle?.addEventListener('click', () => {
@@ -309,9 +281,11 @@ const t = {
       scrollTimeout = setTimeout(() => {
         let currentActive = '';
         sections.forEach(section => {
-          const sectionTop = section.offsetTop - navigation.offsetHeight - 20;
+          const navHeight = navigation?.offsetHeight || 0;
+          const sectionTop = section.offsetTop - navHeight - 20;
           const sectionHeight = section.clientHeight;
-          if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+          const y = window.scrollY || window.pageYOffset;
+          if (y >= sectionTop && y < sectionTop + sectionHeight) {
             currentActive = section.getAttribute('id');
           }
         });

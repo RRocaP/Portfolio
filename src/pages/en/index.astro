@@ -102,7 +102,7 @@ import { metrics } from '../../data/metrics.ts';
           </div>
           
           <div class="profile-end animate-fade-in-up animate-delay-4">
-            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
+            <img src="/Portfolio/profile.jpg" alt="Ramon Roca Pinilla portrait" loading="lazy" decoding="async" width="120" height="120" />
             <div class="profile-info">
               <h3>Ramon Roca Pinilla</h3>
               <p>Turning algorithms into therapies</p>
@@ -135,16 +135,16 @@ import { metrics } from '../../data/metrics.ts';
       
         <div class="metrics animate-fade-in-up" aria-label="Key metrics">
           <div class="metric">
-          <span class="metric-value">{metrics.publications}</span>
-          <span class="metric-label">Peer‑reviewed papers</span>
+            <span class="metric-value">{metrics.publications}</span>
+            <span class="metric-label">Peer‑reviewed papers</span>
           </div>
           <div class="metric">
-          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
-          <span class="metric-label">Citations (Scholar)</span>
+            <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
+            <span class="metric-label">Citations (Scholar)</span>
           </div>
           <div class="metric">
-          <span class="metric-value">10</span>
-          <span class="metric-label">Journals & venues</span>
+            <span class="metric-value">10</span>
+            <span class="metric-label">Journals & venues</span>
           </div>
         </div>
     </div>
@@ -281,6 +281,13 @@ import { metrics } from '../../data/metrics.ts';
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .hero .container {
+    position: relative;
+    z-index: 10;
   }
 
   .hero-title {
@@ -701,7 +708,7 @@ import { metrics } from '../../data/metrics.ts';
   .contact-card h3 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
-    color: var(--primary-black);
+    color: var(--primary);
   }
 
   .social-links {

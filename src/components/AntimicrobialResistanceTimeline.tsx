@@ -139,33 +139,34 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale)
         .tickSize(-height)
-        .tickFormat(() => '')
+        .tickFormat(() => '') as any
       )
       .style('stroke-dasharray', '3,3')
       .style('opacity', 0.3);
 
     // X axis
-    g.append('g')
+    const xAxis = g.append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale)
         .tickFormat(d3.format('d'))
-        .ticks(10))
-      .selectAll('text')
+        .ticks(10) as any
+      );
+    xAxis.selectAll('text')
+      .attr('fill', 'var(--secondary, #666)')
+      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
+      .style('font-size', '12px');
+    // Proper X-axis label
+    g.append('text')
+      .attr('x', width / 2)
+      .attr('y', height + 36)
+      .attr('text-anchor', 'middle')
       .attr('fill', 'var(--secondary, #666)')
       .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
       .style('font-size', '12px')
-      .append('text')
-      .attr('x', width / 2)
-      .attr('y', 50)
-      .attr('fill', 'var(--primary, #333)')
-      .style('text-anchor', 'middle')
-      .style('font-size', '14px')
-      .style('font-family', 'Inter, -apple-system, BlinkMacSystemFont, sans-serif')
-      .style('font-weight', '500')
       .text('Year');
 
     // Y axis with safe spacing so long labels are fully readable
-    const yAxis = g.append('g').call(d3.axisLeft(yScale));
+    const yAxis = g.append('g').call(d3.axisLeft(yScale) as any);
     yAxis
       .selectAll('text')
       .attr('fill', 'var(--secondary, #666)')

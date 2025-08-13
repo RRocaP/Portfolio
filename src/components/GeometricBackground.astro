@@ -7,32 +7,33 @@ const { red = '#DC2626', accent = '#EF4444' } = Astro.props as Props;
   <svg class="geo-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Decorative geometric background">
     <defs>
       <linearGradient id="g-red-bold" x1="0" x2="1" y1="0" y2="1">
-        <stop offset="0%" stop-color={red} stop-opacity="0.9" />
-        <stop offset="100%" stop-color={accent} stop-opacity="0.6" />
+        <stop offset="0%" stop-color="#FF0000" stop-opacity="1" />
+        <stop offset="100%" stop-color="#8B0000" stop-opacity="0.8" />
       </linearGradient>
       <linearGradient id="g-black" x1="0" x2="1" y1="0" y2="1">
-        <stop offset="0%" stop-color="#000000" stop-opacity="0.8" />
-        <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.4" />
+        <stop offset="0%" stop-color="#000000" stop-opacity="0.95" />
+        <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0.7" />
       </linearGradient>
       <filter id="blur-heavy">
-        <feGaussianBlur stdDeviation="20" />
+        <feGaussianBlur stdDeviation="40" />
       </filter>
       <filter id="blur-light">
-        <feGaussianBlur stdDeviation="3" />
+        <feGaussianBlur stdDeviation="2" />
       </filter>
     </defs>
 
     <!-- Bold black geometric shapes -->
     <g class="black-geometry">
-      <polygon points="0,0 400,0 200,300" fill="url(#g-black)" opacity="0.6" />
-      <polygon points="1200,0 1000,0 1100,400" fill="url(#g-black)" opacity="0.5" />
-      <polygon points="0,600 300,600 150,400" fill="url(#g-black)" opacity="0.4" />
+      <polygon points="0,0 400,0 200,300" fill="#000000" opacity="0.8" />
+      <polygon points="1200,0 1000,0 1100,400" fill="#000000" opacity="0.7" />
+      <polygon points="0,600 300,600 150,400" fill="#000000" opacity="0.6" />
     </g>
 
-    <!-- Bold red accent shapes -->
-    <g filter="url(#blur-heavy)">
-      <circle cx="900" cy="100" r="250" fill={red} opacity="0.3" class="pulse-slow" />
-      <circle cx="200" cy="400" r="180" fill={accent} opacity="0.25" class="pulse-fast" />
+    <!-- PROMINENT RED SHAPES -->
+    <g>
+      <circle cx="900" cy="100" r="350" fill="#DC2626" opacity="0.5" filter="url(#blur-heavy)" class="pulse-slow" />
+      <circle cx="200" cy="400" r="280" fill="#FF0000" opacity="0.4" filter="url(#blur-heavy)" class="pulse-fast" />
+      <ellipse cx="600" cy="300" rx="400" ry="200" fill="#8B0000" opacity="0.3" filter="url(#blur-heavy)" transform="rotate(25 600 300)" />
     </g>
 
     <!-- Sharp geometric lines -->
@@ -49,12 +50,12 @@ const { red = '#DC2626', accent = '#EF4444' } = Astro.props as Props;
       <rect x="500" y="400" width="180" height="3" fill={accent} opacity="0.7" transform="rotate(45 590 401.5)" />
     </g>
 
-    <!-- Bold corner accents -->
+    <!-- Bold RED corner accents -->
     <g class="corners">
-      <path d="M0,0 L150,0 L0,150 Z" fill={red} opacity="0.4" />
-      <path d="M1200,0 L1200,150 L1050,0 Z" fill="#000000" opacity="0.5" />
-      <path d="M1200,600 L1050,600 L1200,450 Z" fill={accent} opacity="0.3" />
-      <path d="M0,600 L0,450 L150,600 Z" fill="#000000" opacity="0.4" />
+      <path d="M0,0 L250,0 L0,250 Z" fill="#DC2626" opacity="0.7" />
+      <path d="M1200,0 L1200,250 L950,0 Z" fill="#FF0000" opacity="0.6" />
+      <path d="M1200,600 L950,600 L1200,350 Z" fill="#8B0000" opacity="0.5" />
+      <path d="M0,600 L0,350 L250,600 Z" fill="#DC2626" opacity="0.6" />
     </g>
 
     <!-- Floating dots -->
@@ -72,10 +73,10 @@ const { red = '#DC2626', accent = '#EF4444' } = Astro.props as Props;
   .geo-bg { 
     position: absolute; 
     inset: 0; 
-    z-index: -1; 
+    z-index: 1; 
     pointer-events: none; 
     overflow: hidden;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #000000 0%, #2a0000 25%, #1a0000 50%, #2a0000 75%, #000000 100%);
   }
   .geo-svg { width: 100%; height: 100%; display: block; }
   
