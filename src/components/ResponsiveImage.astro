@@ -1,0 +1,55 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+}
+
+const { 
+  src, 
+  alt, 
+  width = 120, 
+  height = 120, 
+  class: className = '', 
+  loading = 'lazy',
+  decoding = 'async'
+} = Astro.props;
+
+// Generate responsive image paths (assuming we have multiple formats)
+const basePath = src.replace('.jpg', '');
+const webpPath = `${basePath}.webp`;
+const avifPath = `${basePath}.avif`;
+---
+
+<picture class={className}>
+  <!-- Modern formats first -->
+  <source srcset={avifPath} type="image/avif" />
+  <source srcset={webpPath} type="image/webp" />
+  
+  <!-- Fallback -->
+  <img 
+    src={src} 
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={loading === 'eager' ? 'high' : 'auto'}
+  />
+</picture>
+
+<style>
+  picture {
+    display: inline-block;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,231 @@
+---
+import { metricsHistory } from '../data/metricsHistory.ts';
+
+interface Props {
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { lang } = Astro.props;
+
+const titles = {
+  en: {
+    title: "Validation Metrics",
+    citationsLabel: "Citations Over Time",
+    publicationsLabel: "Publications by Year"
+  },
+  es: {
+    title: "Métricas de Validación", 
+    citationsLabel: "Citas a lo Largo del Tiempo",
+    publicationsLabel: "Publicaciones por Año"
+  },
+  ca: {
+    title: "Mètriques de Validació",
+    citationsLabel: "Cites al Llarg del Temps", 
+    publicationsLabel: "Publicacions per Any"
+  }
+};
+
+const t = titles[lang];
+---
+
+<section class="validation-metrics animate-fade-in-up">
+  <div class="container">
+    <h3 class="metrics-title">{t.title}</h3>
+    
+    <div class="charts-grid">
+      <!-- Citations Chart -->
+      <div class="chart-container">
+        <h4>{t.citationsLabel}</h4>
+        <div class="chart citations-chart" id="citations-chart">
+          <svg viewBox="0 0 300 120" class="chart-svg">
+            <!-- Grid lines -->
+            <defs>
+              <pattern id="grid" width="60" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 60 0 L 0 0 0 30" fill="none" stroke="var(--border)" stroke-width="0.5" opacity="0.3"/>
+              </pattern>
+            </defs>
+            <rect width="300" height="120" fill="url(#grid)"/>
+            
+            <!-- Citation line chart -->
+            <polyline
+              points="30,100 90,85 150,65 210,40 270,15"
+              fill="none"
+              stroke="var(--accent-red)"
+              stroke-width="3"
+              stroke-linecap="round"
+              class="chart-line"
+            />
+            
+            <!-- Data points -->
+            {metricsHistory.citations.map((point, index) => (
+              <circle
+                cx={30 + index * 60}
+                cy={120 - (point.value / 254) * 100}
+                r="4"
+                fill="var(--accent-red)"
+                class="data-point"
+              />
+            ))}
+            
+            <!-- Labels -->
+            <text x="30" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2020</text>
+            <text x="90" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2021</text>
+            <text x="150" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2022</text>
+            <text x="210" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2023</text>
+            <text x="270" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2024</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Publications Chart -->  
+      <div class="chart-container">
+        <h4>{t.publicationsLabel}</h4>
+        <div class="chart publications-chart">
+          <svg viewBox="0 0 300 120" class="chart-svg">
+            <rect width="300" height="120" fill="url(#grid)"/>
+            
+            <!-- Bar chart -->
+            {metricsHistory.publications.map((point, index) => (
+              <rect
+                x={20 + index * 56}
+                y={120 - (point.value / 16) * 80}
+                width="20"
+                height={(point.value / 16) * 80}
+                fill="var(--accent-yellow)"
+                opacity="0.8"
+                class="bar-chart"
+              />
+            ))}
+            
+            <!-- Labels -->
+            <text x="30" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2020</text>
+            <text x="86" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2021</text>
+            <text x="142" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2022</text>
+            <text x="198" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2023</text>
+            <text x="254" y="115" text-anchor="middle" fill="var(--tertiary)" font-size="10">2024</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .validation-metrics {
+    padding: 2rem 0;
+    margin: 2rem 0;
+  }
+
+  .metrics-title {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .chart-container {
+    background: var(--background-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .chart-container:hover {
+    border-color: var(--accent-red);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.1);
+  }
+
+  .chart-container h4 {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .chart-line {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: draw-line 2s ease-out forwards;
+  }
+
+  .data-point {
+    opacity: 0;
+    animation: fade-in-point 0.5s ease-out forwards;
+  }
+
+  .data-point:nth-child(3) { animation-delay: 0.4s; }
+  .data-point:nth-child(4) { animation-delay: 0.6s; }
+  .data-point:nth-child(5) { animation-delay: 0.8s; }
+  .data-point:nth-child(6) { animation-delay: 1s; }
+  .data-point:nth-child(7) { animation-delay: 1.2s; }
+
+  .bar-chart {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    animation: grow-bar 0.8s ease-out forwards;
+  }
+
+  .bar-chart:nth-child(3) { animation-delay: 0.1s; }
+  .bar-chart:nth-child(4) { animation-delay: 0.2s; }
+  .bar-chart:nth-child(5) { animation-delay: 0.3s; }
+  .bar-chart:nth-child(6) { animation-delay: 0.4s; }
+  .bar-chart:nth-child(7) { animation-delay: 0.5s; }
+
+  @keyframes draw-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fade-in-point {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes grow-bar {
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .chart-line,
+    .data-point,
+    .bar-chart {
+      animation: none;
+      opacity: 1;
+      stroke-dashoffset: 0;
+      transform: scaleY(1);
+    }
+  }
+</style>

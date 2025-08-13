@@ -306,6 +306,9 @@ const t = {
           item.classList.remove('active');
           if (item.getAttribute('href')?.includes(currentActive)) {
             item.classList.add('active');
+            item.setAttribute('aria-current', 'true');
+          } else {
+            item.removeAttribute('aria-current');
           }
         });
       }, 16); // ~60fps debounce

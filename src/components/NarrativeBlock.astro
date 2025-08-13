@@ -1,0 +1,33 @@
+---
+import { narrative } from '../data/i18n';
+const { lang='en' } = Astro.props as { lang?: string };
+const copy = narrative;
+---
+<section class="narrative" aria-label="Narrative">
+  <div class="container narrative-grid">
+    <div class="n-block problem">
+      <h3>{copy.problem[lang].heading}</h3>
+      <p>{copy.problem[lang].body}</p>
+    </div>
+    <div class="n-block approach">
+      <h3>{copy.approach[lang].heading}</h3>
+      <p>{copy.approach[lang].body}</p>
+    </div>
+    <div class="n-block impact">
+      <h3>{copy.impact[lang].heading}</h3>
+      <p>{copy.impact[lang].body}</p>
+    </div>
+  </div>
+</section>
+<style>
+.narrative { padding: 3rem 0 1rem; position:relative; }
+.narrative-grid { display:grid; gap:1.5rem; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+.n-block { background: var(--background-card); border:1px solid var(--border); padding:1.25rem 1.2rem 1.35rem; border-radius:18px; position:relative; overflow:hidden; }
+.n-block::after { content:''; position:absolute; inset:0; background: radial-gradient(circle at 85% 20%, rgba(218,41,28,0.14), transparent 70%); opacity:0; transition: opacity .35s; }
+.n-block:hover::after { opacity:1; }
+.n-block h3 { font-size:1rem; margin:0 0 .55rem; letter-spacing:-.01em; }
+.n-block p { margin:0; font-size:.85rem; line-height:1.55; color: var(--tertiary); }
+.problem { border-color: rgba(218,41,28,0.3); }
+.approach { border-color: rgba(255,217,61,0.25); }
+.impact { border-color: rgba(218,41,28,0.18); }
+</style>

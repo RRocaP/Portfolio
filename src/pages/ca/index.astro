@@ -11,6 +11,9 @@ import FeatureGrid from '../../components/FeatureGrid.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import CallToAction from '../../components/CallToAction.astro';
 import ProcessFlow from '../../components/ProcessFlow.astro';
+import NarrativeBlock from '../../components/NarrativeBlock.astro';
+import ImpactStrip from '../../components/ImpactStrip.astro';
+import Timeline from '../../components/Timeline.astro';
 ---
 
 <Layout
@@ -45,86 +48,13 @@ import ProcessFlow from '../../components/ProcessFlow.astro';
   </section>
 
   <!-- About Section with Timeline Roadmap -->
+  <NarrativeBlock lang="ca" />
+  <ImpactStrip />
   <section id="about" class="section about-section">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">El Meu Camí</h2>
       
-      <div class="timeline-roadmap">
-        <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none">
-          <path d="M 100,500 Q 300,400 400,300 T 600,200 Q 800,150 1000,100" 
-                stroke="url(#gradient)" 
-                stroke-width="3" 
-                fill="none" 
-                stroke-dasharray="8,4"
-                opacity="0.3"/>
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#DA291C;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-        </svg>
-        
-        <div class="timeline-content">
-          <div class="timeline-item animate-fade-in-up" style="--index: 1">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <span class="timeline-year">2013</span>
-              <h3>Grau en Biotecnologia</h3>
-              <p>Universitat Autònoma de Barcelona</p>
-              <small>Fonaments en biologia molecular i aplicacions biotecnològiques</small>
-            </div>
-          </div>
-          
-          <div class="timeline-item animate-fade-in-up" style="--index: 2">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <span class="timeline-year">2015</span>
-              <h3>Màster en Enginyeria Biomèdica</h3>
-              <p>UC Irvine</p>
-              <small>Enfocaments d'enginyeria per a problemes biològics</small>
-            </div>
-          </div>
-          
-          <div class="timeline-item animate-fade-in-up" style="--index: 3">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <span class="timeline-year">2020</span>
-              <h3>Doctorat en Biomedicina</h3>
-              <p>Universitat Autònoma de Barcelona</p>
-              <small>Biologia Molecular i Bioquímica • Experiència en enginyeria de proteïnes</small>
-            </div>
-          </div>
-          
-          <div class="timeline-item animate-fade-in-up" style="--index: 4">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <span class="timeline-year">2021</span>
-              <h3>Investigador Postdoctoral</h3>
-              <p>Children's Medical Research Institute</p>
-              <small>Unitat de Vectorologia Translacional • Sydney, Austràlia</small>
-            </div>
-          </div>
-          
-          <div class="timeline-item animate-fade-in-up" style="--index: 5">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card highlight">
-              <span class="timeline-year">Ara</span>
-              <h3>Lluitant contra la Resistència als Fàrmacs</h3>
-              <p>Antimicrobians de Nova Generació</p>
-              <small>El descobriment computacional s'uneix a la validació al laboratori</small>
-            </div>
-          </div>
-          
-          <div class="profile-end animate-fade-in-up animate-delay-4">
-            <img src="/Portfolio/profile.jpg" alt="Retrat de Ramon Roca Pinilla" loading="lazy" decoding="async" width="120" height="120" />
-            <div class="profile-info">
-              <h3>Ramon Roca Pinilla</h3>
-              <p>Convertint algoritmes en teràpies</p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <Timeline lang="ca" />
       
       <div class="about-text-container">
         <div class="about-text-split">
