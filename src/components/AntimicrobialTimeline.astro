@@ -3,7 +3,12 @@
 ---
 
 <div id="antimicrobial-timeline-container" class="visualization-wrapper">
-  <div id="antimicrobial-timeline-root"></div>
+  <div id="antimicrobial-timeline-root" class="timeline-loading">
+    <div class="loading-skeleton">
+      <div class="skeleton-pulse"></div>
+      <p class="loading-text">Loading timeline...</p>
+    </div>
+  </div>
 </div>
 
 <script type="module">
@@ -16,6 +21,8 @@
         import('react'),
         import('react-dom/client')
       ]);
+      container.classList.remove('timeline-loading');
+      container.innerHTML = '';
       const root = ReactDOM.createRoot(container);
       root.render(React.createElement(AntimicrobialResistanceTimeline));
     };
@@ -40,11 +47,48 @@
 
 <style>
   .visualization-wrapper { margin: 3rem 0; padding: 0; background: transparent; }
+  
+  .timeline-loading {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loading-skeleton {
+    text-align: center;
+  }
+  
+  .skeleton-pulse {
+    width: 200px;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      rgba(220, 38, 38, 0.1) 0%, 
+      rgba(220, 38, 38, 0.3) 50%, 
+      rgba(220, 38, 38, 0.1) 100%);
+    border-radius: 2px;
+    margin: 0 auto 1rem;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  .loading-text {
+    color: var(--tertiary);
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
 
   @media (max-width: 768px) {
     .visualization-wrapper {
       padding: 1rem;
       margin: 2rem 0;
+    }
+    .timeline-loading {
+      min-height: 300px;
     }
   }
 </style>
