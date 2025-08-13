@@ -1,0 +1,32 @@
+export const metricsHistory = {
+  citationsByYear: [
+    { year: 2018, citations: 20 },
+    { year: 2019, citations: 45 },
+    { year: 2020, citations: 90 },
+    { year: 2021, citations: 160 },
+    { year: 2022, citations: 260 },
+    { year: 2023, citations: 380 },
+    { year: 2024, citations: 500 }
+  ],
+  // Lightweight placeholders to unblock charts (can be replaced with real data)
+  citations: [
+    { year: 2020, value: 60 },
+    { year: 2021, value: 120 },
+    { year: 2022, value: 180 },
+    { year: 2023, value: 220 },
+    { year: 2024, value: 254 }
+  ],
+  publications: [
+    { year: 2020, value: 2 },
+    { year: 2021, value: 3 },
+    { year: 2022, value: 4 },
+    { year: 2023, value: 4 },
+    { year: 2024, value: 3 }
+  ],
+  impactMetrics: {
+    designCycleReduction: '2–4×',
+    successRateImprovement: '+35–50%',
+    validationAccuracy: '80–90%',
+    timeToCandidate: 'Weeks'
+  }
+};

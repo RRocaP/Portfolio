@@ -1,0 +1,55 @@
+---
+import { metrics } from '../data/metrics';
+import { metricsHistory } from '../data/metricsHistory';
+import { impactLabels } from '../data/i18n';
+const { lang='en' } = Astro.props as { lang?: 'en'|'es'|'ca' };
+const latestCitations = metrics.citations || metricsHistory.citationsByYear.at(-1)?.citations || 0;
+---
+<section class="impact-strip" aria-label="Results Snapshot">
+  <div class="container">
+    <ul class="impact-list">
+      <li>
+        <span class="value">{metrics.publications}</span>
+        <span class="label">{impactLabels.publications[lang]}</span>
+      </li>
+      <li>
+        <span class="value">{latestCitations > 0 ? latestCitations : '—'}</span>
+        <span class="label">{impactLabels.citations[lang]}</span>
+      </li>
+      <li>
+        <span class="value">2–4x</span>
+        <span class="label">{impactLabels.speed[lang]}</span>
+      </li>
+      <li>
+        <span class="value">>70%</span>
+        <span class="label">{impactLabels.hitRate[lang]}</span>
+      </li>
+    </ul>
+    <figure class="mini-chart">
+      <svg viewBox="0 0 300 80" role="img" aria-label="Citations by year">
+        <desc>Mini sparkline of citations growth over years</desc>
+        <polyline fill="none" stroke="rgba(220,38,38,0.8)" stroke-width="2"
+          points={metricsHistory.citationsByYear.map((d, i, arr) => {
+            const x = (i/(arr.length-1))*280 + 10; 
+            const max = Math.max(...arr.map(a=>a.citations));
+            const y = 70 - (d.citations/max)*60; 
+            return `${x},${y}`;
+          }).join(' ')} />
+        <line x1="10" y1="70" x2="290" y2="70" stroke="rgba(255,255,255,0.1)" />
+      </svg>
+      <figcaption>Citations over time (indicative)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+.impact-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--background); }
+.impact-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: .75rem; list-style: none; padding: var(--space-md) 0; margin: 0; }
+.impact-list li { text-align: center; background: var(--background-card); border: 1px solid var(--border); border-radius: 10px; padding: .8rem .6rem; }
+.impact-list .value { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; letter-spacing: -.02em; background: var(--gradient-catalan); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.impact-list .label { display: block; font-size: .85rem; color: var(--tertiary); }
+.mini-chart { display: grid; place-items: center; padding: .5rem 0 1rem; }
+.mini-chart svg { width: 100%; max-width: 420px; height: auto; }
+.mini-chart figcaption { color: var(--tertiary); font-size: .75rem; text-align: center; margin-top: .25rem; }
+</style>
+

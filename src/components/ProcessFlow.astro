@@ -1,0 +1,36 @@
+---
+import { processSteps } from '../data/process';
+const { lang = 'en' } = Astro.props as { lang?: string };
+const steps = processSteps[lang] || processSteps.en;
+---
+<section class="process" aria-labelledby="process-heading">
+  <div class="container">
+    <h2 id="process-heading" class="section-title">{lang==='en'?'Integrated Workflow': lang==='es'?'Flujo Integrado':'Flux Integrat'}</h2>
+    <ol class="process-steps">
+      {steps.map((s, i) => (
+        <li class="process-step" data-index={i+1}>
+          <div class="step-badge">{i+1}</div>
+          <div class="step-body">
+            <h3>{s.title}</h3>
+            <p>{s.blurb}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+.process { padding: var(--space-xl) 0; position: relative; }
+.process::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(218,41,28,0.05), rgba(255,217,61,0.04)); pointer-events:none; }
+.process-steps { list-style: none; margin: 2rem auto 0; padding: 0; display: grid; gap: 1.25rem; max-width: 980px; counter-reset: step; }
+.process-step { display: grid; grid-template-columns: 52px 1fr; gap: 1.1rem; align-items: flex-start; background: var(--background-card); border:1px solid var(--border); padding: .95rem 1.25rem; border-radius: 16px; position: relative; overflow: hidden; backdrop-filter: blur(6px); transition: border-color .3s, transform .3s; }
+.process-step::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 85% 20%, rgba(255,217,61,0.12), transparent 70%); opacity: 0; transition: opacity .3s; }
+.process-step:hover { border-color: var(--accent-red); transform: translateY(-4px); }
+.process-step:hover::after { opacity: 1; }
+.step-badge { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow)); color: var(--background); box-shadow: 0 6px 18px -5px rgba(218,41,28,0.6); }
+.step-body h3 { margin: 0 0 .4rem; font-size: 1rem; letter-spacing: -.01em; }
+.step-body p { margin: 0; font-size: .82rem; line-height: 1.5; color: var(--tertiary); max-width: 72ch; }
+@media (min-width: 860px) { .process-steps { grid-template-columns: repeat(auto-fit,minmax(400px,1fr)); } }
+@media (prefers-reduced-motion: reduce) { .process-step { transition: none; } }
+</style>

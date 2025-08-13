@@ -1,0 +1,94 @@
+name: Update Research Metrics
+
+on:
+  schedule:
+    # Run daily at 3 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install scholarly beautifulsoup4 requests
+      
+      - name: Update metrics from Google Scholar
+        run: |
+          python << 'EOF'
+          import json
+          import re
+          from scholarly import scholarly
+          
+          # Your Google Scholar ID
+          SCHOLAR_ID = 'jYIZGT0AAAAJ'
+          
+          try:
+              # Search for author
+              author = scholarly.search_author_id(SCHOLAR_ID)
+              author = scholarly.fill(author)
+              
+              # Extract metrics
+              citations = author.get('citedby', 0)
+              h_index = author.get('hindex', 0)
+              i10_index = author.get('i10index', 0)
+              
+              # Count publications
+              publications = len(author.get('publications', []))
+              
+              # Update the metrics.ts file
+              metrics_content = f"""export const metrics = {{
+  publications: {publications}, // From Google Scholar
+  citations: {citations},   // From Google Scholar
+  scholarUserId: '{SCHOLAR_ID}',
+  scholarUrl: 'https://scholar.google.com/citations?user={SCHOLAR_ID}',
+  orcidUrl: 'https://orcid.org/0000-0002-7393-6200',
+  hIndex: {h_index},
+  i10Index: {i10_index},
+}};
+"""
+              
+              # Write updated metrics
+              with open('src/data/metrics.ts', 'w') as f:
+                  f.write(metrics_content)
+              
+              print(f"✅ Updated metrics: {citations} citations, {publications} publications, h-index: {h_index}")
+              
+          except Exception as e:
+              print(f"⚠️ Could not update from Google Scholar: {e}")
+              print("Keeping existing metrics")
+          EOF
+      
+      - name: Check for changes
+        id: verify
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push if changed
+        if: steps.verify.outputs.changes == 'true'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/data/metrics.ts
+          git commit -m "chore: auto-update research metrics from Google Scholar
+
+          Updated citation count and publication metrics.
+          
+          Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          git push

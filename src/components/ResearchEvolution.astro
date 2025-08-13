@@ -1,0 +1,515 @@
+---
+interface Props {
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { lang } = Astro.props;
+
+// Research evolution timeline based on your first-author publications
+const researchEvolution = {
+  en: {
+    title: "Research Evolution",
+    subtitle: "From foundational protein engineering to clinical translation",
+    phases: [
+      {
+        period: "2017-2019",
+        theme: "Foundation",
+        focus: "Recombinant Protein Engineering",
+        description: "Developing novel approaches for protein production and purification from bacterial systems",
+        keyWork: "Optimized expression systems for antimicrobial peptides",
+        impact: "Established foundation for scalable protein therapeutics",
+        publications: 3,
+        color: "#DC2626"
+      },
+      {
+        period: "2019-2021", 
+        theme: "Innovation",
+        focus: "Multidomain & Functional Aggregates",
+        description: "Engineering multidomain proteins and functional inclusion bodies as therapeutic platforms",
+        keyWork: "Sequence edition modulating immune and antimicrobial potential",
+        impact: "Created new class of bioactive protein materials",
+        publications: 4,
+        color: "#EA580C"
+      },
+      {
+        period: "2021-2023",
+        theme: "Integration", 
+        focus: "Biomaterials & Surface Applications",
+        description: "Translating engineered proteins into practical antibiofilm surfaces and delivery systems",
+        keyWork: "Self-assembly monolayers with immobilized antimicrobial proteins",
+        impact: "Bridge between protein design and medical devices",
+        publications: 3,
+        color: "#D97706"
+      },
+      {
+        period: "2023-2024",
+        theme: "Translation",
+        focus: "AAV Vector Engineering", 
+        description: "Applying protein engineering principles to viral vector optimization for gene therapy",
+        keyWork: "Capsid-directed evolution for improved CAR-T generation",
+        impact: "Clinical-ready gene therapy vectors",
+        publications: 2,
+        color: "#FFD93D"
+      }
+    ]
+  },
+  es: {
+    title: "Evolución de la Investigación",
+    subtitle: "Desde ingeniería de proteínas fundamental hasta traslación clínica",
+    phases: [
+      {
+        period: "2017-2019",
+        theme: "Fundación",
+        focus: "Ingeniería de Proteínas Recombinantes", 
+        description: "Desarrollo de enfoques novedosos para producción y purificación de proteínas desde sistemas bacterianos",
+        keyWork: "Sistemas de expresión optimizados para péptidos antimicrobianos",
+        impact: "Base establecida para terapéuticas proteicas escalables",
+        publications: 3,
+        color: "#DC2626"
+      },
+      {
+        period: "2019-2021",
+        theme: "Innovación", 
+        focus: "Multidominio y Agregados Funcionales",
+        description: "Ingeniería de proteínas multidominio y cuerpos de inclusión funcionales como plataformas terapéuticas",
+        keyWork: "Edición de secuencias modulando potencial inmune y antimicrobiano",
+        impact: "Nueva clase de materiales proteicos bioactivos",
+        publications: 4,
+        color: "#EA580C"
+      },
+      {
+        period: "2021-2023",
+        theme: "Integración",
+        focus: "Biomateriales y Aplicaciones de Superficie",
+        description: "Traslación de proteínas diseñadas a superficies antibiofilm prácticas y sistemas de entrega",
+        keyWork: "Monocapas autoensambladas con proteínas antimicrobianas inmovilizadas",
+        impact: "Puente entre diseño de proteínas y dispositivos médicos",
+        publications: 3,
+        color: "#D97706"
+      },
+      {
+        period: "2023-2024", 
+        theme: "Traslación",
+        focus: "Ingeniería de Vectores AAV",
+        description: "Aplicación de principios de ingeniería de proteínas a optimización de vectores virales para terapia génica",
+        keyWork: "Evolución dirigida de cápsidas para generación mejorada de CAR-T",
+        impact: "Vectores de terapia génica listos para clínica",
+        publications: 2,
+        color: "#FFD93D"
+      }
+    ]
+  },
+  ca: {
+    title: "Evolució de la Recerca",
+    subtitle: "Des d'enginyeria de proteïnes fonamental fins a trasllació clínica",
+    phases: [
+      {
+        period: "2017-2019",
+        theme: "Fonamentació",
+        focus: "Enginyeria de Proteïnes Recombinants",
+        description: "Desenvolupament d'enfocaments nous per a producció i purificació de proteïnes des de sistemes bacterians",
+        keyWork: "Sistemes d'expressió optimitzats per a pèptids antimicrobians",
+        impact: "Base establida per a terapèutiques proteiques escalables",
+        publications: 3,
+        color: "#DC2626"
+      },
+      {
+        period: "2019-2021",
+        theme: "Innovació",
+        focus: "Multidomini i Agregats Funcionals",
+        description: "Enginyeria de proteïnes multidomini i cossos d'inclusió funcionals com a plataformes terapèutiques",
+        keyWork: "Edició de seqüències modulant potencial immune i antimicrobià",
+        impact: "Nova classe de materials proteics bioactius",
+        publications: 4,
+        color: "#EA580C"
+      },
+      {
+        period: "2021-2023",
+        theme: "Integració",
+        focus: "Biomaterials i Aplicacions de Superfície", 
+        description: "Trasllació de proteïnes dissenyades a superfícies antibiofilm pràctiques i sistemes de lliurament",
+        keyWork: "Monocapes autoacoblades amb proteïnes antimicrobianes immobilitzades",
+        impact: "Pont entre disseny de proteïnes i dispositius mèdics",
+        publications: 3,
+        color: "#D97706"
+      },
+      {
+        period: "2023-2024",
+        theme: "Trasllació",
+        focus: "Enginyeria de Vectors AAV",
+        description: "Aplicació de principis d'enginyeria de proteïnes a optimització de vectors virals per a teràpia gènica",
+        keyWork: "Evolució dirigida de càpsides per a generació millorada de CAR-T",
+        impact: "Vectors de teràpia gènica llestos per a clínica",
+        publications: 2,
+        color: "#FFD93D"
+      }
+    ]
+  }
+};
+
+const content = researchEvolution[lang];
+---
+
+<section class="research-evolution">
+  <div class="container">
+    <header class="evolution-header">
+      <h2 class="evolution-title animate-fade-in-up">{content.title}</h2>
+      <p class="evolution-subtitle animate-fade-in-up">{content.subtitle}</p>
+    </header>
+
+    <div class="evolution-timeline">
+      <div class="timeline-track" aria-hidden="true"></div>
+      
+      {content.phases.map((phase, index) => (
+        <div class={`phase-card animate-fade-in-up`} style={`--delay: ${index * 0.2}s; --phase-color: ${phase.color}`}>
+          <div class="phase-marker" style={`background: ${phase.color}`}></div>
+          
+          <div class="phase-content">
+            <div class="phase-header">
+              <span class="phase-period">{phase.period}</span>
+              <span class="phase-theme" style={`color: ${phase.color}`}>{phase.theme}</span>
+            </div>
+            
+            <h3 class="phase-focus">{phase.focus}</h3>
+            <p class="phase-description">{phase.description}</p>
+            
+            <div class="phase-details">
+              <div class="key-work">
+                <span class="detail-label">Key Work:</span>
+                <span class="detail-text">{phase.keyWork}</span>
+              </div>
+              
+              <div class="impact">
+                <span class="detail-label">Impact:</span>
+                <span class="detail-text">{phase.impact}</span>
+              </div>
+              
+              <div class="publications-count">
+                <span class="pub-number">{phase.publications}</span>
+                <span class="pub-label">First-author papers</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Current Focus -->
+    <div class="current-focus animate-fade-in-up">
+      <div class="focus-header">
+        <h3>Current Focus: Computational-Experimental Integration</h3>
+        <p>Bridging AI-driven protein design with rapid wet-lab validation</p>
+      </div>
+      
+      <div class="integration-visual">
+        <div class="compute-side">
+          <div class="compute-icon">
+            <svg viewBox="0 0 24 24" fill="var(--accent-red)">
+              <path d="M4 2v20l16-10L4 2z"/>
+            </svg>
+          </div>
+          <span>Computational Design</span>
+        </div>
+        
+        <div class="feedback-loop">
+          <svg viewBox="0 0 100 40" class="loop-svg">
+            <path d="M20 20 Q50 5 80 20" stroke="var(--accent-yellow)" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M80 20 Q50 35 20 20" stroke="var(--accent-yellow)" stroke-width="2" fill="none" marker-start="url(#arrowhead)"/>
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent-yellow)"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        
+        <div class="experimental-side">
+          <div class="experimental-icon">
+            <svg viewBox="0 0 24 24" fill="var(--accent-yellow)">
+              <path d="M9 2v6l-2 4v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8l-2-4V2H9zm0 2h6v4h-6V4zm-1 6h8l1.5 3H6.5L8 10z"/>
+            </svg>
+          </div>
+          <span>Experimental Validation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .research-evolution {
+    padding: 4rem 0;
+    background: var(--background);
+    position: relative;
+  }
+
+  .evolution-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .evolution-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+
+  .evolution-subtitle {
+    font-size: 1.1rem;
+    color: var(--secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .evolution-timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+  }
+
+  .timeline-track {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    bottom: 2rem;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+      var(--accent-red) 0%, 
+      #EA580C 35%, 
+      #D97706 70%, 
+      var(--accent-yellow) 100%);
+    opacity: 0.3;
+  }
+
+  .phase-card {
+    position: relative;
+    margin-bottom: 3rem;
+    animation-delay: var(--delay);
+    margin-left: 4rem;
+  }
+
+  .phase-marker {
+    position: absolute;
+    left: -4.5rem;
+    top: 1rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 3px solid var(--background);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .phase-content {
+    background: var(--background-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--phase-color);
+  }
+
+  .phase-content:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-left-color: var(--phase-color);
+  }
+
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .phase-period {
+    font-size: 0.9rem;
+    color: var(--tertiary);
+    font-weight: 500;
+  }
+
+  .phase-theme {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-focus {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+
+  .phase-description {
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .phase-details {
+    space-y: 1rem;
+  }
+
+  .key-work, .impact {
+    margin-bottom: 1rem;
+  }
+
+  .detail-label {
+    font-weight: 500;
+    color: var(--phase-color, var(--accent-red));
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .detail-text {
+    color: var(--tertiary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .publications-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .pub-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--phase-color, var(--accent-red));
+  }
+
+  .pub-label {
+    font-size: 0.9rem;
+    color: var(--tertiary);
+  }
+
+  /* Current Focus Section */
+  .current-focus {
+    background: var(--background-elevated);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .focus-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+  }
+
+  .focus-header p {
+    color: var(--secondary);
+    margin-bottom: 2rem;
+  }
+
+  .integration-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .compute-side, .experimental-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--background-card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    min-width: 160px;
+  }
+
+  .compute-icon, .experimental-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .compute-icon svg, .experimental-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .feedback-loop {
+    flex-shrink: 0;
+  }
+
+  .loop-svg {
+    width: 100px;
+    height: 40px;
+  }
+
+  /* Animations */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .timeline-track {
+      left: 1rem;
+    }
+    
+    .phase-card {
+      margin-left: 2rem;
+    }
+    
+    .phase-marker {
+      left: -2.5rem;
+    }
+    
+    .phase-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .integration-visual {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .feedback-loop {
+      order: 3;
+      transform: rotate(90deg);
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .phase-content:hover {
+      transform: none;
+    }
+    
+    .animate-fade-in-up {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

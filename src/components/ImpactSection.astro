@@ -1,0 +1,261 @@
+---
+import { metricsHistory } from '../data/metricsHistory.ts';
+const problemApproachImpact = {
+  en: {
+    problem: { title: 'Problem', description: 'Antimicrobial resistance evolves quickly; conventional discovery is slow and siloed.' },
+    approach: { title: 'Approach', description: 'Design modular, multi‑mechanism proteins and validate iteratively at the bench.' },
+    impact: { title: 'Impact', description: 'Faster iteration, higher hit‑rates, and clearer paths to translation.' }
+  },
+  es: {
+    problem: { title: 'Problema', description: 'La resistencia antimicrobiana evoluciona rápido; el descubrimiento convencional es lento.' },
+    approach: { title: 'Enfoque', description: 'Diseño de proteínas modulares multi‑mecanismo y validación iterativa en laboratorio.' },
+    impact: { title: 'Impacto', description: 'Iteración más rápida, mayor tasa de aciertos y mejor ruta hacia la traslación.' }
+  },
+  ca: {
+    problem: { title: 'Problema', description: 'La resistència antimicrobiana evoluciona ràpid; el descobriment convencional és lent.' },
+    approach: { title: 'Enfocament', description: 'Disseny de proteïnes modulars multi‑mecanisme i validació iterativa al laboratori.' },
+    impact: { title: 'Impacte', description: 'Iteració més ràpida, més èxits i millor via de traslació.' }
+  }
+} as const;
+
+interface Props {
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { lang } = Astro.props;
+const content = problemApproachImpact[lang];
+---
+
+<section class="impact-section">
+  <div class="container">
+    <!-- Problem → Approach → Impact Cards -->
+    <div class="impact-flow">
+      {Object.entries(content).map(([key, item], index) => (
+        <div class={`impact-card animate-fade-in-up`} style={`--index: ${index + 1}`}>
+          <div class="impact-icon">
+            {key === 'problem' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            )}
+            {key === 'approach' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <rect x="9" y="9" width="6" height="6"/>
+                <path d="M9 1v3"/>
+                <path d="M15 1v3"/>
+                <path d="M9 20v3"/>
+                <path d="M15 20v3"/>
+                <path d="M20 9h3"/>
+                <path d="M20 14h3"/>
+                <path d="M1 9h3"/>
+                <path d="M1 14h3"/>
+              </svg>
+            )}
+            {key === 'impact' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18"/>
+                <path d="M7 12l4-4 4 4 4-4"/>
+              </svg>
+            )}
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+          {index < 2 && <div class="flow-arrow" aria-hidden="true">→</div>}
+        </div>
+      ))}
+    </div>
+
+    <!-- Results Snapshot -->
+    <div class="results-snapshot animate-fade-in-up">
+      <div class="snapshot-header">
+        <h3>Results Snapshot</h3>
+        <p>Quantified improvements over traditional approaches</p>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-snapshot">
+          <span class="metric-value">{metricsHistory.impactMetrics.designCycleReduction}</span>
+          <span class="metric-label">Faster Design Cycles</span>
+        </div>
+        <div class="metric-snapshot">
+          <span class="metric-value">{metricsHistory.impactMetrics.successRateImprovement}</span>
+          <span class="metric-label">Success Rate Improvement</span>
+        </div>
+        <div class="metric-snapshot">
+          <span class="metric-value">{metricsHistory.impactMetrics.validationAccuracy}</span>
+          <span class="metric-label">Wet-lab Validation</span>
+        </div>
+        <div class="metric-snapshot">
+          <span class="metric-value">{metricsHistory.impactMetrics.timeToCandidate}</span>
+          <span class="metric-label">Time to Candidate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .impact-section {
+    padding: var(--space-xl) 0;
+    background: var(--background);
+    position: relative;
+  }
+
+  .impact-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .impact-card {
+    background: var(--background-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    animation-delay: calc(var(--index) * 0.1s);
+  }
+
+  .impact-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-red);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.15);
+  }
+
+  .impact-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+  }
+
+  .impact-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .impact-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+
+  .impact-card p {
+    color: var(--secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .flow-arrow {
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: var(--accent-red);
+    opacity: 0.6;
+    font-weight: 300;
+  }
+
+  .results-snapshot {
+    background: var(--background-alt);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .snapshot-header h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+  }
+
+  .snapshot-header p {
+    color: var(--tertiary);
+    margin-bottom: 2rem;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+  }
+
+  .metric-snapshot {
+    text-align: center;
+  }
+
+  .metric-snapshot .metric-value {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.2rem;
+    background: var(--gradient-catalan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-snapshot .metric-label {
+    color: var(--tertiary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  /* Animation */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .impact-flow {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .flow-arrow {
+      display: none;
+    }
+
+    .results-snapshot {
+      padding: 2rem;
+    }
+
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .metric-snapshot .metric-value {
+      font-size: 1.8rem;
+    }
+  }
+</style>

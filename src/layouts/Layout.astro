@@ -1,29 +1,31 @@
 ---
 export interface Props {
   title: string;
+  description?: string; // localized meta description
   lang?: 'en' | 'es' | 'ca';
 }
 
-const { title, lang = 'en' } = Astro.props;
-
-// Import main styles
-import '../styles/main.css';
+const { title, description = 'Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies through AI-driven protein engineering', lang = 'en' } = Astro.props;
+// Canonical URL per locale
+const canonical = `https://rrocap.github.io/Portfolio/${lang}/`;
 ---
 
 <!DOCTYPE html>
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies" />
+  <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="theme-color" content="#0A0A0A" />
-    <link rel="alternate" href="https://RRocaP.github.io/Portfolio/en/" hreflang="en" />
-    <link rel="alternate" href="https://RRocaP.github.io/Portfolio/es/" hreflang="es" />
-    <link rel="alternate" href="https://RRocaP.github.io/Portfolio/ca/" hreflang="ca" />
-    <link rel="alternate" href="https://RRocaP.github.io/Portfolio/en/" hreflang="x-default" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href={canonical} />
+    <link rel="alternate" href="/Portfolio/en/" hreflang="en" />
+    <link rel="alternate" href="/Portfolio/es/" hreflang="es" />
+    <link rel="alternate" href="/Portfolio/ca/" hreflang="ca" />
+    <link rel="alternate" href="/Portfolio/en/" hreflang="x-default" />
     
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
@@ -69,19 +71,33 @@ import '../styles/main.css';
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://rrocap.github.io/Portfolio/",
+      "name": "Ramon Roca Pinilla Portfolio",
+      "inLanguage": "{lang}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://rrocap.github.io/Portfolio/en/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rrocap.github.io/Portfolio/">
     <meta property="og:title" content="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
-    <meta property="og:description" content="Developing next-generation antimicrobial therapies through AI-driven protein engineering">
+  <meta property="og:description" content={description}>
     <meta property="og:image" content="https://rrocap.github.io/Portfolio/profile.jpg">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://rrocap.github.io/Portfolio/">
     <meta property="twitter:title" content="Ramon Roca Pinilla - Biomedical Engineer & Molecular Biologist">
-    <meta property="twitter:description" content="Developing next-generation antimicrobial therapies through AI-driven protein engineering">
+  <meta property="twitter:description" content={description}>
     <meta property="twitter:image" content="https://rrocap.github.io/Portfolio/profile.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">

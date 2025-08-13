@@ -1,0 +1,137 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  class?: string;
+}
+
+const { 
+  title = "Antimicrobial Protein Animation",
+  description = "3D visualization of protein-membrane interaction",
+  class: className = ""
+} = Astro.props;
+---
+
+<div class={`protein-video-container ${className}`}>
+  <div class="video-wrapper">
+    <video
+      class="protein-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/Portfolio/videos/protein_2k6o_poster.webp"
+      aria-label={description}
+    >
+      <source src="/Portfolio/videos/protein_2k6o.webm" type="video/webm" />
+      <source src="/Portfolio/videos/protein_2k6o.mp4" type="video/mp4" />
+      
+      <!-- Fallback for browsers without video support -->
+      <img 
+        src="/Portfolio/videos/protein_2k6o_poster.webp" 
+        alt={description}
+        loading="lazy"
+      />
+    </video>
+    
+    <!-- Reduced motion fallback -->
+    <img 
+      class="static-fallback"
+      src="/Portfolio/videos/protein_2k6o_poster.webp"
+      alt={description}
+      loading="lazy"
+    />
+  </div>
+  
+  {title && <h3 class="video-title">{title}</h3>}
+  {description && <p class="video-description">{description}</p>}
+</div>
+
+<style>
+  .protein-video-container {
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .video-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--background-card);
+    border: 1px solid var(--border);
+  }
+
+  .protein-video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .static-fallback {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .video-title {
+    font-size: 1.2rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--primary);
+  }
+
+  .video-description {
+    color: var(--tertiary);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  /* Show static image for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .protein-video {
+      display: none;
+    }
+    
+    .static-fallback {
+      display: block;
+    }
+  }
+
+  /* Hover effects */
+  .video-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+    border-color: var(--accent-red);
+    transition: all 0.3s ease;
+  }
+</style>
+
+<script>
+  // Progressive enhancement for video controls
+  document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('.protein-video');
+    
+    videos.forEach(video => {
+      if (video instanceof HTMLVideoElement) {
+        // Pause/play on click for better UX
+        video.addEventListener('click', () => {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+        
+        // Handle loading states
+        video.addEventListener('loadstart', () => {
+          video.style.opacity = '0.7';
+        });
+        
+        video.addEventListener('canplay', () => {
+          video.style.opacity = '1';
+        });
+      }
+    });
+  });
+</script>
