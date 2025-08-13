@@ -1,0 +1,329 @@
+---
+// WebGL animation component for antimicrobial peptides attacking bacteria
+---
+
+<div class="amp-animation-container">
+  <canvas id="amp-canvas"></canvas>
+  <div class="animation-overlay">
+    <p class="animation-label">Antimicrobial peptides disrupting bacterial membranes</p>
+  </div>
+</div>
+
+<style>
+  .amp-animation-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.05) 0%, transparent 70%);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 3rem 0;
+  }
+  
+  #amp-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  
+  .animation-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    pointer-events: none;
+  }
+  
+  .animation-label {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  
+  @media (max-width: 768px) {
+    .amp-animation-container {
+      height: 300px;
+    }
+  }
+</style>
+
+<script>
+  class AntimicrobialAnimation {
+    constructor(canvas) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.width = 0;
+      this.height = 0;
+      this.bacteria = [];
+      this.peptides = [];
+      this.particles = [];
+      this.frame = 0;
+      
+      this.init();
+      this.animate();
+    }
+    
+    init() {
+      this.resize();
+      window.addEventListener('resize', () => this.resize());
+      
+      // Create bacteria
+      for (let i = 0; i < 5; i++) {
+        this.bacteria.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          radius: 30 + Math.random() * 20,
+          health: 100,
+          membrane: [],
+          dying: false,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.01
+        });
+        
+        // Initialize membrane points
+        const bact = this.bacteria[i];
+        for (let j = 0; j < 32; j++) {
+          const angle = (j / 32) * Math.PI * 2;
+          bact.membrane.push({
+            angle: angle,
+            offset: 0,
+            targetOffset: 0
+          });
+        }
+      }
+      
+      // Create antimicrobial peptides
+      for (let i = 0; i < 15; i++) {
+        this.peptides.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          size: 4,
+          attached: null,
+          attachPoint: null,
+          color: `hsla(0, 100%, ${50 + Math.random() * 20}%, 0.9)`
+        });
+      }
+    }
+    
+    resize() {
+      const rect = this.canvas.getBoundingClientRect();
+      this.width = rect.width;
+      this.height = rect.height;
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+    }
+    
+    update() {
+      this.frame++;
+      
+      // Update peptides
+      this.peptides.forEach(peptide => {
+        if (!peptide.attached) {
+          // Move freely
+          peptide.x += peptide.vx;
+          peptide.y += peptide.vy;
+          
+          // Bounce off walls
+          if (peptide.x < 0 || peptide.x > this.width) peptide.vx *= -1;
+          if (peptide.y < 0 || peptide.y > this.height) peptide.vy *= -1;
+          
+          // Check for bacterial collision
+          this.bacteria.forEach(bact => {
+            const dx = peptide.x - bact.x;
+            const dy = peptide.y - bact.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < bact.radius + 10 && bact.health > 0) {
+              peptide.attached = bact;
+              peptide.attachPoint = Math.atan2(dy, dx);
+              
+              // Damage membrane at attachment point
+              const membraneIndex = Math.floor(((peptide.attachPoint + Math.PI) / (Math.PI * 2)) * bact.membrane.length);
+              bact.membrane[membraneIndex].targetOffset = 15;
+              
+              // Spread damage
+              for (let i = -2; i <= 2; i++) {
+                const idx = (membraneIndex + i + bact.membrane.length) % bact.membrane.length;
+                bact.membrane[idx].targetOffset = 10 * (1 - Math.abs(i) / 3);
+              }
+              
+              bact.health -= 0.5;
+            }
+          });
+        } else {
+          // Attached to bacterium
+          const bact = peptide.attached;
+          peptide.x = bact.x + Math.cos(peptide.attachPoint + bact.rotation) * (bact.radius + 5);
+          peptide.y = bact.y + Math.sin(peptide.attachPoint + bact.rotation) * (bact.radius + 5);
+          
+          // Create disruption particles
+          if (Math.random() < 0.1) {
+            this.particles.push({
+              x: peptide.x,
+              y: peptide.y,
+              vx: (Math.random() - 0.5) * 3,
+              vy: (Math.random() - 0.5) * 3,
+              life: 1,
+              color: 'rgba(220, 38, 38, 0.6)'
+            });
+          }
+        }
+      });
+      
+      // Update bacteria
+      this.bacteria.forEach(bact => {
+        bact.rotation += bact.rotationSpeed;
+        
+        // Update membrane deformation
+        bact.membrane.forEach(point => {
+          point.offset += (point.targetOffset - point.offset) * 0.1;
+          point.targetOffset *= 0.95; // Slowly recover
+        });
+        
+        // Die if health depleted
+        if (bact.health <= 0 && !bact.dying) {
+          bact.dying = true;
+          
+          // Explode into particles
+          for (let i = 0; i < 20; i++) {
+            this.particles.push({
+              x: bact.x,
+              y: bact.y,
+              vx: (Math.random() - 0.5) * 5,
+              vy: (Math.random() - 0.5) * 5,
+              life: 1,
+              color: `rgba(220, 38, 38, ${Math.random() * 0.5 + 0.3})`
+            });
+          }
+        }
+        
+        if (bact.dying) {
+          bact.radius *= 0.95;
+        }
+      });
+      
+      // Update particles
+      this.particles = this.particles.filter(particle => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vx *= 0.98;
+        particle.vy *= 0.98;
+        particle.life -= 0.02;
+        return particle.life > 0;
+      });
+      
+      // Respawn dead bacteria
+      this.bacteria = this.bacteria.filter(b => b.radius > 5);
+      while (this.bacteria.length < 5) {
+        const newBact = {
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          radius: 30 + Math.random() * 20,
+          health: 100,
+          membrane: [],
+          dying: false,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.01
+        };
+        for (let j = 0; j < 32; j++) {
+          const angle = (j / 32) * Math.PI * 2;
+          newBact.membrane.push({
+            angle: angle,
+            offset: 0,
+            targetOffset: 0
+          });
+        }
+        this.bacteria.push(newBact);
+      }
+    }
+    
+    draw() {
+      // Clear canvas
+      this.ctx.fillStyle = 'rgba(10, 10, 10, 0.1)';
+      this.ctx.fillRect(0, 0, this.width, this.height);
+      
+      // Draw bacteria
+      this.bacteria.forEach(bact => {
+        this.ctx.save();
+        this.ctx.translate(bact.x, bact.y);
+        this.ctx.rotate(bact.rotation);
+        
+        // Draw membrane
+        this.ctx.beginPath();
+        bact.membrane.forEach((point, i) => {
+          const radius = bact.radius + point.offset;
+          const x = Math.cos(point.angle) * radius;
+          const y = Math.sin(point.angle) * radius;
+          
+          if (i === 0) {
+            this.ctx.moveTo(x, y);
+          } else {
+            this.ctx.lineTo(x, y);
+          }
+        });
+        this.ctx.closePath();
+        
+        // Membrane style
+        const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, bact.radius);
+        gradient.addColorStop(0, `rgba(30, 30, 30, ${bact.health / 100 * 0.8})`);
+        gradient.addColorStop(1, `rgba(50, 50, 50, ${bact.health / 100 * 0.4})`);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
+        
+        this.ctx.strokeStyle = `rgba(255, 255, 255, ${bact.health / 100 * 0.1})`;
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+        
+        // Draw nucleus
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, bact.radius * 0.3, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(20, 20, 20, ${bact.health / 100 * 0.6})`;
+        this.ctx.fill();
+        
+        this.ctx.restore();
+      });
+      
+      // Draw peptides
+      this.peptides.forEach(peptide => {
+        this.ctx.beginPath();
+        this.ctx.arc(peptide.x, peptide.y, peptide.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = peptide.color;
+        this.ctx.fill();
+        
+        // Glow effect
+        const glow = this.ctx.createRadialGradient(peptide.x, peptide.y, 0, peptide.x, peptide.y, peptide.size * 3);
+        glow.addColorStop(0, 'rgba(220, 38, 38, 0.3)');
+        glow.addColorStop(1, 'transparent');
+        this.ctx.fillStyle = glow;
+        this.ctx.fillRect(peptide.x - peptide.size * 3, peptide.y - peptide.size * 3, peptide.size * 6, peptide.size * 6);
+      });
+      
+      // Draw particles
+      this.particles.forEach(particle => {
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.globalAlpha = particle.life;
+        this.ctx.fill();
+        this.ctx.globalAlpha = 1;
+      });
+    }
+    
+    animate() {
+      this.update();
+      this.draw();
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+  
+  // Initialize animation when component loads
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('amp-canvas');
+    if (canvas) {
+      new AntimicrobialAnimation(canvas);
+    }
+  });
+</script>

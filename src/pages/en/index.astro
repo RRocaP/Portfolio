@@ -3,9 +3,12 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import ScrollIndicator from '../../components/ScrollIndicator.astro';
 import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro';
+import AntimicrobialAnimation from '../../components/AntimicrobialAnimation.astro';
 import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import GeometricBackground from '../../components/GeometricBackground.astro';
+import HeroGradient from '../../components/HeroGradient.astro';
+import PerformanceMetrics from '../../components/PerformanceMetrics.astro';
 import { metrics } from '../../data/metrics.ts';
 ---
 
@@ -18,7 +21,7 @@ import { metrics } from '../../data/metrics.ts';
   <ScrollIndicator />
   
   <section id="home" class="hero">
-    <GeometricBackground red="#DC2626" accent="#EF4444" />
+    <HeroGradient />
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title animate-fade-in-up">
@@ -145,6 +148,10 @@ import { metrics } from '../../data/metrics.ts';
       <div class="research-intro animate-fade-in-up">
         <p class="lead">I design and test antimicrobial proteins and viral vectors using computation and experiment.</p>
       </div>
+      
+      <AntimicrobialAnimation />
+      
+      <PerformanceMetrics />
       
       <AntimicrobialTimeline />
       

@@ -1,0 +1,64 @@
+---
+// Gradient mesh inspired by Latent Labs
+---
+
+<div class="hero-gradient">
+  <div class="gradient-orb gradient-orb-1"></div>
+  <div class="gradient-orb gradient-orb-2"></div>
+  <div class="gradient-mesh"></div>
+</div>
+
+<style>
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    opacity: 0.4;
+  }
+  
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: float-orb 20s ease-in-out infinite;
+  }
+  
+  .gradient-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at center, rgba(220, 38, 38, 0.3), transparent);
+    top: -200px;
+    right: -100px;
+  }
+  
+  .gradient-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at center, rgba(220, 38, 38, 0.2), transparent);
+    bottom: -100px;
+    left: 10%;
+    animation-delay: -5s;
+  }
+  
+  .gradient-mesh {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(at 20% 80%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
+      radial-gradient(at 80% 20%, rgba(139, 0, 0, 0.05) 0px, transparent 50%),
+      radial-gradient(at 40% 40%, rgba(255, 0, 0, 0.03) 0px, transparent 50%);
+  }
+  
+  @keyframes float-orb {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+</style>
