@@ -1,7 +1,7 @@
 ---
 import { timelineData } from '../data/i18n';
 const { lang='en' } = Astro.props as { lang?: string };
-const items = timelineData[lang];
+const items = timelineData[lang] || [];
 ---
 <div class="timeline-roadmap" aria-label="Career timeline">
   <svg class="timeline-path" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
