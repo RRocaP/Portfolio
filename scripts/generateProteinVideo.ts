@@ -220,4 +220,5 @@ if (require.main === module) {
   generator.generate();
 }
 
-export { ProteinVideoGenerator, VideoConfig };
+export type { VideoConfig };
+export { ProteinVideoGenerator };
