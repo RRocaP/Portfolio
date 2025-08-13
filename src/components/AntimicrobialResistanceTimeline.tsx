@@ -222,15 +222,19 @@ export default function AntimicrobialResistanceTimeline() {
       .attr('stroke', (d: AntibioticData) => colorScale(d.category))
       .attr('stroke-width', 3);
 
-    // Resistance detection markers
-    bars.append('text')
-      .attr('x', (d: AntibioticData) => xScale(d.yearResistanceDetected))
-      .attr('y', (d: AntibioticData) => yScale(d.antibiotic)! + yScale.bandwidth() / 2)
-      .attr('dy', '0.35em')
-      .attr('text-anchor', 'middle')
-      .style('font-size', '20px')
-      .style('fill', '#FBD065')
-      .text('⚠');
+    // Resistance detection markers – crisp vector diamond (no emoji)
+    const hazardSize = 8;
+    bars.append('path')
+      .attr('d', (d: AntibioticData) => {
+        const cx = xScale(d.yearResistanceDetected);
+        const cy = yScale(d.antibiotic)! + yScale.bandwidth() / 2;
+        return `M ${cx} ${cy - hazardSize} L ${cx + hazardSize} ${cy} L ${cx} ${cy + hazardSize} L ${cx - hazardSize} ${cy} Z`;
+      })
+      .attr('fill', '#FBD065')
+      .attr('stroke', '#BFB56F')
+      .attr('stroke-width', 1.5)
+      .attr('opacity', 0.9)
+      .attr('aria-hidden', 'true');
 
     // Title
     svg.append('text')

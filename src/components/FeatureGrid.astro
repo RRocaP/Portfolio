@@ -10,7 +10,35 @@ const features: Feature[] = featureSets[lang] || featureSets.en;
     <div class="feature-grid">
       {features.map(f => (
         <div class="feature-card" data-id={f.id}>
-          <div class="icon" aria-hidden="true">{f.icon}</div>
+          <div class="icon" aria-hidden="true">
+            {f.icon === 'dna' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 3c6 2 10 6 10 9s-4 7-10 9" />
+                <path d="M17 3c-6 2-10 6-10 9s4 7 10 9" />
+                <path d="M4 7h6M14 17h6M6 12h12" opacity=".7" />
+              </svg>
+            )}
+            {f.icon === 'flask' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 2v4l-5 8a5 5 0 004.3 8h5.4A5 5 0 0019 14l-5-8V2" />
+                <path d="M8 6h8" opacity=".6" />
+              </svg>
+            )}
+            {f.icon === 'rocket' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 4c3 0 6 3 6 6-3 0-6 3-6 6-3 0-6-3-6-6 0-3 3-6 6-6z" />
+                <path d="M9 15l-6 6 3-7" />
+              </svg>
+            )}
+            {f.icon === 'loop' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11a6 6 0 0110-4l2 2" />
+                <path d="M21 13a6 6 0 01-10 4l-2-2" />
+                <path d="M13 7h2V5" />
+                <path d="M11 17h-2v2" />
+              </svg>
+            )}
+          </div>
           <h3>{f.title}</h3>
           <p>{f.description}</p>
         </div>
