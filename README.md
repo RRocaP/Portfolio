@@ -14,3 +14,35 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+### Project scripts
+
+Install dependencies first:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Run the linter:
+
+```bash
+npm run lint
+```
+
+Accessibility linting requires optional packages. Run after a full install:
+
+```bash
+npm run lint:a11y
+```
+
+Build the site:
+
+```bash
+npm run build
+```
