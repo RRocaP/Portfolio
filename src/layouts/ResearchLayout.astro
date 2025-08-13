@@ -1,0 +1,187 @@
+---
+import Layout from './Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { marketingCopy } from '../data/marketingCopy.js';
+import { socialTemplates } from '../data/socialTemplates.js';
+import { svgDiagrams } from '../data/svgDiagrams.js';
+
+export interface Props {
+  title: string;
+  description?: string;
+  lang?: 'en' | 'es' | 'ca';
+  project: any;
+}
+const { title, description, lang = 'en', project } = Astro.props;
+
+// Get the marketing copy for the current project and language
+const projectCopy = marketingCopy[project.title]?.[lang] || {
+  technical: "Technical description not available.",
+  layman: "Layman's summary not available."
+};
+
+// Get the social media templates
+const projectSocial = socialTemplates[project.title]?.[lang] || {
+  linkedIn: "LinkedIn template not available.",
+  twitter: "Twitter template not available."
+};
+
+const elevatorPitch = projectCopy.technical;
+const laymanSummary = projectCopy.layman;
+
+// Get the SVG Diagram (safe fallback if missing)
+const svgDiagram = svgDiagrams[project.title] || `<svg viewBox='0 0 400 80' xmlns='http://www.w3.org/2000/svg'><text x='20' y='45' fill='#ccc' font-family='sans-serif' font-size='16'>Diagram not available</text></svg>`;
+---
+<Layout title={title} description={description} lang={lang} publications={[project]}>
+  <Navigation />
+  <main class="research-page">
+    <header class="research-hero">
+      <div class="container">
+        <h1 class="project-title">{project.title}</h1>
+        <p class="project-journal">{project.journal} ({project.year})</p>
+        <div class="project-meta">
+          <span>{project.isFirstAuthor ? 'First Author' : 'Co-author'}</span>
+          <a href={project.url} target="_blank" rel="noopener" class="btn btn-outline">Read Paper</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container page-content">
+      <div class="main-content">
+        <section class="project-section">
+          <h2>Elevator Pitch (Technical)</h2>
+          <p>{elevatorPitch}</p>
+        </section>
+
+        <section class="project-section">
+          <h2>Layman's Summary</h2>
+          <p>{laymanSummary}</p>
+        </section>
+
+        <section class="project-section">
+          <h2>Key Concept Visualization</h2>
+          <div class="svg-container" set:html={svgDiagram}></div>
+        </section>
+      </div>
+      <aside class="sidebar">
+        <div class="sidebar-widget">
+          <h3>Project Details</h3>
+          <ul>
+            <li><strong>Journal:</strong> {project.journal}</li>
+            <li><strong>Year:</strong> {project.year}</li>
+            <li><strong>DOI:</strong> <a href={project.url} target="_blank" rel="noopener">Link to publication</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-widget">
+          <h3>Social Media Templates</h3>
+          <div class="social-template">
+            <h4>LinkedIn</h4>
+            <textarea readonly>{projectSocial.linkedIn}</textarea>
+          </div>
+          <div class="social-template">
+            <h4>Twitter/X</h4>
+            <textarea readonly>{projectSocial.twitter}</textarea>
+          </div>
+        </div>
+        <div class="sidebar-widget">
+          <h3>Collaborate</h3>
+          <p>I'm open to collaborations in this area. If you're interested in AAV vector engineering or CAR-T therapies, let's connect.</p>
+          <a href="mailto:ramon.rocap@gmail.com" class="btn btn-primary">Contact Me</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .research-page {
+    padding-top: 80px;
+  }
+  .research-hero {
+    background: var(--background-alt);
+    padding: 4rem 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    max-width: 900px;
+    margin: 0 auto 1rem;
+  }
+  .project-journal {
+    font-size: 1.2rem;
+    color: var(--tertiary);
+    margin-bottom: 1.5rem;
+  }
+  .project-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .page-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+  }
+  @media (min-width: 992px) {
+    .page-content {
+      grid-template-columns: 3fr 1fr;
+    }
+  }
+  .project-section {
+    margin-bottom: 3rem;
+  }
+  .project-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--accent-red);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .svg-container {
+    background: var(--background);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+  }
+  .sidebar-widget {
+    background: var(--background-alt);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  .sidebar-widget h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-widget ul {
+    list-style: none;
+    padding: 0;
+  }
+  .sidebar-widget ul li {
+    margin-bottom: 0.5rem;
+  }
+  .social-template {
+    margin-bottom: 1.5rem;
+  }
+  .social-template h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+  }
+  .social-template textarea {
+    width: 100%;
+    min-height: 120px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text);
+    resize: vertical;
+  }
+</style>

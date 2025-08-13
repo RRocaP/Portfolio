@@ -1,0 +1,93 @@
+---
+// ResearchVideoCard.astro - Individual research project with video
+import SmartVideo from './SmartVideo.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  videoMp4: string;
+  videoWebm?: string;
+  videoPoster: string;
+  badges?: string[];
+  isFirstAuthor?: boolean;
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { 
+  title, 
+  description, 
+  videoMp4, 
+  videoWebm, 
+  videoPoster, 
+  badges = [], 
+  isFirstAuthor = false,
+  lang 
+} = Astro.props;
+---
+
+<div class="research-card bg-gray-900 border border-gray-700 rounded-2xl p-6 hover:border-red-500/50 transition-all duration-300 transform hover:-translate-y-1">
+  <!-- Video Section -->
+  <div class="mb-4">
+    <SmartVideo
+      mp4Src={videoMp4}
+      webmSrc={videoWebm}
+      poster={videoPoster}
+      aspect="1/1"
+      alt={`Research visualization: ${title}`}
+    />
+  </div>
+
+  <!-- Content Section -->
+  <div class="space-y-3">
+    <!-- Title with First Author Badge -->
+    <div class="flex items-start gap-3">
+      <h3 class="text-xl font-semibold text-white leading-tight flex-1">
+        {title}
+      </h3>
+      {isFirstAuthor && (
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-600 text-white shrink-0">
+          FA
+        </span>
+      )}
+    </div>
+
+    <!-- Description -->
+    <p class="text-gray-300 leading-relaxed">
+      {description}
+    </p>
+
+    <!-- Badges -->
+    {badges.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        {badges.map(badge => (
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-800 text-gray-300 border border-gray-600">
+            {badge}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .research-card:focus-within {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+  }
+  
+  /* Enhance contrast for readability */
+  @media (prefers-contrast: high) {
+    .research-card {
+      background-color: #000;
+      border-color: #fff;
+    }
+    
+    .research-card h3 {
+      color: #fff;
+    }
+    
+    .research-card p {
+      color: #e0e0e0;
+    }
+  }
+</style>

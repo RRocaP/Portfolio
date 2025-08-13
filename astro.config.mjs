@@ -7,4 +7,21 @@ export default defineConfig({
   base: '/Portfolio',
   output: 'static',
   integrations: [react(), tailwind({ applyBaseStyles: false })],
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'd3': ['d3'],
+          },
+        },
+      },
+    },
+    ssr: {
+      noExternal: ['d3'],
+    },
+  },
+  build: {
+    inlineStylesheets: 'auto',
+  },
 });

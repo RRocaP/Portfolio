@@ -172,7 +172,7 @@ import { metrics } from '../../data/metrics.ts';
           <span class="metric-label">Artículos revisados</span>
         </div>
         <div class="metric">
-          <span class="metric-value">500+</span>
+          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
           <span class="metric-label">Citas (Scholar)</span>
         </div>
         <div class="metric">
@@ -233,8 +233,8 @@ import { metrics } from '../../data/metrics.ts';
           </div>
           
           <div class="contact-card animate-fade-in-up animate-delay-1">
-            <h3>Ubicació</h3>
-            <p>Children's Medical Research Institute<br>Sydney, Austràlia</p>
+            <h3>Ubicación</h3>
+            <p>Children's Medical Research Institute<br>Sydney, Australia</p>
           </div>
           
           <div class="contact-card animate-fade-in-up animate-delay-2">

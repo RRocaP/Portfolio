@@ -1,0 +1,53 @@
+---
+// Passive performance & Web Vitals logging component
+// Place <PerformanceMonitor /> once per page (e.g., in Layout) to capture metrics
+---
+<script>
+  (async () => {
+    try {
+      const wv = (window as any)['web-vitals'];
+      if (!wv) return; // library not present; keep silent
+      const { onCLS, onFID, onFCP, onLCP, onTTFB } = wv;
+      const send = (metric: any) => {
+        if (metric?.name) console.info('[Vitals]', metric.name, metric.value);
+        if ((window as any).gtag) {
+          (window as any).gtag('event', metric.name, {
+            value: Math.round(metric.value),
+            metric_id: metric.id,
+            metric_value: metric.value,
+            metric_delta: metric.delta
+          });
+        }
+      };
+      onCLS(send); onFID(send); onFCP(send); onLCP(send); onTTFB(send);
+    } catch (e) {
+      console.debug('Web Vitals capture skipped:', e);
+    }
+  })();
+
+  window.addEventListener('load', () => {
+    queueMicrotask(() => {
+      const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      if (!nav) return;
+      const metrics = {
+        ttfb: nav.responseStart,
+        domContentLoaded: nav.domContentLoadedEventEnd,
+        load: nav.loadEventEnd,
+        transfer: nav.transferSize
+      };
+      if (metrics.load > 3000) console.warn('[Perf] Load > 3000ms');
+      console.table(metrics);
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) {
+        const img = e.target as HTMLImageElement;
+        const src = img.dataset.src; if (src) { img.src = src; img.removeAttribute('data-src'); }
+        io.unobserve(img);
+      }
+    }, { rootMargin: '200px 0px' });
+    document.querySelectorAll('img[data-src]').forEach(el => io.observe(el));
+  }
+</script>

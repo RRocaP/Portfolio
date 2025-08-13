@@ -172,7 +172,7 @@ import { metrics } from '../../data/metrics.ts';
           <span class="metric-label">Articles revisats</span>
         </div>
         <div class="metric">
-          <span class="metric-value">500+</span>
+          <span class="metric-value">{metrics.citations && metrics.citations > 0 ? metrics.citations : '—'}</span>
           <span class="metric-label">Cites (Scholar)</span>
         </div>
         <div class="metric">

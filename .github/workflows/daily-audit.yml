@@ -1,0 +1,43 @@
+name: daily-audit
+on:
+  schedule:
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lighthouse (best-effort)
+        run: npm run lighthouse || true
+      - name: Analyze Bundle
+        run: node scripts/analyze-bundle.mjs > bundle-report.txt || true
+      - name: Structured Data Lint
+        run: npm run audit:lint
+      - name: Budgets Check
+        run: npm run audit:budgets
+      - name: Regression Check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npm run audit:regressions
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-artifacts
+          path: |
+            .lighthouseci
+            bundle-report.txt
+            metrics
+            dist

@@ -1,0 +1,20 @@
+version: 1
+github:
+  copilot:
+    enable: true
+features:
+  pr_reviews: true
+  test_generation: true
+  doc_generation: true
+  security_scanning: true
+customizations:
+  - file_pattern: "*.astro"
+    suggestions:
+      - "Optimize for Core Web Vitals"
+      - "Add proper TypeScript types"
+      - "Implement accessibility features"
+  - file_pattern: "*.ts"
+    suggestions:
+      - "Use advanced TypeScript features"
+      - "Implement proper error handling"
+      - "Add comprehensive JSDoc comments"

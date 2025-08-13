@@ -1,0 +1,11 @@
+---
+import ResearchLayout from '../../../layouts/ResearchLayout.astro';
+import { publications } from '../../../data/publications.js';
+const project = publications.find(p => p.title === "Tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T generation");
+---
+<ResearchLayout
+  title={project.title}
+  description={project.description}
+  lang="es"
+  project={project}
+/>

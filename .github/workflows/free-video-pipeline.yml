@@ -1,0 +1,74 @@
+name: Free Video Portfolio Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'videos/**'
+      - '.github/workflows/free-video-pipeline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  process-videos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: List videos
+        run: |
+          echo "Videos changed:" && ls -1 videos || echo "No videos dir yet"
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Transcode (VP9 multi-quality)
+        if: hashFiles('videos/*') != ''
+        run: |
+          set -e
+          mkdir -p dist-videos
+          for f in videos/*.{mp4,mov,MP4,MOV}; do
+            [ -e "$f" ] || continue
+            base=$(basename "$f")
+            name="${base%.*}"
+            echo "Processing $f"
+            # High quality (1080p CRF30)
+            ffmpeg -y -i "$f" -vf "scale='min(1920,iw)':-2" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k "dist-videos/${name}-1080p.webm"
+            # Medium (720p CRF34)
+            ffmpeg -y -i "$f" -vf "scale='min(1280,iw)':-2" -c:v libvpx-vp9 -crf 34 -b:v 0 -b:a 96k "dist-videos/${name}-720p.webm"
+            # Low (480p CRF38)
+            ffmpeg -y -i "$f" -vf "scale='min(854,iw)':-2" -c:v libvpx-vp9 -crf 38 -b:v 0 -b:a 64k "dist-videos/${name}-480p.webm"
+            # Poster frame
+            ffmpeg -y -i "$f" -ss 1 -vframes 1 "dist-videos/${name}-poster.jpg"
+          done
+          ls -lh dist-videos
+
+      - name: Upload Release Assets
+        if: hashFiles('dist-videos/*') != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: video-assets
+          name: Automated Video Assets
+          body: Auto-generated VP9 assets & posters.
+          files: dist-videos/*
+
+      - name: Persist to repo (optional small assets)
+        if: hashFiles('dist-videos/*480p.webm') != ''
+        run: |
+          mkdir -p public/videos
+          cp dist-videos/*480p.webm public/videos/ || true
+          cp dist-videos/*poster.jpg public/videos/ || true
+          if git diff --quiet; then echo "No changes to commit"; else
+            git config user.name github-actions
+            git config user.email actions@github.com
+            git add public/videos
+            git commit -m "chore(videos): add low-res + posters"
+            git push
+          fi
+
+      - name: jsDelivr Info
+        run: |
+          echo "Access via jsDelivr once on main: https://cdn.jsdelivr.net/gh/${{ github.repository }}@main/public/videos/<file>"

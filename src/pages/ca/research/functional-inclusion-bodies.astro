@@ -1,0 +1,11 @@
+---
+import ResearchLayout from '../../../layouts/ResearchLayout.astro';
+import { publications } from '../../../data/publications.js';
+const project = publications.find(p => p.title === "Functional Inclusion Bodies");
+---
+<ResearchLayout
+  title={project.title}
+  description={project.description}
+  lang="ca"
+  project={project}
+/>

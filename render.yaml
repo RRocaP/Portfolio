@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rrocap-portfolio
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable

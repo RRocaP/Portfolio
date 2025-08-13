@@ -1,0 +1,111 @@
+name: Portfolio Orchestration Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  pages: write
+  id-token: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci
+      - name: Copilot Code Analysis
+        uses: github/copilot-code-review@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+
+  build-and-test:
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install
+        run: npm ci
+      - name: Validate Copilot Instructions
+        run: npm run copilot:validate
+      - name: Codegen
+        run: |
+          npm run codegen:sdk
+          npm run codegen:graphql
+          npm run codegen:tests
+      - name: Type Check
+        run: npm run test:types
+      - name: Run Unit Tests
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Build WASM (optional)
+        run: npm run build:wasm || true
+      - name: Generate Video Manifest
+        run: npm run video:manifest || true
+      - name: Lighthouse (report only)
+        run: npm run lighthouse || true
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  optimize:
+    needs: deploy
+    # Conditional deploy only if secrets are configured (GitHub will ignore if not set)
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install
+        run: npm ci
+      - name: Build (Cloudflare)
+        run: npm run build
+  # Uncomment and configure secrets in repository settings to enable Cloudflare deploy
+  # - name: Deploy Cloudflare Pages (skips if secrets not set)
+  #   uses: cloudflare/pages-action@v1
+  #   with:
+  #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  #     projectName: rrocap-portfolio
+  #     directory: dist
+  #     gitHubToken: ${{ secrets.GITHUB_TOKEN }}
