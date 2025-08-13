@@ -121,12 +121,17 @@ import { metrics } from '../../data/metrics.ts';
         </div>
       </div>
       
-      <div class="about-text animate-fade-in-up">
-        <p class="lead">Biotechnologist and biomedical engineer focused on protein and vector engineering for antimicrobial and translational applications.</p>
-
-        <p>I develop and characterize recombinant proteins and viral vectors, combining computational design with wet‑lab validation. Current work spans antimicrobial protein scaffolds, inclusion bodies as functional biomaterials, and AAV vector development.</p>
-
-        <p>Publications and affiliations shown here reflect my verified records on ORCID (0000‑0002‑7393‑6200) and Google Scholar.</p>
+      <div class="about-text-container">
+        <div class="about-text-split">
+          <div class="about-left animate-fade-in-left">
+            <p class="lead typewriter" data-text="I'm a biotechnologist who believes proteins can solve our biggest medical challenges.">I'm a biotechnologist who believes proteins can solve our biggest medical challenges.</p>
+          </div>
+          <div class="about-right animate-fade-in-right">
+            <p class="about-detail">My days are split between <span class="highlight">algorithms</span> and <span class="highlight">petri dishes</span>. I design antimicrobial proteins computationally, then validate them in the lab.</p>
+            <p class="about-detail">Currently engineering: protein scaffolds that fight drug-resistant bacteria, inclusion bodies as smart biomaterials, and AAV vectors for gene delivery.</p>
+            <p class="about-meta">ORCID: 0000‑0002‑7393‑6200 • {metrics.citations} citations</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -261,6 +266,124 @@ import { metrics } from '../../data/metrics.ts';
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+  
+  /* About Text Styling */
+  .about-text-container {
+    margin-top: 3rem;
+  }
+  
+  .about-text-split {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  
+  .about-left {
+    position: sticky;
+    top: 100px;
+  }
+  
+  .about-left .lead {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+  }
+  
+  .typewriter {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .typewriter::after {
+    content: '|';
+    position: absolute;
+    right: -2px;
+    color: var(--accent-red);
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  .about-right {
+    padding-top: 0.5rem;
+  }
+  
+  .about-detail {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+  }
+  
+  .about-detail .highlight {
+    color: var(--primary);
+    font-weight: 500;
+    position: relative;
+    padding: 0 2px;
+  }
+  
+  .about-meta {
+    font-size: 0.9rem;
+    color: var(--tertiary);
+    opacity: 0.6;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  @keyframes fade-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fade-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-fade-in-left {
+    animation: fade-in-left 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .animate-fade-in-right {
+    animation: fade-in-right 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .about-text-split {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .about-left {
+      position: static;
+    }
+    
+    .about-left .lead {
+      font-size: 1.2rem;
     }
   }
 
@@ -925,3 +1048,36 @@ import { metrics } from '../../data/metrics.ts';
     }
   }
 </style>
+
+<script>
+  // Typewriter effect
+  document.addEventListener('DOMContentLoaded', () => {
+    const typewriter = document.querySelector('.typewriter');
+    if (typewriter) {
+      const text = typewriter.getAttribute('data-text') || typewriter.textContent;
+      typewriter.textContent = '';
+      typewriter.style.minHeight = '2em';
+      
+      let index = 0;
+      const type = () => {
+        if (index < text.length) {
+          typewriter.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, 40);
+        }
+      };
+      
+      // Start typing when element is in view
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setTimeout(type, 500);
+            observer.disconnect();
+          }
+        });
+      });
+      
+      observer.observe(typewriter);
+    }
+  });
+</script>
