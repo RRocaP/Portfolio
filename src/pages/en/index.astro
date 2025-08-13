@@ -15,7 +15,9 @@ import FAQAccordion from '../../components/FAQAccordion.astro';
 import CallToAction from '../../components/CallToAction.astro';
 import ProcessFlow from '../../components/ProcessFlow.astro';
 import ValidationMetrics from '../../components/ValidationMetrics.astro';
-import ImpactSection from '../../components/ImpactSection.astro';
+import NarrativeBlock from '../../components/NarrativeBlock.astro';
+import ImpactStrip from '../../components/ImpactStrip.astro';
+import Timeline from '../../components/Timeline.astro';
 ---
 
 <Layout
@@ -48,13 +50,15 @@ import ImpactSection from '../../components/ImpactSection.astro';
     </div>
   </section>
 
-  <!-- Problem → Approach → Impact Section -->
-  <ImpactSection lang="en" />
+  <!-- Narrative & Impact -->
+  <NarrativeBlock lang="en" />
+  <ImpactStrip />
 
   <!-- About Section with Timeline Roadmap -->
   <section id="about" class="section about-section">
     <div class="container">
       <h2 class="section-title animate-fade-in-up">My Journey</h2>
+      <Timeline lang="en" />
       
       <div class="about-text-container">
         <div class="about-text-split">
