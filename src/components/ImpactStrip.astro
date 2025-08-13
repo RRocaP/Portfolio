@@ -1,6 +1,8 @@
 ---
 import { metrics } from '../data/metrics';
 import { metricsHistory } from '../data/metricsHistory';
+import { impactLabels } from '../data/i18n';
+const { lang='en' } = Astro.props as { lang?: 'en'|'es'|'ca' };
 const latestCitations = metrics.citations || metricsHistory.citationsByYear.at(-1)?.citations || 0;
 ---
 <section class="impact-strip" aria-label="Results Snapshot">
@@ -8,19 +10,19 @@ const latestCitations = metrics.citations || metricsHistory.citationsByYear.at(-
     <ul class="impact-list">
       <li>
         <span class="value">{metrics.publications}</span>
-        <span class="label">Peer‑reviewed papers</span>
+        <span class="label">{impactLabels.publications[lang]}</span>
       </li>
       <li>
         <span class="value">{latestCitations > 0 ? latestCitations : '—'}</span>
-        <span class="label">Citations</span>
+        <span class="label">{impactLabels.citations[lang]}</span>
       </li>
       <li>
         <span class="value">2–4x</span>
-        <span class="label">Faster design–test loops</span>
+        <span class="label">{impactLabels.speed[lang]}</span>
       </li>
       <li>
         <span class="value">>70%</span>
-        <span class="label">Assay hit‑rate (bench)</span>
+        <span class="label">{impactLabels.hitRate[lang]}</span>
       </li>
     </ul>
     <figure class="mini-chart">

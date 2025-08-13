@@ -100,3 +100,18 @@ export const timelineData: Record<Lang, Array<{ year: string; title: string; lin
     { year: 'Ara', title: 'Resistència Fàrmacs', line: 'Antimicrobians', detail: 'Bucle computacional + experimental' }
   ]
 };
+
+// Timeline profile tagline
+export const timelineTagline: Record<Lang,string> = {
+  en: 'Computational → Experimental loop',
+  es: 'Bucle computacional → experimental',
+  ca: 'Bucle computacional → experimental'
+};
+
+// Impact strip metric labels
+export const impactLabels = {
+  publications: { en: 'Peer‑reviewed papers', es: 'Artículos revisados', ca: 'Articles revisats' },
+  citations: { en: 'Citations', es: 'Citas', ca: 'Cites' },
+  speed: { en: 'Faster design–test loops', es: 'Ciclos diseño‑prueba más rápidos', ca: 'Cicles disseny‑prova més ràpids' },
+  hitRate: { en: 'Assay hit‑rate (bench)', es: 'Tasa de acierto en ensayos', ca: 'Taxa d\'encert en assaigs' }
+} as const;
