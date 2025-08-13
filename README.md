@@ -14,3 +14,20 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+## Working with this repository
+
+1. After committing your changes locally, add your GitHub repository as the remote (replace `<user>` with your GitHub username):
+
+   ```bash
+   git remote add origin https://github.com/<user>/Portfolio.git
+   ```
+
+2. Push your commits to the `work` branch:
+
+   ```bash
+   git push -u origin work
+   ```
+
+3. Open a pull request on GitHub to merge the `work` branch into `main`.
+
