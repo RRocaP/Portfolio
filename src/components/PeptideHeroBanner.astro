@@ -1,258 +1,151 @@
 ---
-// Wide banner pencil illustration of protein secondary structures
+// Clean scientific protein structure visualization
 ---
 
 <div class="peptide-hero-banner">
   <svg 
-    viewBox="0 0 3840 1600" 
+    viewBox="0 0 1920 400" 
     class="peptide-illustration"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
     <defs>
-      <!-- Paper texture filter -->
-      <filter id="paperTexture">
-        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" seed="1"/>
-        <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="1">
-          <feDistantLight azimuth="45" elevation="60"/>
-        </feDiffuseLighting>
-        <feComposite operator="multiply" in2="SourceGraphic"/>
-      </filter>
+      <!-- Gradient for ribbon depth -->
+      <linearGradient id="helixGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#EF4444;stop-opacity:0.3" />
+        <stop offset="50%" style="stop-color:#DC2626;stop-opacity:0.5" />
+        <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:0.3" />
+      </linearGradient>
       
-      <!-- Graphite/charcoal texture -->
-      <filter id="pencilStroke">
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="1" result="turbulence" seed="5"/>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2"/>
-        <feGaussianBlur stdDeviation="0.5"/>
-        <feComponentTransfer>
-          <feFuncA type="discrete" tableValues="0 1 1 1"/>
-        </feComponentTransfer>
-      </filter>
+      <linearGradient id="sheetGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#94A3B8;stop-opacity:0.3" />
+        <stop offset="50%" style="stop-color:#64748B;stop-opacity:0.5" />
+        <stop offset="100%" style="stop-color:#475569;stop-opacity:0.3" />
+      </linearGradient>
       
-      <!-- Cross-hatching pattern -->
-      <pattern id="crossHatch" patternUnits="userSpaceOnUse" width="4" height="4">
-        <path d="M0,4 l4,-4 M0,0 l4,4" stroke="#E8E8E8" stroke-width="0.25" opacity="0.3"/>
-      </pattern>
+      <!-- Subtle glow -->
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
     </defs>
     
-    <!-- Dark paper background with grain -->
-    <rect width="3840" height="1600" fill="#1A1A1A"/>
-    <rect width="3840" height="1600" fill="url(#crossHatch)" opacity="0.05"/>
+    <!-- Alpha helix ribbon (left to center) -->
+    <g id="alphaHelix" opacity="0.6">
+      <path d="
+        M 100,200
+        C 150,150 200,250 250,200
+        S 350,150 400,200
+        S 500,250 550,200
+        S 650,150 700,200
+        S 800,250 850,200
+        S 950,150 1000,200
+      " 
+      stroke="url(#helixGradient)" 
+      stroke-width="40" 
+      fill="none" 
+      stroke-linecap="round"
+      filter="url(#glow)"
+      />
+      
+      <!-- Helix backbone line -->
+      <path d="
+        M 100,200
+        C 150,150 200,250 250,200
+        S 350,150 400,200
+        S 500,250 550,200
+        S 650,150 700,200
+        S 800,250 850,200
+        S 950,150 1000,200
+      " 
+      stroke="#FFFFFF" 
+      stroke-width="2" 
+      fill="none" 
+      opacity="0.4"
+      stroke-dasharray="5,5"
+      />
+    </g>
     
-    <!-- Main protein structure path -->
-    <g filter="url(#pencilStroke)">
-      <!-- Alpha helix section (left side) -->
-      <g id="alphaHelix" transform="translate(800, 800)">
-        <!-- Helix backbone -->
-        <path d="
-          M 0,0
-          Q 50,-30 100,-40
-          T 200,-30
-          Q 250,-10 300,20
-          T 400,40
-          Q 450,50 500,40
-          T 600,20
-          Q 650,0 700,-20
-          T 800,-40
-          Q 850,-50 900,-40
-          T 1000,-20
-          Q 1050,0 1100,20
-        " 
-        stroke="#E8E8E8" 
-        stroke-width="8" 
-        fill="none" 
-        opacity="0.7"
-        stroke-linecap="round"
-        />
+    <!-- Transition curve -->
+    <g opacity="0.5">
+      <path d="
+        M 1000,200
+        Q 1100,200 1150,200
+      "
+      stroke="#94A3B8"
+      stroke-width="30"
+      fill="none"
+      stroke-linecap="round"
+      opacity="0.4"
+      />
+    </g>
+    
+    <!-- Beta sheet ribbons (right side) -->
+    <g id="betaSheet" opacity="0.6">
+      <!-- First strand -->
+      <rect x="1200" y="120" width="500" height="25" fill="url(#sheetGradient)" rx="3"/>
+      <rect x="1200" y="120" width="500" height="1" fill="#FFFFFF" opacity="0.3"/>
+      
+      <!-- Second strand -->
+      <rect x="1200" y="180" width="500" height="25" fill="url(#sheetGradient)" rx="3"/>
+      <rect x="1200" y="180" width="500" height="1" fill="#FFFFFF" opacity="0.3"/>
+      
+      <!-- Third strand -->
+      <rect x="1200" y="240" width="500" height="25" fill="url(#sheetGradient)" rx="3"/>
+      <rect x="1200" y="240" width="500" height="1" fill="#FFFFFF" opacity="0.3"/>
+      
+      <!-- Hydrogen bonds -->
+      <g opacity="0.3">
+        <line x1="1250" y1="145" x2="1250" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1300" y1="145" x2="1300" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1350" y1="145" x2="1350" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1400" y1="145" x2="1400" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1450" y1="145" x2="1450" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1500" y1="145" x2="1500" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1550" y1="145" x2="1550" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1600" y1="145" x2="1600" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1650" y1="145" x2="1650" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
         
-        <!-- Cross-hatching for depth -->
-        <g opacity="0.4">
-          <path d="M 100,-35 L 105,-25" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 110,-33 L 115,-23" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 120,-31 L 125,-21" stroke="#E8E8E8" stroke-width="2"/>
-          
-          <path d="M 300,15 L 305,25" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 310,17 L 315,27" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 320,19 L 325,29" stroke="#E8E8E8" stroke-width="2"/>
-          
-          <path d="M 500,35 L 505,45" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 510,37 L 515,47" stroke="#E8E8E8" stroke-width="2"/>
-          
-          <path d="M 700,-15 L 705,-5" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 710,-13 L 715,-3" stroke="#E8E8E8" stroke-width="2"/>
-          
-          <path d="M 900,-35 L 905,-25" stroke="#E8E8E8" stroke-width="2"/>
-          <path d="M 910,-33 L 915,-23" stroke="#E8E8E8" stroke-width="2"/>
-        </g>
-        
-        <!-- Helix turns (3.6 residues per turn) -->
-        <g opacity="0.5">
-          <ellipse cx="100" cy="-35" rx="15" ry="8" fill="none" stroke="#E8E8E8" stroke-width="3"/>
-          <ellipse cx="300" cy="15" rx="15" ry="8" fill="none" stroke="#E8E8E8" stroke-width="3"/>
-          <ellipse cx="500" cy="35" rx="15" ry="8" fill="none" stroke="#E8E8E8" stroke-width="3"/>
-          <ellipse cx="700" cy="-15" rx="15" ry="8" fill="none" stroke="#E8E8E8" stroke-width="3"/>
-          <ellipse cx="900" cy="-35" rx="15" ry="8" fill="none" stroke="#E8E8E8" stroke-width="3"/>
-        </g>
+        <line x1="1250" y1="205" x2="1250" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1300" y1="205" x2="1300" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1350" y1="205" x2="1350" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1400" y1="205" x2="1400" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1450" y1="205" x2="1450" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1500" y1="205" x2="1500" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1550" y1="205" x2="1550" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1600" y1="205" x2="1600" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="1650" y1="205" x2="1650" y2="240" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2,2"/>
       </g>
       
-      <!-- Transition region -->
-      <g transform="translate(1900, 800)">
-        <path d="
-          M 0,20
-          C 50,30 100,40 150,30
-          S 250,0 300,-20
-        "
-        stroke="#E8E8E8"
-        stroke-width="6"
-        fill="none"
-        opacity="0.6"
-        stroke-linecap="round"
-        />
-      </g>
-      
-      <!-- Beta sheet section (right side) -->
-      <g id="betaSheet" transform="translate(2200, 800)">
-        <!-- First strand -->
-        <path d="
-          M 0,-100
-          L 50,-95
-          L 100,-92
-          L 150,-90
-          L 200,-88
-          L 250,-87
-          L 300,-86
-          L 350,-85
-          L 400,-84
-        "
-        stroke="#E8E8E8"
-        stroke-width="7"
-        fill="none"
-        opacity="0.7"
-        />
-        
-        <!-- Hairpin turn -->
-        <path d="
-          M 400,-84
-          Q 420,-84 430,-70
-          T 440,-40
-          Q 440,-20 430,-10
-          T 400,-5
-        "
-        stroke="#E8E8E8"
-        stroke-width="6"
-        fill="none"
-        opacity="0.6"
-        stroke-linecap="round"
-        />
-        
-        <!-- Second strand (antiparallel) -->
-        <path d="
-          M 400,-5
-          L 350,-7
-          L 300,-9
-          L 250,-11
-          L 200,-13
-          L 150,-15
-          L 100,-17
-          L 50,-19
-          L 0,-20
-        "
-        stroke="#E8E8E8"
-        stroke-width="7"
-        fill="none"
-        opacity="0.7"
-        />
-        
-        <!-- Third strand -->
-        <path d="
-          M 0,60
-          L 50,62
-          L 100,64
-          L 150,65
-          L 200,66
-          L 250,67
-          L 300,68
-          L 350,69
-          L 400,70
-        "
-        stroke="#E8E8E8"
-        stroke-width="7"
-        fill="none"
-        opacity="0.7"
-        />
-        
-        <!-- Second hairpin -->
-        <path d="
-          M 400,70
-          Q 420,70 430,85
-          T 440,115
-          Q 440,135 430,145
-          T 400,150
-        "
-        stroke="#E8E8E8"
-        stroke-width="6"
-        fill="none"
-        opacity="0.6"
-        stroke-linecap="round"
-        />
-        
-        <!-- Fourth strand (antiparallel) -->
-        <path d="
-          M 400,150
-          L 350,148
-          L 300,146
-          L 250,144
-          L 200,142
-          L 150,140
-          L 100,138
-          L 50,136
-          L 0,135
-        "
-        stroke="#E8E8E8"
-        stroke-width="7"
-        fill="none"
-        opacity="0.7"
-        />
-        
-        <!-- Hydrogen bonds between strands -->
-        <g opacity="0.3">
-          <line x1="50" y1="-95" x2="50" y2="-19" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="100" y1="-92" x2="100" y2="-17" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="150" y1="-90" x2="150" y2="-15" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="200" y1="-88" x2="200" y2="-13" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="250" y1="-87" x2="250" y2="-11" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="300" y1="-86" x2="300" y2="-9" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="350" y1="-85" x2="350" y2="-7" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          
-          <line x1="50" y1="62" x2="50" y2="136" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="100" y1="64" x2="100" y2="138" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="150" y1="65" x2="150" y2="140" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="200" y1="66" x2="200" y2="142" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="250" y1="67" x2="250" y2="144" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="300" y1="68" x2="300" y2="146" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-          <line x1="350" y1="69" x2="350" y2="148" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="3,3"/>
-        </g>
-        
-        <!-- Cross-hatching for beta sheet -->
-        <g opacity="0.2">
-          <path d="M 0,-100 L 10,-80" stroke="#E8E8E8" stroke-width="1"/>
-          <path d="M 20,-98 L 30,-78" stroke="#E8E8E8" stroke-width="1"/>
-          <path d="M 40,-96 L 50,-76" stroke="#E8E8E8" stroke-width="1"/>
-          
-          <path d="M 100,60 L 110,80" stroke="#E8E8E8" stroke-width="1"/>
-          <path d="M 120,62 L 130,82" stroke="#E8E8E8" stroke-width="1"/>
-          <path d="M 140,64 L 150,84" stroke="#E8E8E8" stroke-width="1"/>
-        </g>
-      </g>
-      
-      <!-- Additional texture strokes -->
-      <g opacity="0.15">
-        <path d="M 500,750 Q 1500,850 2500,750" stroke="#E8E8E8" stroke-width="2" fill="none"/>
-        <path d="M 600,850 Q 1600,750 2600,850" stroke="#E8E8E8" stroke-width="2" fill="none"/>
+      <!-- Arrow indicators showing antiparallel -->
+      <g opacity="0.5">
+        <path d="M 1180,132 L 1200,132 L 1195,127 M 1200,132 L 1195,137" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+        <path d="M 1720,192 L 1700,192 L 1705,187 M 1700,192 L 1705,197" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+        <path d="M 1180,252 L 1200,252 L 1195,247 M 1200,252 L 1195,257" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
       </g>
     </g>
     
-    <!-- Negative space for headline at left is naturally created by starting structures at x=800 -->
+    <!-- Floating particles for depth -->
+    <g opacity="0.2">
+      <circle cx="300" cy="100" r="2" fill="#EF4444">
+        <animate attributeName="cy" values="100;120;100" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="500" cy="300" r="2" fill="#EF4444">
+        <animate attributeName="cy" values="300;280;300" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="800" cy="150" r="2" fill="#EF4444">
+        <animate attributeName="cy" values="150;170;150" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1400" cy="100" r="2" fill="#94A3B8">
+        <animate attributeName="cy" values="100;120;100" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1600" cy="300" r="2" fill="#94A3B8">
+        <animate attributeName="cy" values="300;280;300" dur="5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
   </svg>
 </div>
 
@@ -267,5 +160,16 @@
     width: 100%;
     height: auto;
     display: block;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .peptide-illustration circle {
+      animation: none;
+    }
   }
 </style>
