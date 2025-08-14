@@ -19,3 +19,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Script files
+stream_onedrive_archive.sh
+verify_transferred_files.sh
