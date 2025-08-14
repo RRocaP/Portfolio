@@ -1,0 +1,430 @@
+---
+export interface Props {
+  name: string;
+  profession: string;
+  tagline: string;
+}
+
+const { name, profession, tagline } = Astro.props;
+---
+
+<section class="hero-premium">
+  <div class="hero-background">
+    <div class="gradient-orb gradient-orb-1"></div>
+    <div class="gradient-orb gradient-orb-2"></div>
+    <canvas id="protein-canvas" class="protein-canvas"></canvas>
+  </div>
+  
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-name">
+        <span class="name-first">Ramon</span>
+        <span class="name-last">Roca Pinilla</span>
+      </h1>
+      <div class="hero-profession">
+        <span class="profession-item">Biomedical Engineer</span>
+        <span class="profession-divider">·</span>
+        <span class="profession-item">Molecular Biologist</span>
+      </div>
+      <p class="hero-tagline">{tagline}</p>
+      <div class="hero-actions">
+        <a href="#research" class="btn-premium btn-primary">
+          <span>Explore Research</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#contact" class="btn-premium btn-secondary">
+          <span>Get in Touch</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="hero-metrics">
+      <div class="metric-card">
+        <div class="metric-value">15+</div>
+        <div class="metric-label">Publications</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">3</div>
+        <div class="metric-label">Active Projects</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">100+</div>
+        <div class="metric-label">Citations</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="scroll-indicator">
+    <div class="scroll-text">Scroll to explore</div>
+    <div class="scroll-arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-premium {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0A0A0A;
+  }
+  
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    animation: float 20s ease-in-out infinite;
+  }
+  
+  .gradient-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.8) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+  }
+  
+  .gradient-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 217, 61, 0.3) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    animation-delay: -10s;
+  }
+  
+  .protein-canvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+  
+  .hero-text {
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .hero-name {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    color: #FFFFFF;
+  }
+  
+  .name-first {
+    display: block;
+    font-weight: 300;
+  }
+  
+  .name-last {
+    display: block;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFFFFF 0%, #DC2626 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-profession {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.125rem;
+    color: #A3A3A3;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-out 0.2s both;
+  }
+  
+  .profession-divider {
+    color: #DC2626;
+  }
+  
+  .hero-tagline {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #D4D4D4;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    animation: fadeInUp 1s ease-out 0.4s both;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+  
+  .btn-premium {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary {
+    background: #DC2626;
+    color: #FFFFFF;
+    border: 1px solid #DC2626;
+  }
+  
+  .btn-primary:hover {
+    background: #EF4444;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    animation: fadeInUp 1s ease-out 0.8s both;
+  }
+  
+  .metric-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .metric-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(220, 38, 38, 0.3);
+    transform: translateY(-5px);
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: #A3A3A3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  
+  .scroll-text {
+    font-size: 0.875rem;
+    color: #A3A3A3;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .scroll-arrow {
+    color: #DC2626;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.05);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.95);
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-content {
+      gap: 2rem;
+    }
+    
+    .hero-metrics {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    
+    .btn-premium {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Simple protein visualization
+  const canvas = document.getElementById('protein-canvas') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const particles: any[] = [];
+      const particleCount = 50;
+      
+      class Particle {
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        radius: number;
+        opacity: number;
+        
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.radius = Math.random() * 2 + 1;
+          this.opacity = Math.random() * 0.5 + 0.1;
+        }
+        
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        
+        draw() {
+          if (ctx) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(220, 38, 38, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+      }
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      
+      function animate() {
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw connections
+          particles.forEach((p1, i) => {
+            particles.slice(i + 1).forEach(p2 => {
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              if (distance < 150) {
+                const opacity = (1 - distance / 150) * 0.2;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(220, 38, 38, ${opacity})`;
+                ctx.stroke();
+              }
+            });
+            
+            p1.update();
+            p1.draw();
+          });
+          
+          requestAnimationFrame(animate);
+        }
+      }
+      
+      animate();
+      
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+  }
+</script>

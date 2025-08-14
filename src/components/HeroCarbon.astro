@@ -1,0 +1,261 @@
+---
+interface Props {
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  en: {
+    greeting: "Hi, I'm",
+    name: 'Ramon Roca Pinilla',
+    title: 'Biomedical Engineer',
+    subtitle: 'Molecular Biologist',
+    tagline: 'Design → Fold → Bind',
+    description: 'Engineering antimicrobial peptides through computational design and experimental validation',
+    ctaPrimary: 'View Research',
+    ctaSecondary: 'Publications'
+  },
+  es: {
+    greeting: 'Hola, soy',
+    name: 'Ramon Roca Pinilla',
+    title: 'Ingeniero Biomédico',
+    subtitle: 'Biólogo Molecular',
+    tagline: 'Diseñar → Plegar → Unir',
+    description: 'Ingeniería de péptidos antimicrobianos mediante diseño computacional y validación experimental',
+    ctaPrimary: 'Ver investigación',
+    ctaSecondary: 'Publicaciones'
+  },
+  ca: {
+    greeting: 'Hola, sóc',
+    name: 'Ramon Roca Pinilla',
+    title: 'Enginyer Biomèdic',
+    subtitle: 'Biòleg Molecular',
+    tagline: 'Dissenyar → Plegar → Unir',
+    description: 'Enginyeria de pèptids antimicrobians mitjançant disseny computacional i validació experimental',
+    ctaPrimary: 'Veure recerca',
+    ctaSecondary: 'Publicacions'
+  }
+}[lang];
+---
+
+<section id="home" class="hero-carbon relative min-h-screen flex items-center justify-center overflow-hidden bg-neutral-50">
+  <!-- Carbon texture background -->
+  <div class="absolute inset-0 opacity-[0.03]" aria-hidden="true">
+    <svg class="w-full h-full">
+      <filter id="carbon">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" />
+        <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#carbon)" />
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-6 lg:px-8 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Text Content -->
+      <div class="text-center lg:text-left space-y-6">
+        <p class="text-sm font-medium tracking-wider text-neutral-500 animate-fade-in">
+          {dict.greeting}
+        </p>
+        
+        <h1 class="text-5xl lg:text-6xl font-light text-neutral-900 animate-fade-in animation-delay-100">
+          <span class="block">{dict.name.split(' ')[0]}</span>
+          <span class="block font-normal">{dict.name.split(' ').slice(1).join(' ')}</span>
+        </h1>
+        
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-lg text-neutral-600 animate-fade-in animation-delay-200">
+          <span>{dict.title}</span>
+          <span class="text-neutral-400">·</span>
+          <span>{dict.subtitle}</span>
+        </div>
+        
+        <div class="pt-4 animate-fade-in animation-delay-300">
+          <p class="text-2xl font-light text-neutral-800 mb-3 tracking-wide">
+            {dict.tagline}
+          </p>
+          <p class="text-base text-neutral-600 max-w-lg mx-auto lg:mx-0">
+            {dict.description}
+          </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4 animate-fade-in animation-delay-400">
+          <a href="#research" class="px-8 py-3 bg-neutral-900 text-white font-medium rounded-sm hover:bg-neutral-800 transition-colors">
+            {dict.ctaPrimary}
+          </a>
+          <a href="#publications" class="px-8 py-3 border-2 border-neutral-900 text-neutral-900 font-medium rounded-sm hover:bg-neutral-900 hover:text-white transition-colors">
+            {dict.ctaSecondary}
+          </a>
+        </div>
+      </div>
+      
+      <!-- Peptide Helix Visualization -->
+      <div class="relative h-[500px] lg:h-[600px]">
+        <canvas id="peptide-helix" class="w-full h-full"></canvas>
+        <div class="absolute bottom-4 right-4 text-xs text-neutral-400 font-mono">
+          α-helix • 3.6 residues/turn
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .animation-delay-100 { animation-delay: 0.1s; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-300 { animation-delay: 0.3s; }
+  .animation-delay-400 { animation-delay: 0.4s; }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  import * as THREE from 'three';
+  
+  function initPeptideHelix() {
+    const canvas = document.getElementById('peptide-helix') as HTMLCanvasElement;
+    if (!canvas) return;
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      canvas.clientWidth / canvas.clientHeight,
+      0.1,
+      1000
+    );
+    
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+    
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Carbon painting style: black and white with sketch effect
+    renderer.setClearColor(0x000000, 0);
+    
+    // Create helix geometry
+    const helixCurve = new THREE.CatmullRomCurve3([]);
+    const turns = 3;
+    const pointsPerTurn = 20;
+    const radius = 2;
+    const height = 8;
+    
+    for (let i = 0; i <= turns * pointsPerTurn; i++) {
+      const angle = (i / pointsPerTurn) * Math.PI * 2;
+      const y = (i / (turns * pointsPerTurn)) * height - height / 2;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+      helixCurve.points.push(new THREE.Vector3(x, y, z));
+    }
+    
+    // Main helix backbone - charcoal sketch style
+    const helixGeometry = new THREE.TubeGeometry(helixCurve, 100, 0.15, 8, false);
+    const helixMaterial = new THREE.MeshBasicMaterial({
+      color: 0x1a1a1a,
+      wireframe: false
+    });
+    const helix = new THREE.Mesh(helixGeometry, helixMaterial);
+    scene.add(helix);
+    
+    // Add peptide bonds as small spheres
+    const bondGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const bondMaterial = new THREE.MeshBasicMaterial({
+      color: 0x404040,
+      wireframe: true,
+      wireframeLinewidth: 1
+    });
+    
+    for (let i = 0; i < turns * 4; i++) {
+      const bond = new THREE.Mesh(bondGeometry, bondMaterial);
+      const t = i / (turns * 4);
+      const point = helixCurve.getPoint(t);
+      bond.position.copy(point);
+      scene.add(bond);
+    }
+    
+    // Add sketch lines for artistic effect
+    const sketchMaterial = new THREE.LineBasicMaterial({
+      color: 0x666666,
+      transparent: true,
+      opacity: 0.3
+    });
+    
+    for (let j = 0; j < 5; j++) {
+      const sketchPoints = [];
+      for (let i = 0; i <= turns * pointsPerTurn; i += 5) {
+        const angle = (i / pointsPerTurn) * Math.PI * 2 + j * 0.1;
+        const y = (i / (turns * pointsPerTurn)) * height - height / 2;
+        const r = radius + Math.random() * 0.5 - 0.25;
+        const x = Math.cos(angle) * r;
+        const z = Math.sin(angle) * r;
+        sketchPoints.push(new THREE.Vector3(x, y, z));
+      }
+      const sketchGeometry = new THREE.BufferGeometry().setFromPoints(sketchPoints);
+      const sketchLine = new THREE.Line(sketchGeometry, sketchMaterial);
+      scene.add(sketchLine);
+    }
+    
+    // Position camera
+    camera.position.set(10, 5, 10);
+    camera.lookAt(0, 0, 0);
+    
+    // Animation
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Slow rotation
+      helix.rotation.y = Math.sin(time * 0.5) * 0.2;
+      helix.rotation.x = Math.cos(time * 0.3) * 0.1;
+      
+      time += 0.01;
+      renderer.render(scene, camera);
+    }
+    
+    // Handle resize
+    function handleResize() {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      
+      renderer.setSize(width, height);
+    }
+    
+    window.addEventListener('resize', handleResize);
+    
+    animate();
+  }
+  
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPeptideHelix);
+  } else {
+    initPeptideHelix();
+  }
+</script>

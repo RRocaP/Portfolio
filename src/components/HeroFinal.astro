@@ -1,0 +1,377 @@
+---
+export interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla',
+    role1: 'Biomedical Engineer',
+    role2: 'Molecular Biologist',
+    tagline: 'Engineering next-generation antimicrobial proteins through computational design and experimental validation',
+    cta1: 'View Research',
+    cta2: 'Publications',
+    scroll: 'Scroll to explore'
+  },
+  es: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla', 
+    role1: 'Ingeniero Biomédico',
+    role2: 'Biólogo Molecular',
+    tagline: 'Desarrollando proteínas antimicrobianas de nueva generación mediante diseño computacional y validación experimental',
+    cta1: 'Ver Investigación',
+    cta2: 'Publicaciones',
+    scroll: 'Desplázate para explorar'
+  },
+  ca: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla',
+    role1: 'Enginyer Biomèdic',
+    role2: 'Biòleg Molecular',
+    tagline: 'Desenvolupant proteïnes antimicrobianes de nova generació mitjançant disseny computacional i validació experimental',
+    cta1: 'Veure Recerca',
+    cta2: 'Publicacions',
+    scroll: 'Desplaça\'t per explorar'
+  }
+};
+
+const t = translations[lang];
+---
+
+<section class="hero-final">
+  <div class="hero-gradient"></div>
+  <div class="hero-pattern"></div>
+  
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="title-first">{t.firstName}</span>
+        <span class="title-last">{t.lastName}</span>
+      </h1>
+      
+      <div class="hero-roles">
+        <span class="role">{t.role1}</span>
+        <span class="role-divider"></span>
+        <span class="role">{t.role2}</span>
+      </div>
+      
+      <p class="hero-tagline">{t.tagline}</p>
+      
+      <div class="hero-actions">
+        <a href="#research" class="btn btn-primary">
+          {t.cta1}
+          <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#publications" class="btn btn-secondary">{t.cta2}</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="scroll-hint">
+    <span>{t.scroll}</span>
+    <div class="scroll-icon">
+      <div class="scroll-dot"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-final {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0A0A0A;
+    overflow: hidden;
+  }
+  
+  /* Subtle gradient background */
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at top right, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+    opacity: 0.6;
+    animation: gradientShift 15s ease-in-out infinite;
+  }
+  
+  /* Subtle dot pattern */
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .hero-content {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  /* Typography with sophisticated styling */
+  .hero-title {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 200;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .title-first {
+    display: block;
+    color: #FFFFFF;
+    opacity: 0.9;
+  }
+  
+  .title-last {
+    display: block;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFFFFF 0%, #DC2626 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 0.2em;
+  }
+  
+  .hero-roles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.1s both;
+  }
+  
+  .role {
+    font-size: 1.125rem;
+    color: #A3A3A3;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+  }
+  
+  .role-divider {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, transparent, #DC2626, transparent);
+  }
+  
+  .hero-tagline {
+    font-size: 1.375rem;
+    line-height: 1.6;
+    color: #D4D4D4;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+  }
+  
+  .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  
+  .btn:hover::before {
+    transform: translateX(100%);
+  }
+  
+  .btn-primary {
+    background: #DC2626;
+    color: #FFFFFF;
+    border: 1px solid #DC2626;
+  }
+  
+  .btn-primary:hover {
+    background: #EF4444;
+    box-shadow: 0 10px 40px rgba(220, 38, 38, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .btn-arrow {
+    transition: transform 0.3s;
+  }
+  
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+  
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    animation: fadeIn 1s ease-out 1s both;
+  }
+  
+  .scroll-hint span {
+    font-size: 0.875rem;
+    color: #737373;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+  }
+  
+  .scroll-icon {
+    width: 24px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    position: relative;
+    animation: scrollBounce 2s ease-in-out infinite;
+  }
+  
+  .scroll-dot {
+    width: 4px;
+    height: 8px;
+    background: #DC2626;
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+  }
+  
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+  
+  @keyframes scrollDot {
+    0%, 100% { 
+      opacity: 0;
+      transform: translateX(-50%) translateY(0);
+    }
+    40% { opacity: 1; }
+    80% { 
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+    
+    .hero-roles {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .role-divider {
+      width: 40px;
+      height: 2px;
+    }
+    
+    .hero-tagline {
+      font-size: 1.125rem;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .hero-gradient,
+    .scroll-icon,
+    .scroll-dot {
+      animation: none;
+    }
+  }
+</style>

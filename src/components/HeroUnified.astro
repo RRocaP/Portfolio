@@ -1,0 +1,316 @@
+---
+interface Props {
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { lang } = Astro.props;
+
+const dict = {
+  en: {
+    name: 'Ramon Roca Pinilla',
+    title: 'Biomedical Engineer',
+    subtitle: 'Molecular Biologist',
+    description: 'Developing next-generation antimicrobial peptides through computational protein design and experimental validation.',
+    ctaPrimary: 'View Research',
+    ctaSecondary: 'Publications'
+  },
+  es: {
+    name: 'Ramon Roca Pinilla',
+    title: 'Ingeniero Biomédico',
+    subtitle: 'Biólogo Molecular',
+    description: 'Desarrollando péptidos antimicrobianos de nueva generación mediante diseño computacional de proteínas y validación experimental.',
+    ctaPrimary: 'Ver Investigación',
+    ctaSecondary: 'Publicaciones'
+  },
+  ca: {
+    name: 'Ramon Roca Pinilla',
+    title: 'Enginyer Biomèdic',
+    subtitle: 'Biòleg Molecular',
+    description: 'Desenvolupant pèptids antimicrobians de nova generació mitjançant disseny computacional de proteïnes i validació experimental.',
+    ctaPrimary: 'Veure Recerca',
+    ctaSecondary: 'Publicacions'
+  }
+}[lang];
+---
+
+<section id="home" class="hero-unified">
+  <!-- Abstract shapes background -->
+  <div class="hero-shapes" aria-hidden="true">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+  
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-name">
+        <span class="name-line">{dict.name}</span>
+      </h1>
+      
+      <div class="hero-titles">
+        <span>{dict.title}</span>
+        <span class="divider"></span>
+        <span>{dict.subtitle}</span>
+      </div>
+      
+      <p class="hero-description">
+        {dict.description}
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#research" class="btn-primary">{dict.ctaPrimary}</a>
+        <a href="#publications" class="btn-secondary">{dict.ctaSecondary}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-unified {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #fafafa;
+    overflow: hidden;
+  }
+  
+  /* Abstract minimalist shapes */
+  .hero-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  
+  .shape {
+    position: absolute;
+    opacity: 0.6;
+  }
+  
+  .shape-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    animation: float-slow 20s ease-in-out infinite;
+  }
+  
+  .shape-2 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+    animation: float-slow 25s ease-in-out infinite reverse;
+  }
+  
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 193, 7, 0.03);
+    transform: rotate(45deg);
+    top: 30%;
+    left: 10%;
+    animation: rotate-slow 30s linear infinite;
+  }
+  
+  .shape-4 {
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(220, 53, 69, 0.1), transparent);
+    top: 60%;
+    right: 20%;
+    animation: slide 15s ease-in-out infinite;
+  }
+  
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-30px, 30px) scale(1.1); }
+  }
+  
+  @keyframes rotate-slow {
+    from { transform: rotate(45deg); }
+    to { transform: rotate(405deg); }
+  }
+  
+  @keyframes slide {
+    0%, 100% { transform: translateX(0); opacity: 0.6; }
+    50% { transform: translateX(50px); opacity: 0.3; }
+  }
+  
+  .hero-container {
+    max-width: 900px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-content {
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .hero-name {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 200;
+    color: #111;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    position: relative;
+  }
+  
+  .name-line {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .name-line::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #dc3545, #ffc107);
+    opacity: 0.6;
+  }
+  
+  .hero-titles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 1.125rem;
+    color: #555;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .divider {
+    width: 4px;
+    height: 4px;
+    background: #0d6efd;
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  
+  .hero-description {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #666;
+    max-width: 680px;
+    margin: 0 auto 2.5rem;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.875rem 2rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary {
+    background: #111;
+    color: white;
+    border-color: #111;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(220, 53, 69, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: #111;
+    border-color: #ddd;
+  }
+  
+  .btn-secondary:hover {
+    border-color: #0d6efd;
+    color: #0d6efd;
+    background: rgba(13, 110, 253, 0.04);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-titles {
+      font-size: 1rem;
+      gap: 1rem;
+    }
+    
+    .divider {
+      display: none;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      max-width: 280px;
+      text-align: center;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .shape {
+      animation: none;
+    }
+    
+    .hero-content {
+      animation: none;
+    }
+    
+    .btn-primary::before {
+      display: none;
+    }
+  }
+</style>
