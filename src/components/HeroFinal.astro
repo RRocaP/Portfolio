@@ -110,26 +110,59 @@ const t = translations[lang];
   /* Peptide helix background */
   .hero-peptide {
     position: absolute;
-    right: 10%;
+    right: 5%;
     top: 50%;
     transform: translateY(-50%);
-    width: 450px;
-    height: 650px;
+    width: 420px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
     pointer-events: none;
     z-index: 1;
-    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+    animation: slideInRight 1s ease-out 0.5s both;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateY(-50%) translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+  
+  @media (max-width: 1400px) {
+    .hero-peptide {
+      right: 2%;
+      width: 380px;
+      height: 550px;
+    }
   }
   
   @media (max-width: 1200px) {
     .hero-peptide {
-      right: 2%;
-      width: 350px;
-      height: 550px;
-      opacity: 0.8;
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      width: 100%;
+      max-width: 400px;
+      height: 500px;
+      margin: 2rem auto;
+      order: 2;
+    }
+    
+    .hero-container {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hero-content {
+      order: 1;
     }
   }
   
