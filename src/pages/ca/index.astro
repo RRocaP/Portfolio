@@ -1,18 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation.astro';
+import NavigationPremium from '../../components/NavigationPremium.astro';
 import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro';
 import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
-import GeometricBackground from '../../components/GeometricBackground.astro';
+import HeroElite from '../../components/HeroElite.astro';
 import { metrics } from '../../data/metrics.ts';
 import FeatureGrid from '../../components/FeatureGrid.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import CallToAction from '../../components/CallToAction.astro';
 import ProcessFlow from '../../components/ProcessFlow.astro';
-import NarrativeBlock from '../../components/NarrativeBlock.astro';
-import ImpactStrip from '../../components/ImpactStrip.astro';
-import Timeline from '../../components/Timeline.astro';
 import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
 ---
 
@@ -21,30 +18,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   description="Enginyer biomèdic i biòleg molecular centrat en l'enginyeria de proteïnes i vectors virals per desenvolupar antimicrobians de nova generació amb suport computacional i validació experimental."
   lang="ca"
 >
-  <Navigation />
+  <NavigationPremium />
   
-  <!-- Hero minimalista -->
-  <section id="home" class="hero">
-    <GeometricBackground red="#DC2626" accent="#EF4444" />
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title animate-fade-in-up">
-          <span class="hero-name-first">Ramon</span>
-          <span class="hero-name-last">Roca Pinilla</span>
-        </h1>
-        <div class="hero-subtitle animate-fade-in-up animate-delay-1">
-          <span>Enginyer Biomèdic</span>
-          <span class="subtitle-divider"></span>
-          <span>Biòleg Molecular</span>
-        </div>
-        <p class="hero-tagline animate-fade-in-up animate-delay-2">Enginyeria de proteïnes per combatre la resistència antimicrobiana mitjançant disseny computacional i validació experimental.</p>
-        <div class="hero-cta animate-fade-in-up animate-delay-3">
-          <a href="#research" class="btn btn-primary">Veure recerca</a>
-          <a href="#publications" class="btn btn-outline">Publicacions</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <HeroElite lang="ca" />
 
   <!-- About Section with Timeline Roadmap -->
   <NarrativeBlock lang="ca" />

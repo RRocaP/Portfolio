@@ -1,0 +1,250 @@
+/* ==========================================================================
+   Performance Optimizations - Elite Portfolio
+   ========================================================================== */
+
+/* Critical Performance Optimizations */
+* {
+  box-sizing: border-box;
+}
+
+/* GPU Acceleration for Animations */
+.animate-fade-in-up,
+.hero-elite,
+.btn-primary,
+.btn-secondary,
+.hero-video {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Optimize Heavy Animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .bg-gradient-primary,
+  .bg-gradient-secondary,
+  .scroll-dot,
+  .float,
+  .slow-drift,
+  .slow-drift-2,
+  .scrollPulse {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .hero-video {
+    transform: translate(-50%, -50%) scale(1.0) !important;
+  }
+}
+
+/* Optimize Video Loading */
+.hero-video {
+  /* Ensure video is hardware accelerated */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize Background Patterns */
+.bg-pattern {
+  /* Use transform3d for better performance */
+  transform: translate3d(0, 0, 0);
+}
+
+/* Content Visibility for Sections */
+.section {
+  content-visibility: auto;
+  contain-intrinsic-size: 400px;
+}
+
+/* Optimize Scrolling Performance */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Progressive Enhancement for Images */
+img {
+  loading: lazy;
+  decoding: async;
+}
+
+/* Optimize Repaints */
+.hero-content,
+.research-badge,
+.stats-overlay {
+  contain: layout style paint;
+}
+
+/* Font Loading Optimization */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-display: swap;
+}
+
+/* Critical CSS Inlining Support */
+.critical-font {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Memory Management for Animations */
+.animation-container {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Efficient Hover States */
+.hover-optimize {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Layout Containment */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-style {
+  contain: style;
+}
+
+/* Intersection Observer Optimization */
+.lazy-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.lazy-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Video Performance */
+.hero-video-container {
+  /* Promote to composite layer */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Efficient Grid Layouts */
+.grid-efficient {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+/* Touch Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .hover\:transform:hover,
+  .hover\:-translate-y-1:hover,
+  .hover\:-translate-y-2:hover {
+    transform: none;
+  }
+}
+
+/* High DPI Display Optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-video {
+    /* Optimize for retina displays */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+}
+
+/* Memory-efficient Shadows */
+.efficient-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Network-aware Loading */
+@media (prefers-reduced-data: reduce) {
+  .hero-video {
+    display: none;
+  }
+  
+  .video-overlay {
+    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);
+  }
+}
+
+/* Battery Optimization */
+@media (prefers-reduced-motion: reduce) {
+  .floating-particles,
+  .bg-gradient-primary,
+  .bg-gradient-secondary {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Critical Resource Hints in CSS */
+.preload-critical {
+  /* This class can be used to identify critical resources */
+  position: relative;
+}
+
+/* Efficient Transforms */
+.transform-gpu {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize Layout Thrashing */
+.no-layout-thrash {
+  transform: translateX(0);
+  will-change: transform;
+}
+
+/* Conditional Loading for Advanced Features */
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Print Optimization */
+@media print {
+  .hero-video,
+  .floating-particles,
+  .bg-gradient-primary,
+  .bg-gradient-secondary {
+    display: none !important;
+  }
+  
+  .hero-elite {
+    min-height: auto !important;
+    background: white !important;
+    color: black !important;
+  }
+}

@@ -1,6 +1,4 @@
 ---
-import PeptideHeroBanner from './PeptideHeroBanner.astro';
-
 export interface Props {
   lang?: 'en' | 'es' | 'ca';
 }
@@ -44,12 +42,13 @@ const t = translations[lang];
 ---
 
 <section id="main" class="hero-final" role="banner" aria-label="Hero section">
-  <div class="hero-bg-image" aria-hidden="true"></div>
+  <div class="hero-bg-video" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="/hero/peptide-animation.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-gradient"></div>
   <div class="hero-pattern"></div>
-  <div class="hero-peptide-banner" aria-hidden="true">
-    <PeptideHeroBanner />
-  </div>
   
   <div class="hero-container">
     <div class="hero-content">
@@ -97,16 +96,28 @@ const t = translations[lang];
     overflow: hidden;
   }
   
-  /* Background image layer */
-  .hero-bg-image {
+  /* Background video layer */
+  .hero-bg-video {
     position: absolute;
     inset: 0;
-    background-image: url('/hero/peptide-hero.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: 0;
+  }
+  
+  .hero-bg-video video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 115%;
+    min-height: 115%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -54%) scale(1.2);
+    opacity: 0.3;
+    filter: brightness(1.1) contrast(1.2) saturate(1.1);
+    object-fit: cover;
   }
   
   /* Subtle gradient background */
@@ -119,24 +130,6 @@ const t = translations[lang];
     opacity: 0.6;
     animation: gradientShift 15s ease-in-out infinite;
     z-index: 1;
-  }
-  
-  /* Peptide banner background */
-  .hero-peptide-banner {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
-  
-  @media (max-width: 768px) {
-    .hero-peptide-banner {
-      opacity: 0.2;
-    }
   }
   
   /* Subtle dot pattern */
@@ -377,6 +370,11 @@ const t = translations[lang];
   
   /* Responsive */
   @media (max-width: 768px) {
+    .hero-bg-video video {
+      opacity: 0.2;
+      transform: translate(-50%, -54%) scale(1.3);
+    }
+    
     .hero-title {
       font-size: clamp(2.5rem, 12vw, 4rem);
     }
