@@ -110,12 +110,27 @@ const t = translations[lang];
   /* Peptide helix background */
   .hero-peptide {
     position: absolute;
-    inset: 0;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 450px;
+    height: 650px;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.8;
+    opacity: 1;
     pointer-events: none;
+    z-index: 1;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+  }
+  
+  @media (max-width: 1200px) {
+    .hero-peptide {
+      right: 2%;
+      width: 350px;
+      height: 550px;
+      opacity: 0.8;
+    }
   }
   
   /* Subtle dot pattern */
@@ -140,6 +155,8 @@ const t = translations[lang];
     text-align: center;
     max-width: 900px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
   
   /* Typography with sophisticated styling */

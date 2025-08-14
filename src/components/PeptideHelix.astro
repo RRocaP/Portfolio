@@ -25,24 +25,24 @@ const { className = '' } = Astro.props;
       <!-- Carbon atom filter for sketchy effect -->
       <filter id="carbonSketch">
         <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="turbulence" seed="2"/>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2" />
-        <feGaussianBlur stdDeviation="0.5"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="3" />
+        <feGaussianBlur stdDeviation="0.3"/>
       </filter>
       
       <!-- Pencil stroke effect -->
       <filter id="pencilTexture">
-        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="turbulence" seed="5"/>
+        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" result="turbulence" seed="5"/>
         <feColorMatrix in="turbulence" type="saturate" values="0"/>
         <feComponentTransfer>
-          <feFuncA type="discrete" tableValues="0 .5 .5 .5 .5 1"/>
+          <feFuncA type="discrete" tableValues="0 .6 .6 .6 .6 1"/>
         </feComponentTransfer>
-        <feGaussianBlur stdDeviation="0.3"/>
+        <feGaussianBlur stdDeviation="0.2"/>
         <feComposite operator="over" in2="SourceGraphic"/>
       </filter>
     </defs>
     
     <!-- Background subtle grid lines like graph paper -->
-    <g class="graph-paper" opacity="0.05">
+    <g class="graph-paper" opacity="0.12">
       {Array.from({length: 40}, (_, i) => (
         <line 
           x1={i * 20} 
@@ -66,7 +66,7 @@ const { className = '' } = Astro.props;
     </g>
     
     <!-- Main helix structure -->
-    <g class="helix-structure" filter="url(#pencilTexture)">
+    <g class="helix-structure" filter="url(#pencilTexture)" stroke="#1a1a1a" fill="#2a2a2a">
       <!-- Backbone trace -->
       <path
         d="M 400,100 
@@ -80,18 +80,18 @@ const { className = '' } = Astro.props;
            C 320,960 400,980 460,1010
            C 520,1040 540,1080 500,1130"
         fill="none"
-        stroke="#2a2a2a"
-        stroke-width="3"
+        stroke="#1a1a1a"
+        stroke-width="5"
         stroke-linecap="round"
-        opacity="0.4"
+        opacity="0.8"
         class="helix-backbone"
       />
       
       <!-- Individual amino acid residues -->
       <!-- Residue 1 -->
       <g class="residue" transform="translate(400, 150)">
-        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/> <!-- Alpha carbon -->
-        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/> <!-- Carbonyl carbon -->
+        <circle cx="0" cy="0" r="10" fill="#1a1a1a" opacity="0.9"/> <!-- Alpha carbon -->
+        <circle cx="-20" cy="-15" r="8" fill="#333" opacity="0.7"/> <!-- Carbonyl carbon -->
         <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/> <!-- Oxygen -->
         <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/> <!-- Nitrogen -->
         <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
@@ -169,7 +169,7 @@ const { className = '' } = Astro.props;
       
       <!-- Hydrogen bonds (dotted lines) -->
       <g class="hydrogen-bonds">
-        <line x1="365" y1="135" x2="415" y2="375" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+        <line x1="365" y1="135" x2="415" y2="375" stroke="#666" stroke-width="2" stroke-dasharray="4,4" opacity="0.5"/>
         <line x1="425" y1="205" x2="375" y2="445" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
         <line x1="445" y1="295" x2="335" y2="525" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
         <line x1="385" y1="375" x2="295" y2="605" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
@@ -209,8 +209,8 @@ const { className = '' } = Astro.props;
     
     <!-- Annotations -->
     <g class="annotations" font-family="'Courier New', monospace" font-size="14" fill="#4a4a4a">
-      <text x="50" y="100" opacity="0.6">α-helix</text>
-      <text x="50" y="120" opacity="0.5" font-size="12">3.6 residues/turn</text>
+      <text x="50" y="100" opacity="0.8" font-size="18" font-weight="bold">α-helix</text>
+      <text x="50" y="125" opacity="0.7" font-size="14">3.6 residues/turn</text>
       <text x="50" y="140" opacity="0.5" font-size="12">5.4 Å pitch</text>
       
       <!-- Arrow showing helical direction -->
@@ -246,10 +246,11 @@ const { className = '' } = Astro.props;
   
   .peptide-helix {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     height: auto;
-    opacity: 0.15;
+    opacity: 0.4;
     animation: floatHelix 20s ease-in-out infinite;
+    filter: contrast(1.4) brightness(0.85);
   }
   
   @keyframes floatHelix {
