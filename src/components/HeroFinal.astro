@@ -44,6 +44,7 @@ const t = translations[lang];
 ---
 
 <section id="main" class="hero-final" role="banner" aria-label="Hero section">
+  <div class="hero-bg-image" aria-hidden="true"></div>
   <div class="hero-gradient"></div>
   <div class="hero-pattern"></div>
   <div class="hero-peptide-banner" aria-hidden="true">
@@ -96,6 +97,18 @@ const t = translations[lang];
     overflow: hidden;
   }
   
+  /* Background image layer */
+  .hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background-image: url('/hero/peptide-hero.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 0;
+  }
+  
   /* Subtle gradient background */
   .hero-gradient {
     position: absolute;
@@ -105,6 +118,7 @@ const t = translations[lang];
       radial-gradient(ellipse at bottom left, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
     opacity: 0.6;
     animation: gradientShift 15s ease-in-out infinite;
+    z-index: 1;
   }
   
   /* Peptide banner background */
@@ -115,7 +129,7 @@ const t = translations[lang];
     height: 100%;
     opacity: 0.4;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
     overflow: hidden;
   }
   
@@ -132,11 +146,12 @@ const t = translations[lang];
     background-image: 
       radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
+    z-index: 2;
   }
   
   .hero-container {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -148,7 +163,7 @@ const t = translations[lang];
     max-width: 900px;
     margin: 0 auto;
     position: relative;
-    z-index: 2;
+    z-index: 10;
   }
   
   /* Typography with sophisticated styling */
