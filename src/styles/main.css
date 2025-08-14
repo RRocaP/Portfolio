@@ -573,6 +573,23 @@
 }
 
 /* ==========================================================================
+   Dashed Journey Divider
+   ========================================================================== */
+.about-section {
+  position: relative;
+}
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  border-bottom: 2px dashed var(--tertiary);
+  opacity: 0.2;
+  transform: translateY(-50%);
+}
+
+/* ==========================================================================
    Publications Section
    ========================================================================== */
 .publications-section {
