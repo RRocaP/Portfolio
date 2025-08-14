@@ -1,0 +1,45 @@
+---
+// Seamless peptide tile pattern background
+---
+
+<div class="peptide-tile-background" aria-hidden="true">
+  <div class="tile-pattern"></div>
+</div>
+
+<style>
+  .peptide-tile-background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .tile-pattern {
+    width: 100%;
+    height: 100%;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='520' height='520' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='tileTexture'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' result='noise' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='noise' scale='1'/%3E%3CfeGaussianBlur stdDeviation='0.3'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='520' height='520' fill='%230A0A0A'/%3E%3Cg filter='url(%23tileTexture)' opacity='0.15'%3E%3Cpath d='M 0,100 Q 50,80 100,90 T 200,100 Q 250,110 300,100 T 400,90 Q 450,80 500,90 L 520,92 M 0,100 L -20,98' stroke='%23E8E8E8' stroke-width='3' fill='none'/%3E%3Cpath d='M 50,200 L 150,205 L 250,210 L 350,215 L 450,220 L 520,223 M 0,197 L 50,200' stroke='%23E8E8E8' stroke-width='2.5' fill='none'/%3E%3Cpath d='M 0,280 L 100,282 L 200,284 L 300,286 L 400,288 L 500,290 L 520,290.5' stroke='%23E8E8E8' stroke-width='2.5' fill='none'/%3E%3Cpath d='M 0,380 Q 60,360 120,370 T 240,380 Q 300,390 360,380 T 480,370 L 520,368 M 0,380 L -40,382' stroke='%23E8E8E8' stroke-width='3' fill='none'/%3E%3Cpath d='M 100,0 Q 110,50 120,100 T 130,200 Q 135,250 140,300 T 145,400 Q 147,460 150,520' stroke='%23E8E8E8' stroke-width='2' fill='none' opacity='0.5'/%3E%3Cpath d='M 320,0 Q 325,60 330,120 T 335,240 Q 337,300 340,360 T 342,480 L 343,520' stroke='%23E8E8E8' stroke-width='2' fill='none' opacity='0.5'/%3E%3Cpath d='M 0,0 L 100,100 M 420,420 L 520,520 M 520,0 L 420,100 M 100,420 L 0,520' stroke='%23E8E8E8' stroke-width='1' opacity='0.3'/%3E%3Cg opacity='0.4'%3E%3Cline x1='150' y1='200' x2='150' y2='280' stroke='%23E8E8E8' stroke-width='0.5' stroke-dasharray='2,2'/%3E%3Cline x1='250' y1='210' x2='250' y2='284' stroke='%23E8E8E8' stroke-width='0.5' stroke-dasharray='2,2'/%3E%3Cline x1='350' y1='215' x2='350' y2='286' stroke='%23E8E8E8' stroke-width='0.5' stroke-dasharray='2,2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 520px 520px;
+    opacity: 0.1;
+    animation: tileShift 60s linear infinite;
+  }
+  
+  @keyframes tileShift {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(520px, 520px);
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .tile-pattern {
+      animation: none;
+    }
+  }
+</style>
