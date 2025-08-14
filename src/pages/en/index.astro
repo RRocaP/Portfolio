@@ -32,9 +32,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   <ProteinDesignShowcase lang="en" />
 
   <!-- About Section with Timeline Roadmap -->
-  <section id="about" class="section about-section">
+  <section id="about" class="section about-section" role="region" aria-labelledby="about-heading">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">My Journey</h2>
+      <h2 id="about-heading" class="section-title animate-fade-in-up">My Journey</h2>
       
       <div class="about-text-container">
         <div class="about-text-split">
@@ -52,9 +52,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   </section>
 
   <!-- Research Section -->
-  <section id="research" class="section research-section">
+  <section id="research" class="section research-section" role="region" aria-labelledby="research-heading">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">Research</h2>
+      <h2 id="research-heading" class="section-title animate-fade-in-up">Research</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="research-intro animate-fade-in-up">
@@ -71,7 +71,7 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
       
       <ValidationMetrics lang="en" />
       
-        <div class="metrics animate-fade-in-up" aria-label="Key metrics">
+        <div class="metrics animate-fade-in-up" role="group" aria-label="Key metrics">
           <div class="metric">
             <span class="metric-value">{metrics.publications}</span>
             <span class="metric-label">Peer‑reviewed papers</span>
@@ -100,9 +100,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   <CallToAction lang="en" />
 
   <!-- Publications Section -->
-  <section id="publications" class="section publications-section">
+  <section id="publications" class="section publications-section" role="region" aria-labelledby="publications-heading">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">Selected Publications</h2>
+      <h2 id="publications-heading" class="section-title animate-fade-in-up">Selected Publications</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="publications-list">
@@ -134,9 +134,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="section contact-section">
+  <section id="contact" class="section contact-section" role="region" aria-labelledby="contact-heading">
     <div class="container">
-      <h2 class="section-title animate-fade-in-up">Let's Connect</h2>
+      <h2 id="contact-heading" class="section-title animate-fade-in-up">Let's Connect</h2>
       <div class="accent-bar animate-fade-in-up"></div>
       
       <div class="contact-content animate-fade-in-up">
