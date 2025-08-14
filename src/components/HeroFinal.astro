@@ -1,4 +1,6 @@
 ---
+import PeptideHelix from './PeptideHelix.astro';
+
 export interface Props {
   lang?: 'en' | 'es' | 'ca';
 }
@@ -44,6 +46,9 @@ const t = translations[lang];
 <section id="main" class="hero-final" role="banner" aria-label="Hero section">
   <div class="hero-gradient"></div>
   <div class="hero-pattern"></div>
+  <div class="hero-peptide">
+    <PeptideHelix />
+  </div>
   
   <div class="hero-container">
     <div class="hero-content">
@@ -100,6 +105,17 @@ const t = translations[lang];
       radial-gradient(ellipse at bottom left, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
     opacity: 0.6;
     animation: gradientShift 15s ease-in-out infinite;
+  }
+  
+  /* Peptide helix background */
+  .hero-peptide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    pointer-events: none;
   }
   
   /* Subtle dot pattern */

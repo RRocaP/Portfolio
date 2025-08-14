@@ -1,0 +1,342 @@
+---
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<div class={`peptide-helix-container ${className}`}>
+  <svg 
+    viewBox="0 0 800 1200" 
+    class="peptide-helix"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Alpha helix peptide structure"
+    role="img"
+  >
+    <defs>
+      <!-- Gradient for depth effect -->
+      <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+        <stop offset="50%" style="stop-color:#e0e0e0;stop-opacity:0.7" />
+        <stop offset="100%" style="stop-color:#808080;stop-opacity:0.5" />
+      </linearGradient>
+      
+      <!-- Carbon atom filter for sketchy effect -->
+      <filter id="carbonSketch">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="turbulence" seed="2"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2" />
+        <feGaussianBlur stdDeviation="0.5"/>
+      </filter>
+      
+      <!-- Pencil stroke effect -->
+      <filter id="pencilTexture">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="turbulence" seed="5"/>
+        <feColorMatrix in="turbulence" type="saturate" values="0"/>
+        <feComponentTransfer>
+          <feFuncA type="discrete" tableValues="0 .5 .5 .5 .5 1"/>
+        </feComponentTransfer>
+        <feGaussianBlur stdDeviation="0.3"/>
+        <feComposite operator="over" in2="SourceGraphic"/>
+      </filter>
+    </defs>
+    
+    <!-- Background subtle grid lines like graph paper -->
+    <g class="graph-paper" opacity="0.05">
+      {Array.from({length: 40}, (_, i) => (
+        <line 
+          x1={i * 20} 
+          y1="0" 
+          x2={i * 20} 
+          y2="1200" 
+          stroke="#000" 
+          stroke-width="0.5"
+        />
+      ))}
+      {Array.from({length: 60}, (_, i) => (
+        <line 
+          x1="0" 
+          y1={i * 20} 
+          x2="800" 
+          y2={i * 20} 
+          stroke="#000" 
+          stroke-width="0.5"
+        />
+      ))}
+    </g>
+    
+    <!-- Main helix structure -->
+    <g class="helix-structure" filter="url(#pencilTexture)">
+      <!-- Backbone trace -->
+      <path
+        d="M 400,100 
+           C 450,150 500,200 480,250
+           C 460,300 380,320 320,350
+           C 260,380 240,420 280,470
+           C 320,520 400,540 460,570
+           C 520,600 540,640 500,690
+           C 460,740 380,760 320,790
+           C 260,820 240,860 280,910
+           C 320,960 400,980 460,1010
+           C 520,1040 540,1080 500,1130"
+        fill="none"
+        stroke="#2a2a2a"
+        stroke-width="3"
+        stroke-linecap="round"
+        opacity="0.4"
+        class="helix-backbone"
+      />
+      
+      <!-- Individual amino acid residues -->
+      <!-- Residue 1 -->
+      <g class="residue" transform="translate(400, 150)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/> <!-- Alpha carbon -->
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/> <!-- Carbonyl carbon -->
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/> <!-- Oxygen -->
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/> <!-- Nitrogen -->
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <!-- Side chain -->
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Residue 2 -->
+      <g class="residue" transform="translate(460, 220) rotate(100)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Residue 3 -->
+      <g class="residue" transform="translate(480, 310) rotate(200)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Residue 4 -->
+      <g class="residue" transform="translate(420, 390) rotate(300)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Residue 5 -->
+      <g class="residue" transform="translate(340, 460) rotate(40)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Residue 6 -->
+      <g class="residue" transform="translate(300, 540) rotate(140)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.8"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.6"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.5"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.6"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.6"/>
+        <line x1="0" y1="0" x2="15" y2="25" stroke="#2a2a2a" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="15" cy="25" r="4" fill="#4a4a4a" opacity="0.4"/>
+      </g>
+      
+      <!-- Hydrogen bonds (dotted lines) -->
+      <g class="hydrogen-bonds">
+        <line x1="365" y1="135" x2="415" y2="375" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+        <line x1="425" y1="205" x2="375" y2="445" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+        <line x1="445" y1="295" x2="335" y2="525" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+        <line x1="385" y1="375" x2="295" y2="605" stroke="#666" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+      </g>
+      
+      <!-- More residues continuing the helix pattern -->
+      <g class="residue" transform="translate(340, 630) rotate(240)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.7"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.5"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.4"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.5"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.4"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.5"/>
+      </g>
+      
+      <g class="residue" transform="translate(420, 710) rotate(340)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.6"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.4"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.3"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.4"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.4"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.3"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.4"/>
+      </g>
+      
+      <g class="residue" transform="translate(480, 800) rotate(80)">
+        <circle cx="0" cy="0" r="8" fill="#1a1a1a" opacity="0.5"/>
+        <circle cx="-20" cy="-15" r="6" fill="#333" opacity="0.3"/>
+        <circle cx="-35" cy="-20" r="5" fill="#666" opacity="0.2"/>
+        <circle cx="20" cy="-10" r="6" fill="#333" opacity="0.3"/>
+        <line x1="0" y1="0" x2="-20" y2="-15" stroke="#2a2a2a" stroke-width="2" opacity="0.3"/>
+        <line x1="-20" y1="-15" x2="-35" y2="-20" stroke="#2a2a2a" stroke-width="2" opacity="0.2"/>
+        <line x1="0" y1="0" x2="20" y2="-10" stroke="#2a2a2a" stroke-width="2" opacity="0.3"/>
+      </g>
+    </g>
+    
+    <!-- Annotations -->
+    <g class="annotations" font-family="'Courier New', monospace" font-size="14" fill="#4a4a4a">
+      <text x="50" y="100" opacity="0.6">α-helix</text>
+      <text x="50" y="120" opacity="0.5" font-size="12">3.6 residues/turn</text>
+      <text x="50" y="140" opacity="0.5" font-size="12">5.4 Å pitch</text>
+      
+      <!-- Arrow showing helical direction -->
+      <path d="M 100,180 L 100,250" stroke="#4a4a4a" stroke-width="1" opacity="0.4" marker-end="url(#arrowhead)"/>
+      <text x="110" y="215" opacity="0.5" font-size="11">N→C</text>
+      
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+          <polygon points="0 0, 10 5, 0 10" fill="#4a4a4a" opacity="0.4"/>
+        </marker>
+      </defs>
+      
+      <!-- Labels for key atoms -->
+      <text x="520" y="155" opacity="0.4" font-size="10">Cα</text>
+      <text x="480" y="130" opacity="0.4" font-size="10">C=O</text>
+      <text x="545" y="180" opacity="0.4" font-size="10">N-H</text>
+      
+      <!-- Hydrogen bond label -->
+      <text x="200" y="400" opacity="0.3" font-size="10">H-bonds</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .peptide-helix-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .peptide-helix {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    opacity: 0.15;
+    animation: floatHelix 20s ease-in-out infinite;
+  }
+  
+  @keyframes floatHelix {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+    50% {
+      transform: translateY(5px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-5px) rotate(0.5deg);
+    }
+  }
+  
+  .helix-backbone {
+    animation: drawStroke 3s ease-out forwards;
+  }
+  
+  @keyframes drawStroke {
+    from {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+    to {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  .residue {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--residue-index, 0) * 0.1s);
+  }
+  
+  .residue:nth-child(1) { --residue-index: 1; }
+  .residue:nth-child(2) { --residue-index: 2; }
+  .residue:nth-child(3) { --residue-index: 3; }
+  .residue:nth-child(4) { --residue-index: 4; }
+  .residue:nth-child(5) { --residue-index: 5; }
+  .residue:nth-child(6) { --residue-index: 6; }
+  .residue:nth-child(7) { --residue-index: 7; }
+  .residue:nth-child(8) { --residue-index: 8; }
+  .residue:nth-child(9) { --residue-index: 9; }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .hydrogen-bonds line {
+    animation: pulseBond 3s ease-in-out infinite;
+  }
+  
+  @keyframes pulseBond {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+  
+  .annotations text {
+    animation: typewriter 2s steps(20) forwards;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .peptide-helix,
+    .residue,
+    .hydrogen-bonds line {
+      animation: none;
+    }
+  }
+  
+  /* Dark mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .peptide-helix {
+      filter: invert(1) opacity(0.15);
+    }
+  }
+</style>
