@@ -1,120 +1,78 @@
-Operational notes for future iterations and reproducibility
+Scientific portfolio front‑end overhaul (compact plan)
 
-Scope
-- This file captures the minimal, red–black design system and the deployment flow now wired into RRocaP/Portfolio so any agent can pick up, iterate, and redeploy consistently.
+Constraints
+- Keep all existing copy and fonts (Outfit for display, Inter for body).
+- Preserve current color identity (red/black) but polish contrast, depth, and motion.
+- Avoid heavy rewrites to content structure; focus on presentation, rhythm, and micro‑interactions.
 
-Key branches
-- main: live production branch (auto‑deploy via GitHub Actions).
-- gh-pages-staging: optional branch receiving dist/ for staging previews (manual workflow available).
+High‑level goals
+- Increase perceived quality: spacing, alignment, contrast, and subtle depth.
+- Introduce restrained motion: gentle parallax, micro‑interactions, section reveals (prefers‑reduced‑motion respected).
+- Create a cinematic hero inspired by latentlabs.com/latent-x while retaining this site’s red/black aesthetic.
+- Improve scannability: clearer section hierarchy, consistent cards, and stronger grid rhythm.
 
-Design targets (first fold)
-- Background: pure black with minimal abstract shapes (hero only), not site‑wide.
-  - Primary: top‑right red radial glow with gentle drift.
-  - Secondary: bottom‑left dark radial glow, very subtle, also gently drifting.
-  - Motion: very slow drift; disabled under prefers‑reduced‑motion.
-  - Mobile: shapes scale and blur more to avoid overpowering on phones.
-- Typography
-  - Display: Outfit (for the name).
-  - Body: Inter.
-- CTAs: Learn More, Get in Touch (localized in ES/CA), stacked on mobile.
-- Mouse indicator retained and simplified.
+Key updates (by area)
+- Navigation (src/components/NavigationPremium.astro)
+  - Keep current structure; refine transparency, blur, and active states.
+  - Add subtle underline slide on hover and compact language pills.
 
-Where to edit
-- Global hero background (both shapes, animation, reduced‑motion, mobile scale)
-  - File: src/layouts/Layout.astro
-  - Block: dark‑mode CSS near the end; selectors: .hero-accent::before / .hero-accent::after
-  - Tuning knobs:
-    - Alpha and falloff: rgba(var(--accent-red-rgb), A)
-    - Size: width/height in vw
-    - Position: top/right/left/bottom offsets in vh/vw
-    - Motion amplitude: translate3d and rotate deltas inside @keyframes slow-drift and slow-drift-2
-    - Motion speed: animation duration (e.g., 12s, 16s)
-    - Mobile overrides: the @media (max-width: 480px) section at the end of the block
+- Hero (src/components/HeroFinal.astro)
+  - Layered background: video + red glow orbs + faint dot grid; deepen gradients and edge vignettes.
+  - Typography: maintain current sizes; add gradient text for last name and improved weight contrast.
+  - CTAs: primary solid red with soft glow, secondary glassy border; consistent 44px+ hit targets.
+  - Scroll hint: simplified capsule with animated dot.
 
-- Per‑language hero (local accent color + underline)
-  - EN: src/pages/en/index.astro
-  - ES: src/pages/es/index.astro
-  - CA: src/pages/ca/index.astro
-  - Local overrides in .hero { --accent-red, --accent-red-rgb } keep the darker Claude red only for the hero, not globally.
-  - Underline is the ::after of .hero-title; width/height adjust the look.
-  - Mobile tweaks (title size, stacked CTAs) live at the bottom of each page’s style block.
+- Global layout and theme (src/layouts/Layout.astro)
+  - Ensure global tokens: --accent-red, surfaces, borders, and hero accent shapes (top‑right red glow, bottom‑left dark glow) with slow drift.
+  - Respect reduced motion for all animations.
 
-- Timeline visualization (centered legend/plot + improved solution panel)
-  - File: src/components/AntimicrobialResistanceTimeline.tsx
-  - Centered legend logic: legendItems + computed total width, then startX to center.
-  - SVG centering: class timeline-svg with margin: 0 auto.
-  - CMC‑inspired color palette: cmcPalette array (batlow‑like) for high contrast.
-  - Solution panel copy: edit within the JSX; styles immediately below.
+- Sections and cards
+  - Unify card surfaces: surface/surface‑elevated, 1px borders, soft inner shadows on hover.
+  - Animate in on scroll with fade‑up; stagger children for lists and grids.
+  - Publications: featured badge, year pill, 8–12px elevation on hover with color‑matched rim light.
 
-Plot palette for Python (if used offline)
-- Existing scripts use cmcrameri (e.g., vikO) already.
-- Files: plot_thle2_sirna.py, plot_both_sirna.py
+- Motion system (src/styles/animations.css, src/components/EnhancedAnimations.astro)
+  - Use easing tokens (expo/quint/back) and standard durations (200/300/500/800ms).
+  - Parallax only for decorative layers; clamp translation and disable when reduced motion is set.
+  - Micro‑interactions: hover‑lift, link underline grow, molecular‑pulse for primary CTAs (paused on hover).
 
-Fonts
-- Linked in src/layouts/Layout.astro head: Outfit (display) and Inter (body).
-- To change weights/sizes: adjust h1–h3 styling in the same file or page‑local styles.
+Performance and accessibility
+- Maintain AA contrast on dark surfaces; increase legibility for small caption text.
+- Keep animations GPU‑friendly (transform/opacity), no layout thrash; rely on will‑change sparingly.
+- Guard all non‑essential motion with prefers‑reduced‑motion.
+- Budget: keep main thread work minimal; avoid large runtime libs.
 
-Deployment
-- Production: .github/workflows/deploy.yml
-  - Triggers: push to main (auto), or manual workflow_dispatch.
-  - Uses actions/deploy-pages to publish the Astro build.
-- Staging (branch artifact): .github/workflows/deploy-staging.yml
-  - Manual only. Builds and force‑pushes dist/ to gh-pages-staging.
+Implementation checklist (files already present in repo)
+- src/layouts/Layout.astro
+  - Tokens set for background, surfaces, borders, and accent red; includes hero accent dual‑shape drift.
+  - Meta/SEO and font preloads preserved.
 
-Developer commands
-- Local
-  - npm ci
-  - npm run dev (local preview)
-  - npm run build (generate dist)
-- Trigger production deploy
-  - Push to main, or run the workflow manually:
-    - gh workflow run deploy.yml -R RRocaP/Portfolio
-- Trigger staging deploy (to gh-pages-staging)
-  - GitHub Actions → Deploy (staging) to branch → Run workflow
-  - Or: gh workflow run deploy-staging.yml -R RRocaP/Portfolio
+- src/components/NavigationPremium.astro
+  - Sticky blurred nav, underline hover, compact language switcher, mobile menu slide‑in.
 
-Astro config
-- astro.config.mjs
-  - site: https://RRocaP.github.io
-  - base: /Portfolio
-  - output: static
+- src/components/HeroFinal.astro
+  - Video layer with gradient/overlay, glow orbs, dot grid, and refined type/CTAs/scroll indicator.
 
-Accessibility and motion
-- Reduced motion respected across hero shapes and animations.
-- Contrast maintained for red/black on dark backgrounds.
+- src/components/EnhancedAnimations.astro and src/styles/animations.css
+  - Centralized animation tokens and utilities; intersection‑observer reveal and micro‑interactions.
 
-Mobile checks
-- Hero titles scale via clamp; CTAs stack; background shapes downscale.
-- Pages: EN/ES/CA tested at <=480 px with simpler layout in each page’s CSS.
+- src/styles/design-system.css and src/styles/main.css
+  - Typographic scale, spacing grid, surfaces, borders, shadows, utilities for consistent cards and grids.
 
-What to tweak quickly (common requests)
-- More/less red accent: edit alpha and falloff in src/layouts/Layout.astro under .hero-accent::before.
-- More/less motion: edit slow-drift and slow-drift-2 keyframes; increase/decrease translate/rotate deltas.
-- Single‑shape vs dual‑shape: remove the ::after block in Layout if only one shape is desired.
-- Hero underline thickness/length: change width/height in .hero-title::after in each language page.
+Polish passes to consider next (optional)
+- Add a very subtle red chromatic aberration on hero title during initial reveal (1s, opacity‑only fallback).
+- Introduce section header component to standardize title/accent‑bar/description layout.
+- Replace inline style animation‑delays with utility classes to reduce in‑markup timing noise.
 
-Copy guidelines (first fold, solution panel)
-- Avoid fluff; describe specific techniques and validation steps.
-- Keep bullets scannable; emphasize multi‑mechanism strategy, manufacturability, and bench assays.
+Acceptance criteria
+- Visual: refined hero with layered depth and smooth motion; consistent card styling; centered, calm rhythm across sections.
+- Accessibility: reduced‑motion respected; focus rings visible; link underlines present; contrast AA+ for body/caption text on dark.
+- Performance: no layout jank from animations; images/video lazy where possible; build passes without regressions.
 
-File map (touched in this iteration)
-- src/layouts/Layout.astro (global hero accent, fonts, base theme)
-- src/pages/en/index.astro (hero content and local darker red)
-- src/pages/es/index.astro (hero content and local darker red)
-- src/pages/ca/index.astro (hero content and local darker red)
-- src/components/AntimicrobialResistanceTimeline.tsx (legend centering, palette, solution panel)
-- .github/workflows/deploy.yml (auto deploy)
-- .github/workflows/deploy-staging.yml (staging branch deploy)
+How to preview
+- npm ci
+- npm run dev (open local preview)
+- npm run build (checks production output)
 
-Review checklist before pushing
-- Build succeeds: npm run build
-- Hero accent looks correct in EN/ES/CA and on mobile sizes.
-- Reduced motion disables drift.
-- Timeline legend centered and solution panel copy reads cleanly.
-- Push to main → Actions shows “Deploy Astro site to GitHub Pages” and “Deploy to GitHub Pages”.
-
-Support commands (gh)
-- gh auth status -h github.com
-- gh run list -R RRocaP/Portfolio --limit 5
-- gh run view <run-id> -R RRocaP/Portfolio
-
+Notes
+- Fonts and copy remain unchanged per requirement; the overhaul is purely stylistic and interaction‑level.

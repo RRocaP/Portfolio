@@ -64,15 +64,15 @@ const items = navItems[currentLang];
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(20px);
+    background: radial-gradient(120% 100% at 50% -20%, rgba(15,15,15,0.75) 0%, rgba(10,10,10,0.72) 60%, rgba(10,10,10,0.7) 100%);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
   }
   
   .nav-premium.scrolled {
     background: rgba(10, 10, 10, 0.95);
-    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
   
   .nav-container {
@@ -149,9 +149,8 @@ const items = navItems[currentLang];
   }
   
   .nav-lang a {
-    padding: 0.5rem 0.875rem; /* Better touch target */
-    color: #999999; /* Better contrast */
-    text-decoration: none;
+    padding: 0.25rem 0.5rem; /* Smaller pills */
+    color: #999999;
     font-size: 0.875rem;
     font-weight: 500;
     border: 1px solid transparent;
@@ -166,7 +165,7 @@ const items = navItems[currentLang];
   
   .nav-lang a.active {
     color: #EF4444; /* Better contrast */
-    background: rgba(239, 68, 68, 0.1);
+    background: linear-gradient(180deg, rgba(239,68,68,0.14) 0%, rgba(239,68,68,0.08) 100%);
     border-color: rgba(239, 68, 68, 0.3);
   }
   

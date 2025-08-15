@@ -5,7 +5,7 @@ import AntimicrobialTimeline from '../../components/AntimicrobialTimeline.astro'
 import AntimicrobialAnimation from '../../components/AntimicrobialAnimation.astro';
 import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
-import HeroElite from '../../components/HeroElite.astro';
+import HeroFinal from '../../components/HeroFinal.astro';
 import PerformanceMetrics from '../../components/PerformanceMetrics.astro';
 import { metrics } from '../../data/metrics.ts';
 import FeatureGrid from '../../components/FeatureGrid.astro';
@@ -15,6 +15,7 @@ import ProcessFlow from '../../components/ProcessFlow.astro';
 import ValidationMetrics from '../../components/ValidationMetrics.astro';
 import ProteinDesignShowcase from '../../components/ProteinDesignShowcase.astro';
 import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
+import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 ---
 
 <Layout
@@ -23,8 +24,9 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
   lang="en"
 >
   <NavigationPremium />
+  <EnhancedAnimations />
   
-  <HeroElite lang="en" />
+  <HeroFinal lang="en" />
 
   <!-- Interactive Protein Design Showcase -->
   <ProteinDesignShowcase lang="en" />
@@ -164,15 +166,15 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
         ))}
       </div>
         
-      <div class="flex justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.8s;">
-        <a href="https://scholar.google.com/citations?hl=fr&user=jYIZGT0AAAAJ" target="_blank" rel="noopener" class="inline-flex items-center gap-3 px-6 py-3 text-body font-semibold text-white bg-blue-700 border border-blue-600 rounded-xl transition-all duration-300 hover:bg-blue-600 hover:transform hover:-translate-y-1 hover:shadow-lg">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+      <div class="flex justify-center gap-4 animate-fade-in-up" style="animation-delay: 0.8s;">
+        <a href="https://scholar.google.com/citations?hl=fr&user=jYIZGT0AAAAJ" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-body-sm font-medium text-white bg-blue-700 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-md">
+          <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 24a7 7 0 110-14 7 7 0 010 14zm0-24L0 9.5l4.838 3.94A8 8 0 0112 9a8 8 0 017.162 4.44L24 9.5z"/>
           </svg>
           Google Scholar
         </a>
-        <a href="https://orcid.org/0000-0002-7393-6200" target="_blank" rel="noopener" class="inline-flex items-center gap-3 px-6 py-3 text-body font-semibold text-white bg-green-700 border border-green-600 rounded-xl transition-all duration-300 hover:bg-green-600 hover:transform hover:-translate-y-1 hover:shadow-lg">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://orcid.org/0000-0002-7393-6200" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 text-body-sm font-medium text-white bg-green-700 border border-green-600 rounded-lg transition-all duration-200 hover:bg-green-600 hover:-translate-y-0.5 hover:shadow-md">
+          <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 01-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/>
           </svg>
           ORCID
