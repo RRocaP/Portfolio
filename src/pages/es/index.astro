@@ -100,7 +100,7 @@ import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
           <div class="text-caption text-gray-400">Peer-reviewed papers</div>
         </div>
         <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.4s;">
-          <div class="text-4xl font-bold text-white mb-2">{metrics.citations && metrics.citations > 0 ? metrics.citations : '200+'}</div>
+          <div class="text-4xl font-bold text-white mb-2">{metrics.citations && metrics.citations > 0 ? `${metrics.citations}+` : '250+'}</div>
           <div class="text-caption text-gray-400">Citations (Scholar)</div>
         </div>
         <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.5s;">
