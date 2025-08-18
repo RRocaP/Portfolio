@@ -105,17 +105,22 @@ const canonical = `https://rrocap.github.io/Portfolio/${lang}/`;
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
-    <!-- Design System, Performance, and Accessibility -->
+    <!-- Critical CSS - Design System First -->
     <link rel="preload" as="style" href="/Portfolio/styles/design-system.css">
     <link rel="stylesheet" href="/Portfolio/styles/design-system.css">
-    <link rel="preload" as="style" href="/Portfolio/styles/main.css">
-    <link rel="stylesheet" href="/Portfolio/styles/main.css">
-    <link rel="preload" as="style" href="/Portfolio/styles/animations.css">
-    <link rel="stylesheet" href="/Portfolio/styles/animations.css">
-    <link rel="preload" as="style" href="/Portfolio/styles/performance-optimizations.css">
-    <link rel="stylesheet" href="/Portfolio/styles/performance-optimizations.css">
-    <link rel="preload" as="style" href="/Portfolio/styles/accessibility-fixes.css">
-    <link rel="stylesheet" href="/Portfolio/styles/accessibility-fixes.css">
+    
+    <!-- Core Styles - Remove duplicate main.css, use src version only -->
+    <style>
+      /* Inline critical path CSS */
+      .hero-final{position:relative;min-height:100vh;background:#0A0A0A;overflow:hidden}
+      .nav-premium{position:fixed;top:0;z-index:1000;width:100%;backdrop-filter:blur(16px)}
+      body{font-family:var(--font-primary);background-color:var(--background);color:var(--primary)}
+    </style>
+    
+    <!-- Non-critical CSS - Load asynchronously -->
+    <link rel="preload" as="style" href="/Portfolio/styles/animations.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="/Portfolio/styles/performance-optimizations.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="/Portfolio/styles/accessibility-fixes.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     </noscript>

@@ -67,7 +67,8 @@ const items = navItems[currentLang];
     background: radial-gradient(120% 100% at 50% -20%, rgba(15,15,15,0.75) 0%, rgba(10,10,10,0.72) 60%, rgba(10,10,10,0.7) 100%);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
   }
   
   .nav-premium.scrolled {
@@ -234,13 +235,22 @@ const items = navItems[currentLang];
 </style>
 
 <script>
-  // Handle scroll effects
+  // Enhanced scroll effects with throttling and intersection observer
   const nav = document.querySelector('.nav-premium');
   let lastScroll = 0;
+  let ticking = false;
   
-  window.addEventListener('scroll', () => {
+  function updateNavigation() {
     const currentScroll = window.pageYOffset;
     
+    // Hide/show nav based on scroll direction
+    if (currentScroll > lastScroll && currentScroll > 100) {
+      nav?.style.setProperty('transform', 'translateY(-100%)');
+    } else {
+      nav?.style.setProperty('transform', 'translateY(0)');
+    }
+    
+    // Add scrolled class for styling
     if (currentScroll > 50) {
       nav?.classList.add('scrolled');
     } else {
@@ -248,7 +258,17 @@ const items = navItems[currentLang];
     }
     
     lastScroll = currentScroll;
-  });
+    ticking = false;
+  }
+  
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateNavigation);
+      ticking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', requestTick, { passive: true });
   
   // Mobile menu toggle
   const toggle = document.querySelector('.nav-toggle');

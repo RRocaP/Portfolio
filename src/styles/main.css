@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Main Portfolio Styles - Centralized to avoid duplication
+   Portfolio Core Styles - Optimized for Performance
    ========================================================================== */
 
-/* Utility Classes from Design System */
+/* Critical utility classes - only include what's used */
 .text-center { text-align: center; }
 .mb-16 { margin-bottom: 4rem; }
 .mb-6 { margin-bottom: 1.5rem; }
@@ -739,6 +739,12 @@
   height: 20px;
 }
 
+/* Ensure ContactSection icons maintain their size */
+.contact-section .social-links a svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
 .social-links a span {
   display: none;
 }
@@ -850,6 +856,80 @@
   .space-y-8 > * + * { margin-top: 2rem; }
   .gap-12 { gap: 3rem; }
   .text-3xl { font-size: var(--text-3xl); }
+}
+
+/* ==========================================================================
+   Academic Links
+   ========================================================================== */
+.academic-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.academic-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.academic-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.academic-link:hover::before {
+  opacity: 1;
+}
+
+.academic-link.google-scholar:hover {
+  background: linear-gradient(135deg, #4285F4 0%, #5a95ff 100%);
+  border-color: #4285F4;
+  color: white;
+}
+
+.academic-link.orcid:hover {
+  background: linear-gradient(135deg, #A6CE39 0%, #b8dd4d 100%);
+  border-color: #A6CE39;
+  color: white;
+}
+
+.academic-link.linkedin:hover {
+  background: linear-gradient(135deg, #0077B5 0%, #0088cc 100%);
+  border-color: #0077B5;
+  color: white;
+}
+
+.academic-link.github:hover {
+  background: linear-gradient(135deg, #24292e 0%, #404448 100%);
+  border-color: #24292e;
+  color: white;
+}
+
+.academic-link svg {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.academic-link:hover svg {
+  transform: scale(1.1) rotate(-5deg);
 }
 
 /* ==========================================================================
