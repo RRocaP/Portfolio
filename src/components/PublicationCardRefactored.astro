@@ -1,0 +1,124 @@
+---
+// PublicationCardRefactored.astro - Clean publication display with new icon system
+import { PublicationStar, ExternalLink } from './icons';
+
+export interface Props {
+  title: string;
+  year: string;
+  journal: string;
+  url: string;
+  featured?: boolean;
+  isFirstAuthor?: boolean;
+  description?: string;
+  lang: 'en' | 'es' | 'ca';
+}
+
+const { 
+  title, 
+  year, 
+  journal, 
+  url, 
+  featured = false, 
+  isFirstAuthor = false,
+  description,
+  lang 
+} = Astro.props;
+
+// Generate structured data for individual publication
+const publicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": title,
+  "datePublished": year,
+  "publisher": { "@type": "Organization", "name": journal },
+  "url": url,
+  "author": {
+    "@type": "Person",
+    "name": "Ramon Roca Pinilla"
+  }
+};
+---
+
+<article class="card-subtle p-6 space-y-4 hover:bg-white/10 transition-colors duration-200 group">
+  <!-- Header with badges -->
+  <header class="flex items-start justify-between gap-4">
+    <div class="flex-1">
+      <h3 class="text-scale-lg font-semibold text-white group-hover:text-red-400 transition-colors duration-200">
+        {title}
+      </h3>
+    </div>
+    
+    <div class="flex gap-2 flex-shrink-0">
+      {isFirstAuthor && (
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-600/20 text-blue-300 border border-blue-500/20">
+          FA
+        </span>
+      )}
+      {featured && (
+        <span 
+          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-600/20 text-yellow-300 border border-yellow-500/20"
+          title={lang === 'en' ? 'Featured Publication' : lang === 'es' ? 'Publicación Destacada' : 'Publicació Destacada'}
+        >
+          <PublicationStar size={12} className="icon-xs" title="Featured" />
+        </span>
+      )}
+    </div>
+  </header>
+
+  <!-- Publication details -->
+  <div class="space-y-2">
+    <div class="flex items-center gap-2 text-scale-sm text-gray-400">
+      <span class="font-medium text-gray-300">{journal}</span>
+      <span class="text-gray-500">•</span>
+      <span>{year}</span>
+    </div>
+    
+    {description && (
+      <p class="text-scale-sm text-gray-300 leading-relaxed">{description}</p>
+    )}
+  </div>
+
+  <!-- Actions -->
+  <footer>
+    <a 
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link-external group focus-ring"
+    >
+      <span class="text-scale-sm font-medium">
+        {lang === 'en' ? 'View Paper' : lang === 'es' ? 'Ver Artículo' : 'Veure Article'}
+      </span>
+      <ExternalLink size={16} className="icon-sm" />
+    </a>
+  </footer>
+
+  <!-- Structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(publicationSchema, null, 2)}></script>
+</article>
+
+<style>
+  .publication-card:focus-within {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .card-subtle {
+      background-color: #000;
+      border-color: #fff;
+    }
+    
+    .card-subtle:hover {
+      background-color: #111;
+    }
+  }
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .group {
+      transition: none;
+    }
+  }
+</style>
