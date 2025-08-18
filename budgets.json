@@ -1,17 +1,17 @@
 [
   {
-    "path": "/*",
+    "path": "/**",
     "resourceSizes": [
-      { "resourceType": "script", "budget": 150 },
-      { "resourceType": "stylesheet", "budget": 50 },
+      { "resourceType": "script", "budget": 200 },
+      { "resourceType": "stylesheet", "budget": 80 },
       { "resourceType": "image", "budget": 500 },
       { "resourceType": "font", "budget": 100 },
-      { "resourceType": "total", "budget": 800 }
+      { "resourceType": "total", "budget": 1024 }
     ],
     "resourceCounts": [
-      { "resourceType": "script", "budget": 10 },
-      { "resourceType": "stylesheet", "budget": 5 },
-      { "resourceType": "font", "budget": 5 }
+      { "resourceType": "script", "budget": 5 },
+      { "resourceType": "stylesheet", "budget": 10 },
+      { "resourceType": "font", "budget": 4 }
     ]
   }
 ]

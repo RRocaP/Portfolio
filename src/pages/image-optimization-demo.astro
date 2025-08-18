@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import OptimizedImage from '../components/OptimizedImage.astro';
+---
+
+<Layout 
+  title="Image Optimization Demo"
+  description="Demonstration of the OptimizedImage component with various configurations"
+>
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold text-center mb-8 text-gray-900">
+      Image Optimization Demo
+    </h1>
+    
+    <div class="space-y-12">
+      <!-- Hero Image Example -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Hero Image (Priority Loading)
+        </h2>
+        <div class="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
+          <OptimizedImage
+            src="https://picsum.photos/1200/675"
+            alt="Hero image demonstration"
+            width={1200}
+            height={675}
+            priority={true}
+            placeholder="empty"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <p class="text-sm text-gray-600 mt-2">
+          <strong>Features:</strong> Priority loading, responsive srcsets, modern formats (AVIF/WebP)
+        </p>
+      </section>
+
+      <!-- Lazy Loading Grid -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Lazy Loading Grid
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 9 }, (_, i) => (
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+              <OptimizedImage
+                src={`https://picsum.photos/400/400?random=${i + 1}`}
+                alt={`Gallery image ${i + 1}`}
+                width={400}
+                height={400}
+                loading="lazy"
+                placeholder="empty"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+        <p class="text-sm text-gray-600 mt-4">
+          <strong>Features:</strong> Lazy loading with intersection observer, placeholder animations
+        </p>
+      </section>
+
+      <!-- Different Object Fit Examples -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Object Fit Variations
+        </h2>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-gray-700">Cover</h3>
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+              <OptimizedImage
+                src="https://picsum.photos/300/200"
+                alt="Object fit cover example"
+                width={300}
+                height={300}
+                objectFit="cover"
+                class="w-full h-full"
+              />
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-gray-700">Contain</h3>
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+              <OptimizedImage
+                src="https://picsum.photos/300/200"
+                alt="Object fit contain example"
+                width={300}
+                height={300}
+                objectFit="contain"
+                class="w-full h-full"
+              />
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-gray-700">Fill</h3>
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+              <OptimizedImage
+                src="https://picsum.photos/300/200"
+                alt="Object fit fill example"
+                width={300}
+                height={300}
+                objectFit="fill"
+                class="w-full h-full"
+              />
+            </div>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-sm font-medium text-gray-700">Scale Down</h3>
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+              <OptimizedImage
+                src="https://picsum.photos/300/200"
+                alt="Object fit scale-down example"
+                width={300}
+                height={300}
+                objectFit="scale-down"
+                class="w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance Information -->
+      <section class="bg-gray-50 rounded-lg p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Performance Features
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-lg font-medium mb-2 text-gray-700">Optimization Features</h3>
+            <ul class="space-y-1 text-sm text-gray-600">
+              <li>✅ Modern formats (AVIF, WebP) with fallbacks</li>
+              <li>✅ Responsive images with srcset</li>
+              <li>✅ Lazy loading with Intersection Observer</li>
+              <li>✅ Priority loading for above-fold images</li>
+              <li>✅ Smooth loading transitions</li>
+              <li>✅ Error handling and fallbacks</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 class="text-lg font-medium mb-2 text-gray-700">Accessibility Features</h3>
+            <ul class="space-y-1 text-sm text-gray-600">
+              <li>✅ Proper alt text support</li>
+              <li>✅ Reduced motion support</li>
+              <li>✅ High contrast mode support</li>
+              <li>✅ Proper ARIA attributes</li>
+              <li>✅ Keyboard navigation friendly</li>
+              <li>✅ Screen reader compatible</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Usage Examples -->
+      <section>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Usage Examples
+        </h2>
+        <div class="space-y-4">
+          <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>{`<!-- Basic usage -->
+<OptimizedImage
+  src="/path/to/image.jpg"
+  alt="Description"
+  width={800}
+  height={600}
+/>
+
+<!-- Priority image (above fold) -->
+<OptimizedImage
+  src="/hero-image.jpg"
+  alt="Hero image"
+  width={1200}
+  height={675}
+  priority={true}
+  placeholder="empty"
+/>
+
+<!-- Lazy loading with custom placeholder -->
+<OptimizedImage
+  src="/gallery-image.jpg"
+  alt="Gallery image"
+  width={400}
+  height={400}
+  loading="lazy"
+  placeholder="blur"
+  blurDataURL="data:image/jpeg;base64,..."
+/>
+
+<!-- Custom responsive breakpoints -->
+<OptimizedImage
+  src="/responsive-image.jpg"
+  alt="Responsive image"
+  width={800}
+  height={600}
+  sizes="(max-width: 768px) 100vw, 50vw"
+  objectFit="cover"
+/>`}</code></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Enhanced hover effects */
+  .grid > div:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Code syntax highlighting improvements */
+  pre {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    line-height: 1.5;
+  }
+</style>

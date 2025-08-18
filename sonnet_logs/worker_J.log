@@ -1,0 +1,51 @@
+I've implemented a comprehensive E2E test suite for the portfolio with the following features:
+
+## Test Coverage
+
+### Navigation Behavior Tests
+- **Scroll-based navigation show/hide**: Tests auto-hide behavior on scroll down and show on scroll up
+- **Scroll progress indicator**: Validates progress bar updates correctly with page scroll
+- **Language switching**: Tests multilingual navigation between en/es/ca
+- **Anchor navigation**: Tests smooth scrolling to page sections
+
+### Search Interaction Tests  
+- **Search modal interaction**: Tests search trigger, input focus, and results display
+- **Keyboard navigation**: Tests arrow keys and escape to close
+- **Empty search handling**: Tests graceful handling of empty queries
+
+### Contact Form Tests
+- **Field validation**: Tests required field validation and email format validation
+- **Form submission**: Tests successful submission with mocked API responses
+- **Spam protection**: Tests honeypot field visibility (should be hidden)
+
+### Accessibility Tests
+- **Axe-core integration**: Runs WCAG 2.1 AA compliance checks on multiple pages
+- **Heading hierarchy**: Validates proper H1-H6 structure
+- **Focus management**: Tests keyboard navigation and visible focus indicators
+- **Reduced motion support**: Tests prefers-reduced-motion behavior
+
+### Performance Budget Tests
+- **JavaScript bundle size**: Monitors JS payload against 150KB budget
+- **CSS bundle size**: Monitors CSS payload against 50KB budget  
+- **Load time budget**: Tests page load under 3 seconds
+- **Core Web Vitals**: Measures LCP and CLS for performance
+
+### Mobile Responsiveness
+- **Mobile navigation**: Tests hamburger menu functionality
+- **Viewport constraints**: Ensures no horizontal scrolling
+- **Touch gestures**: Tests swipe interactions on carousels
+
+### Lighthouse CI Integration
+- Provides configuration scaffold for automated Lighthouse audits
+- Documents expected performance scores (≥95 for all categories)
+
+## Key Features
+
+1. **Robust selector strategy**: Uses multiple selector patterns to find elements reliably
+2. **Network interception**: Mocks API calls for isolated testing
+3. **Performance monitoring**: Real-time resource size and timing measurement
+4. **Accessibility-first**: Comprehensive a11y testing with axe-core
+5. **Multi-language testing**: Covers all three language variants (en/es/ca)
+6. **CI-ready**: Configured for headless execution with proper timeouts and retries
+
+The tests are designed to run in parallel across multiple browsers and include helper functions for common patterns like measuring layout shifts and resource sizes.

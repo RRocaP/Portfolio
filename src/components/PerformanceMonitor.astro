@@ -1,15 +1,30 @@
 ---
-// Passive performance & Web Vitals logging component
-// Place <PerformanceMonitor /> once per page (e.g., in Layout) to capture metrics
+// Enhanced performance monitoring component
+// Integrates with the new PerformanceMonitor class for comprehensive tracking
 ---
 <script>
+  import { initPerformanceMonitor } from '../utils/performance';
+
+  // Initialize the enhanced performance monitor
+  const monitor = initPerformanceMonitor({
+    // Custom budgets can be set here
+    lcp: 2500,
+    fid: 100,
+    cls: 0.1,
+    fcp: 1800,
+    ttfb: 800,
+    transferSize: 1024 * 1024, // 1MB
+    resourceCount: 50
+  });
+
+  // Legacy Web Vitals integration (maintained for backward compatibility)
   (async () => {
     try {
       const wv = (window as any)['web-vitals'];
-      if (!wv) return; // library not present; keep silent
+      if (!wv) return;
       const { onCLS, onFID, onFCP, onLCP, onTTFB } = wv;
       const send = (metric: any) => {
-        // Metrics captured silently
+        // Send to Google Analytics if available
         if ((window as any).gtag) {
           (window as any).gtag('event', metric.name, {
             value: Math.round(metric.value),
@@ -21,32 +36,81 @@
       };
       onCLS(send); onFID(send); onFCP(send); onLCP(send); onTTFB(send);
     } catch (e) {
-      // Web Vitals capture skipped
+      console.warn('Web Vitals capture failed:', e);
     }
   })();
 
-  window.addEventListener('load', () => {
-    queueMicrotask(() => {
-      const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-      if (!nav) return;
-      const metrics = {
-        ttfb: nav.responseStart,
-        domContentLoaded: nav.domContentLoadedEventEnd,
-        load: nav.loadEventEnd,
-        transfer: nav.transferSize
-      };
-      // Performance metrics captured
-    });
-  });
-
+  // Enhanced lazy loading with performance tracking
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
-      for (const e of entries) if (e.isIntersecting) {
-        const img = e.target as HTMLImageElement;
-        const src = img.dataset.src; if (src) { img.src = src; img.removeAttribute('data-src'); }
-        io.unobserve(img);
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          const img = e.target as HTMLImageElement;
+          const src = img.dataset.src;
+          if (src) {
+            const startTime = performance.now();
+            img.onload = () => {
+              const loadTime = performance.now() - startTime;
+              // Track image loading performance
+              if (loadTime > 500) {
+                console.warn(`Slow image load detected: ${src} took ${loadTime}ms`);
+              }
+            };
+            img.src = src;
+            img.removeAttribute('data-src');
+          }
+          io.unobserve(img);
+        }
       }
     }, { rootMargin: '200px 0px' });
+    
     document.querySelectorAll('img[data-src]').forEach(el => io.observe(el));
+  }
+
+  // Performance budget violation handler
+  window.addEventListener('performance-budget-exceeded', (event: CustomEvent) => {
+    const { metric, value, budget } = event.detail;
+    
+    // Log to console in development
+    if (import.meta.env.DEV) {
+      console.warn(`🚨 Performance Budget Exceeded: ${metric}`, {
+        measured: value,
+        budget: budget,
+        overage: value - budget
+      });
+    }
+    
+    // Optional: Send to monitoring service
+    if ((window as any).MONITORING_ENDPOINT) {
+      fetch((window as any).MONITORING_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'budget_violation',
+          metric,
+          value,
+          budget,
+          timestamp: Date.now(),
+          url: window.location.href
+        }),
+        keepalive: true
+      }).catch(() => {}); // Silent fail
+    }
+  });
+
+  // Development helper: Show performance dashboard
+  if (import.meta.env.DEV) {
+    // Add performance dashboard toggle
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+        // The dashboard component will handle its own visibility
+        console.log('Performance dashboard toggled (Ctrl+Shift+P)');
+      }
+    });
+
+    // Log performance tips
+    console.log('🔍 Performance Monitor Active');
+    console.log('💡 Press Ctrl+Shift+P to toggle performance dashboard');
+    console.log('📊 Metrics are stored in localStorage key "performanceMetrics"');
   }
 </script>

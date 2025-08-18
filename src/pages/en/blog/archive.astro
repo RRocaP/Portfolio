@@ -1,0 +1,720 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import { blogPosts, categories, tags } from '../../../data/blog';
+import type { BlogArchive, BlogStats } from '../../../types/blog';
+
+const lang = 'en';
+const publishedPosts = blogPosts.filter(post => post.published && post.lang === lang);
+
+// Generate archive data by year and month
+const archive: BlogArchive[] = [];
+const archiveMap = new Map<number, Map<number, any[]>>();
+
+publishedPosts.forEach(post => {
+  const year = post.publishedDate.getFullYear();
+  const month = post.publishedDate.getMonth();
+  
+  if (!archiveMap.has(year)) {
+    archiveMap.set(year, new Map());
+  }
+  
+  if (!archiveMap.get(year)!.has(month)) {
+    archiveMap.get(year)!.set(month, []);
+  }
+  
+  archiveMap.get(year)!.get(month)!.push(post);
+});
+
+// Convert to sorted archive structure
+for (const [year, monthMap] of Array.from(archiveMap.entries()).sort(([a], [b]) => b - a)) {
+  const yearData: BlogArchive = {
+    year,
+    months: []
+  };
+  
+  for (const [month, posts] of Array.from(monthMap.entries()).sort(([a], [b]) => b - a)) {
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    yearData.months.push({
+      month: month + 1,
+      monthName: monthNames[month],
+      posts: posts.sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime())
+    });
+  }
+  
+  archive.push(yearData);
+}
+
+// Calculate blog statistics
+const totalReadingTime = publishedPosts.reduce((sum, post) => sum + post.readingTime, 0);
+const averageReadingTime = Math.round(totalReadingTime / publishedPosts.length);
+
+// Tag usage statistics
+const tagCounts = new Map<string, number>();
+publishedPosts.forEach(post => {
+  post.tags.forEach(tag => {
+    tagCounts.set(tag.id, (tagCounts.get(tag.id) || 0) + 1);
+  });
+});
+
+const mostPopularTags = Array.from(tagCounts.entries())
+  .map(([tagId, count]) => {
+    const tag = tags.find(t => t.id === tagId);
+    return tag ? { ...tag, count } : null;
+  })
+  .filter(Boolean)
+  .sort((a, b) => (b?.count || 0) - (a?.count || 0))
+  .slice(0, 10);
+
+// Category usage statistics
+const categoryCounts = new Map<string, number>();
+publishedPosts.forEach(post => {
+  post.categories.forEach(category => {
+    categoryCounts.set(category.id, (categoryCounts.get(category.id) || 0) + 1);
+  });
+});
+
+const mostPopularCategories = Array.from(categoryCounts.entries())
+  .map(([catId, count]) => {
+    const category = categories.find(c => c.id === catId);
+    return category ? { ...category, count } : null;
+  })
+  .filter(Boolean)
+  .sort((a, b) => (b?.count || 0) - (a?.count || 0));
+
+const blogStats: BlogStats = {
+  totalPosts: publishedPosts.length,
+  totalCategories: categories.length,
+  totalTags: tags.length,
+  averageReadingTime,
+  postsPerMonth: {}, // Would calculate if needed
+  mostPopularTags: mostPopularTags as any[],
+  mostPopularCategories: mostPopularCategories as any[]
+};
+
+const title = 'Blog Archive - Ramon Roca-Pinilla';
+const description = 'Complete archive of scientific blog posts, research insights, and career development articles.';
+---
+
+<Layout 
+  title={title} 
+  description={description} 
+  lang={lang}
+  canonicalUrl="https://rrocap.github.io/Portfolio/en/blog/archive/"
+>
+  <Navigation />
+  
+  <main class="blog-archive-page">
+    <!-- Archive Header -->
+    <section class="archive-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">📚 Blog Archive</h1>
+          <p class="hero-subtitle">
+            A complete chronological index of all articles, research insights, and scientific discoveries
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Overview -->
+    <section class="archive-stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-number">{blogStats.totalPosts}</div>
+            <div class="stat-label">Total Articles</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-number">{totalReadingTime}</div>
+            <div class="stat-label">Total Reading Time (min)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📖</div>
+            <div class="stat-number">{averageReadingTime}</div>
+            <div class="stat-label">Average Reading Time (min)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏷️</div>
+            <div class="stat-number">{Array.from(tagCounts.values()).reduce((a, b) => a + b, 0)}</div>
+            <div class="stat-label">Total Tags Used</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archive Content -->
+    <section class="archive-content">
+      <div class="container">
+        <div class="archive-layout">
+          <!-- Main Archive -->
+          <div class="archive-main">
+            <div class="archive-timeline">
+              {archive.map(yearData => (
+                <div class="year-section" id={`year-${yearData.year}`}>
+                  <div class="year-header">
+                    <h2 class="year-title">{yearData.year}</h2>
+                    <div class="year-stats">
+                      {yearData.months.reduce((total, month) => total + month.posts.length, 0)} articles
+                    </div>
+                  </div>
+                  
+                  <div class="months-container">
+                    {yearData.months.map(monthData => (
+                      <div class="month-section">
+                        <h3 class="month-title">
+                          {monthData.monthName}
+                          <span class="month-count">({monthData.posts.length})</span>
+                        </h3>
+                        
+                        <div class="posts-list">
+                          {monthData.posts.map(post => (
+                            <article class="archive-post">
+                              <div class="post-date">
+                                {post.publishedDate.getDate().toString().padStart(2, '0')}
+                              </div>
+                              <div class="post-info">
+                                <div class="post-categories">
+                                  {post.categories.slice(0, 2).map(category => (
+                                    <span 
+                                      class="category-badge"
+                                      style={`background-color: ${category.color}20; color: ${category.color}`}
+                                    >
+                                      {category.icon}
+                                    </span>
+                                  ))}
+                                </div>
+                                <h4 class="post-title">
+                                  <a href={`/Portfolio/en/blog/${post.slug}/`}>
+                                    {post.title}
+                                  </a>
+                                </h4>
+                                <p class="post-excerpt">{post.excerpt}</p>
+                                <div class="post-meta">
+                                  <span class="reading-time">📖 {post.readingTime} min</span>
+                                  {post.featured && <span class="featured-badge">⭐ Featured</span>}
+                                </div>
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="archive-sidebar">
+            <!-- Quick Navigation -->
+            <div class="sidebar-widget">
+              <h3 class="widget-title">🗓️ Quick Navigation</h3>
+              <div class="year-nav">
+                {archive.map(yearData => (
+                  <a href={`#year-${yearData.year}`} class="year-link">
+                    {yearData.year}
+                    <span class="year-count">
+                      ({yearData.months.reduce((total, month) => total + month.posts.length, 0)})
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <!-- Popular Categories -->
+            <div class="sidebar-widget">
+              <h3 class="widget-title">📂 Popular Categories</h3>
+              <div class="categories-list">
+                {mostPopularCategories.map(category => (
+                  <a 
+                    href={`/Portfolio/en/blog/category/${category.slug}/`}
+                    class="category-link"
+                    style={`border-left-color: ${category.color}`}
+                  >
+                    <span class="category-info">
+                      <span class="category-name">
+                        {category.icon} {category.name}
+                      </span>
+                      <span class="category-count">{category.count} articles</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <!-- Popular Tags -->
+            <div class="sidebar-widget">
+              <h3 class="widget-title">🏷️ Popular Tags</h3>
+              <div class="tags-cloud">
+                {mostPopularTags.map(tag => (
+                  <a 
+                    href={`/Portfolio/en/blog/tag/${tag.slug}/`}
+                    class="tag-link"
+                    style={`font-size: ${Math.min(1.2, 0.8 + (tag.count / Math.max(...mostPopularTags.map(t => t.count))) * 0.4)}rem`}
+                  >
+                    #{tag.name}
+                    <span class="tag-count">({tag.count})</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <!-- RSS Feed -->
+            <div class="sidebar-widget">
+              <h3 class="widget-title">📡 Stay Updated</h3>
+              <div class="rss-info">
+                <p>Subscribe to get notified about new articles</p>
+                <div class="rss-links">
+                  <a href="/Portfolio/rss.xml" class="rss-link">
+                    🔗 RSS Feed
+                  </a>
+                  <a href="/Portfolio/en/#newsletter" class="newsletter-link">
+                    📧 Newsletter
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-archive-page {
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+
+  /* Archive Hero */
+  .archive-hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff, #DA291C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: #ccc;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Statistics */
+  .archive-stats {
+    background: #0f0f0f;
+    padding: 3rem 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    border-color: #DA291C;
+    transform: translateY(-5px);
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #DA291C;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: #999;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Archive Content */
+  .archive-content {
+    padding: 4rem 0;
+  }
+
+  .archive-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 4rem;
+  }
+
+  .archive-main {
+    min-width: 0; /* Prevents grid overflow */
+  }
+
+  /* Year Sections */
+  .year-section {
+    margin-bottom: 4rem;
+  }
+
+  .year-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #DA291C;
+  }
+
+  .year-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .year-stats {
+    color: #999;
+    font-size: 1.1rem;
+  }
+
+  /* Month Sections */
+  .months-container {
+    margin-left: 2rem;
+  }
+
+  .month-section {
+    margin-bottom: 3rem;
+  }
+
+  .month-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #DA291C;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .month-count {
+    color: #999;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+
+  /* Posts List */
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .archive-post {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .archive-post:hover {
+    border-color: #DA291C;
+    transform: translateX(10px);
+  }
+
+  .post-date {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #DA291C;
+    text-align: center;
+    min-width: 3rem;
+    padding: 0.5rem;
+    background: #0a0a0a;
+    border-radius: 8px;
+    border: 2px solid #333;
+  }
+
+  .post-info {
+    flex: 1;
+  }
+
+  .post-categories {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-badge {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+
+  .post-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .post-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .post-title a:hover {
+    color: #DA291C;
+  }
+
+  .post-excerpt {
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #999;
+  }
+
+  .featured-badge {
+    color: #FFD700;
+    font-size: 0.8rem;
+  }
+
+  /* Sidebar */
+  .archive-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sidebar-widget {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #DA291C;
+  }
+
+  /* Year Navigation */
+  .year-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .year-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #0a0a0a;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .year-link:hover {
+    background: #DA291C;
+    color: white;
+  }
+
+  .year-count {
+    color: #999;
+    font-size: 0.875rem;
+  }
+
+  .year-link:hover .year-count {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Categories List */
+  .categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .category-link {
+    display: block;
+    padding: 1rem;
+    background: #0a0a0a;
+    border-radius: 6px;
+    border-left: 4px solid;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .category-link:hover {
+    background: #333;
+    transform: translateX(5px);
+  }
+
+  .category-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .category-name {
+    font-weight: 500;
+  }
+
+  .category-count {
+    color: #999;
+    font-size: 0.875rem;
+  }
+
+  /* Tags Cloud */
+  .tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: #0a0a0a;
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .tag-link:hover {
+    background: #DA291C;
+    color: white;
+  }
+
+  .tag-count {
+    color: #999;
+    font-size: 0.8rem;
+  }
+
+  .tag-link:hover .tag-count {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* RSS Info */
+  .rss-info p {
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+
+  .rss-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .rss-link,
+  .newsletter-link {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: #DA291C;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .rss-link:hover,
+  .newsletter-link:hover {
+    background: #c41e13;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .archive-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .archive-sidebar {
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .months-container {
+      margin-left: 0;
+    }
+
+    .archive-post {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .post-date {
+      align-self: flex-start;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

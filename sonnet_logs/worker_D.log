@@ -1,0 +1,8 @@
+Complete implementation of `src/utils/mdx.ts` with:
+
+- **`renderMDXToReact()`** - Converts markdown to React elements with Prism syntax highlighting and portfolio-themed styling
+- **`getTOC()`** - Extracts table of contents from h2-h4 headings with proper IDs
+- **`getReadingTime()`** - Calculates reading time at 200 WPM with word count
+- **Bonus utilities** - `getExcerpt()` and `getFirstImage()` for SEO/blog support
+
+Features: Dark theme styling, code highlighting for 9 languages, proper accessibility with heading IDs, tree-shakeable ESM exports, and integration-ready for BlogPost.tsx.

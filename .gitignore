@@ -23,3 +23,11 @@ pnpm-debug.log*
 # Script files
 stream_onedrive_archive.sh
 verify_transferred_files.sh
+
+# Orchestration and prompts (sensitive/internal development files)
+SONNET_*.sh
+OPUS_*.md
+IMPLEMENTATION_*.md
+sonnet_implementations/
+logs/worker_*.log
+patches/

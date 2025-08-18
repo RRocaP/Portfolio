@@ -176,8 +176,16 @@ const {
 </style>
 
 <script>
-  // Initialize scroll animations
+  import { getAnimationController, animations } from '../utils/animations';
+
+  // Enhanced scroll animations using AnimationController
   class ScrollAnimations {
+    private animationController = getAnimationController({
+      enableDebugMode: false,
+      enablePerformanceMonitoring: true,
+      respectReducedMotion: true
+    });
+    
     private scrollProgress: HTMLElement | null;
     private magneticButtons: NodeListOf<Element>;
     private parallaxElements: NodeListOf<Element>;
@@ -255,110 +263,92 @@ const {
     }
 
     initMagneticButtons() {
-      this.magneticButtons.forEach(button => {
+      // Use AnimationController for magnetic button effects
+      this.magneticButtons.forEach((button, index) => {
         const btn = button as HTMLElement;
+        const buttonId = `magnetic-button-${index}`;
         
-        btn.addEventListener('mousemove', (e: MouseEvent) => {
-          const rect = btn.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          const x = e.clientX;
-          const y = e.clientY;
-          
-          const deltaX = (x - centerX) / centerX;
-          const deltaY = (y - centerY) / centerY;
-          
-          const moveX = deltaX * 8; // 8px max movement
-          const moveY = deltaY * 8;
-          
-          btn.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
-          btn.classList.add('active');
-        });
-
-        btn.addEventListener('mouseleave', () => {
-          btn.style.transform = '';
-          btn.classList.remove('active');
-        });
-
-        // Add haptic feedback simulation for mobile
-        btn.addEventListener('touchstart', () => {
-          if ('vibrate' in navigator) {
-            navigator.vibrate(10);
-          }
-          btn.classList.add('active');
-        });
-
-        btn.addEventListener('touchend', () => {
-          btn.classList.remove('active');
-        });
+        this.animationController.magneticButton(
+          buttonId,
+          btn,
+          0.3, // strength
+          'medium' // priority
+        );
       });
     }
 
     initParallax() {
-      const handleParallax = () => {
-        const scrolled = window.pageYOffset;
+      // Use AnimationController for parallax effects
+      this.parallaxElements.forEach((element, index) => {
+        const el = element as HTMLElement;
+        const speed = parseFloat(el.dataset.parallaxSpeed || '0.5');
+        const parallaxId = `parallax-element-${index}`;
         
-        this.parallaxElements.forEach(element => {
-          const el = element as HTMLElement;
-          const speed = parseFloat(el.dataset.parallaxSpeed || '0.5');
-          const offset = el.offsetTop;
-          const yPos = -(scrolled - offset) * speed;
-          
-          el.style.transform = `translateY(${yPos}px)`;
-        });
-      };
-
-      window.addEventListener('scroll', () => {
-        if (!this.ticking) {
-          window.requestAnimationFrame(handleParallax);
-          this.ticking = true;
-        }
+        this.animationController.parallax(
+          parallaxId,
+          el,
+          speed,
+          'low' // Low priority for background effects
+        );
       });
     }
 
     initFadeIn() {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-            }
-          });
-        },
-        {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        }
-      );
-
-      this.fadeElements.forEach(element => {
-        observer.observe(element);
+      // Use AnimationController for scroll-triggered fade-in animations
+      this.fadeElements.forEach((element, index) => {
+        const el = element as HTMLElement;
+        const fadeId = `fade-in-${index}`;
+        
+        this.animationController.onScroll(
+          fadeId,
+          el,
+          animations.fadeIn,
+          {
+            duration: 800,
+            easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+          }
+        );
       });
     }
 
     initStagger() {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const children = entry.target.children;
-              Array.from(children).forEach((child, index) => {
-                setTimeout(() => {
-                  child.classList.add('visible');
-                }, index * 100); // 100ms delay between each child
+      // Use AnimationController for stagger animations
+      this.staggerElements.forEach((element, index) => {
+        const el = element as HTMLElement;
+        const children = Array.from(el.children) as HTMLElement[];
+        const staggerId = `stagger-group-${index}`;
+        
+        if (children.length > 0) {
+          // Create intersection observer for this stagger group
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  // Use AnimationController's stagger method
+                  this.animationController.stagger(
+                    staggerId,
+                    children,
+                    animations.slideUp,
+                    {
+                      duration: 600,
+                      easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+                      staggerDelay: 100
+                    }
+                  );
+                  observer.unobserve(entry.target);
+                }
               });
-              entry.target.classList.add('visible');
+            },
+            {
+              threshold: 0.1,
+              rootMargin: '0px 0px -50px 0px'
             }
-          });
-        },
-        {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
+          );
+          
+          observer.observe(el);
         }
-      );
-
-      this.staggerElements.forEach(element => {
-        observer.observe(element);
       });
     }
 

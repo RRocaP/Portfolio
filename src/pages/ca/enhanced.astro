@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavigationPremium from '../../components/NavigationPremium.astro';
+import Footer from '../../components/Footer.astro';
+import HeroIntegrated from '../../components/HeroIntegrated';
+import ProjectShowcase from '../../components/ProjectShowcase';
+import { projects } from '../../data/projects.ts';
+---
+
+<Layout
+  title="Portfolio Millorat - Ramon Roca Pinilla"
+  description="Experimenta la versió millorada del portfolio de Ramon amb animacions avançades, interaccions 3D i tecnologies web d'avantguarda."
+  lang="ca"
+>
+  <NavigationPremium />
+  
+  <!-- Enhanced Hero Section -->
+  <HeroIntegrated 
+    lang="ca" 
+    enableAdvanced={true}
+    client:load
+  />
+  
+  <!-- Advanced Project Showcase -->
+  <ProjectShowcase 
+    projects={projects}
+    lang="ca"
+    client:load
+  />
+
+  <!-- Performance Notice -->
+  <section class="py-12 bg-gray-900">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-6">
+        <div class="flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-yellow-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="text-xl font-semibold text-yellow-400">Experiència Millorada Activa</h3>
+        </div>
+        <p class="text-gray-300 mb-4">
+          Estàs veient la versió millorada amb animacions avançades i interaccions 3D. 
+          Aquesta versió s'adapta automàticament segons les capacitats del teu dispositiu i preferències.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ Animacions GSAP</div>
+            <div class="text-gray-400">Triggers de scroll suaus</div>
+          </div>
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ Sistema de Partícules</div>
+            <div class="text-gray-400">Fons interactiu</div>
+          </div>
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ Targetes 3D</div>
+            <div class="text-gray-400">Efectes magnètics de hover</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

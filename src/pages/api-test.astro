@@ -1,0 +1,560 @@
+---
+// API Test Page - Development only
+// This page allows testing of API endpoints during development
+
+if (process.env.NODE_ENV === 'production') {
+  return Astro.redirect('/404');
+}
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Test Suite - Portfolio</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f8f9fa;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      color: #DA291C;
+      margin: 0 0 1rem 0;
+    }
+    
+    .test-section {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .test-section h2 {
+      margin: 0 0 1rem 0;
+      color: #333;
+    }
+    
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .test-card {
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+    
+    .test-card h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
+    }
+    
+    .test-card p {
+      margin: 0 0 1rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    button {
+      background: #DA291C;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    
+    button:hover {
+      background: #b8221a;
+    }
+    
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .run-all {
+      background: #28a745;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      margin: 2rem auto;
+      display: block;
+    }
+    
+    .run-all:hover {
+      background: #218838;
+    }
+    
+    .results {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      display: none;
+    }
+    
+    .status-success {
+      color: #28a745;
+      font-weight: 600;
+    }
+    
+    .status-error {
+      color: #dc3545;
+      font-weight: 600;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #DA291C;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🧪 API Test Suite</h1>
+    <p>Development tool for testing portfolio API endpoints</p>
+  </div>
+  
+  <div class="warning">
+    <strong>⚠️ Development Only:</strong> This page is only available in development mode and will redirect to 404 in production.
+  </div>
+  
+  <div class="test-section">
+    <h2>Individual API Tests</h2>
+    <div class="test-grid">
+      <div class="test-card">
+        <h3>📧 Contact Form API</h3>
+        <p>Tests the contact form submission endpoint with validation, rate limiting, and email processing.</p>
+        <button onclick="testEndpoint('contact')" id="contact-btn">Test Contact API</button>
+      </div>
+      
+      <div class="test-card">
+        <h3>📰 Newsletter API</h3>
+        <p>Tests newsletter subscription with email validation, honeypot protection, and confirmation emails.</p>
+        <button onclick="testEndpoint('newsletter')" id="newsletter-btn">Test Newsletter API</button>
+      </div>
+      
+      <div class="test-card">
+        <h3>🔍 Search API</h3>
+        <p>Tests publication and content search with TF-IDF ranking, filtering, and pagination.</p>
+        <button onclick="testEndpoint('search')" id="search-btn">Test Search API</button>
+      </div>
+      
+      <div class="test-card">
+        <h3>📊 Analytics API</h3>
+        <p>Tests analytics event tracking with privacy controls, validation, and rate limiting.</p>
+        <button onclick="testEndpoint('analytics')" id="analytics-btn">Test Analytics API</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Comprehensive Testing</h2>
+    <button onclick="runAllTests()" id="run-all-btn" class="run-all">🚀 Run All API Tests</button>
+    <button onclick="testCORS()" id="cors-btn">🌐 Test CORS Headers</button>
+    <button onclick="generateReport()" id="report-btn">📋 Generate Test Report</button>
+  </div>
+  
+  <div class="results" id="results"></div>
+
+  <script>
+    let testResults = [];
+    
+    const baseUrl = window.location.origin + '/Portfolio';
+    
+    function showLoading(buttonId) {
+      const button = document.getElementById(buttonId);
+      button.disabled = true;
+      button.innerHTML += ' <span class="loading"></span>';
+    }
+    
+    function hideLoading(buttonId, originalText) {
+      const button = document.getElementById(buttonId);
+      button.disabled = false;
+      button.innerHTML = originalText;
+    }
+    
+    function showResults(content) {
+      const results = document.getElementById('results');
+      results.style.display = 'block';
+      results.innerHTML = content;
+      results.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    async function testEndpoint(endpoint) {
+      const buttonId = endpoint + '-btn';
+      const originalText = document.getElementById(buttonId).innerHTML;
+      
+      showLoading(buttonId);
+      
+      try {
+        let result;
+        
+        switch (endpoint) {
+          case 'contact':
+            result = await testContactAPI();
+            break;
+          case 'newsletter':
+            result = await testNewsletterAPI();
+            break;
+          case 'search':
+            result = await testSearchAPI();
+            break;
+          case 'analytics':
+            result = await testAnalyticsAPI();
+            break;
+          default:
+            throw new Error('Unknown endpoint');
+        }
+        
+        testResults.push(result);
+        showResults(formatSingleResult(result));
+        
+      } catch (error) {
+        showResults(`❌ Error testing ${endpoint}: ${error.message}`);
+      } finally {
+        hideLoading(buttonId, originalText);
+      }
+    }
+    
+    async function testContactAPI() {
+      const testData = {
+        name: 'Test User',
+        email: 'test@example.com',
+        subject: 'API Test Contact',
+        message: 'This is a test message for the contact form API.',
+        organization: 'Test Organization',
+        timestamp: new Date().toISOString(),
+        language: 'en',
+        website: '', // Honeypot field
+      };
+      
+      const startTime = Date.now();
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/contact`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Recaptcha-Token': 'test-token',
+          },
+          body: JSON.stringify(testData),
+        });
+        
+        const responseTime = Date.now() - startTime;
+        const result = await response.json();
+        
+        return {
+          endpoint: '/api/contact',
+          method: 'POST',
+          status: response.ok && result.success ? 'success' : 'error',
+          statusCode: response.status,
+          responseTime,
+          error: response.ok && result.success ? undefined : (result.error || `HTTP ${response.status}`),
+        };
+        
+      } catch (error) {
+        return {
+          endpoint: '/api/contact',
+          method: 'POST',
+          status: 'error',
+          responseTime: Date.now() - startTime,
+          error: error.message,
+        };
+      }
+    }
+    
+    async function testNewsletterAPI() {
+      const testData = {
+        email: 'test-newsletter@example.com',
+        name: 'Newsletter Test User',
+        interests: ['antimicrobial-resistance', 'protein-design'],
+        language: 'en',
+        source: 'api-test',
+        timestamp: new Date().toISOString(),
+      };
+      
+      const startTime = Date.now();
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/newsletter`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(testData),
+        });
+        
+        const responseTime = Date.now() - startTime;
+        const result = await response.json();
+        
+        return {
+          endpoint: '/api/newsletter',
+          method: 'POST',
+          status: response.ok && result.success ? 'success' : 'error',
+          statusCode: response.status,
+          responseTime,
+          error: response.ok && result.success ? undefined : (result.error || `HTTP ${response.status}`),
+        };
+        
+      } catch (error) {
+        return {
+          endpoint: '/api/newsletter',
+          method: 'POST',
+          status: 'error',
+          responseTime: Date.now() - startTime,
+          error: error.message,
+        };
+      }
+    }
+    
+    async function testSearchAPI() {
+      const queryParams = new URLSearchParams({
+        q: 'antimicrobial resistance',
+        limit: '5',
+        offset: '0',
+        type: 'all',
+        lang: 'en',
+      });
+      
+      const startTime = Date.now();
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/search?${queryParams}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        const responseTime = Date.now() - startTime;
+        const result = await response.json();
+        
+        return {
+          endpoint: '/api/search',
+          method: 'GET',
+          status: response.ok && result.success ? 'success' : 'error',
+          statusCode: response.status,
+          responseTime,
+          error: response.ok && result.success ? undefined : (result.error || `HTTP ${response.status}`),
+        };
+        
+      } catch (error) {
+        return {
+          endpoint: '/api/search',
+          method: 'GET',
+          status: 'error',
+          responseTime: Date.now() - startTime,
+          error: error.message,
+        };
+      }
+    }
+    
+    async function testAnalyticsAPI() {
+      const testData = {
+        event: 'api_test',
+        category: 'page_view',
+        data: {
+          page: '/test',
+          section: 'api-testing',
+          component: 'test-suite',
+        },
+        user: {
+          id: 'test-user-123',
+          language: 'en',
+          device_type: 'desktop',
+        },
+        meta: {
+          timestamp: Date.now(),
+          version: '1.0',
+        },
+      };
+      
+      const startTime = Date.now();
+      
+      try {
+        const response = await fetch(`${baseUrl}/api/analytics`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(testData),
+        });
+        
+        const responseTime = Date.now() - startTime;
+        const result = await response.json();
+        
+        return {
+          endpoint: '/api/analytics',
+          method: 'POST',
+          status: response.ok && result.success ? 'success' : 'error',
+          statusCode: response.status,
+          responseTime,
+          error: response.ok && result.success ? undefined : (result.error || `HTTP ${response.status}`),
+        };
+        
+      } catch (error) {
+        return {
+          endpoint: '/api/analytics',
+          method: 'POST',
+          status: 'error',
+          responseTime: Date.now() - startTime,
+          error: error.message,
+        };
+      }
+    }
+    
+    async function runAllTests() {
+      const buttonId = 'run-all-btn';
+      const originalText = document.getElementById(buttonId).innerHTML;
+      
+      showLoading(buttonId);
+      showResults('🏃‍♂️ Running all API tests...\n\n');
+      
+      testResults = [];
+      
+      const endpoints = ['contact', 'newsletter', 'search', 'analytics'];
+      
+      for (const endpoint of endpoints) {
+        const result = await testEndpoint(endpoint);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between tests
+      }
+      
+      const successCount = testResults.filter(r => r.status === 'success').length;
+      const totalCount = testResults.length;
+      
+      let summary = `📊 Test Results: ${successCount}/${totalCount} passed\n\n`;
+      
+      testResults.forEach(result => {
+        summary += formatSingleResult(result) + '\n';
+      });
+      
+      if (successCount === totalCount) {
+        summary += '\n🎉 All API tests passed!';
+      } else {
+        summary += '\n⚠️ Some tests failed. Check the details above.';
+      }
+      
+      showResults(summary);
+      hideLoading(buttonId, originalText);
+    }
+    
+    async function testCORS() {
+      const buttonId = 'cors-btn';
+      const originalText = document.getElementById(buttonId).innerHTML;
+      
+      showLoading(buttonId);
+      
+      const endpoints = ['/api/contact', '/api/newsletter', '/api/search', '/api/analytics'];
+      let corsResults = '🌐 CORS Configuration Test Results:\n\n';
+      
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(`${baseUrl}${endpoint}`, {
+            method: 'OPTIONS',
+          });
+          
+          const corsHeaders = {
+            'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+            'Access-Control-Allow-Methods': response.headers.get('Access-Control-Allow-Methods'),
+            'Access-Control-Allow-Headers': response.headers.get('Access-Control-Allow-Headers'),
+          };
+          
+          corsResults += `${endpoint}:\n`;
+          Object.entries(corsHeaders).forEach(([header, value]) => {
+            corsResults += `  ${header}: ${value || 'Not set'}\n`;
+          });
+          corsResults += '\n';
+          
+        } catch (error) {
+          corsResults += `❌ ${endpoint}: ${error.message}\n\n`;
+        }
+      }
+      
+      showResults(corsResults);
+      hideLoading(buttonId, originalText);
+    }
+    
+    function generateReport() {
+      if (testResults.length === 0) {
+        showResults('⚠️ No test results available. Run some tests first.');
+        return;
+      }
+      
+      const successCount = testResults.filter(r => r.status === 'success').length;
+      const errorCount = testResults.filter(r => r.status === 'error').length;
+      const averageResponseTime = testResults.reduce((sum, r) => sum + (r.responseTime || 0), 0) / testResults.length;
+      
+      let report = `# API Test Report\n\n`;
+      report += `**Date:** ${new Date().toISOString()}\n`;
+      report += `**Total Tests:** ${testResults.length}\n`;
+      report += `**Passed:** ${successCount}\n`;
+      report += `**Failed:** ${errorCount}\n`;
+      report += `**Average Response Time:** ${Math.round(averageResponseTime)}ms\n\n`;
+      report += `## Test Results\n\n`;
+      
+      testResults.forEach(result => {
+        report += `### ${result.method} ${result.endpoint}\n\n`;
+        report += `- **Status:** ${result.status === 'success' ? '✅ Success' : '❌ Failed'}\n`;
+        report += `- **HTTP Status:** ${result.statusCode || 'N/A'}\n`;
+        report += `- **Response Time:** ${result.responseTime || 'N/A'}ms\n`;
+        if (result.error) {
+          report += `- **Error:** ${result.error}\n`;
+        }
+        report += '\n';
+      });
+      
+      showResults(report);
+    }
+    
+    function formatSingleResult(result) {
+      const statusIcon = result.status === 'success' ? '✅' : '❌';
+      const responseTime = result.responseTime ? ` (${result.responseTime}ms)` : '';
+      const errorMsg = result.error ? ` - ${result.error}` : '';
+      
+      return `${statusIcon} ${result.method} ${result.endpoint}${responseTime}${errorMsg}`;
+    }
+  </script>
+</body>
+</html>

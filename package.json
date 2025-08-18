@@ -5,25 +5,58 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "NODE_ENV=production astro build",
+    "build:dev": "NODE_ENV=development astro build",
+    "build:staging": "NODE_ENV=staging astro build",
+    "build:enhanced": "NODE_ENV=production astro build --config ./vite.config.enhanced.ts",
     "preview": "astro preview",
+    "analyze": "NODE_ENV=production npm run build:enhanced && node -e \"console.log(require('./dist/bundle-analysis.json'))\"",
+    "budgets": "NODE_ENV=production npm run build:enhanced && node scripts/check-budgets.mjs",
+    "performance:audit": "NODE_ENV=production npm run build && node scripts/performance-audit.mjs",
+    "performance:check": "node scripts/check-budgets.mjs",
+    "performance:full": "npm run performance:audit && npm run performance:check",
+    "metrics:update": "python scripts/update-metrics.py",
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "seo:audit:local": "node scripts/seo-audit.mjs --local --port=4321",
+    "seo:validate": "npm run seo:audit && echo '✅ SEO validation complete'",
     "astro": "astro",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "deploy:enhanced": "npm run build:enhanced && gh-pages -d dist",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "test:accessibility": "playwright test --grep \"Accessibility Tests\"",
+    "test:performance": "playwright test --grep \"Performance Budget Tests\"",
+    "test:mobile": "playwright test --project=\"Mobile Chrome\"",
+    "test:browsers": "playwright test --project=chromium --project=firefox --project=webkit",
+    "lighthouse": "lhci autorun",
+    "preflight": "npm run performance:full && npm run seo:validate && echo '✅ Preflight checks passed'",
+    "preflight:full": "npm run preflight && npm run test:e2e && echo '✅ Full preflight checks passed'"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
     "@astrojs/sitemap": "^3.2.0",
     "astro": "^5.12.8",
     "d3": "^7.9.0",
-    "openai": "^5.12.2",
+    "gsap": "^3.13.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^5.1.0",
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.54.2",
+    "@types/axe-core": "^2.0.2",
+    "@types/node": "^22.0.0",
     "autoprefixer": "^10.4.20",
+    "axe-core": "^4.10.3",
+    "cssnano": "^7.0.6",
     "gh-pages": "^6.3.0",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.14"
+    "tailwindcss": "^3.4.14",
+    "terser": "^5.36.0",
+    "vite": "^6.0.0"
   }
 }

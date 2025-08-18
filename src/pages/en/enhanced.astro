@@ -1,0 +1,165 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavigationPremium from '../../components/NavigationPremium.astro';
+import Footer from '../../components/Footer.astro';
+import { LazyHeroIntegrated, LazyProjectShowcase } from '../../utils/lazyComponents.tsx';
+import { projects } from '../../data/projects.ts';
+---
+
+<Layout
+  title="Enhanced Portfolio - Ramon Roca Pinilla"
+  description="Experience the enhanced version of Ramon's portfolio featuring advanced animations, 3D interactions, and cutting-edge web technologies."
+  lang="en"
+>
+  <NavigationPremium />
+  
+  <!-- Enhanced Hero Section - Lazy Loaded -->
+  <LazyHeroIntegrated 
+    lang="en" 
+    enableAdvanced={true}
+    client:idle
+  />
+  
+  <!-- Advanced Project Showcase - Lazy Loaded -->
+  <LazyProjectShowcase 
+    projects={projects}
+    lang="en"
+    client:idle
+  />
+
+  <!-- Performance Notice -->
+  <section class="py-12 bg-gray-900">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-6">
+        <div class="flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-yellow-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="text-xl font-semibold text-yellow-400">Enhanced Experience Active</h3>
+        </div>
+        <p class="text-gray-300 mb-4">
+          You're viewing the enhanced version with advanced animations and 3D interactions. 
+          This version automatically adapts based on your device capabilities and preferences.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ GSAP Animations</div>
+            <div class="text-gray-400">Smooth scroll triggers</div>
+          </div>
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ Particle System</div>
+            <div class="text-gray-400">Interactive background</div>
+          </div>
+          <div class="bg-gray-800/50 p-3 rounded">
+            <div class="text-green-400 font-semibold">✓ 3D Cards</div>
+            <div class="text-gray-400">Magnetic hover effects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Performance monitoring for enhanced features
+  let performanceLog: Array<{ timestamp: number; event: string; data?: any }> = [];
+  
+  function logPerformance(event: string, data?: any) {
+    performanceLog.push({
+      timestamp: Date.now(),
+      event,
+      data
+    });
+    
+    // Log to console in development
+    if (import.meta.env.DEV) {
+      console.log(`[Performance] ${event}`, data);
+    }
+  }
+
+  // Monitor initial load
+  document.addEventListener('DOMContentLoaded', () => {
+    logPerformance('DOM_READY');
+  });
+
+  // Monitor when advanced components are fully loaded
+  let componentsLoaded = 0;
+  const expectedComponents = 2; // HeroIntegrated + ProjectShowcase
+
+  document.addEventListener('component:loaded', (e: CustomEvent) => {
+    componentsLoaded++;
+    logPerformance('COMPONENT_LOADED', { 
+      component: e.detail?.component,
+      loadedCount: componentsLoaded 
+    });
+
+    if (componentsLoaded >= expectedComponents) {
+      logPerformance('ALL_COMPONENTS_LOADED');
+      
+      // Optional: Send performance data to analytics
+      if ('navigator' in window && 'sendBeacon' in navigator) {
+        const performanceData = {
+          url: window.location.pathname,
+          userAgent: navigator.userAgent,
+          timestamp: Date.now(),
+          events: performanceLog
+        };
+        
+        // Uncomment to send to analytics endpoint
+        // navigator.sendBeacon('/api/performance', JSON.stringify(performanceData));
+      }
+    }
+  });
+
+  // Monitor Core Web Vitals
+  if ('PerformanceObserver' in window) {
+    const observer = new PerformanceObserver((list) => {
+      list.getEntries().forEach((entry) => {
+        if (entry.entryType === 'largest-contentful-paint') {
+          logPerformance('LCP', { value: entry.startTime });
+        }
+      });
+    });
+    
+    try {
+      observer.observe({ entryTypes: ['largest-contentful-paint'] });
+    } catch (e) {
+      console.warn('Performance observer not supported for LCP');
+    }
+  }
+</script>
+
+<style>
+  /* Loading states for enhanced components */
+  [data-component-loading] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  [data-component-loaded] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Enhance performance with optimized styles */
+  .hero-section,
+  .project-showcase {
+    contain: layout style paint;
+  }
+  
+  /* Optimize repaints for animated elements */
+  .project-card,
+  .particle-canvas {
+    will-change: transform;
+  }
+  
+  /* Improve scrolling performance */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+</style>

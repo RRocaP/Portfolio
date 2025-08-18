@@ -1,0 +1,465 @@
+---
+/**
+ * Modern Animated Hero Component
+ * Uses the new AnimationController for performance-optimized animations
+ */
+export interface Props {
+  lang?: 'en' | 'es' | 'ca';
+  enableAdvancedAnimations?: boolean;
+}
+
+const { lang = 'en', enableAdvancedAnimations = true } = Astro.props;
+
+const translations = {
+  en: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla',
+    role1: 'Biomedical Engineer',
+    role2: 'Molecular Biologist',
+    tagline: 'Engineering next-generation antimicrobial proteins through computational design and experimental validation',
+    cta1: 'View Research',
+    cta2: 'Publications',
+    scroll: 'Scroll to explore'
+  },
+  es: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla', 
+    role1: 'Ingeniero Biomédico',
+    role2: 'Biólogo Molecular',
+    tagline: 'Desarrollando proteínas antimicrobianas de nueva generación mediante diseño computacional y validación experimental',
+    cta1: 'Ver Investigación',
+    cta2: 'Publicaciones',
+    scroll: 'Desplázate para explorar'
+  },
+  ca: {
+    firstName: 'Ramon',
+    lastName: 'Roca Pinilla',
+    role1: 'Enginyer Biomèdic',
+    role2: 'Biòleg Molecular',
+    tagline: 'Desenvolupant proteïnes antimicrobianes de nova generació mitjançant disseny computacional i validació experimental',
+    cta1: 'Veure Recerca',
+    cta2: 'Publicacions',
+    scroll: 'Desplaça\'t per explorar'
+  }
+};
+
+const t = translations[lang];
+---
+
+<section id="animated-hero" class="animated-hero" role="banner" aria-label="Hero section">
+  <div class="hero-background" data-animation-id="hero-bg">
+    <div class="hero-particles" data-animation-id="particles"></div>
+    <div class="hero-gradient" data-animation-id="gradient"></div>
+  </div>
+  
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title" data-animation-id="title">
+        <span class="title-first" data-animation-id="first-name">{t.firstName}</span>
+        <span class="title-last" data-animation-id="last-name">{t.lastName}</span>
+      </h1>
+      
+      <div class="hero-roles" data-animation-id="roles">
+        <span class="role" data-animation-id="role-1">{t.role1}</span>
+        <span class="role-divider" data-animation-id="divider"></span>
+        <span class="role" data-animation-id="role-2">{t.role2}</span>
+      </div>
+      
+      <p class="hero-tagline" data-animation-id="tagline">{t.tagline}</p>
+      
+      <div class="hero-actions" data-animation-id="actions">
+        <a href="#research" class="btn btn-primary magnetic-btn" data-animation-id="btn-primary">
+          {t.cta1}
+          <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#publications" class="btn btn-secondary magnetic-btn" data-animation-id="btn-secondary">{t.cta2}</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="scroll-hint" data-animation-id="scroll-hint">
+    <span>{t.scroll}</span>
+    <div class="scroll-icon">
+      <div class="scroll-dot"></div>
+    </div>
+  </div>
+
+  <!-- Performance metrics display (dev mode) -->
+  <div class="animation-metrics" id="animationMetrics" style="display: none;"></div>
+</section>
+
+<style>
+  .animated-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0A0A0A;
+    overflow: hidden;
+  }
+  
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(218, 41, 28, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 217, 61, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(218, 41, 28, 0.05) 0%, transparent 50%);
+  }
+  
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(23, 23, 23, 0.7) 100%);
+  }
+  
+  .hero-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #FFFFFF;
+    margin: 0;
+  }
+  
+  .title-first,
+  .title-last {
+    display: block;
+    position: relative;
+  }
+  
+  .title-first {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+  
+  .title-last {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    background: linear-gradient(135deg, #DA291C 0%, #FFD93D 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .hero-roles {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .role {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  
+  .role-divider {
+    width: 2px;
+    height: 1.2rem;
+    background: linear-gradient(to bottom, #DA291C, #FFD93D);
+    border-radius: 1px;
+  }
+  
+  .hero-tagline {
+    max-width: 800px;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    text-align: center;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #DA291C 0%, #B91C1C 100%);
+    color: white;
+    box-shadow: 0 8px 32px rgba(218, 41, 28, 0.3);
+  }
+  
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .btn-arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+  
+  .magnetic-btn {
+    cursor: pointer;
+  }
+  
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+  
+  .scroll-icon {
+    width: 24px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    position: relative;
+  }
+  
+  .scroll-dot {
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollBounce 2s infinite;
+  }
+  
+  @keyframes scrollBounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    40% {
+      transform: translateX(-50%) translateY(16px);
+    }
+    60% {
+      transform: translateX(-50%) translateY(8px);
+    }
+  }
+  
+  .animation-metrics {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #00FF00;
+    z-index: 9999;
+    max-width: 300px;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .hero-container {
+      padding: 1rem;
+    }
+    
+    .hero-roles {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .role-divider {
+      width: 2rem;
+      height: 2px;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .btn {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  import { getAnimationController, animations } from '../utils/animations';
+  
+  class AnimatedHero {
+    private controller = getAnimationController({
+      enableDebugMode: import.meta.env.DEV,
+      enablePerformanceMonitoring: true,
+      respectReducedMotion: true
+    });
+    
+    private metricsDisplay: HTMLElement | null = null;
+
+    constructor() {
+      this.init();
+    }
+
+    private async init(): Promise<void> {
+      this.metricsDisplay = document.getElementById('animationMetrics');
+      
+      // Show metrics in dev mode
+      if (import.meta.env.DEV && this.metricsDisplay) {
+        this.metricsDisplay.style.display = 'block';
+        this.startMetricsDisplay();
+      }
+
+      // Register and animate hero elements
+      await this.setupHeroAnimations();
+      
+      // Setup magnetic buttons
+      this.setupMagneticButtons();
+      
+      // Setup parallax background
+      this.setupParallaxBackground();
+      
+      console.log('AnimatedHero initialized');
+    }
+
+    private async setupHeroAnimations(): Promise<void> {
+      const elements = {
+        firstName: document.querySelector('[data-animation-id="first-name"]') as HTMLElement,
+        lastName: document.querySelector('[data-animation-id="last-name"]') as HTMLElement,
+        role1: document.querySelector('[data-animation-id="role-1"]') as HTMLElement,
+        divider: document.querySelector('[data-animation-id="divider"]') as HTMLElement,
+        role2: document.querySelector('[data-animation-id="role-2"]') as HTMLElement,
+        tagline: document.querySelector('[data-animation-id="tagline"]') as HTMLElement,
+        actions: document.querySelector('[data-animation-id="actions"]') as HTMLElement,
+        scrollHint: document.querySelector('[data-animation-id="scroll-hint"]') as HTMLElement,
+      };
+
+      // Staggered entrance animation
+      const staggerElements = [
+        elements.firstName,
+        elements.lastName,
+        elements.role1,
+        elements.divider,
+        elements.role2,
+        elements.tagline,
+        elements.actions,
+        elements.scrollHint
+      ].filter(Boolean);
+
+      await this.controller.stagger(
+        'hero-entrance',
+        staggerElements,
+        animations.fadeIn,
+        {
+          duration: 800,
+          easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+          staggerDelay: 150
+        }
+      );
+    }
+
+    private setupMagneticButtons(): void {
+      const buttons = document.querySelectorAll('.magnetic-btn') as NodeListOf<HTMLElement>;
+      
+      buttons.forEach((button, index) => {
+        this.controller.magneticButton(
+          `magnetic-btn-${index}`,
+          button,
+          0.3, // strength
+          'high' // priority for interactive elements
+        );
+      });
+    }
+
+    private setupParallaxBackground(): void {
+      const particles = document.querySelector('[data-animation-id="particles"]') as HTMLElement;
+      const gradient = document.querySelector('[data-animation-id="gradient"]') as HTMLElement;
+      
+      if (particles) {
+        this.controller.parallax('hero-particles', particles, 0.2, 'low');
+      }
+      
+      if (gradient) {
+        this.controller.parallax('hero-gradient', gradient, 0.1, 'low');
+      }
+    }
+
+    private startMetricsDisplay(): void {
+      const updateMetrics = () => {
+        if (!this.metricsDisplay) return;
+        
+        const metrics = this.controller.getMetrics();
+        
+        this.metricsDisplay.innerHTML = `
+          <div><strong>Animation Metrics</strong></div>
+          <div>Total: ${metrics.totalAnimations}</div>
+          <div>Running: ${metrics.runningAnimations}</div>
+          <div>Completed: ${metrics.completedAnimations}</div>
+          <div>Performance: ${metrics.performanceScore.toFixed(1)}%</div>
+          <div>Frame Time: ${metrics.averageFrameTime.toFixed(1)}ms</div>
+          <div>Dropped: ${metrics.droppedFrames}</div>
+        `;
+        
+        // Color-code based on performance
+        const color = metrics.performanceScore > 80 ? '#00FF00' : 
+                     metrics.performanceScore > 60 ? '#FFD93D' : '#DA291C';
+        this.metricsDisplay.style.borderLeft = `4px solid ${color}`;
+      };
+
+      // Update metrics every second
+      setInterval(updateMetrics, 1000);
+      updateMetrics(); // Initial update
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AnimatedHero());
+  } else {
+    new AnimatedHero();
+  }
+</script>

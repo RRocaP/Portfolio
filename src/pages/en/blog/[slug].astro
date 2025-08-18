@@ -1,0 +1,400 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import BlogPost from '../../../components/BlogPost';
+import { getBlogPostBySlug, getRecentPosts } from '../../../data/blog';
+
+export async function getStaticPaths() {
+  const { blogPosts } = await import('../../../data/blog');
+  
+  return blogPosts
+    .filter(post => post.lang === 'en' && post.published)
+    .map(post => ({
+      params: { slug: post.slug },
+      props: { post },
+    }));
+}
+
+const { slug } = Astro.params;
+const { post } = Astro.props;
+
+if (!post) {
+  return Astro.redirect('/en/blog/');
+}
+
+const lang = 'en';
+const relatedPosts = getRecentPosts(lang, 4).filter(p => p.id !== post.id).slice(0, 3);
+
+const title = `${post.title} - Ramon Roca-Pinilla`;
+const description = post.description;
+const canonicalUrl = `https://rrocap.github.io/Portfolio/en/blog/${post.slug}/`;
+const ogImage = post.coverImage || '/Portfolio/images/blog-default-og.jpg';
+
+// Generate structured data for the blog post
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": post.description,
+  "image": ogImage,
+  "author": {
+    "@type": "Person",
+    "name": post.author.name,
+    "url": post.author.social.website
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Ramon Roca-Pinilla",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/Portfolio/images/ramon-avatar.jpg"
+    }
+  },
+  "datePublished": post.publishedDate.toISOString(),
+  "dateModified": post.updatedDate?.toISOString() || post.publishedDate.toISOString(),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalUrl
+  }
+};
+---
+
+<Layout 
+  title={title} 
+  description={description} 
+  lang={lang}
+  canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
+  structuredData={structuredData}
+>
+  <Navigation />
+  
+  <main class="blog-post-page">
+    <!-- Blog Post -->
+    <article class="main-article">
+      <div class="container">
+        <BlogPost 
+          post={post}
+          showTOC={true}
+          showSocialShare={true}
+          client:load
+        />
+      </div>
+    </article>
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <section class="related-posts">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">🔗 Related Articles</h2>
+            <p class="section-subtitle">
+              Continue exploring these related topics
+            </p>
+          </div>
+          
+          <div class="related-grid">
+            {relatedPosts.map(relatedPost => (
+              <article class="related-card">
+                <a href={`/Portfolio/en/blog/${relatedPost.slug}/`} class="related-link">
+                  {relatedPost.coverImage && (
+                    <div class="related-image">
+                      <img 
+                        src={relatedPost.coverImage} 
+                        alt={relatedPost.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div class="related-content">
+                    <div class="related-categories">
+                      {relatedPost.categories.slice(0, 1).map(category => (
+                        <span 
+                          class="category-badge"
+                          style={`background-color: ${category.color}20; color: ${category.color}`}
+                        >
+                          {category.icon} {category.name}
+                        </span>
+                      ))}
+                    </div>
+                    <h3 class="related-title">{relatedPost.title}</h3>
+                    <p class="related-excerpt">{relatedPost.excerpt}</p>
+                    <div class="related-meta">
+                      <time datetime={relatedPost.publishedDate.toISOString()}>
+                        {relatedPost.publishedDate.toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
+                      </time>
+                      <span class="reading-time">📖 {relatedPost.readingTime} min</span>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+          
+          <div class="view-all-posts">
+            <a href="/Portfolio/en/blog/" class="btn btn-outline">
+              📚 View All Posts
+            </a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Call to Action -->
+    <section class="blog-cta">
+      <div class="container">
+        <div class="cta-content">
+          <div class="cta-text">
+            <h2>Interested in Collaboration?</h2>
+            <p>
+              If this research resonates with your work or you're interested in potential 
+              collaborations, I'd love to hear from you.
+            </p>
+          </div>
+          <div class="cta-actions">
+            <a href="/Portfolio/en/#contact" class="btn btn-primary">
+              💬 Get in Touch
+            </a>
+            <a href="mailto:ramon.rocap@gmail.com" class="btn btn-outline">
+              📧 Email Directly
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-post-page {
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+
+  .main-article {
+    padding: 2rem 0 4rem;
+  }
+
+  /* Related Posts */
+  .related-posts {
+    background: #0f0f0f;
+    padding: 4rem 0;
+    border-top: 1px solid #333;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+    color: #999;
+    font-size: 1.1rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .related-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+  }
+
+  .related-card:hover {
+    transform: translateY(-5px);
+    border-color: #DA291C;
+    box-shadow: 0 15px 30px rgba(218, 41, 28, 0.1);
+  }
+
+  .related-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .related-image {
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .related-card:hover .related-image img {
+    transform: scale(1.05);
+  }
+
+  .related-content {
+    padding: 1.5rem;
+  }
+
+  .related-categories {
+    margin-bottom: 1rem;
+  }
+
+  .category-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .related-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-excerpt {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #999;
+  }
+
+  .view-all-posts {
+    text-align: center;
+  }
+
+  /* Call to Action */
+  .blog-cta {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    padding: 4rem 0;
+  }
+
+  .cta-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .cta-text h2 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-text p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background: #DA291C;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #c41e13;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    border-color: #DA291C;
+    color: #DA291C;
+  }
+
+  .btn-outline:hover {
+    background: #DA291C;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cta-actions {
+      width: 100%;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<!-- Enhanced SEO and Performance -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+
+<!-- Preload related post images -->
+{relatedPosts.slice(0, 2).map(relatedPost => 
+  relatedPost.coverImage && (
+    <link rel="prefetch" href={relatedPost.coverImage} />
+  )
+)}

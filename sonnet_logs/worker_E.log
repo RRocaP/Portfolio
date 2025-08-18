@@ -1,0 +1,14 @@
+Service Worker implementation completed with the following features:
+
+- **Versioned caches** (`v1.0.0`) with automatic cleanup of old cache versions
+- **Stale-while-revalidate** strategy for HTML pages 
+- **Cache-first** strategy for static assets (images, CSS, JS, fonts)
+- **Offline fallback** page support
+- **Safe update flow** with `skipWaiting()` and `clients.claim()`
+- **Background sync** for contact forms (disabled by default for GitHub Pages)
+- **Proper exclusions** for API routes, source maps, and browser extensions
+- **Client messaging** for cache management and version queries
+- **IndexedDB integration** for background sync queuing (when enabled)
+- **Feature flags** to control functionality based on hosting environment
+
+The service worker is production-ready for GitHub Pages static hosting while providing extensibility for future serverless deployments.

@@ -1,0 +1,226 @@
+OPUS 4.1 — Lead Plan for Sonnet 4 Parallel Implementation
+
+Role
+- You are Opus 4.1 acting as a Senior Tech Lead. Produce a concrete, dependency-aware implementation plan for multiple Sonnet 4 instances to finish the portfolio as specified. Output must be actionable, structured, and directly reference file paths in this repo.
+
+Project context
+- Stack: Astro 5 + React 19 + TypeScript, Tailwind, D3, GSAP, Zod
+- Hosting: GitHub Pages (static), site: https://rrocap.github.io/Portfolio (base=/Portfolio, output=static)
+- Brand: Dark-first, Catalan colors red #DA291C, yellow #FFD93D
+- Languages: English (en), Spanish (es), Catalan (ca)
+- Targets: <150KB JS, <50KB CSS, Lighthouse ≥95, WCAG AA, prefers-reduced-motion respected
+- Motion: transforms/opacity only, GPU-friendly; disable with reduced motion
+- Keep all copy/fonts; focus on presentation, polish, interactions, and missing features
+
+Current codebase status (audit summary)
+- Implemented/substantial:
+  - 3 SmartNavigation.tsx (auto-hide/show, scroll progress, anchors, breadcrumbs, a11y; minor i18n encoding issues)
+  - 4 ContactForm.tsx (Zod, honeypot, reCAPTCHA test key, client rate limit, a11y) → POST /api/contact
+  - 5 Theme: src/utils/theme.ts, src/components/ThemeProvider.tsx
+  - 10 Search.tsx (local index + scoring; minor i18n encoding issues)
+  - 12 Performance monitor: src/utils/performance.ts
+  - 13 OptimizedImage.tsx
+  - 18 Animations: src/utils/animations.ts
+  - 20 vite.config.enhanced.ts
+- Partially implemented:
+  - 9 Blog: src/components/BlogPost.tsx exists; src/utils/mdx.ts missing
+- Missing/empty:
+  - 6 src/components/SkillsRadar.tsx (empty)
+  - 7 src/components/Timeline.tsx (empty)
+  - 8 src/components/Testimonials.tsx (empty)
+  - 9 src/utils/mdx.ts (missing)
+  - 11 public/sw.js (empty)
+  - 14 src/utils/seo.tsx (empty)
+  - 15 src/utils/analytics.ts (empty)
+  - 16 src/components/ThreeBackground.tsx (empty)
+  - 17 src/pages/api/[...routes].ts (not present; repo uses discrete /api/contact|newsletter|analytics|search)
+  - 19 tests/e2e.spec.ts (empty)
+- Build notes:
+  - output: static is set for GH Pages. Built-in API routes won’t run on GH Pages; dynamic functionality must be gated or backed by serverless endpoints. src/pages/api/search.ts reads headers — incompatible with prerender; keep dev-only or move to serverless.
+  - i18n mojibake (Español, Català) in SmartNavigation.tsx and Search.tsx requires Unicode fix.
+
+Section 1 — Executive summary
+- Goal: Complete the missing components, harden accessibility and performance, and provide a realistic path for dynamic features under static hosting constraints. Deliver a coordinated plan plus precise Sonnet prompts so each component can be implemented in parallel with consistent APIs, budgets, and a11y/perf guarantees.
+- Strategy: Finish core UI components (SkillsRadar, Timeline, Testimonials, ThreeBackground), platform utilities (SEO, Analytics, MDX), PWA (Service Worker), testing, and resolve i18n/hosting gaps. Use feature flags for dynamic features where production endpoints are unavailable on GH Pages.
+
+Section 2 — Delivery phases and dependencies
+- Phase 0: Cross-cutting fixes
+  - Fix i18n encoding in SmartNavigation.tsx and Search.tsx.
+  - Decide nav strategy: keep NavigationPremium.astro or replace with SmartNavigation.tsx; document choice.
+- Phase 1: Foundations (unblocks others)
+  - 14 SEO Manager (src/utils/seo.tsx)
+  - 15 Analytics (src/utils/analytics.ts) with consent + lightweight loader
+  - 9 MDX utility (src/utils/mdx.ts)
+- Phase 2: Feature components
+  - 6 SkillsRadar.tsx (depends on theme + animations)
+  - 7 Timeline.tsx (depends on animations)
+  - 8 Testimonials.tsx
+  - 16 ThreeBackground.tsx (depends on reduced-motion policy)
+- Phase 3: Platform
+  - 11 Service Worker (public/sw.js) with opt-in registration and safe update prompt
+  - 17 API consolidation plan (dev-only router or serverless migration doc + feature flags)
+- Phase 4: Quality gates
+  - 19 tests/e2e.spec.ts (Playwright + axe), perf budgets, Lighthouse CI config
+
+Dependencies
+- SEO → affects BlogPost.tsx, pages
+- MDX → required by BlogPost.tsx
+- Analytics → event hooks in components, consent integration
+- Animations (already present) → used by SkillsRadar, Timeline, Testimonials
+- Service Worker → cache rules must exclude API calls; background sync behind feature flag
+
+Section 3 — Per-component implementation plan with acceptance criteria
+6 SkillsRadar.tsx
+- Build D3 radar with categories (Frontend/Backend/Tools/Research); GSAP/IO for enter animations; tooltips with related projects; export SVG/PNG; reduced-motion fallback (static SVG).
+- Acceptance:
+  - Keyboard accessible targets; focus outlines; ARIA descriptions of dataset
+  - <15KB uncompressed; no layout thrash; requestAnimationFrame for D3
+  - Props: lang: 'en'|'es'|'ca'; data?: optional override; onExport?: callback
+
+7 Timeline.tsx
+- Vertical desktop; horizontal scroll mobile; SVG connectors with draw animation; filters (All/Education/Research/Publications); expandable cards; print styles.
+- Acceptance:
+  - Reduced motion: no draw animations, static lines
+  - Virtualize long lists; no main thread jank
+  - Props: lang; items?: override; default pulls from existing data/i18n if present
+
+8 Testimonials.tsx
+- Carousel with autoplay (5s), pause on hover/focus, swipe/touch, dots + arrows, loop; LinkedIn photo URLs with fallbacks; rating stars with animated fill.
+- Acceptance:
+  - Keyboard nav; screenreader announcements; visible pause button
+  - Lazy-load images; <12KB uncompressed
+  - Admin/seed structure in src/data/testimonials.ts (already present)
+
+9 Blog system utility (src/utils/mdx.ts)
+- MDX rendering with custom components, Prism highlighting, TOC generation, reading time estimator, SEO hooks, print CSS helpers.
+- Acceptance:
+  - Pure ESM; tree-shaken; TOC as array of {id, text, level}
+  - integrate with BlogPost.tsx via explicit exported functions
+
+11 Service Worker (public/sw.js)
+- Stale-while-revalidate for pages; cache-first for static assets; offline fallback page; update prompt; background sync for contact form gated by feature flag (disabled on GH Pages by default).
+- Acceptance:
+  - Versioned cache keys; cleanup old caches; skipWaiting + clients.claim flow with user prompt
+  - Safety: never cache POST/PUT; exclude /api/*
+
+14 SEO Manager (src/utils/seo.tsx)
+- Helpers to build dynamic meta tags, OG/Twitter, canonical URLs, hreflang for en/es/ca, JSON-LD (Person/Article), breadcrumb schema.
+- Acceptance:
+  - Types for inputs; test helpers; minimal runtime weight; matches site base (/Portfolio)
+
+15 Analytics (src/utils/analytics.ts)
+- GA4 loader behind consent; custom events (scroll depth, downloads, form); privacy-first (IP anonymization if applicable), minimal script loading; export typed track() helpers.
+- Acceptance:
+  - No PII; defer/idle load; feature flag to disable entirely
+
+16 ThreeBackground.tsx
+- Three.js particle/mesh with parallax; cap CPU/GPU; mobile fallback; reduced-motion static canvas; proper disposal and memory management; lazy-loaded module.
+- Acceptance:
+  - No main thread jank; throttled interactions; SSR-safe dynamic import
+
+17 API Routes strategy
+- Option A (dev-only): src/pages/api/[...routes].ts with export const prerender = false; proxy to discrete handlers or unify zod schemas; used only in dev.
+- Option B (serverless): Document external deployment (Netlify/Vercel/Cloudflare). Add feature flags and env-based endpoint switching in client components (ContactForm, Search). Default GH Pages disables dynamic calls or uses third-party endpoints.
+- Acceptance:
+  - Clear toggle via src/utils/featureFlags.ts; no broken requests on GH Pages
+
+19 E2E tests (tests/e2e.spec.ts)
+- Playwright: journeys (navigation reveal/hide, search interaction, contact form validation); axe-core a11y; Lighthouse CI or budget script to assert JS/CSS budgets.
+- Acceptance:
+  - Headless passing locally; CI-ready config scaffold
+
+Cross-cutting fixes
+- i18n encoding: Replace “Espa�ol”, “Catal�” with “Español”, “Català” in SmartNavigation.tsx and Search.tsx; verify all visible strings.
+- Nav strategy: Choose canonical nav component (recommend SmartNavigation.tsx) and remove or mark NavigationPremium.astro as legacy to avoid drift.
+
+Section 4 — Integration and deployment notes
+- Astro output: static; GH Pages cannot run SSR/API. Ensure:
+  - Service worker excludes /api/* and any POSTs.
+  - Contact form/Search: feature-flag dynamic features or point to serverless endpoints when available.
+  - For dev: allow local API routes; for prod GH Pages: disable or use external services.
+- Base path awareness: All links/assets must respect base=/Portfolio.
+
+Section 5 — Testing and quality gates
+- Unit/integration tests (where practical) for utilities (seo.tsx, analytics.ts, mdx.ts).
+- E2E: Playwright flows for nav/search/contact; a11y with axe; perf budgets.
+- Performance/lint: Ensure no added large deps; each component <15KB uncompressed; only transform/opacity animations.
+
+Section 6 — Risks and mitigations
+- Static hosting vs API: Gate dynamic features, provide serverless plan, or graceful no-op in prod.
+- Service worker pitfalls: Cache poisoning, broken updates → versioned caches, update prompt, exclude dynamic.
+- Three.js weight: Lazy-load, small geometry, early bail on reduced motion.
+- D3/GSAP cost: Tree-shake and scope to component chunks; only load when needed.
+
+Section 7 — Team workflow
+- Branch per component; PR with:
+  - Type-safety, a11y checks, perf note (bundle delta), Lighthouse snapshot
+  - Visual diff (screens or short clip)
+  - Tests updated/added
+- Code review checklist:
+  - a11y (focus, labels, reduced motion) ✓
+  - perf (chunk size, lazy load, no layout thrash) ✓
+  - base path correctness ✓
+  - i18n coverage ✓
+  - static hosting-safe ✓
+
+Section 8 — Sonnet 4 prompts (copy one per instance)
+
+Prompt A — COMPONENT 6: SkillsRadar.tsx
+- Implement src/components/SkillsRadar.tsx as a strict TypeScript React 19 component.
+- Features: D3 radar (Frontend/Backend/Tools/Research), GSAP/IntersectionObserver enter animations, keyboard accessible points, tooltips with related projects, export SVG/PNG, responsive, reduced-motion static fallback.
+- Props: { lang: 'en'|'es'|'ca'; className?: string; data?: CustomData; onExport?: (blob: Blob)=>void }
+- Constraints: <15KB uncompressed; no layout thrash; rAF for animations; WCAG AA.
+- Tests: Render snapshot, a11y role/labels, export function smoke test.
+
+Prompt B — COMPONENT 7: Timeline.tsx
+- Implement src/components/Timeline.tsx with vertical desktop + horizontal mobile, SVG connectors with draw animation (reduced-motion fallback), filters (All/Education/Research/Publications), expandable detail cards, print styles.
+- Props: { lang: 'en'|'es'|'ca'; items?: TimelineItem[] }
+- Constraints: virtualize long lists; transform/opacity only; <15KB.
+- Tests: filter toggles, expand/collapse a11y, reduced-motion behavior.
+
+Prompt C — COMPONENT 8: Testimonials.tsx
+- Implement src/components/Testimonials.tsx carousel with autoplay(5s), pause on hover/focus, swipe/touch, dots+arrows, loop; LinkedIn photo URLs with fallback; rating stars with animated fill.
+- Props: { lang: 'en'|'es'|'ca'; items?: Testimonial[] }
+- Constraints: a11y keyboard nav, announcements; lazy images; <12KB.
+- Tests: keyboard nav, autoplay pause, swipe gesture.
+
+Prompt D — COMPONENT 9: MDX utility (src/utils/mdx.ts)
+- Implement ESM helpers: renderMDXToReact(md: string, components?: Record<string, any>): ReactNode; getTOC(md: string): TocItem[]; getReadingTime(md: string): { minutes: number; words: number }.
+- Include Prism highlighting and headings extraction; tree-shake and keep runtime light.
+- Tests: TOC extraction for h2–h4, reading time calc, code block highlight presence.
+
+Prompt E — COMPONENT 11: Service Worker (public/sw.js)
+- Implement versioned caches, SWR for pages, cache-first for static assets, offline fallback, safe update flow (skipWaiting+clients.claim with user prompt), background sync for contact form gated by feature flag (off by default for GH Pages).
+- Constraints: Never cache POST/PUT; exclude /api/*; keep code concise and commented.
+- Tests: Manual QA script; verify offline page and update prompt.
+
+Prompt F — COMPONENT 14: SEO Manager (src/utils/seo.tsx)
+- Implement typed helpers to generate meta tags, OG/Twitter, canonical URLs, hreflang (en/es/ca), JSON-LD for Person/Article and breadcrumbs; base path aware (/Portfolio).
+- Provide a small React helper to inject tags in Astro/React islands.
+- Tests: Helper unit tests for canonical/hreflang/JSON-LD output.
+
+Prompt G — COMPONENT 15: Analytics (src/utils/analytics.ts)
+- Implement GA4 loader behind consent + feature flag; typed trackEvent/trackPageview; custom events for scroll depth/downloads/form; privacy-first and defer/idle loading.
+- Tests: no-op when disabled; events queued until loaded.
+
+Prompt H — COMPONENT 16: ThreeBackground.tsx
+- Implement an optimized Three.js background with particle/mesh, mouse parallax, mobile/reduced-motion fallback (static/canvas), lazy-loaded Three; proper disposal.
+- Props: { enabled?: boolean; quality?: 'low'|'med'|'high' }
+- Constraints: <20KB for component code (Three is lazy); no jank.
+- Tests: mount/unmount cleanup; reduced motion path.
+
+Prompt I — COMPONENT 17: API strategy
+- Provide src/pages/api/[...routes].ts as dev-only (export const prerender = false) router that delegates to existing handlers (contact, newsletter, analytics, search), or supply a doc snippet and feature flag config to switch to external serverless endpoints in production.
+- Deliver a small update to src/utils/featureFlags.ts to centralize endpoints and enable/disable dynamic features on GH Pages.
+
+Prompt J — COMPONENT 19: E2E tests (tests/e2e.spec.ts)
+- Implement Playwright tests: nav visibility behavior; search interaction; contact form validation/submit mock; axe a11y checks; simple budget assertion (JS/CSS sizes) or Lighthouse CI hook scaffold.
+- Output CI-ready test file with clear TODOs for pipeline integration.
+
+Cross-cutting prompt K — i18n encoding fixes
+- Fix mojibake in SmartNavigation.tsx and Search.tsx for “Español”, “Català” and any other mis-encoded strings; ensure UTF-8.
+
+End of prompt
+
+
+INSTRUCTION: Implement Prompt A — COMPONENT 6: SkillsRadar.tsx (src/components/SkillsRadar.tsx). Output only the complete file content.

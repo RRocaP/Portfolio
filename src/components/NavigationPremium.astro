@@ -1,5 +1,9 @@
 ---
-const currentPath = Astro.url.pathname;
+import Search from './Search.tsx';
+
+// Use client-side language detection for static builds
+const { pathname = '/' } = Astro.props;
+const currentPath = pathname || (typeof Astro !== 'undefined' && Astro.url ? Astro.url.pathname : '/');
 const currentLang = currentPath.includes('/es/') ? 'es' : currentPath.includes('/ca/') ? 'ca' : 'en';
 
 const navItems = {
@@ -43,6 +47,10 @@ const items = navItems[currentLang];
       ))}
     </ul>
     
+    <div class="nav-search">
+      <Search lang={currentLang} className="search-compact" client:load />
+    </div>
+    
     <div class="nav-lang" role="navigation" aria-label="Language selector">
       <a href="/Portfolio/en/" class={currentLang === 'en' ? 'active' : ''} aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>EN</a>
       <a href="/Portfolio/es/" class={currentLang === 'es' ? 'active' : ''} aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>ES</a>
@@ -83,6 +91,7 @@ const items = navItems[currentLang];
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
   }
   
   .nav-logo {
@@ -170,6 +179,30 @@ const items = navItems[currentLang];
     border-color: rgba(239, 68, 68, 0.3);
   }
   
+  .nav-search {
+    flex: 1;
+    max-width: 400px;
+    min-width: 200px;
+  }
+  
+  /* Compact search styles for navigation */
+  .nav-search :global(.search-compact) {
+    max-width: 100%;
+  }
+  
+  .nav-search :global(.search-compact input) {
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  }
+  
+  .nav-search :global(.search-compact input:focus) {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(239, 68, 68, 0.5);
+  }
+  
   .nav-toggle {
     display: none;
     flex-direction: column;
@@ -190,6 +223,18 @@ const items = navItems[currentLang];
   
   /* Mobile styles */
   @media (max-width: 768px) {
+    .nav-container {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .nav-search {
+      order: 3;
+      flex-basis: 100%;
+      max-width: none;
+      margin-top: 0.5rem;
+    }
+    
     .nav-menu {
       position: fixed;
       left: 0;
@@ -230,6 +275,22 @@ const items = navItems[currentLang];
     .nav-lang {
       position: absolute;
       right: 60px;
+    }
+  }
+  
+  /* Ultra-mobile styles */
+  @media (max-width: 480px) {
+    .nav-container {
+      padding: 1rem;
+    }
+    
+    .nav-search {
+      margin-top: 0.75rem;
+    }
+    
+    .nav-search :global(.search-compact input) {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.5rem 0.5rem 2rem;
     }
   }
 </style>

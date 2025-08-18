@@ -55,16 +55,48 @@ export function lazyLoadImages(selector: string = 'img[data-src]'): void {
 }
 
 /**
- * Lazy load D3.js when needed for protein visualizations
+ * Lazy load D3.js when needed for visualizations
+ * Now code-split into separate vendor chunk
  */
 export async function loadD3() {
   try {
+    // Wait for idle callback to avoid blocking main thread
+    await new Promise(resolve => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(resolve, { timeout: 1000 });
+      } else {
+        setTimeout(resolve, 16);
+      }
+    });
+    
     const d3Module = await import('d3');
     return d3Module;
   } catch (error) {
     console.error('Failed to load D3.js:', error);
     throw error;
   }
+}
+
+/**
+ * Lazy load visualization components with budget awareness
+ */
+export async function loadVisualizationComponent(componentName: 'timeline' | 'protein') {
+  if (!navigator.connection || navigator.connection.effectiveType !== 'slow-2g') {
+    try {
+      switch (componentName) {
+        case 'timeline':
+          return await import('../components/AntimicrobialResistanceTimeline.tsx');
+        case 'protein':
+          return await import('../utils/ProteinVisualization.ts');
+        default:
+          throw new Error(`Unknown component: ${componentName}`);
+      }
+    } catch (error) {
+      console.error(`Failed to load ${componentName} component:`, error);
+      return null;
+    }
+  }
+  return null; // Skip on slow connections
 }
 
 /**

@@ -1,0 +1,103 @@
+{
+  "timestamp": "2025-08-18T10:40:37.224Z",
+  "sizes": {
+    "script": 390885,
+    "stylesheet": 89439,
+    "image": 187056,
+    "font": 0,
+    "total": 1609544
+  },
+  "counts": {
+    "script": 21,
+    "stylesheet": 10,
+    "font": 0
+  },
+  "violations": [
+    {
+      "type": "size",
+      "category": "script",
+      "actual": 390885,
+      "budget": 204800,
+      "overage": 186085,
+      "severity": "high"
+    },
+    {
+      "type": "size",
+      "category": "stylesheet",
+      "actual": 89439,
+      "budget": 81920,
+      "overage": 7519,
+      "severity": "medium"
+    },
+    {
+      "type": "size",
+      "category": "total",
+      "actual": 1609544,
+      "budget": 1048576,
+      "overage": 560968,
+      "severity": "high"
+    },
+    {
+      "type": "count",
+      "category": "script",
+      "actual": 21,
+      "budget": 5,
+      "overage": 16,
+      "severity": "medium"
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "optimization",
+      "target": "_astro/vendor-react.DgACkRi3.js",
+      "issue": "Large file (177 KB)",
+      "suggestion": "Consider code splitting, lazy loading, or compression"
+    },
+    {
+      "type": "optimization",
+      "target": "_astro/vendor-gsap.Bu4Prr2M.js",
+      "issue": "Large file (120 KB)",
+      "suggestion": "Consider code splitting, lazy loading, or compression"
+    },
+    {
+      "type": "bundle-optimization",
+      "target": "_astro/vendor-react.DgACkRi3.js",
+      "issue": "Large JavaScript bundle (177 KB)",
+      "suggestion": "Consider code splitting, tree shaking, or lazy loading"
+    },
+    {
+      "type": "bundle-optimization",
+      "target": "_astro/vendor-gsap.Bu4Prr2M.js",
+      "issue": "Large JavaScript bundle (120 KB)",
+      "suggestion": "Consider code splitting, tree shaking, or lazy loading"
+    },
+    {
+      "type": "image-optimization",
+      "target": "hero/video-poster.jpg",
+      "issue": "Large image (53.5 KB)",
+      "suggestion": "Optimize with WebP/AVIF, resize appropriately, or implement lazy loading"
+    }
+  ],
+  "budgets": {
+    "sizes": {
+      "script": 204800,
+      "stylesheet": 81920,
+      "image": 512000,
+      "font": 102400,
+      "total": 1048576
+    },
+    "counts": {
+      "script": 5,
+      "stylesheet": 10,
+      "font": 4
+    },
+    "runtime": {
+      "lcp": 2500,
+      "fid": 100,
+      "cls": 0.1,
+      "fcp": 1800,
+      "ttfb": 800
+    }
+  },
+  "files": 82
+}

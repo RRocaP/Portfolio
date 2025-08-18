@@ -1,0 +1,987 @@
+---
+/**
+ * Testimonials Slider Component
+ * Features smooth animations, touch gestures, and accessibility
+ */
+import testimonials from '../data/testimonials';
+
+export interface Props {
+  lang?: 'en' | 'es' | 'ca';
+  showFeaturedOnly?: boolean;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
+  showRatings?: boolean;
+  maxItems?: number;
+}
+
+const { 
+  lang = 'en', 
+  showFeaturedOnly = false,
+  autoPlay = true,
+  autoPlayInterval = 5000,
+  showRatings = true,
+  maxItems 
+} = Astro.props;
+
+// Filter and prepare testimonials
+let displayTestimonials = showFeaturedOnly 
+  ? testimonials.filter(t => t.featured) 
+  : testimonials;
+
+if (maxItems) {
+  displayTestimonials = displayTestimonials.slice(0, maxItems);
+}
+
+const sectionTitles = {
+  en: {
+    title: 'What Collaborators Say',
+    subtitle: 'Testimonials from research partners and colleagues'
+  },
+  es: {
+    title: 'Lo Que Dicen los Colaboradores',
+    subtitle: 'Testimonios de socios de investigación y colegas'
+  },
+  ca: {
+    title: 'El Que Diuen els Col·laboradors',
+    subtitle: 'Testimonis de socis de recerca i col·legues'
+  }
+};
+
+const t = sectionTitles[lang];
+---
+
+<section class="testimonials-section" id="testimonials" aria-label="Testimonials">
+  <div class="container">
+    <div class="section-header fade-in-element">
+      <h2 class="section-title">{t.title}</h2>
+      <p class="section-subtitle">{t.subtitle}</p>
+    </div>
+
+    <div class="testimonials-slider" data-testimonials-slider>
+      <div class="testimonials-track" data-track>
+        {displayTestimonials.map((testimonial, index) => (
+          <div 
+            class="testimonial-card" 
+            data-slide={index}
+            data-animation-id={`testimonial-${index}`}
+          >
+            <div class="testimonial-content">
+              <div class="testimonial-quote">
+                <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
+                </svg>
+                <p class="testimonial-text">{testimonial.content[lang]}</p>
+              </div>
+              
+              {showRatings && testimonial.rating && (
+                <div class="testimonial-rating">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <svg 
+                      class={`star ${i < testimonial.rating ? 'star-filled' : 'star-empty'}`}
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="currentColor"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                </div>
+              )}
+              
+              <div class="testimonial-author">
+                <div class="author-avatar">
+                  {testimonial.avatar ? (
+                    <img 
+                      src={testimonial.avatar} 
+                      alt={`${testimonial.name} avatar`}
+                      loading="lazy"
+                      onError="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    />
+                  ) : null}
+                  <div class="avatar-fallback" style={testimonial.avatar ? "display: none;" : ""}>
+                    {testimonial.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                  </div>
+                </div>
+                
+                <div class="author-info">
+                  <h3 class="author-name">{testimonial.name}</h3>
+                  <p class="author-title">{testimonial.title}</p>
+                  <p class="author-org">{testimonial.organization}</p>
+                  
+                  {testimonial.collaboration && (
+                    <p class="collaboration-period">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                      {testimonial.collaboration}
+                    </p>
+                  )}
+                  
+                  <div class="expertise-tags">
+                    {testimonial.expertise.slice(0, 2).map(skill => (
+                      <span class="expertise-tag">{skill}</span>
+                    ))}
+                    {testimonial.expertise.length > 2 && (
+                      <span class="expertise-more">+{testimonial.expertise.length - 2}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <!-- Navigation controls -->
+      <div class="slider-controls">
+        <button 
+          class="slider-btn slider-btn-prev" 
+          data-direction="prev"
+          aria-label="Previous testimonial"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        
+        <div class="slider-dots" role="tablist">
+          {displayTestimonials.map((_, index) => (
+            <button 
+              class={`slider-dot ${index === 0 ? 'active' : ''}`}
+              data-slide={index}
+              role="tab"
+              aria-label={`Go to testimonial ${index + 1}`}
+            ></button>
+          ))}
+        </div>
+        
+        <button 
+          class="slider-btn slider-btn-next" 
+          data-direction="next"
+          aria-label="Next testimonial"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Auto-play indicator -->
+      {autoPlay && (
+        <div class="autoplay-indicator">
+          <button class="autoplay-toggle" data-autoplay-toggle aria-label="Toggle auto-play">
+            <svg class="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg class="pause-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+          </button>
+          <div class="progress-ring">
+            <div class="progress-bar" data-progress-bar></div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(218, 41, 28, 0.5) 50%, transparent 100%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #DA291C 0%, #FFD93D 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .section-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  .testimonials-slider {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .testimonials-track {
+    position: relative;
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+
+  .testimonial-card {
+    flex: 0 0 100%;
+    padding: 0 1rem;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .testimonial-card.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .testimonial-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-content:hover {
+    border-color: rgba(218, 41, 28, 0.3);
+    box-shadow: 0 20px 60px rgba(218, 41, 28, 0.1);
+  }
+
+  .testimonial-quote {
+    margin-bottom: 2rem;
+  }
+
+  .quote-icon {
+    color: rgba(218, 41, 28, 0.6);
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .testimonial-rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .star {
+    transition: color 0.2s ease;
+  }
+
+  .star-filled {
+    color: #FFD93D;
+  }
+
+  .star-empty {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .author-avatar {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+
+  .author-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(218, 41, 28, 0.3);
+  }
+
+  .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #DA291C 0%, #B91C1C 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white;
+  }
+
+  .author-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .author-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .author-title {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 0.25rem 0;
+    font-weight: 500;
+  }
+
+  .author-org {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 1rem 0;
+  }
+
+  .collaboration-period {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(218, 41, 28, 0.8);
+    margin: 0 0 1rem 0;
+  }
+
+  .collaboration-period svg {
+    flex-shrink: 0;
+  }
+
+  .expertise-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .expertise-tag {
+    background: rgba(255, 217, 61, 0.1);
+    color: rgba(255, 217, 61, 0.9);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 217, 61, 0.2);
+  }
+
+  .expertise-more {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .slider-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .slider-btn:hover {
+    background: rgba(218, 41, 28, 0.2);
+    border-color: rgba(218, 41, 28, 0.4);
+    color: #DA291C;
+    transform: scale(1.05);
+  }
+
+  .slider-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .slider-dots {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .slider-dot::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+
+  .slider-dot:hover::before {
+    background: rgba(218, 41, 28, 0.2);
+  }
+
+  .slider-dot.active {
+    background: #DA291C;
+    transform: scale(1.2);
+  }
+
+  .autoplay-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .autoplay-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .autoplay-toggle:hover {
+    background: rgba(218, 41, 28, 0.2);
+    border-color: rgba(218, 41, 28, 0.4);
+  }
+
+  .progress-ring {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #DA291C 0deg, rgba(255, 255, 255, 0.2) 0deg);
+    padding: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.9);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .testimonials-section {
+      padding: 4rem 0;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .testimonial-content {
+      padding: 2rem;
+    }
+
+    .testimonial-author {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 60px;
+      height: 60px;
+    }
+
+    .slider-controls {
+      gap: 1rem;
+    }
+
+    .autoplay-indicator {
+      position: static;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials-track,
+    .testimonial-card,
+    .testimonial-content,
+    .slider-btn,
+    .slider-dot {
+      transition: none !important;
+    }
+
+    .testimonial-content:hover {
+      transform: none;
+    }
+  }
+
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .testimonial-content {
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .slider-btn,
+    .autoplay-toggle {
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+</style>
+
+<script>
+  import { getAnimationController, animations } from '../utils/animations';
+
+  interface TestimonialsSliderOptions {
+    autoPlay: boolean;
+    autoPlayInterval: number;
+    enableTouch: boolean;
+    enableKeyboard: boolean;
+    showProgressBar: boolean;
+  }
+
+  class TestimonialsSlider {
+    private slider: HTMLElement;
+    private track: HTMLElement;
+    private slides: NodeListOf<HTMLElement>;
+    private dots: NodeListOf<HTMLButtonElement>;
+    private prevBtn: HTMLButtonElement | null;
+    private nextBtn: HTMLButtonElement | null;
+    private autoPlayToggle: HTMLButtonElement | null;
+    private progressBar: HTMLElement | null;
+
+    private currentIndex = 0;
+    private isAutoPlaying = false;
+    private autoPlayTimer: number | null = null;
+    private progressTimer: number | null = null;
+    private touchStartX = 0;
+    private touchEndX = 0;
+    private isDragging = false;
+
+    private animationController = getAnimationController({
+      enableDebugMode: false,
+      respectReducedMotion: true
+    });
+
+    private options: TestimonialsSliderOptions;
+
+    constructor(element: HTMLElement, options: Partial<TestimonialsSliderOptions> = {}) {
+      this.slider = element;
+      
+      this.options = {
+        autoPlay: true,
+        autoPlayInterval: 5000,
+        enableTouch: true,
+        enableKeyboard: true,
+        showProgressBar: true,
+        ...options
+      };
+
+      this.init();
+    }
+
+    private init(): void {
+      // Get DOM elements
+      this.track = this.slider.querySelector('[data-track]')!;
+      this.slides = this.slider.querySelectorAll('.testimonial-card');
+      this.dots = this.slider.querySelectorAll('.slider-dot');
+      this.prevBtn = this.slider.querySelector('.slider-btn-prev');
+      this.nextBtn = this.slider.querySelector('.slider-btn-next');
+      this.autoPlayToggle = this.slider.querySelector('.autoplay-toggle');
+      this.progressBar = this.slider.querySelector('[data-progress-bar]');
+
+      if (this.slides.length === 0) return;
+
+      // Initialize first slide
+      this.updateActiveSlide(0, false);
+
+      // Setup event listeners
+      this.setupEventListeners();
+
+      // Start auto-play if enabled
+      if (this.options.autoPlay) {
+        this.startAutoPlay();
+      }
+
+      // Register animations
+      this.registerAnimations();
+
+      console.log(`TestimonialsSlider initialized with ${this.slides.length} slides`);
+    }
+
+    private setupEventListeners(): void {
+      // Navigation buttons
+      this.prevBtn?.addEventListener('click', () => this.goToPrevious());
+      this.nextBtn?.addEventListener('click', () => this.goToNext());
+
+      // Dots navigation
+      this.dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => this.goToSlide(index));
+      });
+
+      // Auto-play toggle
+      this.autoPlayToggle?.addEventListener('click', () => this.toggleAutoPlay());
+
+      // Touch events
+      if (this.options.enableTouch) {
+        this.setupTouchEvents();
+      }
+
+      // Keyboard navigation
+      if (this.options.enableKeyboard) {
+        this.setupKeyboardEvents();
+      }
+
+      // Pause auto-play on hover
+      this.slider.addEventListener('mouseenter', () => this.pauseAutoPlay());
+      this.slider.addEventListener('mouseleave', () => {
+        if (this.isAutoPlaying) {
+          this.startAutoPlay();
+        }
+      });
+
+      // Handle visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.pauseAutoPlay();
+        } else if (this.isAutoPlaying) {
+          this.startAutoPlay();
+        }
+      });
+    }
+
+    private setupTouchEvents(): void {
+      let startTime: number;
+
+      this.slider.addEventListener('touchstart', (e) => {
+        this.touchStartX = e.touches[0].clientX;
+        startTime = Date.now();
+        this.isDragging = false;
+        this.pauseAutoPlay();
+      }, { passive: true });
+
+      this.slider.addEventListener('touchmove', (e) => {
+        const touchCurrentX = e.touches[0].clientX;
+        const diff = Math.abs(touchCurrentX - this.touchStartX);
+        
+        if (diff > 10) {
+          this.isDragging = true;
+        }
+      }, { passive: true });
+
+      this.slider.addEventListener('touchend', (e) => {
+        this.touchEndX = e.changedTouches[0].clientX;
+        const timeDiff = Date.now() - startTime;
+        const distance = Math.abs(this.touchEndX - this.touchStartX);
+        
+        // Only register swipe if it's quick and covers enough distance
+        if (timeDiff < 300 && distance > 50 && this.isDragging) {
+          if (this.touchStartX > this.touchEndX + 50) {
+            this.goToNext();
+          } else if (this.touchStartX < this.touchEndX - 50) {
+            this.goToPrevious();
+          }
+        }
+
+        // Resume auto-play after touch interaction
+        setTimeout(() => {
+          if (this.isAutoPlaying) {
+            this.startAutoPlay();
+          }
+        }, 1000);
+      }, { passive: true });
+    }
+
+    private setupKeyboardEvents(): void {
+      this.slider.addEventListener('keydown', (e) => {
+        if (!this.slider.contains(document.activeElement)) return;
+
+        switch (e.key) {
+          case 'ArrowLeft':
+            e.preventDefault();
+            this.goToPrevious();
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            this.goToNext();
+            break;
+          case 'Home':
+            e.preventDefault();
+            this.goToSlide(0);
+            break;
+          case 'End':
+            e.preventDefault();
+            this.goToSlide(this.slides.length - 1);
+            break;
+          case ' ':
+            e.preventDefault();
+            this.toggleAutoPlay();
+            break;
+        }
+      });
+    }
+
+    private registerAnimations(): void {
+      // Register slide animations
+      this.slides.forEach((slide, index) => {
+        this.animationController.register(
+          `testimonial-slide-${index}`,
+          slide,
+          'load',
+          'medium'
+        );
+      });
+    }
+
+    private goToSlide(index: number, animate = true): void {
+      if (index === this.currentIndex || index < 0 || index >= this.slides.length) {
+        return;
+      }
+
+      this.updateActiveSlide(index, animate);
+      this.resetAutoPlayProgress();
+    }
+
+    private goToNext(): void {
+      const nextIndex = (this.currentIndex + 1) % this.slides.length;
+      this.goToSlide(nextIndex);
+    }
+
+    private goToPrevious(): void {
+      const prevIndex = this.currentIndex === 0 ? this.slides.length - 1 : this.currentIndex - 1;
+      this.goToSlide(prevIndex);
+    }
+
+    private async updateActiveSlide(index: number, animate = true): Promise<void> {
+      const previousIndex = this.currentIndex;
+      this.currentIndex = index;
+
+      // Update slides
+      this.slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+        
+        // Update ARIA attributes
+        slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+        slide.setAttribute('tabindex', i === index ? '0' : '-1');
+      });
+
+      // Update dots
+      this.dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+        dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+
+      // Update button states
+      if (this.prevBtn) {
+        this.prevBtn.disabled = false; // Enable circular navigation
+      }
+      if (this.nextBtn) {
+        this.nextBtn.disabled = false; // Enable circular navigation
+      }
+
+      // Animate slide transition if enabled
+      if (animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const currentSlide = this.slides[index];
+        
+        // Animate the new slide in
+        await this.animationController.animate(
+          `testimonial-slide-${index}`,
+          animations.fadeIn,
+          {
+            duration: 500,
+            easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+          }
+        );
+      }
+
+      // Update screen reader announcements
+      this.announceSlideChange(index);
+    }
+
+    private announceSlideChange(index: number): void {
+      // Create or update screen reader announcement
+      let announcement = document.getElementById('testimonial-announcement');
+      if (!announcement) {
+        announcement = document.createElement('div');
+        announcement.id = 'testimonial-announcement';
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.style.position = 'absolute';
+        announcement.style.left = '-10000px';
+        announcement.style.width = '1px';
+        announcement.style.height = '1px';
+        announcement.style.overflow = 'hidden';
+        document.body.appendChild(announcement);
+      }
+
+      announcement.textContent = `Testimonial ${index + 1} of ${this.slides.length}`;
+    }
+
+    private startAutoPlay(): void {
+      this.pauseAutoPlay(); // Clear any existing timer
+      
+      this.autoPlayTimer = window.setInterval(() => {
+        this.goToNext();
+      }, this.options.autoPlayInterval);
+
+      this.startProgressBar();
+      this.updateAutoPlayButton(true);
+    }
+
+    private pauseAutoPlay(): void {
+      if (this.autoPlayTimer) {
+        clearInterval(this.autoPlayTimer);
+        this.autoPlayTimer = null;
+      }
+      
+      this.pauseProgressBar();
+    }
+
+    private toggleAutoPlay(): void {
+      this.isAutoPlaying = !this.isAutoPlaying;
+      
+      if (this.isAutoPlaying) {
+        this.startAutoPlay();
+      } else {
+        this.pauseAutoPlay();
+        this.updateAutoPlayButton(false);
+      }
+    }
+
+    private startProgressBar(): void {
+      if (!this.progressBar || !this.options.showProgressBar) return;
+
+      this.pauseProgressBar();
+      
+      let progress = 0;
+      const increment = 100 / (this.options.autoPlayInterval / 100);
+      
+      this.progressTimer = window.setInterval(() => {
+        progress += increment;
+        if (progress >= 100) {
+          progress = 0;
+        }
+        
+        if (this.progressBar) {
+          this.progressBar.parentElement!.style.background = 
+            `conic-gradient(from 0deg, #DA291C ${progress * 3.6}deg, rgba(255, 255, 255, 0.2) ${progress * 3.6}deg)`;
+        }
+      }, 100);
+    }
+
+    private pauseProgressBar(): void {
+      if (this.progressTimer) {
+        clearInterval(this.progressTimer);
+        this.progressTimer = null;
+      }
+    }
+
+    private resetAutoPlayProgress(): void {
+      if (this.progressBar && this.options.showProgressBar) {
+        this.progressBar.parentElement!.style.background = 
+          'conic-gradient(from 0deg, #DA291C 0deg, rgba(255, 255, 255, 0.2) 0deg)';
+      }
+    }
+
+    private updateAutoPlayButton(isPlaying: boolean): void {
+      if (!this.autoPlayToggle) return;
+
+      const playIcon = this.autoPlayToggle.querySelector('.play-icon') as HTMLElement;
+      const pauseIcon = this.autoPlayToggle.querySelector('.pause-icon') as HTMLElement;
+
+      if (playIcon && pauseIcon) {
+        playIcon.style.display = isPlaying ? 'none' : 'block';
+        pauseIcon.style.display = isPlaying ? 'block' : 'none';
+      }
+
+      this.autoPlayToggle.setAttribute('aria-label', 
+        isPlaying ? 'Pause auto-play' : 'Start auto-play'
+      );
+    }
+
+    public destroy(): void {
+      this.pauseAutoPlay();
+      // Remove event listeners would go here
+      console.log('TestimonialsSlider destroyed');
+    }
+  }
+
+  // Initialize all testimonial sliders
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliders = document.querySelectorAll('[data-testimonials-slider]');
+    
+    sliders.forEach((slider) => {
+      const element = slider as HTMLElement;
+      const autoPlay = element.dataset.autoplay !== 'false';
+      const interval = parseInt(element.dataset.interval || '5000');
+      
+      new TestimonialsSlider(element, {
+        autoPlay,
+        autoPlayInterval: interval,
+        enableTouch: true,
+        enableKeyboard: true,
+        showProgressBar: true
+      });
+    });
+  });
+</script>

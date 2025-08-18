@@ -28,9 +28,26 @@ const items = timelineData[lang] || [];
     ))}
     <div class="profile-end animate-fade-in-up animate-delay-4">
       <picture>
-        <source srcset="/Portfolio/profile.avif" type="image/avif" />
-        <source srcset="/Portfolio/profile.webp" type="image/webp" />
-        <img src="/Portfolio/profile.jpg" alt="Profile portrait" loading="lazy" decoding="async" width="120" height="120" />
+        <source 
+          srcset="/Portfolio/profile.avif 120w, /Portfolio/profile@2x.avif 240w" 
+          type="image/avif" 
+          sizes="120px"
+        />
+        <source 
+          srcset="/Portfolio/profile.webp 120w, /Portfolio/profile@2x.webp 240w" 
+          type="image/webp"
+          sizes="120px" 
+        />
+        <img 
+          src="/Portfolio/profile.jpg" 
+          srcset="/Portfolio/profile.jpg 120w, /Portfolio/profile@2x.jpg 240w"
+          alt="Profile portrait" 
+          loading="lazy" 
+          decoding="async" 
+          width="120" 
+          height="120"
+          sizes="120px"
+        />
       </picture>
       <div class="profile-info">
         <h3>Ramon Roca Pinilla</h3>

@@ -1,0 +1,439 @@
+---
+/**
+ * Animation Controller Usage Example
+ * Demonstrates various animation patterns and best practices
+ */
+---
+
+<section class="animation-demo">
+  <div class="container">
+    <h2>Animation Controller Demo</h2>
+    
+    <!-- Basic fade-in animations -->
+    <div class="demo-section">
+      <h3>Scroll-Triggered Animations</h3>
+      <div class="fade-in-element" data-fade-in>
+        <p>This element fades in when it enters the viewport</p>
+      </div>
+      
+      <div class="slide-up-element" data-scroll-animate="slideUp">
+        <p>This element slides up from below</p>
+      </div>
+    </div>
+    
+    <!-- Stagger animations -->
+    <div class="demo-section">
+      <h3>Stagger Animations</h3>
+      <div class="stagger-container" data-stagger>
+        <div class="stagger-item">Item 1</div>
+        <div class="stagger-item">Item 2</div>
+        <div class="stagger-item">Item 3</div>
+        <div class="stagger-item">Item 4</div>
+      </div>
+    </div>
+    
+    <!-- Interactive elements -->
+    <div class="demo-section">
+      <h3>Interactive Elements</h3>
+      <button class="magnetic-btn" data-magnetic>Magnetic Button</button>
+      <button class="pulse-btn" data-pulse>Pulse Animation</button>
+    </div>
+    
+    <!-- Parallax elements -->
+    <div class="demo-section">
+      <h3>Parallax Effects</h3>
+      <div class="parallax-container">
+        <div class="parallax-element" data-parallax data-parallax-speed="0.3">
+          <p>Slow parallax background</p>
+        </div>
+        <div class="parallax-element" data-parallax data-parallax-speed="0.6">
+          <p>Fast parallax foreground</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Performance metrics display -->
+    <div class="demo-section">
+      <h3>Performance Metrics</h3>
+      <div id="performanceMetrics" class="metrics-display"></div>
+      <button id="toggleMetrics" class="toggle-btn">Toggle Metrics</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .animation-demo {
+    padding: 4rem 0;
+    background: #0A0A0A;
+    color: white;
+    min-height: 200vh; /* Tall for scroll testing */
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .demo-section {
+    margin: 4rem 0;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  
+  h2, h3 {
+    color: #DA291C;
+    margin-bottom: 1.5rem;
+  }
+  
+  .fade-in-element,
+  .slide-up-element {
+    padding: 2rem;
+    background: rgba(218, 41, 28, 0.1);
+    border-radius: 8px;
+    margin: 1rem 0;
+    border-left: 4px solid #DA291C;
+  }
+  
+  .stagger-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .stagger-item {
+    padding: 1.5rem;
+    background: rgba(255, 217, 61, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 217, 61, 0.3);
+  }
+  
+  .magnetic-btn,
+  .pulse-btn,
+  .toggle-btn {
+    padding: 1rem 2rem;
+    margin: 1rem;
+    background: linear-gradient(135deg, #DA291C 0%, #B91C1C 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .magnetic-btn:hover,
+  .pulse-btn:hover,
+  .toggle-btn:hover {
+    box-shadow: 0 8px 32px rgba(218, 41, 28, 0.4);
+  }
+  
+  .parallax-container {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  
+  .parallax-element {
+    position: absolute;
+    width: 100%;
+    height: 120%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+  
+  .parallax-element:first-child {
+    background: linear-gradient(45deg, rgba(218, 41, 28, 0.2), rgba(255, 217, 61, 0.2));
+    z-index: 1;
+  }
+  
+  .parallax-element:last-child {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+  }
+  
+  .metrics-display {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #00FF00;
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .metrics-display:empty::before {
+    content: "Click 'Toggle Metrics' to view animation performance data";
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Animation states for demo */
+  .fade-in-element,
+  .slide-up-element,
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .fade-in-element.animated,
+  .slide-up-element.animated,
+  .stagger-item.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .demo-section {
+      padding: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .stagger-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .parallax-container {
+      height: 200px;
+    }
+  }
+</style>
+
+<script>
+  import { getAnimationController, animations } from '../utils/animations';
+
+  class AnimationDemo {
+    private controller = getAnimationController({
+      enableDebugMode: true,
+      enablePerformanceMonitoring: true,
+      respectReducedMotion: true,
+      maxConcurrentAnimations: 15
+    });
+    
+    private metricsDisplay: HTMLElement | null = null;
+    private showMetrics = false;
+    private metricsInterval: number | null = null;
+
+    constructor() {
+      this.init();
+    }
+
+    private async init(): Promise<void> {
+      this.metricsDisplay = document.getElementById('performanceMetrics');
+      
+      // Setup all demo animations
+      this.setupScrollAnimations();
+      this.setupStaggerAnimations();
+      this.setupInteractiveElements();
+      this.setupParallaxElements();
+      this.setupMetricsDisplay();
+      
+      console.log('AnimationDemo initialized with', this.controller.getMetrics().totalAnimations, 'animations');
+    }
+
+    private setupScrollAnimations(): void {
+      // Fade-in elements
+      const fadeElements = document.querySelectorAll('[data-fade-in]') as NodeListOf<HTMLElement>;
+      fadeElements.forEach((element, index) => {
+        this.controller.onScroll(
+          `fade-demo-${index}`,
+          element,
+          animations.fadeIn,
+          {
+            duration: 800,
+            easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+            threshold: 0.2
+          }
+        );
+      });
+
+      // Custom scroll animations
+      const scrollElements = document.querySelectorAll('[data-scroll-animate]') as NodeListOf<HTMLElement>;
+      scrollElements.forEach((element, index) => {
+        const animationType = element.dataset.scrollAnimate as keyof typeof animations;
+        const keyframes = animations[animationType] || animations.fadeIn;
+        
+        this.controller.onScroll(
+          `scroll-demo-${index}`,
+          element,
+          keyframes,
+          {
+            duration: 600,
+            easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+            threshold: 0.3
+          }
+        );
+      });
+    }
+
+    private setupStaggerAnimations(): void {
+      const staggerContainers = document.querySelectorAll('[data-stagger]') as NodeListOf<HTMLElement>;
+      
+      staggerContainers.forEach((container, index) => {
+        const items = Array.from(container.children) as HTMLElement[];
+        const staggerId = `stagger-demo-${index}`;
+        
+        // Create intersection observer for stagger trigger
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                this.controller.stagger(
+                  staggerId,
+                  items,
+                  animations.slideUp,
+                  {
+                    duration: 500,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+                    staggerDelay: 150
+                  }
+                );
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+        
+        observer.observe(container);
+      });
+    }
+
+    private setupInteractiveElements(): void {
+      // Magnetic buttons
+      const magneticBtns = document.querySelectorAll('[data-magnetic]') as NodeListOf<HTMLElement>;
+      magneticBtns.forEach((btn, index) => {
+        this.controller.magneticButton(
+          `magnetic-demo-${index}`,
+          btn,
+          0.4, // Higher strength for demo
+          'high'
+        );
+      });
+
+      // Pulse animations
+      const pulseBtns = document.querySelectorAll('[data-pulse]') as NodeListOf<HTMLElement>;
+      pulseBtns.forEach((btn, index) => {
+        const pulseId = `pulse-demo-${index}`;
+        
+        btn.addEventListener('click', () => {
+          this.controller.animate(
+            pulseId,
+            animations.pulse,
+            {
+              duration: 300,
+              iterations: 3,
+              easing: 'ease-out'
+            }
+          );
+        });
+      });
+    }
+
+    private setupParallaxElements(): void {
+      const parallaxElements = document.querySelectorAll('[data-parallax]') as NodeListOf<HTMLElement>;
+      
+      parallaxElements.forEach((element, index) => {
+        const speed = parseFloat(element.dataset.parallaxSpeed || '0.5');
+        
+        this.controller.parallax(
+          `parallax-demo-${index}`,
+          element,
+          speed,
+          'low'
+        );
+      });
+    }
+
+    private setupMetricsDisplay(): void {
+      const toggleBtn = document.getElementById('toggleMetrics');
+      
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          this.showMetrics = !this.showMetrics;
+          
+          if (this.showMetrics) {
+            this.startMetricsDisplay();
+            toggleBtn.textContent = 'Hide Metrics';
+          } else {
+            this.stopMetricsDisplay();
+            toggleBtn.textContent = 'Show Metrics';
+            if (this.metricsDisplay) {
+              this.metricsDisplay.innerHTML = '';
+            }
+          }
+        });
+      }
+    }
+
+    private startMetricsDisplay(): void {
+      this.metricsInterval = window.setInterval(() => {
+        if (!this.metricsDisplay || !this.showMetrics) return;
+        
+        const metrics = this.controller.getMetrics();
+        const timestamp = new Date().toLocaleTimeString();
+        
+        this.metricsDisplay.innerHTML = `
+          <div><strong>Animation Performance Metrics</strong> (${timestamp})</div>
+          <div>─────────────────────────────</div>
+          <div>Total Registered: ${metrics.totalAnimations}</div>
+          <div>Currently Running: ${metrics.runningAnimations}</div>
+          <div>Completed: ${metrics.completedAnimations}</div>
+          <div>Performance Score: ${metrics.performanceScore.toFixed(1)}% ${this.getPerformanceEmoji(metrics.performanceScore)}</div>
+          <div>Average Frame Time: ${metrics.averageFrameTime.toFixed(2)}ms</div>
+          <div>Dropped Frames: ${metrics.droppedFrames}</div>
+          <div>─────────────────────────────</div>
+          <div>Status: ${this.getPerformanceStatus(metrics.performanceScore)}</div>
+          <div style="color: ${metrics.performanceScore > 80 ? '#00FF00' : metrics.performanceScore > 60 ? '#FFD93D' : '#DA291C'}">
+            ${this.getPerformanceAdvice(metrics.performanceScore)}
+          </div>
+        `;
+      }, 1000);
+    }
+
+    private stopMetricsDisplay(): void {
+      if (this.metricsInterval) {
+        clearInterval(this.metricsInterval);
+        this.metricsInterval = null;
+      }
+    }
+
+    private getPerformanceEmoji(score: number): string {
+      if (score > 90) return '🚀';
+      if (score > 80) return '✅';
+      if (score > 60) return '⚠️';
+      return '🐌';
+    }
+
+    private getPerformanceStatus(score: number): string {
+      if (score > 90) return 'Excellent - Optimal performance';
+      if (score > 80) return 'Good - Smooth animations';
+      if (score > 60) return 'Fair - Some performance impact';
+      return 'Poor - Consider reducing animations';
+    }
+
+    private getPerformanceAdvice(score: number): string {
+      if (score > 80) return 'All systems green! Animations running smoothly.';
+      if (score > 60) return 'Consider reducing concurrent animations.';
+      return 'Performance is impacted. Some animations may be paused automatically.';
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AnimationDemo());
+  } else {
+    new AnimationDemo();
+  }
+</script>

@@ -1,0 +1,474 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navigation from '../../../components/Navigation.astro';
+import Footer from '../../../components/Footer.astro';
+import BlogList from '../../../components/BlogList';
+import { blogPosts, getFeaturedPosts, getRecentPosts } from '../../../data/blog';
+
+const lang = 'en';
+const featuredPosts = getFeaturedPosts(lang, 3);
+const recentPosts = getRecentPosts(lang, 12);
+
+// Pagination settings
+const postsPerPage = 9;
+const totalPosts = recentPosts.length;
+const totalPages = Math.ceil(totalPosts / postsPerPage);
+const currentPage = 1; // For index page
+
+const pagination = {
+  currentPage,
+  totalPages,
+  totalItems: totalPosts,
+  itemsPerPage: postsPerPage,
+  hasNext: currentPage < totalPages,
+  hasPrev: currentPage > 1,
+  nextPage: currentPage < totalPages ? currentPage + 1 : undefined,
+  prevPage: currentPage > 1 ? currentPage - 1 : undefined,
+};
+
+const title = 'Scientific Blog - Ramon Roca-Pinilla';
+const description = 'Insights from biomedical research, protein engineering, and the journey through a PhD in biomedical engineering.';
+---
+
+<Layout 
+  title={title} 
+  description={description} 
+  lang={lang}
+  canonicalUrl="https://rrocap.github.io/Portfolio/en/blog/"
+  ogImage="/Portfolio/images/blog-og-image.jpg"
+>
+  <Navigation />
+  
+  <main class="blog-page">
+    <!-- Hero Section -->
+    <section class="blog-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Scientific Blog</h1>
+          <p class="hero-subtitle">
+            Exploring the frontiers of biomedical research, protein engineering, 
+            and the innovations shaping the future of medicine
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">{totalPosts}</span>
+              <span class="stat-label">Articles</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{featuredPosts.length}</span>
+              <span class="stat-label">Featured</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">6</span>
+              <span class="stat-label">Categories</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="dna-helix">
+            <div class="helix-strand strand-1"></div>
+            <div class="helix-strand strand-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Posts Section -->
+    {featuredPosts.length > 0 && (
+      <section class="featured-posts">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">⭐ Featured Articles</h2>
+            <p class="section-subtitle">
+              Breakthrough research and key insights from the lab
+            </p>
+          </div>
+          
+          <div class="featured-grid">
+            {featuredPosts.map((post, index) => (
+              <div class={`featured-card featured-${index + 1}`}>
+                <a href={`/Portfolio/en/blog/${post.slug}/`} class="featured-link">
+                  {post.coverImage && (
+                    <div class="featured-image">
+                      <img src={post.coverImage} alt={post.title} loading="lazy" />
+                    </div>
+                  )}
+                  <div class="featured-content">
+                    <div class="featured-categories">
+                      {post.categories.slice(0, 2).map(category => (
+                        <span 
+                          class="category-badge"
+                          style={`background-color: ${category.color}20; color: ${category.color}`}
+                        >
+                          {category.icon} {category.name}
+                        </span>
+                      ))}
+                    </div>
+                    <h3 class="featured-title">{post.title}</h3>
+                    <p class="featured-excerpt">{post.excerpt}</p>
+                    <div class="featured-meta">
+                      <time datetime={post.publishedDate.toISOString()}>
+                        {post.publishedDate.toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}
+                      </time>
+                      <span class="reading-time">📖 {post.readingTime} min</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Blog List Section -->
+    <section class="blog-listing">
+      <div class="container">
+        <BlogList
+          posts={recentPosts}
+          pagination={pagination}
+          title="All Posts"
+          description="Deep dives into research, methodology, and scientific discovery"
+          showFilters={true}
+          showSearch={true}
+          featuredFirst={false}
+          onPostClick={(post) => {
+            window.location.href = `/Portfolio/en/blog/${post.slug}/`;
+          }}
+          client:load
+        />
+      </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter-signup">
+      <div class="container">
+        <div class="newsletter-content">
+          <div class="newsletter-text">
+            <h2>Stay Updated</h2>
+            <p>Get notified about new articles and research insights directly to your inbox.</p>
+          </div>
+          <form class="newsletter-form" action="/Portfolio/api/newsletter" method="POST">
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Enter your email address" 
+              required 
+              class="newsletter-input"
+            />
+            <button type="submit" class="newsletter-btn">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-page {
+    min-height: 100vh;
+  }
+
+  /* Hero Section */
+  .blog-hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog-hero .container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff, #DA291C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 500px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #DA291C;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* DNA Helix Animation */
+  .hero-visual {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .dna-helix {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    animation: rotate 10s linear infinite;
+  }
+
+  .helix-strand {
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #DA291C, #FF6B35);
+    border-radius: 2px;
+  }
+
+  .strand-1 {
+    left: 30%;
+    transform-origin: center;
+    animation: helix1 4s ease-in-out infinite;
+  }
+
+  .strand-2 {
+    right: 30%;
+    transform-origin: center;
+    animation: helix2 4s ease-in-out infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  @keyframes helix1 {
+    0%, 100% { transform: translateX(0) rotateZ(0deg); }
+    25% { transform: translateX(20px) rotateZ(90deg); }
+    50% { transform: translateX(0) rotateZ(180deg); }
+    75% { transform: translateX(-20px) rotateZ(270deg); }
+  }
+
+  @keyframes helix2 {
+    0%, 100% { transform: translateX(0) rotateZ(180deg); }
+    25% { transform: translateX(-20px) rotateZ(270deg); }
+    50% { transform: translateX(0) rotateZ(360deg); }
+    75% { transform: translateX(20px) rotateZ(450deg); }
+  }
+
+  /* Featured Posts */
+  .featured-posts {
+    padding: 4rem 0;
+    background: #0f0f0f;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #999;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .featured-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-5px);
+    border-color: #DA291C;
+    box-shadow: 0 20px 40px rgba(218, 41, 28, 0.1);
+  }
+
+  .featured-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .featured-image {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .featured-card:hover .featured-image img {
+    transform: scale(1.05);
+  }
+
+  .featured-content {
+    padding: 1.5rem;
+  }
+
+  .featured-categories {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .category-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .featured-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .featured-excerpt {
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .featured-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #999;
+  }
+
+  /* Blog Listing */
+  .blog-listing {
+    padding: 4rem 0;
+  }
+
+  /* Newsletter Signup */
+  .newsletter-signup {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    padding: 4rem 0;
+  }
+
+  .newsletter-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .newsletter-text h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-text p {
+    color: #ccc;
+    font-size: 1.1rem;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .newsletter-input {
+    padding: 1rem 1.5rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #0a0a0a;
+    color: white;
+    font-size: 1rem;
+    min-width: 300px;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: #DA291C;
+  }
+
+  .newsletter-btn {
+    padding: 1rem 2rem;
+    background: #DA291C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .newsletter-btn:hover {
+    background: #c41e13;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .blog-hero .container {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .newsletter-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+
+    .newsletter-input {
+      min-width: unset;
+    }
+  }
+</style>

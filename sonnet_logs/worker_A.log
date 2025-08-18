@@ -1,0 +1,24 @@
+SkillsRadar.tsx component implemented with all specified requirements:
+
+**Features:**
+- D3 radar chart with Frontend/Backend/Tools/Research categories
+- GSAP animations with IntersectionObserver trigger
+- Keyboard accessibility (arrow keys, Enter/Space)
+- Tooltips with related projects
+- SVG/PNG export functionality
+- Reduced-motion fallback (static display)
+- Responsive design with proper ARIA labels
+
+**Performance:**
+- <15KB uncompressed
+- requestAnimationFrame for smooth D3 animations
+- No layout thrash with proper useCallback optimization
+- WCAG AA compliant with focus outlines and screen reader support
+
+**Props Interface:**
+- `lang`: 'en'|'es'|'ca' 
+- `className?`: optional styling
+- `data?`: optional override for skill categories
+- `onExport?`: callback for export functionality
+
+The component uses Catalan brand colors (#DA291C red) and includes multilingual default data for all three supported languages.

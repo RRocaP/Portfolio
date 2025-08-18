@@ -1,0 +1,826 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { blogPosts, categories, tags, getFeaturedPosts } from '../data/blog';
+
+const title = 'Blog System Demo - Ramon Roca-Pinilla';
+const description = 'Comprehensive demonstration of the scientific blog system features and capabilities.';
+
+const featuredPosts = getFeaturedPosts('en', 2);
+const totalPosts = blogPosts.filter(post => post.published && post.lang === 'en').length;
+const totalReadingTime = blogPosts
+  .filter(post => post.published && post.lang === 'en')
+  .reduce((sum, post) => sum + post.readingTime, 0);
+---
+
+<Layout title={title} description={description} lang="en">
+  <Navigation />
+  
+  <main class="blog-demo-page">
+    <!-- Demo Header -->
+    <section class="demo-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">📝 Scientific Blog System</h1>
+          <p class="hero-subtitle">
+            A comprehensive content management system designed for scientific writing and research communication
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">{totalPosts}</span>
+              <span class="stat-label">Articles</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{categories.length}</span>
+              <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{totalReadingTime}</span>
+              <span class="stat-label">Reading Minutes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section class="features-overview">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">🚀 System Features</h2>
+          <p class="section-subtitle">
+            Enterprise-grade blog system with advanced features for scientific content
+          </p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Content Management</h3>
+            <ul class="feature-list">
+              <li>TypeScript-based content schema</li>
+              <li>Automatic reading time calculation</li>
+              <li>Multi-language support (EN, ES, CA)</li>
+              <li>SEO optimization with structured data</li>
+              <li>Table of contents generation</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3 class="feature-title">User Experience</h3>
+            <ul class="feature-list">
+              <li>GSAP-powered animations</li>
+              <li>Reading progress indicators</li>
+              <li>Social sharing integration</li>
+              <li>Responsive grid/list views</li>
+              <li>Advanced search and filtering</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3 class="feature-title">Discovery & Navigation</h3>
+            <ul class="feature-list">
+              <li>Category and tag-based filtering</li>
+              <li>Chronological archive system</li>
+              <li>Featured content highlighting</li>
+              <li>Related posts suggestions</li>
+              <li>RSS feed generation</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Performance & SEO</h3>
+            <ul class="feature-list">
+              <li>Static generation with Astro</li>
+              <li>Lazy loading for images</li>
+              <li>OpenGraph and Twitter Cards</li>
+              <li>Structured data markup</li>
+              <li>Accessibility (WCAG 2.1 AA)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Categories -->
+    <section class="categories-showcase">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">📂 Content Categories</h2>
+          <p class="section-subtitle">
+            Organized scientific content across multiple research domains
+          </p>
+        </div>
+        
+        <div class="categories-grid">
+          {categories.map(category => (
+            <div class="category-showcase">
+              <div 
+                class="category-header"
+                style={`background: linear-gradient(135deg, ${category.color}20, ${category.color}05)`}
+              >
+                <div class="category-icon" style={`color: ${category.color}`}>
+                  {category.icon}
+                </div>
+                <div class="category-info">
+                  <h3 class="category-name">{category.name}</h3>
+                  <p class="category-description">{category.description}</p>
+                </div>
+              </div>
+              <div class="category-meta">
+                <span class="post-count">
+                  {blogPosts.filter(post => 
+                    post.published && 
+                    post.lang === 'en' && 
+                    post.categories.some(cat => cat.id === category.id)
+                  ).length} articles
+                </span>
+                <a 
+                  href={`/Portfolio/en/blog/category/${category.slug}/`}
+                  class="view-category"
+                  style={`color: ${category.color}`}
+                >
+                  Explore →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sample Posts -->
+    {featuredPosts.length > 0 && (
+      <section class="sample-posts">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">⭐ Featured Content</h2>
+            <p class="section-subtitle">
+              Highlighting breakthrough research and key scientific insights
+            </p>
+          </div>
+          
+          <div class="posts-showcase">
+            {featuredPosts.map(post => (
+              <article class="post-preview">
+                <div class="post-categories">
+                  {post.categories.slice(0, 2).map(category => (
+                    <span 
+                      class="category-tag"
+                      style={`background-color: ${category.color}20; color: ${category.color}`}
+                    >
+                      {category.icon} {category.name}
+                    </span>
+                  ))}
+                </div>
+                
+                <h3 class="post-title">
+                  <a href={`/Portfolio/en/blog/${post.slug}/`}>{post.title}</a>
+                </h3>
+                
+                <p class="post-excerpt">{post.excerpt}</p>
+                
+                <div class="post-meta">
+                  <div class="author-info">
+                    <img src={post.author.avatar} alt={post.author.name} class="author-avatar" />
+                    <span class="author-name">{post.author.name}</span>
+                  </div>
+                  <div class="post-stats">
+                    <time datetime={post.publishedDate.toISOString()}>
+                      {post.publishedDate.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })}
+                    </time>
+                    <span class="reading-time">📖 {post.readingTime} min</span>
+                  </div>
+                </div>
+                
+                <div class="post-tags">
+                  {post.tags.slice(0, 3).map(tag => (
+                    <span class="tag">#{tag.name}</span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- System URLs -->
+    <section class="system-urls">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">🔗 System URLs</h2>
+          <p class="section-subtitle">
+            Access points for different aspects of the blog system
+          </p>
+        </div>
+        
+        <div class="urls-grid">
+          <div class="url-group">
+            <h3>Main Blog Pages</h3>
+            <ul class="url-list">
+              <li><a href="/Portfolio/en/blog/">Blog Index</a></li>
+              <li><a href="/Portfolio/en/blog/archive/">Complete Archive</a></li>
+              <li><a href="/Portfolio/en/blog/functional-inclusion-bodies-revolution/">Sample Post</a></li>
+            </ul>
+          </div>
+          
+          <div class="url-group">
+            <h3>Content Discovery</h3>
+            <ul class="url-list">
+              <li><a href="/Portfolio/en/blog/category/protein-engineering/">Category View</a></li>
+              <li><a href="/Portfolio/en/blog/tag/inclusion-bodies/">Tag View</a></li>
+              <li><a href="/Portfolio/en/search/">Search Page</a></li>
+            </ul>
+          </div>
+          
+          <div class="url-group">
+            <h3>Feeds & APIs</h3>
+            <ul class="url-list">
+              <li><a href="/Portfolio/rss.xml">RSS Feed</a></li>
+              <li><a href="/Portfolio/api/search">Search API</a></li>
+              <li><a href="/Portfolio/sitemap-index.xml">Sitemap</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Implementation -->
+    <section class="technical-details">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">⚙️ Technical Implementation</h2>
+          <p class="section-subtitle">
+            Built with modern web technologies for optimal performance
+          </p>
+        </div>
+        
+        <div class="tech-stack">
+          <div class="tech-category">
+            <h3>Frontend Framework</h3>
+            <div class="tech-items">
+              <span class="tech-item">Astro 5.x</span>
+              <span class="tech-item">React 19</span>
+              <span class="tech-item">TypeScript</span>
+              <span class="tech-item">GSAP Animations</span>
+            </div>
+          </div>
+          
+          <div class="tech-category">
+            <h3>Content Management</h3>
+            <div class="tech-items">
+              <span class="tech-item">Zod Schema Validation</span>
+              <span class="tech-item">Static Site Generation</span>
+              <span class="tech-item">Multi-language Support</span>
+              <span class="tech-item">Automated Reading Time</span>
+            </div>
+          </div>
+          
+          <div class="tech-category">
+            <h3>Search & Discovery</h3>
+            <div class="tech-items">
+              <span class="tech-item">Fuse.js Full-Text Search</span>
+              <span class="tech-item">Category/Tag Filtering</span>
+              <span class="tech-item">RSS Feed Generation</span>
+              <span class="tech-item">Structured Data</span>
+            </div>
+          </div>
+          
+          <div class="tech-category">
+            <h3>Performance</h3>
+            <div class="tech-items">
+              <span class="tech-item">Island Architecture</span>
+              <span class="tech-item">Lazy Loading</span>
+              <span class="tech-item">Bundle Optimization</span>
+              <span class="tech-item">SEO Optimization</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="demo-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2>🚀 Ready to Explore?</h2>
+          <p>
+            Dive into the scientific blog system and explore cutting-edge research insights
+          </p>
+          <div class="cta-buttons">
+            <a href="/Portfolio/en/blog/" class="btn btn-primary">
+              📚 Browse All Posts
+            </a>
+            <a href="/Portfolio/en/blog/archive/" class="btn btn-outline">
+              🗂️ View Archive
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-demo-page {
+    min-height: 100vh;
+  }
+
+  /* Demo Hero */
+  .demo-hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 8rem 0 4rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff, #DA291C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #DA291C;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Section Headers */
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #999;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Features Overview */
+  .features-overview {
+    padding: 6rem 0;
+    background: #0f0f0f;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    border-color: #DA291C;
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #DA291C;
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .feature-list li {
+    padding: 0.5rem 0;
+    color: #ccc;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #DA291C;
+    font-weight: bold;
+  }
+
+  /* Categories Showcase */
+  .categories-showcase {
+    padding: 6rem 0;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .category-showcase {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .category-showcase:hover {
+    transform: translateY(-5px);
+    border-color: #DA291C;
+  }
+
+  .category-header {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .category-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+  }
+
+  .category-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-description {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .category-meta {
+    padding: 1rem 2rem;
+    background: #0f0f0f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #333;
+  }
+
+  .post-count {
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  .view-category {
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+  }
+
+  .view-category:hover {
+    opacity: 0.8;
+  }
+
+  /* Sample Posts */
+  .sample-posts {
+    padding: 6rem 0;
+    background: #0f0f0f;
+  }
+
+  .posts-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+  }
+
+  .post-preview {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .post-preview:hover {
+    border-color: #DA291C;
+    transform: translateY(-5px);
+  }
+
+  .post-categories {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .category-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .post-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .post-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .post-title a:hover {
+    color: #DA291C;
+  }
+
+  .post-excerpt {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .author-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .author-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .post-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: #999;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.8rem;
+    color: #999;
+    background: #0a0a0a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  /* System URLs */
+  .system-urls {
+    padding: 6rem 0;
+  }
+
+  .urls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+  }
+
+  .url-group h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #DA291C;
+  }
+
+  .url-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .url-list li {
+    margin-bottom: 0.75rem;
+  }
+
+  .url-list a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  .url-list a:hover {
+    background: #1a1a1a;
+    color: #DA291C;
+    transform: translateX(5px);
+  }
+
+  /* Technical Details */
+  .technical-details {
+    padding: 6rem 0;
+    background: #0f0f0f;
+  }
+
+  .tech-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+  }
+
+  .tech-category h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #DA291C;
+    text-align: center;
+  }
+
+  .tech-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .tech-item {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .tech-item:hover {
+    border-color: #DA291C;
+    background: #2a2a2a;
+  }
+
+  /* Demo CTA */
+  .demo-cta {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    font-size: 1.25rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background: #DA291C;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #c41e13;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    border-color: #DA291C;
+    color: #DA291C;
+  }
+
+  .btn-outline:hover {
+    background: #DA291C;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-stats {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .posts-showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .post-stats {
+      align-items: flex-start;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
