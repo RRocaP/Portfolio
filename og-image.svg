@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <!-- Background with gradient -->
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <rect width="1200" height="630" fill="url(#grad)" opacity="0.3"/>
+  
+  <!-- Grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E1E1E" stroke-width="1" opacity="0.3"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Content -->
+  <g transform="translate(80, 80)">
+    <!-- Title -->
+    <text x="0" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="800" fill="#F5F5F5">
+      Ramon Roca-Pinilla
+    </text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="120" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#B8B8B8">
+      Biomedical Engineer &amp; Molecular Biologist
+    </text>
+    
+    <!-- Description -->
+    <text x="0" y="200" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="400" fill="#8B8B8B">
+      Engineering antimicrobial proteins and viral vectors
+    </text>
+    <text x="0" y="235" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="400" fill="#8B8B8B">
+      using computational design and experimental validation
+    </text>
+    
+    <!-- Key metrics -->
+    <g transform="translate(0, 320)">
+      <rect x="0" y="0" width="200" height="80" rx="8" fill="#1E1E1E" stroke="#333333" stroke-width="1"/>
+      <text x="100" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#DA291C" text-anchor="middle">
+        250+
+      </text>
+      <text x="100" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" fill="#B8B8B8" text-anchor="middle">
+        Citations
+      </text>
+    </g>
+    
+    <g transform="translate(220, 320)">
+      <rect x="0" y="0" width="200" height="80" rx="8" fill="#1E1E1E" stroke="#333333" stroke-width="1"/>
+      <text x="100" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#DA291C" text-anchor="middle">
+        16
+      </text>
+      <text x="100" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" fill="#B8B8B8" text-anchor="middle">
+        Publications
+      </text>
+    </g>
+    
+    <g transform="translate(440, 320)">
+      <rect x="0" y="0" width="200" height="80" rx="8" fill="#1E1E1E" stroke="#333333" stroke-width="1"/>
+      <text x="100" y="35" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#DA291C" text-anchor="middle">
+        h-12
+      </text>
+      <text x="100" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" fill="#B8B8B8" text-anchor="middle">
+        h-index
+      </text>
+    </g>
+  </g>
+  
+  <!-- Visual element - DNA helix -->
+  <g transform="translate(880, 150)" opacity="0.3">
+    <path d="M0,0 Q30,50 0,100 T0,200 Q30,250 0,300" stroke="#DA291C" stroke-width="3" fill="none"/>
+    <path d="M40,0 Q10,50 40,100 T40,200 Q10,250 40,300" stroke="#FFD93D" stroke-width="3" fill="none"/>
+    <circle cx="0" cy="50" r="4" fill="#DA291C"/>
+    <circle cx="40" cy="50" r="4" fill="#FFD93D"/>
+    <circle cx="0" cy="150" r="4" fill="#DA291C"/>
+    <circle cx="40" cy="150" r="4" fill="#FFD93D"/>
+    <circle cx="0" cy="250" r="4" fill="#DA291C"/>
+    <circle cx="40" cy="250" r="4" fill="#FFD93D"/>
+  </g>
+  
+  <!-- Institution -->
+  <text x="80" y="570" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="#8B8B8B">
+    Children's Medical Research Institute, Sydney
+  </text>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DA291C;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:0.1"/>
+    </linearGradient>
+  </defs>
+</svg>
