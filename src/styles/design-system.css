@@ -1,42 +1,66 @@
 /* ==========================================================================
-   Typography System - Multilingual Scientific Portfolio
+   STANDARDIZED TYPOGRAPHY SYSTEM - Multilingual Portfolio
    ========================================================================== */
 
-/* Unified Typography Scale - Optimized for multilingual content */
+/* CRITICAL: Typography scale designed for multilingual content
+   - Spanish/Catalan text is ~25-30% longer than English
+   - All sizes use clamp() for responsive scaling
+   - Line heights optimized for readability across languages */
 :root {
-  /* Core Typography Scale - Major Third (1.25) + Language Multipliers */
+  /* STANDARDIZED TYPE SCALE - Consistent across all components */
   --text-xs: 0.75rem;      /* 12px - Captions, metadata */
-  --text-sm: 0.875rem;     /* 14px - Small body text */
-  --text-base: 1rem;       /* 16px - Default body */
-  --text-lg: 1.125rem;     /* 18px - Large body */
+  --text-sm: 0.875rem;     /* 14px - Small body, labels */
+  --text-base: 1rem;       /* 16px - Default body text */
+  --text-lg: 1.125rem;     /* 18px - Large body text */
   --text-xl: 1.25rem;      /* 20px - Subheadings */
-  --text-2xl: 1.5rem;      /* 24px - Section headers */
-  --text-3xl: 1.875rem;    /* 30px - Page headers */
-  --text-4xl: 2.25rem;     /* 36px - Hero secondary */
-  --text-5xl: 3rem;        /* 48px - Hero primary */
-  --text-6xl: 4rem;        /* 64px - Display large */
-  --text-7xl: 5rem;        /* 80px - Display xl */
-  --text-8xl: 6rem;        /* 96px - Display 2xl */
-  --text-9xl: 7rem;        /* 112px - Display 3xl */
+  --text-2xl: 1.5rem;      /* 24px - H3 headings */
+  --text-3xl: 1.875rem;    /* 28px - H2 headings */
+  --text-4xl: 2.25rem;     /* 32px - H1 headings */
+  --text-5xl: 3rem;        /* 48px - Hero titles */
+  --text-6xl: 4rem;        /* 64px - Display headings */
+  --text-7xl: 5rem;        /* 80px - Hero large */
+  
+  /* RESPONSIVE TYPOGRAPHY - Using clamp() for fluid scaling */
+  --type-hero-large: clamp(2.5rem, 8vw, 4rem);    /* 40px → 64px */
+  --type-hero-title: clamp(2rem, 6vw, 3rem);      /* 32px → 48px */
+  --type-hero-subtitle: clamp(0.875rem, 2.5vw, 1.25rem); /* 14px → 20px - Reduced for multilingual */
+  --type-h1: clamp(1.75rem, 4vw, 2.25rem);        /* 28px → 36px */
+  --type-h2: clamp(1.5rem, 3.5vw, 1.875rem);      /* 24px → 30px */
+  --type-h3: clamp(1.25rem, 3vw, 1.5rem);         /* 20px → 24px */
+  --type-body-large: clamp(1rem, 2.25vw, 1.125rem); /* 16px → 18px */
+  --type-body: 1rem;                               /* 16px - Fixed */
+  --type-caption: 0.875rem;                       /* 14px - Fixed */
+  
+  /* MULTILINGUAL RESPONSIVE TYPOGRAPHY - Spanish & Catalan optimizations */
+  --type-hero-subtitle-multilingual: clamp(0.75rem, 2vw, 1.125rem); /* 12px → 18px - Even more conservative */
+  --type-hero-tagline-multilingual: clamp(0.95rem, 2.25vw, 1.25rem); /* 15px → 20px - Better scaling for longer text */
+  --type-h1-multilingual: clamp(1.5rem, 3.75vw, 2rem);        /* 24px → 32px - Reduced for longer headings */
+  --type-h2-multilingual: clamp(1.375rem, 3.25vw, 1.75rem);    /* 22px → 28px - Reduced for longer headings */
 
-  /* Font Weights - Scientific Content Optimized */
-  --font-thin: 100;
+  /* STANDARDIZED FONT WEIGHTS - Consistent hierarchy */
   --font-light: 300;        /* Hero names, elegant text */
-  --font-normal: 400;       /* Body text, readable content */
-  --font-medium: 500;       /* Emphasis, UI elements */
-  --font-semibold: 600;     /* Section headers, navigation */
-  --font-bold: 700;         /* Strong emphasis, headings */
-  --font-extrabold: 800;    /* Display headings */
-  --font-black: 900;        /* Hero titles, brand elements */
+  --font-normal: 400;       /* Default body text */
+  --font-medium: 500;       /* UI elements, buttons */
+  --font-semibold: 600;     /* Headings, navigation */
+  --font-bold: 700;         /* Strong emphasis, titles */
 
-  /* Line Heights - Multilingual Optimized */
-  --leading-none: 1;         /* Display text, hero titles */
-  --leading-tight: 1.25;     /* Large headings */
-  --leading-snug: 1.375;     /* Medium headings */
-  --leading-normal: 1.5;     /* Body text (EN) */
-  --leading-relaxed: 1.625;  /* Body text (ES/CA - longer words) */
-  --leading-loose: 1.75;     /* Scientific content, citations */
-  --leading-extra: 2;        /* Special spacing cases */
+  /* STANDARDIZED LINE HEIGHTS - Multilingual optimized */
+  --leading-tight: 1.2;      /* Headings, titles */
+  --leading-normal: 1.5;     /* Body text (English) */
+  --leading-relaxed: 1.6;    /* Body text (Spanish/Catalan) */
+  --leading-loose: 1.8;      /* Scientific content, long form */
+  
+  /* MULTILINGUAL LINE HEIGHT SYSTEM - Consistent across all languages */
+  --line-height-heading: 1.2;            /* All headings */
+  --line-height-hero-title: 1.3;         /* Hero titles need extra space for wrapping */
+  --line-height-body-en: 1.5;            /* English body text */
+  --line-height-body-multilingual: 1.6;  /* Spanish/Catalan body text */
+  --line-height-caption: 1.4;            /* Captions and small text */
+  
+  /* TYPOGRAPHY CONTAINER WIDTHS - Language aware */
+  --container-text-en: 65ch;      /* Optimal for English */
+  --container-text-multilingual: 70ch;  /* Wider for Spanish/Catalan */
+  --container-hero: 900px;         /* Hero section max-width */
 
   /* Letter Spacing - Language & Content Aware */
   --tracking-tighter: -0.05em;  /* Large display text */
@@ -217,108 +241,113 @@
   }
 }
 
-/* Typography Component Classes - Standardized & Multilingual */
+/* ==========================================================================
+   STANDARDIZED TYPOGRAPHY CLASSES - Multilingual Ready
+   ========================================================================== */
 
-/* Display Typography - Hero & Large Headings */
-.text-display-3xl {
+/* HERO TYPOGRAPHY - Responsive & Language Optimized with overflow protection */
+.hero-name {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 7rem);
-  line-height: var(--leading-none);
-  letter-spacing: var(--tracking-tighter);
-  font-weight: var(--font-extrabold);
-}
-
-.text-display-2xl {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: var(--leading-none);
-  letter-spacing: var(--tracking-tighter);
-  font-weight: var(--font-extrabold);
-}
-
-.text-display-xl {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: var(--leading-tight);
+  font-size: var(--type-hero-large);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-light);
   letter-spacing: var(--tracking-tight);
-  font-weight: var(--font-bold);
+  /* Ensure name never overflows */
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-.text-display-lg {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  font-weight: var(--font-bold);
-}
-
-/* Heading Typography - Section & Component Headers */
-.text-heading-xl {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  font-weight: var(--font-bold);
-}
-
-.text-heading-lg {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
-  font-weight: var(--font-semibold);
-}
-
-.text-heading-md {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-normal);
-  font-weight: var(--font-semibold);
-}
-
-.text-heading-sm {
+.hero-title {
   font-family: var(--font-primary);
-  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-normal);
+  font-size: var(--type-hero-subtitle);
+  line-height: var(--line-height-hero-title);
   font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  /* Critical: Prevent overflow for longer languages */
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  /* Allow wrapping on all text */
+  white-space: normal;
+  text-align: center;
 }
 
-/* Body Typography - Content & Reading */
+.hero-tagline {
+  font-family: var(--font-primary);
+  font-size: var(--type-body-large);
+  line-height: var(--line-height-body-multilingual);
+  font-weight: var(--font-normal);
+  max-width: min(600px, 100%);
+  margin: 0 auto;
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* HEADING HIERARCHY - Consistent across all languages */
+.text-h1, .text-heading-xl {
+  font-family: var(--font-display);
+  font-size: var(--type-h1);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h2, .text-heading-lg {
+  font-family: var(--font-display);
+  font-size: var(--type-h2);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-h3, .text-heading-md {
+  font-family: var(--font-display);
+  font-size: var(--type-h3);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* BODY TYPOGRAPHY - Language-aware line heights */
 .text-body-xl {
   font-family: var(--font-primary);
-  font-size: clamp(1.125rem, 2.25vw, 1.25rem);
-  line-height: var(--leading-relaxed);
+  font-size: var(--type-body-large);
+  line-height: var(--line-height-body-en);
   font-weight: var(--font-normal);
 }
 
 .text-body-lg {
   font-family: var(--font-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  line-height: var(--leading-relaxed);
+  font-size: var(--text-lg);
+  line-height: var(--line-height-body-en);
   font-weight: var(--font-normal);
 }
 
 .text-body {
   font-family: var(--font-primary);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
+  font-size: var(--type-body);
+  line-height: var(--line-height-body-en);
   font-weight: var(--font-normal);
 }
 
 .text-body-sm {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  line-height: var(--line-height-caption);
   font-weight: var(--font-normal);
 }
 
-/* Caption & UI Typography */
+/* CAPTION & UI TYPOGRAPHY */
 .text-caption {
   font-family: var(--font-primary);
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
+  font-size: var(--type-caption);
+  line-height: var(--line-height-caption);
   font-weight: var(--font-medium);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
@@ -327,20 +356,73 @@
 .text-label {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  line-height: var(--line-height-caption);
   font-weight: var(--font-medium);
   letter-spacing: var(--tracking-wide);
 }
 
-/* Language-Specific Adjustments */
+/* ==========================================================================
+   MULTILINGUAL TYPOGRAPHY OPTIMIZATIONS
+   ========================================================================== */
+
+/* SPANISH & CATALAN OPTIMIZATIONS - Prevents layout breaking */
 :lang(es) .text-body,
-:lang(ca) .text-body {
-  line-height: var(--leading-relaxed);
+:lang(ca) .text-body,
+:lang(es) .text-body-lg,
+:lang(ca) .text-body-lg,
+:lang(es) .text-body-xl,
+:lang(ca) .text-body-xl {
+  line-height: var(--line-height-body-multilingual);
+  hyphens: auto;
+  word-break: break-word;
 }
 
+/* Hero title adjustments for longer translations - More aggressive scaling */
+:lang(es) .hero-title,
+:lang(ca) .hero-title {
+  font-size: var(--type-hero-subtitle-multilingual);
+  letter-spacing: 0.015em;
+  max-width: 100%;
+  line-height: var(--line-height-hero-title);
+  /* Allow text wrapping */
+  white-space: normal;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+:lang(es) .hero-tagline,
+:lang(ca) .hero-tagline {
+  max-width: var(--container-text-multilingual);
+  font-size: var(--type-hero-tagline-multilingual);
+  line-height: var(--line-height-body-multilingual);
+  /* Better text wrapping */
+  hyphens: auto;
+  word-wrap: break-word;
+}
+
+/* Heading adjustments for longer text - Consistent with design system */
+:lang(es) .text-h1,
+:lang(ca) .text-h1,
 :lang(es) .text-heading-xl,
 :lang(ca) .text-heading-xl {
-  font-size: clamp(1.625rem, 3.75vw, 2.125rem);
+  font-size: var(--type-h1-multilingual);
+  line-height: var(--line-height-hero-title);  /* Slightly looser for wrapping */
+  /* Prevent text overflow */
+  max-width: 100%;
+  hyphens: auto;
+  word-wrap: break-word;
+}
+
+:lang(es) .text-h2,
+:lang(ca) .text-h2,
+:lang(es) .text-heading-lg,
+:lang(ca) .text-heading-lg {
+  font-size: var(--type-h2-multilingual);
+  line-height: var(--line-height-hero-title);  /* Consistent spacing */
+  /* Prevent text overflow */
+  max-width: 100%;
+  hyphens: auto;
+  word-wrap: break-word;
 }
 
 /* Scientific Content Typography */
@@ -368,13 +450,17 @@
 .icon-2xl { width: 2.5rem; height: 2.5rem; }
 .icon-3xl { width: 3rem; height: 3rem; }
 
-/* Container System - Typography Content Aware */
+/* Container System - Typography Content Aware with overflow prevention */
 .container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--space-4);
   padding-right: var(--space-4);
+  /* Prevent horizontal overflow */
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 .container-sm { max-width: 640px; }
@@ -383,17 +469,29 @@
 .container-xl { max-width: 1280px; }
 .container-2xl { max-width: 1536px; }
 
-/* Reading-optimized containers */
+/* Reading-optimized containers - Language aware */
 .container-reading {
-  max-width: 65ch; /* Optimal reading width */
+  max-width: var(--container-text-en); /* Optimal reading width */
   margin: 0 auto;
   padding: 0 var(--space-4);
+  /* Prevent overflow */
+  max-width: min(var(--container-text-en), 100vw);
+  box-sizing: border-box;
 }
 
 .container-content {
   max-width: 75ch; /* Scientific content width */
   margin: 0 auto;
   padding: 0 var(--space-4);
+  /* Prevent overflow */
+  max-width: min(75ch, 100vw);
+  box-sizing: border-box;
+}
+
+/* Multilingual reading containers */
+.container-reading:lang(es),
+.container-reading:lang(ca) {
+  max-width: min(var(--container-text-multilingual), 100vw);
 }
 
 @media (min-width: 640px) {
@@ -450,7 +548,7 @@
   }
 }
 
-/* Responsive Typography Adjustments */
+/* Responsive Typography Adjustments - Enhanced mobile support */
 @media (max-width: 768px) {
   /* Mobile typography optimizations */
   .text-display-3xl {
@@ -473,10 +571,33 @@
   .text-heading-lg {
     letter-spacing: var(--tracking-normal);
   }
+  
+  /* Ensure all text containers are mobile-friendly */
+  .container,
+  .container-reading,
+  .container-content,
+  .text-container,
+  .hero-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  
+  /* Mobile text wrapping improvements */
+  .hero-title,
+  .text-h1,
+  .text-h2,
+  .text-heading-xl,
+  .text-heading-lg {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
 }
 
 @media (max-width: 480px) {
-  /* Extra small screens - focus on readability */
+  /* Extra small screens - focus on readability and overflow prevention */
   .text-caption {
     font-size: 0.8rem;
     letter-spacing: var(--tracking-wide);
@@ -487,6 +608,29 @@
     min-height: 44px;
     display: flex;
     align-items: center;
+  }
+  
+  /* Extra small screen container adjustments */
+  .container,
+  .container-reading,
+  .container-content,
+  .text-container,
+  .hero-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* More aggressive text sizing for very small screens */
+  :lang(es) .hero-title,
+  :lang(ca) .hero-title {
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    line-height: 1.5;
+    letter-spacing: 0.005em;
+  }
+  
+  :lang(es) .hero-tagline,
+  :lang(ca) .hero-tagline {
+    font-size: clamp(0.75rem, 3vw, 0.9rem);
   }
 }
 
@@ -500,34 +644,188 @@
   }
 }
 
-/* Character length optimization for languages */
-@media (max-width: 640px) {
-  /* Spanish and Catalan text tends to be 25-30% longer */
-  :lang(es) .text-heading-xl,
-  :lang(ca) .text-heading-xl {
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    line-height: 1.3;
+/* ==========================================================================
+   NAVIGATION & UI TYPOGRAPHY STANDARDIZATION
+   ========================================================================== */
+
+/* Navigation text sizing */
+.nav-link {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: var(--line-height-caption);
+  letter-spacing: 0.025em;
+}
+
+/* Button typography */
+.cta-button,
+.btn-primary {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-caption);
+  letter-spacing: 0.025em;
+}
+
+/* Card typography - Enhanced overflow protection */
+.card-title {
+  font-family: var(--font-display);
+  font-size: var(--type-h3);
+  line-height: var(--line-height-heading);
+  font-weight: var(--font-semibold);
+  /* Prevent card overflow - Enhanced */
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.card-text {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  line-height: var(--line-height-body-en);
+  font-weight: var(--font-normal);
+  /* Card text overflow protection */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+:lang(es) .card-text,
+:lang(ca) .card-text {
+  line-height: var(--line-height-body-multilingual);
+}
+
+/* Ensure card titles scale appropriately in different languages */
+:lang(es) .card-title,
+:lang(ca) .card-title {
+  font-size: clamp(1.125rem, 2.75vw, 1.375rem);
+  line-height: var(--line-height-hero-title);
+}
+
+/* ==========================================================================
+   RESPONSIVE TYPOGRAPHY BREAKPOINTS
+   ========================================================================== */
+
+/* Mobile optimizations - Unified responsive system */
+@media (max-width: 768px) {
+  .hero-name {
+    font-size: clamp(2rem, 10vw, 2.5rem);
   }
   
-  :lang(es) .text-body-xl,
-  :lang(ca) .text-body-xl {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    line-height: 1.7;
-  }
-  
-  /* Ensure proper word wrapping for longer words */
-  :lang(es) .text-body,
-  :lang(ca) .text-body {
+  .hero-title {
+    font-size: clamp(0.75rem, 3vw, 1rem);
+    line-height: var(--line-height-hero-title);
+    max-width: 100%;
+    /* Ensure proper wrapping on mobile */
+    white-space: normal;
     word-break: break-word;
     hyphens: auto;
   }
+  
+  .hero-tagline {
+    font-size: clamp(0.875rem, 4vw, 1rem);
+    max-width: 100%;
+    line-height: var(--line-height-body-multilingual);
+  }
+  
+  /* Spanish/Catalan mobile adjustments - More conservative sizing */
+  :lang(es) .hero-title,
+  :lang(ca) .hero-title {
+    font-size: clamp(0.7rem, 2.25vw, 0.875rem);  /* Even smaller on mobile */
+    line-height: 1.4;  /* Extra breathing room */
+    letter-spacing: 0.01em;  /* Tighter tracking to fit more text */
+  }
+  
+  :lang(es) .hero-tagline,
+  :lang(ca) .hero-tagline {
+    font-size: clamp(0.8rem, 3.25vw, 0.95rem);
+    line-height: var(--line-height-body-multilingual);
+  }
+  
+  /* Ensure all headings scale appropriately on mobile */
+  :lang(es) .text-h1,
+  :lang(ca) .text-h1,
+  :lang(es) .text-heading-xl,
+  :lang(ca) .text-heading-xl {
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+  }
+  
+  :lang(es) .text-h2,
+  :lang(ca) .text-h2,
+  :lang(es) .text-heading-lg,
+  :lang(ca) .text-heading-lg {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+  }
 }
 
-/* Container adjustments for different text lengths */
+/* Extra small screens */
+@media (max-width: 480px) {
+  .hero-title {
+    letter-spacing: 0.02em;
+  }
+  
+  .text-caption {
+    font-size: 0.8rem;
+    letter-spacing: var(--tracking-wide);
+  }
+  
+  /* Ensure minimum touch targets */
+  .text-label,
+  .nav-link,
+  .cta-button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   CONTAINER SYSTEM - Language-aware text containers with overflow protection
+   ========================================================================== */
+
+/* Base containers with language considerations */
+.text-container {
+  max-width: min(var(--container-text-en), 100vw);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  /* Ensure proper text handling */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.text-container:lang(es),
+.text-container:lang(ca) {
+  max-width: min(var(--container-text-multilingual), 100vw); /* Wider for longer text */
+}
+
+/* Hero content container - prevents overflow with responsive design */
+.hero-content {
+  max-width: var(--container-hero);
+  margin: 0 auto;
+  padding: 0 1rem;
+  /* Critical: Prevent any overflow */
+  max-width: min(var(--container-hero), 100vw);
+  box-sizing: border-box;
+  width: 100%;
+  
+  /* Ensure text elements can wrap */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
 @media (min-width: 768px) {
+  .hero-content {
+    padding: 0 2rem;
+  }
+  
   .container-reading:lang(es),
   .container-reading:lang(ca) {
-    max-width: 70ch; /* Slightly wider for longer text */
+    max-width: 72ch;
   }
 }
 
@@ -549,16 +847,21 @@
    Standardized Spacing System - Section Classes
    ========================================================================== */
 
-/* Section Spacing Classes */
+/* Standardized Section Spacing Classes - Professional Portfolio */
 .section-hero { 
+  padding: 6rem 0; 
+  min-height: 100vh;
+}
+
+.section-lg { 
+  padding: 8rem 0; 
+}
+
+.section-md { 
   padding: 6rem 0; 
 }
 
-.section-primary { 
-  padding: 5rem 0; 
-}
-
-.section-secondary { 
+.section-sm { 
   padding: 4rem 0; 
 }
 
@@ -579,32 +882,67 @@
   margin-bottom: var(--content-gap-sm); 
 }
 
-/* Container Size Standardization */
+/* Professional Portfolio Container System */
 .container-hero { 
   max-width: 900px; 
   margin: 0 auto; 
-  padding: 0 1.5rem; 
+  padding: 0 2rem; 
 }
 
 .container-lg { 
   max-width: 1024px; 
   margin: 0 auto; 
-  padding: 0 1.5rem; 
+  padding: 0 2rem; 
 }
 
 .container-xl { 
   max-width: 1280px; 
   margin: 0 auto; 
-  padding: 0 1.5rem; 
+  padding: 0 2rem; 
 }
 
-/* Responsive Spacing Adjustments */
+/* Content-aware containers for consistent heights */
+.content-block {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.publication-card {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive Spacing Adjustments - Mobile Optimized */
 @media (max-width: 768px) {
-  .section-hero { padding: 4rem 0; }
-  .section-primary { padding: 3rem 0; }
-  .section-secondary { padding: 2.5rem 0; }
+  .section-hero { 
+    padding: 4rem 0;
+    min-height: 90vh; 
+  }
+  
+  .section-lg { padding: 4rem 0; }
+  .section-md { padding: 3rem 0; }
+  .section-sm { padding: 2.5rem 0; }
   .section-compact { padding: 2rem 0; }
   
+  .container-hero,
+  .container-lg,
+  .container-xl { 
+    padding: 0 1.5rem; 
+  }
+  
+  .content-block {
+    min-height: 300px;
+  }
+  
+  .publication-card {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
   .container-hero,
   .container-lg,
   .container-xl { 

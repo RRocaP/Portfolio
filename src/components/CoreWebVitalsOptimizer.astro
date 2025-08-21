@@ -1,0 +1,467 @@
+---
+/**
+ * Core Web Vitals Optimizer Component
+ * Implements critical performance optimizations for LCP, FID, and CLS
+ */
+---
+
+<script>
+  interface WebVitalsMetrics {
+    lcp: number | null;
+    fid: number | null;
+    cls: number | null;
+    fcp: number | null;
+    ttfb: number | null;
+  }
+
+  class CoreWebVitalsOptimizer {
+    private metrics: WebVitalsMetrics = {
+      lcp: null,
+      fid: null,
+      cls: null,
+      fcp: null,
+      ttfb: null
+    };
+    
+    private thresholds = {
+      lcp: 2500, // 2.5s
+      fid: 100,  // 100ms
+      cls: 0.1,  // 0.1
+      fcp: 1800, // 1.8s
+      ttfb: 800  // 800ms
+    };
+
+    private observer: PerformanceObserver | null = null;
+    private clsValue = 0;
+    private clsEntries: LayoutShift[] = [];
+    private sessionValue = 0;
+    private sessionEntries: LayoutShift[] = [];
+
+    constructor() {
+      this.init();
+    }
+
+    private init(): void {
+      // Optimize Critical Rendering Path
+      this.optimizeCriticalRenderingPath();
+      
+      // Initialize performance monitoring
+      this.initPerformanceMonitoring();
+      
+      // Optimize for Core Web Vitals
+      this.optimizeLCP();
+      this.optimizeFID();
+      this.optimizeCLS();
+      
+      // Set up performance observer
+      this.setupPerformanceObserver();
+    }
+
+    /**
+     * Optimize Critical Rendering Path
+     */
+    private optimizeCriticalRenderingPath(): void {
+      // Preload critical resources
+      const criticalResources = [
+        { href: '/fonts/inter-latin-400-normal.woff2', as: 'font', type: 'font/woff2' },
+        { href: '/fonts/outfit-latin-300-normal.woff2', as: 'font', type: 'font/woff2' }
+      ];
+
+      criticalResources.forEach(resource => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = resource.href;
+        link.as = resource.as;
+        if (resource.type) link.type = resource.type;
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      });
+
+      // Inline critical CSS for above-the-fold content
+      this.inlineCriticalCSS();
+    }
+
+    /**
+     * Optimize Largest Contentful Paint (LCP)
+     */
+    private optimizeLCP(): void {
+      // Preload LCP candidate elements
+      const heroImage = document.querySelector('.hero-image, .hero-video, .hero-background img') as HTMLImageElement;
+      
+      if (heroImage && !heroImage.complete) {
+        // Preload hero image
+        const preloader = new Image();
+        preloader.src = heroImage.src || heroImage.dataset.src || '';
+        
+        // Add priority hint
+        heroImage.fetchPriority = 'high';
+        heroImage.loading = 'eager';
+      }
+
+      // Optimize font loading
+      document.fonts.ready.then(() => {
+        console.log('✅ Fonts loaded, LCP candidate ready');
+      });
+
+      // Remove render-blocking resources
+      this.optimizeRenderBlocking();
+    }
+
+    /**
+     * Optimize First Input Delay (FID)
+     */
+    private optimizeFID(): void {
+      // Defer non-critical JavaScript
+      this.deferNonCriticalJS();
+      
+      // Break up long tasks
+      this.scheduleNonCriticalWork();
+      
+      // Add passive event listeners where possible
+      this.optimizeEventListeners();
+    }
+
+    /**
+     * Optimize Cumulative Layout Shift (CLS)
+     */
+    private optimizeCLS(): void {
+      // Reserve space for dynamic content
+      this.reserveSpaceForDynamicContent();
+      
+      // Optimize image loading
+      this.optimizeImageDimensions();
+      
+      // Prevent layout shifts from web fonts
+      this.preventFontLayoutShifts();
+    }
+
+    private inlineCriticalCSS(): void {
+      const criticalCSS = `
+        /* Critical above-the-fold styles */
+        .hero-final {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #0A0A0A 0%, #0D0D0D 50%, #0A0A0A 100%);
+          contain: layout style paint;
+        }
+        
+        .hero-content {
+          text-align: center;
+          max-width: 900px;
+          margin: 0 auto;
+          contain: layout;
+        }
+        
+        .hero-name {
+          font-family: Inter, system-ui, sans-serif;
+          font-size: clamp(3rem, 8vw, 5rem);
+          font-weight: 300;
+          color: #FFFFFF;
+          margin: 0 0 1.5rem 0;
+          line-height: 1.1;
+        }
+      `;
+      
+      const style = document.createElement('style');
+      style.textContent = criticalCSS;
+      style.setAttribute('data-critical', 'true');
+      document.head.appendChild(style);
+    }
+
+    private optimizeRenderBlocking(): void {
+      // Defer non-critical CSS
+      const nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([data-critical])');
+      
+      nonCriticalCSS.forEach(link => {
+        const linkEl = link as HTMLLinkElement;
+        linkEl.media = 'print';
+        linkEl.onload = () => {
+          linkEl.media = 'all';
+        };
+      });
+    }
+
+    private deferNonCriticalJS(): void {
+      // Identify and defer non-critical scripts
+      const scripts = document.querySelectorAll('script[src]:not([data-critical])');
+      
+      scripts.forEach(script => {
+        const scriptEl = script as HTMLScriptElement;
+        if (!scriptEl.defer && !scriptEl.async) {
+          scriptEl.defer = true;
+        }
+      });
+    }
+
+    private scheduleNonCriticalWork(): void {
+      // Use scheduler API if available, fallback to setTimeout
+      const scheduler = (window as any).scheduler?.postTask || 
+                      ((task: () => void) => setTimeout(task, 0));
+      
+      // Defer heavy initialization
+      scheduler(() => {
+        // Initialize non-critical components
+        this.initializeNonCriticalComponents();
+      });
+    }
+
+    private optimizeEventListeners(): void {
+      // Add passive listeners for scroll and touch events
+      const passiveEvents = ['scroll', 'touchstart', 'touchmove', 'wheel'];
+      
+      passiveEvents.forEach(eventType => {
+        // Override existing non-passive listeners
+        const originalAddEventListener = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+          if (passiveEvents.includes(type) && typeof options !== 'object') {
+            options = { passive: true };
+          } else if (typeof options === 'object' && options && !('passive' in options)) {
+            options.passive = true;
+          }
+          
+          return originalAddEventListener.call(this, type, listener, options);
+        };
+      });
+    }
+
+    private reserveSpaceForDynamicContent(): void {
+      // Add aspect ratio containers for images
+      const images = document.querySelectorAll('img:not([data-dimensions-reserved])');
+      
+      images.forEach(img => {
+        const imageEl = img as HTMLImageElement;
+        const width = imageEl.getAttribute('width');
+        const height = imageEl.getAttribute('height');
+        
+        if (width && height) {
+          const aspectRatio = (parseInt(height) / parseInt(width)) * 100;
+          
+          const wrapper = document.createElement('div');
+          wrapper.style.cssText = `
+            position: relative;
+            width: 100%;
+            padding-bottom: ${aspectRatio}%;
+            contain: layout;
+          `;
+          
+          imageEl.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          `;
+          
+          imageEl.parentNode?.insertBefore(wrapper, imageEl);
+          wrapper.appendChild(imageEl);
+          imageEl.setAttribute('data-dimensions-reserved', 'true');
+        }
+      });
+    }
+
+    private optimizeImageDimensions(): void {
+      // Set explicit dimensions for images to prevent layout shift
+      const images = document.querySelectorAll('img:not([width]):not([height])');
+      
+      images.forEach(img => {
+        const imageEl = img as HTMLImageElement;
+        
+        // Set loading="lazy" for below-the-fold images
+        const rect = imageEl.getBoundingClientRect();
+        if (rect.top > window.innerHeight) {
+          imageEl.loading = 'lazy';
+        }
+        
+        // Add decoding="async" for better performance
+        imageEl.decoding = 'async';
+      });
+    }
+
+    private preventFontLayoutShifts(): void {
+      // Use font-display: swap for custom fonts
+      const fontFaces = Array.from(document.styleSheets)
+        .flatMap(sheet => {
+          try {
+            return Array.from(sheet.cssRules);
+          } catch {
+            return [];
+          }
+        })
+        .filter(rule => rule instanceof CSSFontFaceRule) as CSSFontFaceRule[];
+
+      fontFaces.forEach(fontFace => {
+        if (!fontFace.style.fontDisplay) {
+          fontFace.style.fontDisplay = 'swap';
+        }
+      });
+    }
+
+    private initializeNonCriticalComponents(): void {
+      // Initialize components that don't affect LCP
+      const lazyComponents = document.querySelectorAll('[data-lazy-component]');
+      
+      lazyComponents.forEach(component => {
+        const componentName = component.getAttribute('data-lazy-component');
+        if (componentName) {
+          // Dynamically import and initialize component
+          import(`../components/${componentName}.astro`).catch(console.warn);
+        }
+      });
+    }
+
+    private setupPerformanceObserver(): void {
+      if (!('PerformanceObserver' in window)) return;
+
+      // Observe LCP
+      this.observeLCP();
+      
+      // Observe FID
+      this.observeFID();
+      
+      // Observe CLS
+      this.observeCLS();
+      
+      // Observe other metrics
+      this.observeOtherMetrics();
+    }
+
+    private observeLCP(): void {
+      const observer = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        const lastEntry = entries[entries.length - 1] as PerformanceEntry;
+        
+        this.metrics.lcp = lastEntry.startTime;
+        this.reportMetric('LCP', this.metrics.lcp, this.thresholds.lcp);
+      });
+
+      observer.observe({ type: 'largest-contentful-paint', buffered: true });
+    }
+
+    private observeFID(): void {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.name === 'first-input') {
+            this.metrics.fid = (entry as any).processingStart - entry.startTime;
+            this.reportMetric('FID', this.metrics.fid, this.thresholds.fid);
+          }
+        }
+      });
+
+      observer.observe({ type: 'first-input', buffered: true });
+    }
+
+    private observeCLS(): void {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          const layoutShift = entry as LayoutShift;
+          
+          if (!layoutShift.hadRecentInput) {
+            this.clsValue += layoutShift.value;
+            this.clsEntries.push(layoutShift);
+          }
+        }
+        
+        this.metrics.cls = this.clsValue;
+        this.reportMetric('CLS', this.metrics.cls, this.thresholds.cls);
+      });
+
+      observer.observe({ type: 'layout-shift', buffered: true });
+    }
+
+    private observeOtherMetrics(): void {
+      // Observe navigation timing for TTFB and FCP
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.name === 'first-contentful-paint') {
+            this.metrics.fcp = entry.startTime;
+            this.reportMetric('FCP', this.metrics.fcp, this.thresholds.fcp);
+          }
+        }
+      });
+
+      observer.observe({ type: 'paint', buffered: true });
+
+      // TTFB from navigation timing
+      const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      if (navEntry) {
+        this.metrics.ttfb = navEntry.responseStart - navEntry.requestStart;
+        this.reportMetric('TTFB', this.metrics.ttfb, this.thresholds.ttfb);
+      }
+    }
+
+    private reportMetric(name: string, value: number, threshold: number): void {
+      const status = value <= threshold ? '✅' : '❌';
+      const performance = value <= threshold ? 'GOOD' : 'NEEDS IMPROVEMENT';
+      
+      console.log(`${status} ${name}: ${value.toFixed(2)}ms (${performance})`);
+      
+      // Send to analytics if available
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'web_vitals', {
+          event_category: 'Performance',
+          event_label: name,
+          value: Math.round(value),
+          custom_parameter_1: performance
+        });
+      }
+    }
+
+    /**
+     * Get current metrics
+     */
+    getMetrics(): WebVitalsMetrics {
+      return { ...this.metrics };
+    }
+
+    /**
+     * Get performance score (0-100)
+     */
+    getPerformanceScore(): number {
+      let score = 100;
+      
+      if (this.metrics.lcp && this.metrics.lcp > this.thresholds.lcp) {
+        score -= 25;
+      }
+      
+      if (this.metrics.fid && this.metrics.fid > this.thresholds.fid) {
+        score -= 25;
+      }
+      
+      if (this.metrics.cls && this.metrics.cls > this.thresholds.cls) {
+        score -= 25;
+      }
+      
+      if (this.metrics.fcp && this.metrics.fcp > this.thresholds.fcp) {
+        score -= 25;
+      }
+      
+      return Math.max(0, score);
+    }
+
+    /**
+     * Clean up observers
+     */
+    destroy(): void {
+      this.observer?.disconnect();
+    }
+  }
+
+  // Initialize Core Web Vitals Optimizer
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new CoreWebVitalsOptimizer();
+    });
+  } else {
+    new CoreWebVitalsOptimizer();
+  }
+
+  // Export for global access
+  (window as any).CoreWebVitalsOptimizer = CoreWebVitalsOptimizer;
+</script>
+
+<style>
+  /* Critical CSS inlined by component */
+</style>

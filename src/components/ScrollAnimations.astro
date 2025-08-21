@@ -391,114 +391,190 @@ const {
     }
 
     initFadeIn() {
+      // Batch elements to reduce observer overhead
+      const elementBatches = this.batchElements(Array.from(this.fadeElements), 8);
+      
+      elementBatches.forEach((batch, batchIndex) => {
+        // Stagger observer creation to prevent blocking
+        setTimeout(() => {
+          this.createFadeInObserver(batch, batchIndex);
+        }, batchIndex * 50);
+      });
+    }
+    
+    private batchElements(elements: Element[], batchSize: number): Element[][] {
+      const batches: Element[][] = [];
+      for (let i = 0; i < elements.length; i += batchSize) {
+        batches.push(elements.slice(i, i + batchSize));
+      }
+      return batches;
+    }
+    
+    private createFadeInObserver(elements: Element[], batchIndex: number) {
       // Enhanced margin-based intersection observers for better performance
       const observerOptions = {
-        threshold: [0, 0.1, 0.2, 0.3],
-        rootMargin: '100px 0px -10% 0px' // Start early, trigger before element is fully visible
+        threshold: 0.1, // Single threshold for better performance
+        rootMargin: this.isTouch ? '50px 0px -5% 0px' : '100px 0px -10% 0px' // Reduced margins on touch
       };
 
       const fadeInObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const el = entry.target as HTMLElement;
-          const fadeId = `fade-in-${Array.from(this.fadeElements).indexOf(el)}`;
-          
-          if (entry.isIntersecting) {
-            // Choose animation based on scroll direction and velocity
-            let animationType = animations.fadeInUp;
-            
-            if (this.scrollDirection === 'up') {
-              animationType = animations.fadeInDown;
+        // Use requestAnimationFrame to batch DOM updates
+        requestAnimationFrame(() => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.triggerFadeInAnimation(entry.target as HTMLElement, fadeInObserver);
             }
-            
-            // Adjust timing based on scroll velocity
-            const duration = Math.max(400, Math.min(1200, 800 - Math.abs(this.scrollVelocity) * 100));
-            
-            this.animationController.animate(fadeId, animationType, {
-              duration,
-              easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-              fill: 'forwards'
-            }).catch(() => {
-              // Fallback to CSS class if animation fails
-              el.style.opacity = '1';
-              el.style.transform = 'translateY(0)';
-            });
-            
-            fadeInObserver.unobserve(el);
-          }
+          });
         });
       }, observerOptions);
 
-      this.fadeElements.forEach((element) => {
+      elements.forEach((element) => {
         const el = element as HTMLElement;
-        const fadeId = `fade-in-${Array.from(this.fadeElements).indexOf(el)}`;
+        const fadeId = `fade-in-batch${batchIndex}-${elements.indexOf(el)}`;
         
-        // Register with animation controller
+        // Register with animation controller using queued method
         this.animationController.register(fadeId, el, 'scroll', 'medium');
         
         // Start observing
         fadeInObserver.observe(el);
       });
     }
+    
+    private triggerFadeInAnimation(el: HTMLElement, observer: IntersectionObserver) {
+      const fadeId = el.dataset.fadeId || `fade-in-${Date.now()}-${Math.random()}`;
+      el.dataset.fadeId = fadeId;
+      
+      // Choose animation based on scroll direction and device capabilities
+      let animationType = animations.fadeInUp;
+      let duration = 600;
+      
+      if (this.scrollDirection === 'up') {
+        animationType = animations.fadeInDown;
+      }
+      
+      // Optimize for device capabilities
+      if (this.isTouch || this.prefersReducedMotion) {
+        duration = 300; // Faster on mobile/reduced motion
+        animationType = animations.fadeIn; // Simpler animation
+      } else {
+        // Adjust timing based on scroll velocity
+        duration = Math.max(400, Math.min(800, 600 - Math.abs(this.scrollVelocity) * 50));
+      }
+      
+      // Use queued animation for better performance
+      this.animationController.animateQueued(fadeId, animationType, {
+        duration,
+        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        fill: 'forwards'
+      }, 'medium').catch(() => {
+        // High-performance CSS fallback
+        el.style.cssText += `
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+          transition: opacity 0.3s ease, transform 0.3s ease;
+        `;
+      });
+      
+      observer.unobserve(el);
+    }
 
     initStagger() {
-      // Enhanced stagger animations with momentum-aware timing
-      this.staggerElements.forEach((element, index) => {
+      // Process stagger elements in smaller batches to prevent frame drops
+      const staggerBatches = this.batchElements(Array.from(this.staggerElements), 4);
+      
+      staggerBatches.forEach((batch, batchIndex) => {
+        setTimeout(() => {
+          this.createStaggerObserver(batch, batchIndex);
+        }, batchIndex * 100);
+      });
+    }
+    
+    private createStaggerObserver(elements: Element[], batchIndex: number) {
+      elements.forEach((element, elementIndex) => {
         const el = element as HTMLElement;
         const children = Array.from(el.children) as HTMLElement[];
-        const staggerId = `stagger-group-${index}`;
+        const staggerId = `stagger-batch${batchIndex}-group${elementIndex}`;
         
-        if (children.length > 0) {
-          // Better observer configuration for smoother animations
-          const observer = new IntersectionObserver(
-            (entries) => {
+        if (children.length === 0) return;
+        
+        // Limit children count on mobile for performance
+        const maxChildren = this.isTouch ? 6 : children.length;
+        const optimizedChildren = children.slice(0, maxChildren);
+        
+        const observer = new IntersectionObserver(
+          (entries) => {
+            requestAnimationFrame(() => {
               entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                  // Choose animation direction based on scroll momentum
-                  let animationType = animations.slideUp;
-                  if (this.scrollDirection === 'up' && Math.abs(this.scrollVelocity) > 0.3) {
-                    animationType = animations.slideDown;
-                  }
-                  
-                  // Adjust stagger timing based on number of children and velocity
-                  const baseDelay = 80; // Base 80ms delay
-                  const velocityMultiplier = Math.max(0.5, Math.min(2, 1 - Math.abs(this.scrollVelocity) * 0.5));
-                  const adaptiveDelay = baseDelay * velocityMultiplier;
-                  
-                  // Limit total animation time for large groups
-                  const maxStaggerDelay = Math.min(adaptiveDelay, 2000 / children.length);
-                  
-                  // Use AnimationController's stagger method with adaptive timing
-                  this.animationController.stagger(
-                    staggerId,
-                    children,
-                    animationType,
-                    {
-                      duration: 600,
-                      easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-                      staggerDelay: maxStaggerDelay,
-                      fill: 'forwards'
-                    }
-                  ).catch(() => {
-                    // Fallback: animate all at once
-                    children.forEach(child => {
-                      child.style.opacity = '1';
-                      child.style.transform = 'translateY(0)';
-                    });
-                  });
-                  
-                  observer.unobserve(entry.target);
+                  this.triggerStaggerAnimation(optimizedChildren, staggerId, observer, entry.target);
                 }
               });
-            },
-            {
-              threshold: 0.1,
-              rootMargin: '50px 0px -25% 0px' // More generous margins for better UX
-            }
-          );
-          
-          observer.observe(el);
-        }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: this.isTouch ? '25px 0px -15% 0px' : '50px 0px -25% 0px'
+          }
+        );
+        
+        observer.observe(el);
       });
+    }
+    
+    private triggerStaggerAnimation(children: HTMLElement[], staggerId: string, observer: IntersectionObserver, target: Element) {
+      // Choose animation based on device and context
+      let animationType = animations.fadeInUp;
+      let duration = 600;
+      let baseDelay = 80;
+      
+      // Mobile optimizations
+      if (this.isTouch) {
+        duration = 400;
+        baseDelay = 60;
+        animationType = animations.fadeIn; // Simpler animation
+      } else if (this.scrollDirection === 'up' && Math.abs(this.scrollVelocity) > 0.3) {
+        animationType = animations.slideDown;
+      } else {
+        animationType = animations.slideUp;
+      }
+      
+      // Reduced motion optimizations
+      if (this.prefersReducedMotion) {
+        duration = 200;
+        baseDelay = 0;
+        animationType = animations.fadeIn;
+      }
+      
+      // Calculate adaptive timing
+      const velocityMultiplier = Math.max(0.5, Math.min(1.5, 1 - Math.abs(this.scrollVelocity) * 0.3));
+      const adaptiveDelay = baseDelay * velocityMultiplier;
+      const maxStaggerDelay = Math.min(adaptiveDelay, 1500 / children.length);
+      
+      // Use queued stagger animation
+      this.animationController.stagger(
+        staggerId,
+        children,
+        animationType,
+        {
+          duration,
+          easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+          staggerDelay: maxStaggerDelay,
+          fill: 'forwards'
+        }
+      ).catch(() => {
+        // High-performance CSS fallback
+        children.forEach((child, index) => {
+          setTimeout(() => {
+            child.style.cssText += `
+              opacity: 1 !important;
+              transform: translateY(0) !important;
+              transition: opacity 0.2s ease;
+            `;
+          }, index * 50);
+        });
+      });
+      
+      observer.unobserve(target);
     }
 
     initSmoothScroll() {

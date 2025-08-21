@@ -1,5 +1,6 @@
 ---
 import Search from './Search.tsx';
+import Icon from './Icon.astro';
 
 // Use client-side language detection for static builds
 const { pathname = '/' } = Astro.props;
@@ -36,35 +37,135 @@ const navItems = {
 const items = navItems[currentLang];
 ---
 
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="skip-link" tabindex="0">Skip to main content</a>
+
+<!-- Navigation Progress Indicator -->
+<div class="nav-progress" aria-hidden="true"></div>
+
 <nav class="nav-premium" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
+    <!-- Logo with enhanced styling -->
     <a href={`/Portfolio/${currentLang}/`} class="nav-logo magnetic-button touch-feedback" aria-label="Ramon Roca Pinilla - Home">
       <span class="logo-text">RRP</span>
+      <span class="logo-subtitle" aria-hidden="true">Portfolio</span>
     </a>
     
-    <ul class="nav-menu" role="menubar" aria-label="Site navigation">
-      {items.map(item => (
+    <!-- Desktop Navigation Menu -->
+    <ul class="nav-menu" role="menubar" aria-label="Site navigation" id="nav-menu">
+      {items.map((item, index) => (
         <li role="none">
-          <a href={item.href} class="nav-link magnetic-button touch-feedback" role="menuitem">{item.label}</a>
+          <a 
+            href={item.href} 
+            class="nav-link magnetic-button touch-feedback" 
+            role="menuitem"
+            data-section={item.href.replace('#', '')}
+            tabindex={index === 0 ? "0" : "-1"}
+          >
+            {item.label}
+            <span class="nav-link-indicator" aria-hidden="true"></span>
+          </a>
         </li>
       ))}
     </ul>
     
+    <!-- Search Component -->
     <div class="nav-search">
       <Search lang={currentLang} className="search-compact" client:load />
     </div>
     
+    <!-- Enhanced Language Switcher -->
     <div class="nav-lang" role="navigation" aria-label="Language selector">
-      <a href="/Portfolio/en/" class={`magnetic-button touch-feedback ${currentLang === 'en' ? 'active' : ''}`} aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>EN</a>
-      <a href="/Portfolio/es/" class={`magnetic-button touch-feedback ${currentLang === 'es' ? 'active' : ''}`} aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>ES</a>
-      <a href="/Portfolio/ca/" class={`magnetic-button touch-feedback ${currentLang === 'ca' ? 'active' : ''}`} aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>CA</a>
+      <div class="lang-dropdown">
+        <button class="lang-toggle magnetic-button touch-feedback" aria-expanded="false" aria-haspopup="listbox">
+          <Icon name="globe" size="sm" />
+          <span class="lang-current">{currentLang.toUpperCase()}</span>
+          <Icon name="chevron-down" size="xs" class="lang-chevron" />
+        </button>
+        <ul class="lang-menu" role="listbox">
+          <li role="option" class={currentLang === 'en' ? 'active' : ''}>
+            <a href="/Portfolio/en/" class="magnetic-button touch-feedback" aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>
+              <span class="lang-code">EN</span>
+              <span class="lang-name">English</span>
+            </a>
+          </li>
+          <li role="option" class={currentLang === 'es' ? 'active' : ''}>
+            <a href="/Portfolio/es/" class="magnetic-button touch-feedback" aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>
+              <span class="lang-code">ES</span>
+              <span class="lang-name">Español</span>
+            </a>
+          </li>
+          <li role="option" class={currentLang === 'ca' ? 'active' : ''}>
+            <a href="/Portfolio/ca/" class="magnetic-button touch-feedback" aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>
+              <span class="lang-code">CA</span>
+              <span class="lang-name">Català</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     
+    <!-- Enhanced Mobile Menu Toggle -->
     <button class="nav-toggle magnetic-button touch-feedback" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
+  </div>
+  
+  <!-- Mobile Menu Overlay -->
+  <div class="nav-overlay" aria-hidden="true">
+    <div class="nav-overlay-content">
+      <div class="nav-overlay-header">
+        <a href={`/Portfolio/${currentLang}/`} class="nav-overlay-logo">
+          <span class="logo-text">RRP</span>
+        </a>
+        <button class="nav-overlay-close" aria-label="Close navigation menu">
+          <Icon name="x" size="lg" />
+        </button>
+      </div>
+      
+      <ul class="nav-overlay-menu" role="menubar">
+        {items.map((item, index) => (
+          <li role="none">
+            <a 
+              href={item.href} 
+              class="nav-overlay-link magnetic-button touch-feedback" 
+              role="menuitem"
+              data-section={item.href.replace('#', '')}
+              tabindex="-1"
+            >
+              <span class="nav-overlay-link-text">{item.label}</span>
+              <Icon name="arrow-right" size="sm" class="nav-overlay-link-icon" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      
+      <div class="nav-overlay-footer">
+        <div class="nav-overlay-search">
+          <Search lang={currentLang} className="search-overlay" client:load />
+        </div>
+        
+        <div class="nav-overlay-lang">
+          <h3 class="nav-overlay-lang-title">Language</h3>
+          <div class="nav-overlay-lang-options">
+            <a href="/Portfolio/en/" class={`nav-overlay-lang-option ${currentLang === 'en' ? 'active' : ''}`}>
+              <span class="lang-code">EN</span>
+              <span class="lang-name">English</span>
+            </a>
+            <a href="/Portfolio/es/" class={`nav-overlay-lang-option ${currentLang === 'es' ? 'active' : ''}`}>
+              <span class="lang-code">ES</span>
+              <span class="lang-name">Español</span>
+            </a>
+            <a href="/Portfolio/ca/" class={`nav-overlay-lang-option ${currentLang === 'ca' ? 'active' : ''}`}>
+              <span class="lang-code">CA</span>
+              <span class="lang-name">Català</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -319,132 +420,299 @@ const items = navItems[currentLang];
 <script>
   import { getAnimationController } from '../utils/animations';
 
-  // Enhanced scroll effects with animation controller integration
-  const nav = document.querySelector('.nav-premium');
-  const animationController = getAnimationController({
-    enableGPUAcceleration: true,
-    enableWillChangeManagement: true,
-    enableHapticFeedback: true
-  });
-  
-  let lastScroll = 0;
-  let ticking = false;
-  
-  function updateNavigation() {
-    const currentScroll = window.pageYOffset;
-    
-    // Hide/show nav based on scroll direction
-    if (currentScroll > lastScroll && currentScroll > 100) {
-      nav?.style.setProperty('transform', 'translateY(-100%)');
-    } else {
-      nav?.style.setProperty('transform', 'translateY(0)');
+  // ==========================================================================
+  // Enhanced Navigation Controller with Premium UX
+  // ==========================================================================
+
+  class NavigationController {
+    constructor() {
+      this.nav = document.querySelector('.nav-premium');
+      this.progress = document.querySelector('.nav-progress');
+      this.toggle = document.querySelector('.nav-toggle');
+      this.overlay = document.querySelector('.nav-overlay');
+      this.overlayClose = document.querySelector('.nav-overlay-close');
+      this.langToggle = document.querySelector('.lang-toggle');
+      this.sections = document.querySelectorAll('section[id], div[id]');
+      this.navLinks = document.querySelectorAll('.nav-link, .nav-overlay-link');
+      
+      this.lastScroll = 0;
+      this.ticking = false;
+      this.isOverlayOpen = false;
+      
+      this.init();
     }
     
-    // Add scrolled class for styling
-    if (currentScroll > 50) {
-      nav?.classList.add('scrolled');
-    } else {
-      nav?.classList.remove('scrolled');
+    init() {
+      this.setupScrollEffects();
+      this.setupMobileMenu();
+      this.setupSmoothScroll();
+      this.setupScrollSpy();
+      this.setupLanguageDropdown();
+      this.setupAccessibility();
+      
+      // Initialize animation controller
+      this.animationController = getAnimationController({
+        enableGPUAcceleration: true,
+        enableWillChangeManagement: true,
+        enableHapticFeedback: true
+      });
+      
+      this.registerMagneticEffects();
+    }
+
+    setupScrollEffects() {
+      const updateNavigation = () => {
+        const currentScroll = window.pageYOffset;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+        
+        // Update progress bar
+        if (this.progress) {
+          const progress = Math.min((currentScroll / documentHeight) * 100, 100);
+          this.progress.style.width = `${progress}%`;
+        }
+        
+        // Hide/show nav based on scroll direction
+        if (currentScroll > this.lastScroll && currentScroll > 100) {
+          this.nav?.classList.add('hidden');
+        } else {
+          this.nav?.classList.remove('hidden');
+        }
+        
+        // Add scrolled class for enhanced styling
+        if (currentScroll > 50) {
+          this.nav?.classList.add('scrolled');
+        } else {
+          this.nav?.classList.remove('scrolled');
+        }
+        
+        this.lastScroll = currentScroll;
+        this.ticking = false;
+      };
+      
+      const requestTick = () => {
+        if (!this.ticking) {
+          requestAnimationFrame(updateNavigation);
+          this.ticking = true;
+        }
+      };
+      
+      window.addEventListener('scroll', requestTick, { passive: true });
+    }
+
+    setupMobileMenu() {
+      if (!this.toggle || !this.overlay) return;
+      
+      const toggleMenu = () => {
+        this.isOverlayOpen = !this.isOverlayOpen;
+        
+        if (this.isOverlayOpen) {
+          this.openOverlay();
+        } else {
+          this.closeOverlay();
+        }
+      };
+      
+      this.toggle.addEventListener('click', toggleMenu);
+      this.overlayClose?.addEventListener('click', () => this.closeOverlay());
+      
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOverlayOpen) {
+          this.closeOverlay();
+        }
+      });
+      
+      // Close on overlay background click
+      this.overlay.addEventListener('click', (e) => {
+        if (e.target === this.overlay) {
+          this.closeOverlay();
+        }
+      });
+      
+      // Close on link click
+      this.overlay.querySelectorAll('.nav-overlay-link').forEach(link => {
+        link.addEventListener('click', () => this.closeOverlay());
+      });
+    }
+
+    openOverlay() {
+      this.overlay?.classList.add('active');
+      this.toggle?.classList.add('active');
+      this.toggle?.setAttribute('aria-expanded', 'true');
+      
+      // Disable body scroll
+      document.body.style.overflow = 'hidden';
+      
+      // Focus management
+      setTimeout(() => {
+        this.overlayClose?.focus();
+      }, 100);
+      
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
     }
     
-    lastScroll = currentScroll;
-    ticking = false;
-  }
-  
-  function requestTick() {
-    if (!ticking) {
-      requestAnimationFrame(updateNavigation);
-      ticking = true;
+    closeOverlay() {
+      this.isOverlayOpen = false;
+      this.overlay?.classList.remove('active');
+      this.toggle?.classList.remove('active');
+      this.toggle?.setAttribute('aria-expanded', 'false');
+      
+      // Re-enable body scroll
+      document.body.style.overflow = '';
+      
+      // Return focus to toggle button
+      this.toggle?.focus();
     }
-  }
-  
-  window.addEventListener('scroll', requestTick, { passive: true });
-  
-  // Enhanced mobile menu toggle with animation controller
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.querySelector('.nav-menu');
-  
-  // Register magnetic button effects for navigation elements
-  if (toggle) {
-    animationController.magneticButton('nav-toggle', toggle, 0.2, 'high');
-  }
-  
-  // Register magnetic effects for nav links
-  document.querySelectorAll('.nav-link').forEach((link, index) => {
-    const linkElement = link as HTMLElement;
-    animationController.magneticButton(`nav-link-${index}`, linkElement, 0.15, 'medium');
-  });
-  
-  // Register magnetic effects for language links
-  document.querySelectorAll('.nav-lang a').forEach((link, index) => {
-    const linkElement = link as HTMLElement;
-    animationController.magneticButton(`nav-lang-${index}`, linkElement, 0.1, 'medium');
-  });
-  
-  // Register magnetic effect for logo
-  const logo = document.querySelector('.nav-logo');
-  if (logo) {
-    animationController.magneticButton('nav-logo', logo as HTMLElement, 0.1, 'medium');
-  }
-  
-  toggle?.addEventListener('click', () => {
-    toggle.classList.toggle('active');
-    menu?.classList.toggle('active');
-    
-    // Trigger haptic feedback on mobile menu toggle (if supported)
-    if (navigator.vibrate) {
-      navigator.vibrate(50);
+
+    setupSmoothScroll() {
+      this.navLinks.forEach(link => {
+        if (link.getAttribute('href')?.startsWith('#')) {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const targetId = link.getAttribute('href')?.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              const headerOffset = 80; // Account for fixed header
+              const elementPosition = targetElement.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+              
+              // Close mobile menu if open
+              if (this.isOverlayOpen) {
+                this.closeOverlay();
+              }
+            }
+          });
+        }
+      });
     }
-  });
-  
-  // Close mobile menu on link click
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      toggle?.classList.remove('active');
-      menu?.classList.remove('active');
-    });
-  });
-  
-  // Smooth scroll for anchor links and active state management
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+
+    setupScrollSpy() {
+      const updateActiveLink = () => {
+        let current = '';
+        const scrollPosition = window.scrollY + 100; // Offset for fixed header
+        
+        // Find current section
+        this.sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionBottom = sectionTop + section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            current = section.getAttribute('id') || '';
+          }
         });
         
-        // Update active state
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        this.classList.add('active');
-      }
-    });
-  });
-  
-  // Active section indicator on scroll
-  const sections = document.querySelectorAll('section[id], div[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-  
-  function updateActiveLink() {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (window.pageYOffset >= sectionTop - 200) {
-        current = section.getAttribute('id');
-      }
-    });
+        // Update active states
+        this.navLinks.forEach(link => {
+          link.classList.remove('active');
+          const href = link.getAttribute('href');
+          if (href === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      };
+      
+      // Throttled scroll listener for performance
+      let scrollTimeout;
+      const throttledUpdate = () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateActiveLink, 16); // ~60fps
+      };
+      
+      window.addEventListener('scroll', throttledUpdate, { passive: true });
+      updateActiveLink(); // Set initial state
+    }
+
+    setupLanguageDropdown() {
+      if (!this.langToggle) return;
+      
+      const langMenu = document.querySelector('.lang-menu');
+      let isOpen = false;
+      
+      const toggleDropdown = () => {
+        isOpen = !isOpen;
+        this.langToggle?.setAttribute('aria-expanded', isOpen.toString());
+      };
+      
+      this.langToggle.addEventListener('click', toggleDropdown);
+      
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!this.langToggle?.contains(e.target) && !langMenu?.contains(e.target)) {
+          isOpen = false;
+          this.langToggle?.setAttribute('aria-expanded', 'false');
+        }
+      });
+      
+      // Close on escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen) {
+          isOpen = false;
+          this.langToggle?.setAttribute('aria-expanded', 'false');
+          this.langToggle?.focus();
+        }
+      });
+    }
     
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
+    setupAccessibility() {
+      // Enhanced keyboard navigation
+      this.navLinks.forEach((link, index) => {
+        link.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const nextIndex = (index + 1) % this.navLinks.length;
+            this.navLinks[nextIndex]?.focus();
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prevIndex = (index - 1 + this.navLinks.length) % this.navLinks.length;
+            this.navLinks[prevIndex]?.focus();
+          }
+        });
+      });
+    }
+    
+    registerMagneticEffects() {
+      // Register magnetic effects for interactive elements
+      if (this.toggle) {
+        this.animationController.magneticButton('nav-toggle', this.toggle, 0.2, 'high');
       }
-    });
+      
+      this.navLinks.forEach((link, index) => {
+        this.animationController.magneticButton(`nav-link-${index}`, link, 0.15, 'medium');
+      });
+      
+      const logo = document.querySelector('.nav-logo');
+      if (logo) {
+        this.animationController.magneticButton('nav-logo', logo, 0.1, 'medium');
+      }
+      
+      const langToggle = document.querySelector('.lang-toggle');
+      if (langToggle) {
+        this.animationController.magneticButton('lang-toggle', langToggle, 0.1, 'medium');
+      }
+    }
   }
   
-  window.addEventListener('scroll', updateActiveLink, { passive: true });
-  updateActiveLink(); // Call once to set initial state
+  // Initialize navigation controller
+  document.addEventListener('DOMContentLoaded', () => {
+    new NavigationController();
+  });
+  
+  // Initialize immediately if DOM is already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new NavigationController();
+    });
+  } else {
+    new NavigationController();
+  }
 </script>

@@ -31,7 +31,8 @@
     "test:mobile": "playwright test --project=\"Mobile Chrome\"",
     "test:browsers": "playwright test --project=chromium --project=firefox --project=webkit",
     "lighthouse": "lhci autorun",
-    "preflight": "npm run performance:full && npm run seo:validate && echo '✅ Preflight checks passed'",
+    "performance:validate": "node scripts/validate-performance.mjs",
+    "preflight": "npm run performance:validate && npm run seo:validate && echo '✅ Preflight checks passed'",
     "preflight:full": "npm run preflight && npm run test:e2e && echo '✅ Full preflight checks passed'"
   },
   "dependencies": {

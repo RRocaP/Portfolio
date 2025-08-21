@@ -56,22 +56,52 @@ class AnimationController {
     averageFrameTime: 0,
     performanceScore: 100
   };
+  private animationQueue: Array<{ id: string; priority: 'high' | 'medium' | 'low'; fn: () => Promise<void> }> = [];
+  private isProcessingQueue = false;
+  private rafId: number | null = null;
+  private memoryPressureThreshold = 50; // MB
+  private lastMemoryCheck = 0;
+  private deviceCapabilities: {
+    isLowEnd: boolean;
+    maxConcurrentAnimations: number;
+    supportsCSSContainment: boolean;
+    supportsIntersectionObserver: boolean;
+  };
 
   constructor(config: Partial<AnimationConfig> = {}) {
+    this.deviceCapabilities = this.detectDeviceCapabilities();
+    
     this.config = {
       respectReducedMotion: true,
-      maxConcurrentAnimations: 10,
-      frameRateThreshold: 50,
+      maxConcurrentAnimations: this.deviceCapabilities.maxConcurrentAnimations,
+      frameRateThreshold: this.deviceCapabilities.isLowEnd ? 30 : 50,
       enablePerformanceMonitoring: true,
       enableDebugMode: false,
       enableGPUAcceleration: true,
-      enableWillChangeManagement: true,
+      enableWillChangeManagement: this.deviceCapabilities.supportsCSSContainment,
       enableHapticFeedback: true,
       networkAwarePreloading: true,
       ...config
     };
 
     this.init();
+  }
+
+  private detectDeviceCapabilities() {
+    const hardwareConcurrency = navigator.hardwareConcurrency || 4;
+    const memory = (navigator as any).deviceMemory || 4;
+    const connection = (navigator as any).connection;
+    
+    // Detect low-end devices
+    const isLowEnd = memory <= 2 || hardwareConcurrency <= 2 || 
+                     (connection && ['slow-2g', '2g', '3g'].includes(connection.effectiveType));
+    
+    return {
+      isLowEnd,
+      maxConcurrentAnimations: isLowEnd ? 3 : Math.min(8, hardwareConcurrency * 2),
+      supportsCSSContainment: CSS.supports('contain', 'layout'),
+      supportsIntersectionObserver: 'IntersectionObserver' in window
+    };
   }
 
   private init(): void {
@@ -686,10 +716,169 @@ class AnimationController {
   }
 
   /**
+   * Queue animation for intelligent processing
+   */
+  private queueAnimation(id: string, priority: 'high' | 'medium' | 'low', animationFn: () => Promise<void>): void {
+    this.animationQueue.push({ id, priority, fn: animationFn });
+    this.animationQueue.sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+    
+    if (!this.isProcessingQueue) {
+      this.processAnimationQueue();
+    }
+  }
+
+  /**
+   * Process animation queue with performance monitoring
+   */
+  private async processAnimationQueue(): Promise<void> {
+    if (this.isProcessingQueue || this.animationQueue.length === 0) return;
+    
+    this.isProcessingQueue = true;
+    
+    while (this.animationQueue.length > 0 && this.metrics.runningAnimations < this.config.maxConcurrentAnimations) {
+      // Check memory pressure
+      if (this.isMemoryPressureHigh()) {
+        this.debugLog('Pausing queue processing due to memory pressure');
+        break;
+      }
+      
+      // Check performance score
+      if (this.metrics.performanceScore < 40) {
+        this.debugLog('Pausing queue processing due to poor performance');
+        break;
+      }
+      
+      const animation = this.animationQueue.shift();
+      if (animation) {
+        try {
+          await animation.fn();
+        } catch (error) {
+          console.error(`Animation ${animation.id} failed:`, error);
+        }
+      }
+      
+      // Add small delay to prevent blocking
+      await new Promise(resolve => setTimeout(resolve, 16)); // ~1 frame
+    }
+    
+    this.isProcessingQueue = false;
+    
+    // Continue processing if there are more animations
+    if (this.animationQueue.length > 0) {
+      setTimeout(() => this.processAnimationQueue(), 100);
+    }
+  }
+
+  /**
+   * Check for memory pressure
+   */
+  private isMemoryPressureHigh(): boolean {
+    // Check every 5 seconds to avoid performance impact
+    const now = Date.now();
+    if (now - this.lastMemoryCheck < 5000) return false;
+    
+    this.lastMemoryCheck = now;
+    
+    // Use Performance Observer API if available
+    if ('memory' in performance) {
+      const memInfo = (performance as any).memory;
+      const usedMemoryMB = memInfo.usedJSHeapSize / (1024 * 1024);
+      return usedMemoryMB > this.memoryPressureThreshold;
+    }
+    
+    // Fallback: estimate based on animation count
+    return this.animations.size > 20;
+  }
+
+  /**
+   * Intelligent cleanup based on memory pressure
+   */
+  private performMemoryCleanup(): void {
+    // Cancel completed animations
+    const completedAnimations = Array.from(this.animations.entries())
+      .filter(([_, state]) => state.status === 'completed');
+    
+    completedAnimations.forEach(([id]) => {
+      this.animations.delete(id);
+    });
+    
+    // If still under pressure, cancel low-priority running animations
+    if (this.isMemoryPressureHigh()) {
+      const lowPriorityAnimations = Array.from(this.animations.entries())
+        .filter(([_, state]) => state.status === 'running' && state.priority === 'low');
+      
+      lowPriorityAnimations.forEach(([id]) => {
+        this.cancel(id);
+      });
+    }
+    
+    this.debugLog(`Memory cleanup performed. Active animations: ${this.animations.size}`);
+  }
+
+  /**
+   * Enhanced animate method with queuing
+   */
+  animateQueued(
+    id: string,
+    keyframes: Keyframe[],
+    options: KeyframeAnimationOptions = {},
+    priority: 'high' | 'medium' | 'low' = 'medium'
+  ): Promise<void> {
+    const animationFn = () => this.animate(id, keyframes, options);
+    
+    // High priority animations bypass queue
+    if (priority === 'high' && this.metrics.runningAnimations < this.config.maxConcurrentAnimations) {
+      return animationFn();
+    }
+    
+    return new Promise((resolve, reject) => {
+      this.queueAnimation(id, priority, async () => {
+        try {
+          await animationFn();
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  /**
+   * Get memory usage statistics
+   */
+  getMemoryStats(): { usedMemoryMB: number; totalAnimations: number; queueLength: number } {
+    let usedMemoryMB = 0;
+    
+    if ('memory' in performance) {
+      const memInfo = (performance as any).memory;
+      usedMemoryMB = memInfo.usedJSHeapSize / (1024 * 1024);
+    }
+    
+    return {
+      usedMemoryMB,
+      totalAnimations: this.animations.size,
+      queueLength: this.animationQueue.length
+    };
+  }
+
+  /**
    * Cleanup method
    */
   destroy(): void {
     this.pauseAllAnimations();
+    
+    // Cancel any pending RAF
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    
+    // Clear animation queue
+    this.animationQueue.length = 0;
+    this.isProcessingQueue = false;
     
     // Run cleanup for all animations
     this.animations.forEach((state) => {

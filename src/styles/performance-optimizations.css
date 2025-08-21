@@ -50,10 +50,64 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Content Visibility for Sections */
+/* Advanced Content Visibility and CSS Containment */
 .section {
   content-visibility: auto;
   contain-intrinsic-size: 400px;
+  contain: layout style paint;
+}
+
+/* Performance-critical sections with strict containment */
+.hero-section,
+.research-section,
+.timeline-section {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
+}
+
+/* Interactive elements with layout containment */
+.interactive-element,
+.animation-container,
+.protein-visualization,
+.chart-container {
+  contain: layout style;
+  will-change: auto; /* Managed by AnimationController */
+}
+
+/* Heavy content sections */
+.visualization-heavy,
+.data-visualization,
+.protein-viewer-container {
+  content-visibility: auto;
+  contain-intrinsic-size: 600px 400px;
+  contain: layout style paint;
+}
+
+/* Grid containers with paint containment */
+.grid-container,
+.publication-grid,
+.metrics-grid {
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+
+/* Scrollable content areas */
+.scroll-container,
+.timeline-container,
+.research-timeline {
+  contain: layout style;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-container,
+  .timeline-container,
+  .research-timeline {
+    scroll-behavior: auto;
+  }
 }
 
 /* Optimize Scrolling Performance */
@@ -300,9 +354,9 @@ img {
   gap: clamp(1rem, 4vw, 2rem);
 }
 
-/* Advanced Touch Optimization & Haptic Feedback Simulation */
+/* Advanced Touch Optimization & Mobile Performance */
 @media (hover: none) and (pointer: coarse) {
-  /* Ensure minimum touch target sizes (Apple/Google guidelines) */
+  /* Core Web Vitals: Minimize Layout Shift */
   .btn-primary,
   .btn-secondary,
   .magnetic-button,
@@ -316,6 +370,8 @@ img {
     min-height: 44px;
     min-width: 44px;
     position: relative;
+    /* Prevent layout shift on interaction */
+    contain: layout;
   }
   
   /* Enhanced touch targets with invisible padding */
@@ -330,42 +386,92 @@ img {
     min-height: 44px;
     transform: translate(-50%, -50%);
     z-index: -1;
+    /* Reduce repaints */
+    contain: paint;
   }
   
-  /* Remove problematic hover effects on touch devices */
+  /* Disable problematic animations on touch devices */
   .hover\:transform:hover,
   .hover\:-translate-y-1:hover,
   .hover\:-translate-y-2:hover,
-  .hover\:scale-105:hover {
-    transform: none;
+  .hover\:scale-105:hover,
+  .magnetic-card:hover,
+  .glow-on-hover:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    filter: none !important;
   }
   
-  /* Touch-specific feedback animations (haptic simulation) */
+  /* Simplified touch feedback for performance */
   .btn-primary:active,
   .btn-secondary:active,
   .magnetic-button:active {
-    transform: scale(0.95);
-    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.98);
+    transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Prevent paint on rapid taps */
+    contain: layout;
   }
   
-  /* Enhanced tap feedback with subtle visual cues */
+  /* Optimized tap feedback */
   .touch-feedback:active {
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    transition: all 0.1s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.08s ease;
+    contain: paint;
   }
   
-  /* Optimized scrolling for touch */
+  /* High-performance scrolling */
   .scroll-container {
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: y mandatory;
     overscroll-behavior: contain;
+    /* Optimize scroll performance */
+    contain: layout style;
+    will-change: scroll-position;
   }
   
-  /* Touch-optimized navigation */
+  /* Touch-optimized navigation with performance */
   .touch-nav {
     padding: 0.75rem 1rem;
     margin: 0.25rem;
+    contain: layout;
+  }
+  
+  /* Disable expensive effects on mobile */
+  .shimmer-loading,
+  .pulse-cta,
+  .floating-element,
+  .background-animation {
+    animation: none !important;
+  }
+  
+  /* Simplify shadows for mobile performance */
+  .efficient-shadow,
+  .magnetic-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* Reduce transform complexity on mobile */
+  .magnetic-card:hover {
+    transform: none !important;
+  }
+  
+  /* Mobile-specific performance optimizations */
+  .hero-video-container,
+  .protein-visualization,
+  .data-visualization {
+    /* Reduce rendering complexity on mobile */
+    contain: strict;
+    content-visibility: auto;
+  }
+  
+  /* Limit concurrent animations on mobile */
+  @keyframes mobile-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .fade-in-element.visible {
+    animation: mobile-fade-in 0.3s ease-out forwards;
   }
 }
 

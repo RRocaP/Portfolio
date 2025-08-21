@@ -1,8 +1,15 @@
-/* Design Tokens - Unified Typography System (DEPRECATED - Use design-system.css) */
+/* Design Tokens - DEPRECATED
+ * 
+ * This file is DEPRECATED as of the typography system standardization.
+ * All design tokens have been moved to design-system.css for better organization
+ * and multilingual support.
+ * 
+ * Do not add new tokens here - use design-system.css instead.
+ */
 
 :root {
-  /* NOTE: This file is now DEPRECATED. All typography tokens moved to design-system.css */
-  /* Keeping minimal tokens for backwards compatibility */
+  /* DEPRECATED: All typography tokens moved to design-system.css */
+  /* These tokens remain only for backwards compatibility and will be removed in future updates */
   --text-xs: 0.75rem;    /* 12px */
   --text-sm: 0.875rem;   /* 14px */
   --text-base: 1rem;     /* 16px */
@@ -41,15 +48,25 @@
   --icon-xl: 2.5rem;     /* 40px */
 }
 
-/* Typography Utilities */
-.text-scale-xs { font-size: var(--text-xs); line-height: var(--leading-normal); }
-.text-scale-sm { font-size: var(--text-sm); line-height: var(--leading-normal); }
-.text-scale-base { font-size: var(--text-base); line-height: var(--leading-normal); }
-.text-scale-lg { font-size: var(--text-lg); line-height: var(--leading-snug); }
-.text-scale-xl { font-size: var(--text-xl); line-height: var(--leading-tight); }
-.text-scale-2xl { font-size: var(--text-2xl); line-height: var(--leading-tight); }
-.text-scale-3xl { font-size: var(--text-3xl); line-height: var(--leading-tight); }
-.text-scale-4xl { font-size: var(--text-4xl); line-height: var(--leading-tight); }
+/* Typography Utilities - DEPRECATED
+ * Use the standardized classes in design-system.css instead:
+ * .text-h1, .text-h2, .text-body, .hero-title, .hero-tagline, etc.
+ */
+.text-scale-xs { font-size: var(--text-xs); line-height: 1.4; overflow-wrap: break-word; }
+.text-scale-sm { font-size: var(--text-sm); line-height: 1.4; overflow-wrap: break-word; }
+.text-scale-base { font-size: var(--text-base); line-height: 1.5; overflow-wrap: break-word; }
+.text-scale-lg { font-size: var(--text-lg); line-height: 1.4; overflow-wrap: break-word; }
+.text-scale-xl { font-size: var(--text-xl); line-height: 1.2; overflow-wrap: break-word; }
+.text-scale-2xl { font-size: var(--text-2xl); line-height: 1.2; overflow-wrap: break-word; }
+.text-scale-3xl { font-size: var(--text-3xl); line-height: 1.2; overflow-wrap: break-word; }
+.text-scale-4xl { font-size: var(--text-4xl); line-height: 1.2; overflow-wrap: break-word; }
+
+/* Multilingual adjustments for deprecated utilities */
+.text-scale-lg:lang(es), .text-scale-lg:lang(ca) { line-height: 1.6; }
+.text-scale-xl:lang(es), .text-scale-xl:lang(ca) { line-height: 1.3; }
+.text-scale-2xl:lang(es), .text-scale-2xl:lang(ca) { line-height: 1.3; }
+.text-scale-3xl:lang(es), .text-scale-3xl:lang(ca) { line-height: 1.3; }
+.text-scale-4xl:lang(es), .text-scale-4xl:lang(ca) { line-height: 1.3; }
 
 /* Icon Size Utilities */
 .icon-xs { width: var(--icon-xs); height: var(--icon-xs); }

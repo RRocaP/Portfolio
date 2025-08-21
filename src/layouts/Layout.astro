@@ -1,6 +1,8 @@
 ---
 import { seoManager, type SEOConfig } from '../utils/seoManager';
 import PerformanceMonitor from '../components/PerformanceMonitor.astro';
+import CoreWebVitalsOptimizer from '../components/CoreWebVitalsOptimizer.astro';
+import ScrollAnimations from '../components/ScrollAnimations.astro';
 
 export interface Props {
   title: string;
@@ -168,10 +170,14 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         text-rendering:optimizeLegibility;
       }
       
-      /* Language-specific typography adjustments */
+      /* Language-specific typography adjustments - Enhanced */
       body:lang(es),body:lang(ca){
         line-height:var(--leading-relaxed);
         word-spacing:0.02em;
+        /* Improved text wrapping for multilingual content */
+        overflow-wrap:break-word;
+        word-wrap:break-word;
+        hyphens:auto;
       }
       
       /* Standardized Heading Typography */
@@ -192,10 +198,13 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       h5{font-size:clamp(1.125rem,2.5vw,1.25rem);font-weight:var(--font-medium)}
       h6{font-size:1rem;font-weight:var(--font-medium)}
       
-      /* Language-specific heading optimizations */
-      h1:lang(es),h1:lang(ca){font-size:clamp(2rem,5.5vw,3.75rem);line-height:1.1}
-      h2:lang(es),h2:lang(ca){font-size:clamp(1.75rem,4.5vw,2.75rem);line-height:1.2}
-      h3:lang(es),h3:lang(ca){line-height:var(--leading-snug)}
+      /* Language-specific heading optimizations - Design system aligned */
+      h1:lang(es),h1:lang(ca){font-size:clamp(2rem,5.5vw,3.75rem);line-height:1.2;overflow-wrap:break-word;hyphens:auto}
+      h2:lang(es),h2:lang(ca){font-size:clamp(1.75rem,4.5vw,2.75rem);line-height:1.2;overflow-wrap:break-word;hyphens:auto}
+      h3:lang(es),h3:lang(ca){line-height:1.3;overflow-wrap:break-word;hyphens:auto}
+      
+      /* Ensure all headings can wrap properly */
+      h1,h2,h3,h4,h5,h6{overflow-wrap:break-word;word-wrap:break-word;hyphens:auto;max-width:100%}
       
       /* Critical Components */
       .glass{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-border)}
@@ -204,8 +213,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       .will-change-opacity{will-change:opacity}
       .will-change-auto{will-change:auto}
       
-      /* Layout */
-      .container{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+      /* Layout - Overflow protection */
+      .container{max-width:min(1280px,100vw);margin:0 auto;padding:0 1.5rem;box-sizing:border-box;overflow-wrap:break-word}
       .section{padding:var(--space-xl) 0;position:relative}
       
       /* Navigation */
@@ -232,11 +241,24 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       .btn-primary{background:var(--accent-red);color:#FFFFFF;border:1px solid var(--accent-red);box-shadow:0 8px 30px rgba(220,38,38,0.25)}
       .btn-primary:hover{background:var(--accent-red-hover);box-shadow:0 10px 40px rgba(220,38,38,0.3);transform:translateY(-2px)}
       
-      /* Responsive */
+      /* Responsive - Enhanced mobile support */
       @media(max-width:768px){
         .section{padding:var(--space-lg) 0}
-        .container{padding:0 1rem}
+        .container{padding:0 1rem;max-width:100vw}
         .btn{min-height:48px;min-width:48px}
+        
+        /* Mobile text wrapping */
+        h1,h2,h3,h4,h5,h6{word-break:break-word;overflow-wrap:break-word;hyphens:auto}
+      }
+      
+      /* Extra small screens */
+      @media(max-width:480px){
+        .container{padding:0 0.75rem}
+        
+        /* Most conservative text handling for small screens */
+        h1:lang(es),h1:lang(ca){font-size:clamp(1.75rem,8vw,2.5rem)}
+        h2:lang(es),h2:lang(ca){font-size:clamp(1.5rem,7vw,2rem)}
+        h3:lang(es),h3:lang(ca){font-size:clamp(1.25rem,6vw,1.5rem)}
       }
       
       /* Accessibility */
@@ -269,11 +291,38 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     </noscript>
   </head>
   <body>
+    <!-- Core Web Vitals Optimizer - High Priority -->
+    <CoreWebVitalsOptimizer />
+    
     <a class="skip-link" href="#main" tabindex="0">Skip to main content</a>
     <main id="main" role="main" aria-label="Main content">
       <slot />
     </main>
     
+    <!-- Scroll Animations - Low Priority -->
+    <ScrollAnimations 
+      enableMagneticButtons={true}
+      enableScrollProgress={true}
+      enableParallax={false}
+    />
+    
+    <!-- Accessibility Controller - Critical -->
+    <script>
+      // Initialize accessibility controller as soon as possible
+      import('/src/utils/accessibility-controller.ts')
+        .then(({ default: AccessibilityController }) => {
+          window.accessibilityController = new AccessibilityController({
+            enableHighContrast: true,
+            enableFocusManagement: true,
+            enableScreenReaderOptimizations: true,
+            enableReducedMotion: true,
+            enableKeyboardNavigation: true,
+            announcePageChanges: true
+          });
+        })
+        .catch(console.warn);
+    </script>
+
     <!-- Performance Monitor - Development Only -->
     <script>
       if (import.meta.env.DEV) {
