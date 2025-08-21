@@ -1,1 +1,0 @@
-import{c as o,r}from"./vendor-utils.zwXP0I8j.js";const s=o((o,s,t)=>r``,"/Users/ramon/projects/Portfolio/src/components/SmartVideo.astro",void 0),t="/Users/ramon/projects/Portfolio/src/components/SmartVideo.astro",a=void 0;export{s as default,t as file,a as url};
