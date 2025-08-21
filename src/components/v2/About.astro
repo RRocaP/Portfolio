@@ -1,0 +1,224 @@
+---
+---
+
+<section id="about" class="about section">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>About <span class="text-gradient">Me</span></h2>
+        <p class="lead">
+          I'm a researcher passionate about engineering biological systems to solve critical healthcare challenges.
+        </p>
+        <p>
+          With a background spanning molecular biology, protein engineering, and computational modeling, 
+          I work at the intersection of wet-lab experimentation and computational design. My research 
+          focuses on developing novel antimicrobial therapies and optimizing gene delivery systems for 
+          next-generation treatments.
+        </p>
+        <p>
+          Currently completing my PhD at the Institute for Bioengineering of Catalonia (IBEC), where I'm 
+          developing protein-based nanoparticles for targeted antimicrobial delivery and working on 
+          CRISPR-based gene therapy approaches.
+        </p>
+        
+        <div class="skills">
+          <h3>Core Expertise</h3>
+          <div class="skill-grid">
+            <div class="skill-category">
+              <h4>Molecular Biology</h4>
+              <ul>
+                <li>Protein Engineering</li>
+                <li>CRISPR/Cas Systems</li>
+                <li>Directed Evolution</li>
+                <li>Cell Culture</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h4>Computational</h4>
+              <ul>
+                <li>Molecular Dynamics</li>
+                <li>Machine Learning</li>
+                <li>Bioinformatics</li>
+                <li>Data Analysis</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h4>Technologies</h4>
+              <ul>
+                <li>Flow Cytometry</li>
+                <li>Microscopy</li>
+                <li>Mass Spectrometry</li>
+                <li>NGS Analysis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="about-visual">
+        <div class="image-container">
+          <div class="image-wrapper">
+            <div class="placeholder-image">
+              <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <circle cx="200" cy="200" r="180" fill="url(#gradient)" opacity="0.1"/>
+                <circle cx="200" cy="150" r="50" fill="url(#gradient)" opacity="0.3"/>
+                <rect x="175" y="220" width="50" height="100" rx="25" fill="url(#gradient)" opacity="0.3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="decoration-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--color-bg-secondary);
+  }
+  
+  .about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+  }
+  
+  .about-text h2 {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    color: var(--color-text);
+    font-weight: 500;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+  }
+  
+  .about-text p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.8;
+  }
+  
+  .skills {
+    margin-top: var(--spacing-2xl);
+  }
+  
+  .skills h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+  }
+  
+  .skill-category h4 {
+    font-size: 1rem;
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+  }
+  
+  .skill-category ul {
+    list-style: none;
+  }
+  
+  .skill-category li {
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0;
+    font-size: 0.95rem;
+    position: relative;
+    padding-left: 1rem;
+  }
+  
+  .skill-category li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+  
+  .about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .image-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    padding: 2rem;
+  }
+  
+  .placeholder-image {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .decoration-dots {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .decoration-dots span {
+    width: 10px;
+    height: 10px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+  
+  @media (max-width: 1024px) {
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-visual {
+      margin-top: var(--spacing-2xl);
+    }
+    
+    .skill-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

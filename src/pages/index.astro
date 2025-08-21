@@ -1,21 +1,27 @@
 ---
-// Redirect to English version by default
+import Layout from '../layouts/LayoutV2.astro';
+import Hero from '../components/v2/Hero.astro';
+import About from '../components/v2/About.astro';
+import Experience from '../components/v2/Experience.astro';
+import Research from '../components/v2/Research.astro';
+import Contact from '../components/v2/Contact.astro';
+import Navigation from '../components/v2/Navigation.astro';
 ---
 
-<script>
-  // Redirect to English version
-  window.location.href = '/Portfolio/en/';
-</script>
+<Layout title="Ramon Roca | Biomedical Engineer">
+  <Navigation />
+  <main id="main-content">
+    <Hero />
+    <About />
+    <Experience />
+    <Research />
+    <Contact />
+  </main>
+</Layout>
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ramon Roca Pinilla - Portfolio</title>
-    <meta http-equiv="refresh" content="0; url=/Portfolio/en/">
-    <link rel="canonical" href="/Portfolio/en/">
-  </head>
-  <body>
-    <p>Redirecting to <a href="/Portfolio/en/">English version</a>...</p>
-  </body>
-</html>
+<style>
+  main {
+    width: 100%;
+    overflow-x: hidden;
+  }
+</style>

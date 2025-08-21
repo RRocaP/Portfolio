@@ -1,0 +1,377 @@
+---
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="badge">Available for opportunities</div>
+        <h1 class="hero-title">
+          Engineering Biology for
+          <span class="text-gradient">Human Health</span>
+        </h1>
+        <p class="hero-description">
+          I'm Ramon Roca, a biomedical engineer at the intersection of protein design, 
+          synthetic biology, and computational modeling. Currently developing next-generation 
+          antimicrobial therapies and gene delivery systems.
+        </p>
+        <div class="hero-actions">
+          <a href="#research" class="btn btn-primary">View Research</a>
+          <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-value">15+</span>
+            <span class="stat-label">Publications</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">300+</span>
+            <span class="stat-label">Citations</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">5</span>
+            <span class="stat-label">Patents</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="protein-container">
+          <canvas id="protein-canvas"></canvas>
+          <div class="glow-orb"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--header-height);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--color-accent);
+    color: white;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-lg);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  .hero-title {
+    margin-bottom: var(--spacing-lg);
+    animation: fadeIn 0.8s ease;
+  }
+  
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.8;
+    animation: fadeIn 0.8s ease 0.2s backwards;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+    animation: fadeIn 0.8s ease 0.4s backwards;
+  }
+  
+  .btn {
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all var(--transition-base);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .btn-primary {
+    background: var(--color-accent);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-text);
+  }
+  
+  .hero-stats {
+    display: flex;
+    gap: var(--spacing-xl);
+    animation: fadeIn 0.8s ease 0.6s backwards;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    line-height: 1;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.25rem;
+  }
+  
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease 0.8s backwards;
+  }
+  
+  .protein-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+  }
+  
+  #protein-canvas {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .glow-orb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: rotate 20s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  
+  @media (max-width: 1024px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    
+    .hero-visual {
+      order: -1;
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .protein-container {
+      width: 350px;
+      height: 350px;
+    }
+    
+    .hero-actions {
+      justify-content: center;
+    }
+    
+    .hero-stats {
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-description {
+      font-size: 1.1rem;
+    }
+    
+    .hero-actions {
+      flex-direction: column;
+    }
+    
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .protein-container {
+      width: 300px;
+      height: 300px;
+    }
+  }
+</style>
+
+<script>
+  // Simple animated protein visualization
+  const canvas = document.getElementById('protein-canvas') as HTMLCanvasElement;
+  const ctx = canvas?.getContext('2d');
+  
+  if (canvas && ctx) {
+    canvas.width = 500;
+    canvas.height = 500;
+    
+    const particles: any[] = [];
+    const particleCount = 50;
+    
+    class Particle {
+      x: number;
+      y: number;
+      z: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      speedZ: number;
+      
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.z = Math.random() * 1000;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.speedZ = (Math.random() - 0.5) * 2;
+      }
+      
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.z += this.speedZ;
+        
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        if (this.z < 0 || this.z > 1000) this.speedZ *= -1;
+      }
+      
+      draw() {
+        const perspective = 1000 / (1000 + this.z);
+        const x = canvas.width / 2 + (this.x - canvas.width / 2) * perspective;
+        const y = canvas.height / 2 + (this.y - canvas.height / 2) * perspective;
+        const size = this.size * perspective;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(59, 130, 246, ${0.8 * perspective})`;
+        ctx.fill();
+      }
+    }
+    
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+    
+    // Connect particles
+    function connectParticles() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dz = particles[i].z - particles[j].z;
+          const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+          
+          if (distance < 150) {
+            const opacity = (1 - distance / 150) * 0.3;
+            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    
+    // Animation loop with performance optimization
+    let animationId: number;
+    let isVisible = true;
+    
+    function animate() {
+      if (!isVisible) return;
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+      
+      connectParticles();
+      
+      animationId = requestAnimationFrame(animate);
+    }
+    
+    // Pause animation when not visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationId) {
+          animate();
+        } else if (!isVisible && animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = 0;
+        }
+      });
+    });
+    
+    observer.observe(canvas);
+    
+    // Reduce animation on low-end devices
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!mediaQuery.matches) {
+      animate();
+    }
+  }
+</script>

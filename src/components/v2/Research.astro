@@ -1,0 +1,350 @@
+---
+const publications = [
+  {
+    title: "Engineering protein nanoparticles for enhanced antimicrobial delivery",
+    journal: "Nature Biotechnology",
+    year: "2024",
+    type: "research",
+    link: "#"
+  },
+  {
+    title: "CRISPR-based gene therapy for antibiotic-resistant infections",
+    journal: "Science Translational Medicine",
+    year: "2023",
+    type: "research",
+    link: "#"
+  },
+  {
+    title: "Functional inclusion bodies as novel drug delivery platforms",
+    journal: "Advanced Drug Delivery Reviews",
+    year: "2023",
+    type: "review",
+    link: "#"
+  },
+  {
+    title: "Targeted protein aggregation for cancer therapy",
+    journal: "Journal of Controlled Release",
+    year: "2022",
+    type: "research",
+    link: "#"
+  }
+];
+
+const projects = [
+  {
+    title: "AntimicrobialNanoparticles",
+    description: "Developing self-assembling protein nanoparticles that specifically target and eliminate antibiotic-resistant bacteria",
+    image: "antimicrobial",
+    tags: ["Protein Engineering", "Nanotechnology", "AMR"],
+    highlight: true
+  },
+  {
+    title: "CRISPR Gene Therapy",
+    description: "Engineering CRISPR systems for precise genome editing in bacterial infections",
+    image: "crispr",
+    tags: ["CRISPR", "Gene Therapy", "Synthetic Biology"],
+    highlight: true
+  },
+  {
+    title: "Drug Delivery Systems",
+    description: "Creating smart biomaterials for targeted drug delivery using functional protein aggregates",
+    image: "delivery",
+    tags: ["Biomaterials", "Drug Delivery", "Cancer Therapy"],
+    highlight: false
+  }
+];
+---
+
+<section id="research" class="research section">
+  <div class="container">
+    <h2>Research & <span class="text-gradient">Publications</span></h2>
+    
+    <div class="research-grid">
+      <div class="featured-projects">
+        <h3>Featured Projects</h3>
+        <div class="projects-grid">
+          {projects.filter(p => p.highlight).map(project => (
+            <div class="project-card">
+              <div class="project-image">
+                <div class="placeholder-project">
+                  <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="300" height="200" fill="url(#projectGradient)" opacity="0.1"/>
+                    <circle cx="150" cy="100" r="50" fill="url(#projectGradient)" opacity="0.2"/>
+                    <defs>
+                      <linearGradient id="projectGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <div class="project-content">
+                <h4>{project.title}</h4>
+                <p>{project.description}</p>
+                <div class="project-tags">
+                  {project.tags.map(tag => (
+                    <span class="project-tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div class="publications-list">
+        <h3>Recent Publications</h3>
+        <div class="publications">
+          {publications.map(pub => (
+            <article class="publication">
+              <div class="pub-type" data-type={pub.type}>
+                {pub.type === 'research' ? 'Research' : 'Review'}
+              </div>
+              <h4>
+                <a href={pub.link}>{pub.title}</a>
+              </h4>
+              <div class="pub-meta">
+                <span class="journal">{pub.journal}</span>
+                <span class="year">{pub.year}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+        <a href="#" class="view-all">View all publications →</a>
+      </div>
+    </div>
+    
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-value">15+</div>
+        <div class="metric-label">Publications</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">300+</div>
+        <div class="metric-label">Citations</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">8</div>
+        <div class="metric-label">h-index</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">5</div>
+        <div class="metric-label">Patents</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .research {
+    background: var(--color-bg-secondary);
+  }
+  
+  .research h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+  
+  .research-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--spacing-3xl);
+    margin-bottom: var(--spacing-3xl);
+  }
+  
+  .featured-projects h3,
+  .publications-list h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .projects-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+  
+  .project-card {
+    background: var(--color-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+  }
+  
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-accent);
+  }
+  
+  .project-image {
+    width: 100%;
+    height: 200px;
+    background: var(--color-bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .placeholder-project {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .project-content {
+    padding: var(--spacing-lg);
+  }
+  
+  .project-content h4 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+  }
+  
+  .project-content p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+  
+  .project-tag {
+    padding: 0.25rem 0.75rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--color-accent);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .publications {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .publication {
+    padding: var(--spacing-md);
+    background: var(--color-bg);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+  }
+  
+  .publication:hover {
+    border-color: var(--color-accent);
+    transform: translateX(4px);
+  }
+  
+  .pub-type {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-accent);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .pub-type[data-type="review"] {
+    background: #a855f7;
+  }
+  
+  .publication h4 {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .publication h4 a {
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+  
+  .publication h4 a:hover {
+    color: var(--color-accent);
+  }
+  
+  .pub-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  
+  .journal {
+    font-style: italic;
+  }
+  
+  .year {
+    font-weight: 600;
+  }
+  
+  .view-all {
+    display: inline-block;
+    margin-top: var(--spacing-lg);
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+  
+  .view-all:hover {
+    transform: translateX(4px);
+  }
+  
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+  }
+  
+  .metric-card {
+    background: var(--color-bg);
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+  }
+  
+  .metric-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-xs);
+  }
+  
+  @media (max-width: 1024px) {
+    .research-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
