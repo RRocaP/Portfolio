@@ -16,6 +16,7 @@ interface AnimationState {
   options?: KeyframeAnimationOptions;
   gpuAccelerated?: boolean;
   willChangeManaged?: boolean;
+  cleanup?: () => void;
 }
 
 interface AnimationMetrics {
@@ -391,6 +392,7 @@ class AnimationController {
     this.register(id, element, 'parallax', priority);
     
     let ticking = false;
+    let scrollHandler: (() => void) | null = null;
     
     const updateParallax = () => {
       const scrollY = window.pageYOffset;
@@ -415,7 +417,19 @@ class AnimationController {
       }
     };
 
-    window.addEventListener('scroll', requestTick, { passive: true });
+    scrollHandler = requestTick;
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    
+    // Store cleanup function
+    const state = this.animations.get(id);
+    if (state) {
+      state.cleanup = () => {
+        if (scrollHandler) {
+          window.removeEventListener('scroll', scrollHandler);
+          scrollHandler = null;
+        }
+      };
+    }
   }
 
   /**
@@ -676,6 +690,14 @@ class AnimationController {
    */
   destroy(): void {
     this.pauseAllAnimations();
+    
+    // Run cleanup for all animations
+    this.animations.forEach((state) => {
+      if (state.cleanup) {
+        state.cleanup();
+      }
+    });
+    
     this.intersectionObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.animations.clear();

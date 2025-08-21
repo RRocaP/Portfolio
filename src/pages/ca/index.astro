@@ -7,7 +7,7 @@ import Footer from '../../components/Footer.astro';
 import { publications } from '../../data/publications.js';
 import HeroFinal from '../../components/HeroFinal.astro';
 import PerformanceMetrics from '../../components/PerformanceMetrics.astro';
-import { metrics } from '../../data/metrics.ts';
+import { legacyMetrics as metrics } from '../../data/metrics.ts';
 import FeatureGrid from '../../components/FeatureGrid.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import CallToAction from '../../components/CallToAction.astro';
@@ -18,6 +18,8 @@ import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
 import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Icon from '../../components/Icon.astro';
+import ResearchMetricsViz from '../../components/ResearchMetricsViz.astro';
+import ScientificImpactDashboard from '../../components/ScientificImpactDashboard.astro';
 ---
 
 <Layout
@@ -113,20 +115,12 @@ import Icon from '../../components/Icon.astro';
         <p class="text-body-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Pioner en disseny de proteïnes antimicrobianes i enginyeria de vectors virals mitjançant innovació computacional i precisió experimental.</p>
       </div>
       
-      <!-- Research Metrics -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-        <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.3s;">
-          <div class="text-display-lg font-bold text-white mb-2">{metrics.publications}</div>
-          <div class="text-caption text-gray-400">Articles revisats per parells</div>
-        </div>
-        <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.4s;">
-          <div class="text-display-lg font-bold text-white mb-2">{metrics.citations && metrics.citations > 0 ? `${metrics.citations}+` : '250+'}</div>
-          <div class="text-caption text-gray-400">Cites (Scholar)</div>
-        </div>
-        <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.5s;">
-          <div class="text-display-lg font-bold text-white mb-2">10</div>
-          <div class="text-caption text-gray-400">Revistes i conferències</div>
-        </div>
+      <!-- Enhanced Research Metrics Visualization -->
+      <ResearchMetricsViz lang="ca" />
+      
+      <!-- Scientific Impact Dashboard -->
+      <div class="mt-20">
+        <ScientificImpactDashboard lang="ca" />
       </div>
       
       <AntimicrobialAnimation />
