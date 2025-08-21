@@ -102,11 +102,163 @@ img {
   backface-visibility: hidden;
 }
 
+/* Sophisticated Micro-interactions & Magnetic Button Effects */
+.magnetic-button {
+  position: relative;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.magnetic-button:hover {
+  transform: translate3d(0, -2px, 0) scale(1.02);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3),
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.magnetic-button::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.magnetic-button:hover::before {
+  opacity: 1;
+}
+
+/* Enhanced Button Interactions */
+.btn-enhanced {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-enhanced::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-enhanced:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Shimmer Loading Effect */
+.shimmer-loading {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Glow Effects */
+.glow-on-hover {
+  position: relative;
+  border: none;
+  outline: none;
+  color: #fff;
+  background: #111;
+  cursor: pointer;
+  z-index: 0;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.glow-on-hover:before {
+  content: '';
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.glow-on-hover:hover:before {
+  opacity: 1;
+}
+
+.glow-on-hover:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
 /* Efficient Hover States */
 .hover-optimize {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
               background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Magnetic Card Effects */
+.magnetic-card {
+  transform: translate3d(0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.magnetic-card:hover {
+  transform: translate3d(0, -8px, 0) rotateX(5deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Pulsing Animations for CTAs */
+.pulse-cta {
+  animation: pulse-cta 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-cta {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 /* Layout Containment */
@@ -148,19 +300,72 @@ img {
   gap: clamp(1rem, 4vw, 2rem);
 }
 
-/* Touch Optimization */
+/* Advanced Touch Optimization & Haptic Feedback Simulation */
 @media (hover: none) and (pointer: coarse) {
+  /* Ensure minimum touch target sizes (Apple/Google guidelines) */
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .magnetic-button,
+  .nav-link,
+  .social-link,
+  .publication-card,
+  button,
+  a[role="button"],
+  input[type="button"],
+  input[type="submit"] {
     min-height: 44px;
     min-width: 44px;
+    position: relative;
   }
   
-  /* Remove hover effects on touch devices */
+  /* Enhanced touch targets with invisible padding */
+  .btn-primary::before,
+  .btn-secondary::before,
+  .magnetic-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 44px;
+    min-height: 44px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  
+  /* Remove problematic hover effects on touch devices */
   .hover\:transform:hover,
   .hover\:-translate-y-1:hover,
-  .hover\:-translate-y-2:hover {
+  .hover\:-translate-y-2:hover,
+  .hover\:scale-105:hover {
     transform: none;
+  }
+  
+  /* Touch-specific feedback animations (haptic simulation) */
+  .btn-primary:active,
+  .btn-secondary:active,
+  .magnetic-button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Enhanced tap feedback with subtle visual cues */
+  .touch-feedback:active {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    transition: all 0.1s ease;
+  }
+  
+  /* Optimized scrolling for touch */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior: contain;
+  }
+  
+  /* Touch-optimized navigation */
+  .touch-nav {
+    padding: 0.75rem 1rem;
+    margin: 0.25rem;
   }
 }
 
@@ -179,7 +384,7 @@ img {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-/* Network-aware Loading */
+/* Intelligent Network-aware Loading & Preloading Strategies */
 @media (prefers-reduced-data: reduce) {
   .hero-video {
     display: none;
@@ -187,6 +392,78 @@ img {
   
   .video-overlay {
     background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);
+  }
+  
+  /* Disable non-critical animations on slow connections */
+  .background-animation,
+  .particle-effect,
+  .floating-element {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Progressive Image Loading */
+.progressive-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.progressive-image img {
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.progressive-image.loading img {
+  opacity: 0.7;
+  filter: blur(5px);
+}
+
+.progressive-image.loaded img {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Lazy Loading Optimization */
+.lazy-load {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Critical Resource Prioritization */
+.critical-content {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px;
+}
+
+.non-critical-content {
+  content-visibility: auto;
+  contain-intrinsic-size: 400px;
+}
+
+/* Adaptive Quality Based on Connection */
+@media (max-width: 768px) {
+  .high-quality-image {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="100%" height="100%" fill="%23f0f0f0"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="%23999">Loading...</text></svg>');
+  }
+}
+
+/* Connection Speed Adaptive Styles */
+.adaptive-quality {
+  transition: all 0.3s ease;
+}
+
+/* Slow connection fallbacks */
+@media (max-width: 480px) and (prefers-reduced-data: reduce) {
+  .adaptive-quality {
+    background-image: none !important;
+    filter: none !important;
+    transform: none !important;
   }
 }
 

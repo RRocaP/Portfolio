@@ -16,6 +16,7 @@ import ValidationMetrics from '../../components/ValidationMetrics.astro';
 import ProteinDesignShowcase from '../../components/ProteinDesignShowcase.astro';
 import ProteinVideoShowcase from '../../components/ProteinVideoShowcase.astro';
 import EnhancedAnimations from '../../components/EnhancedAnimations.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Icon from '../../components/Icon.astro';
 ---
 
@@ -26,26 +27,44 @@ import Icon from '../../components/Icon.astro';
 >
   <NavigationPremium />
   <EnhancedAnimations />
+  <ScrollAnimations />
   
-  <HeroFinal lang="es" />
+  <div id="home">
+    <HeroFinal lang="es" />
+  </div>
+
+  <!-- Current Position Section -->
+  <section id="position" class="section-lg bg-gray-900/30" role="region" aria-labelledby="position-heading">
+    <div class="container container-lg">
+      <div class="text-center max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-blue-600/10 border border-blue-600/20 rounded-full mb-8 animate-fade-in-up">
+          <Icon name="location" size="sm" class="text-blue-400" />
+          <span class="text-blue-300 font-medium">Posición Actual</span>
+        </div>
+        <h2 id="position-heading" class="text-heading-xl mb-4 animate-fade-in-up" style="animation-delay: 0.1s;">Científico de Investigación</h2>
+        <p class="text-body-xl text-gray-300 mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">Children's Medical Research Institute, Sydney</p>
+        <p class="text-body text-gray-400 animate-fade-in-up" style="animation-delay: 0.3s;">Liderando iniciativas de diseño de proteínas antimicrobianas con enfoque en métodos computacionales y validación experimental para terapéuticas de nueva generación.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Interactive Protein Design Showcase -->
-  <ProteinDesignShowcase lang="en" />
+  <ProteinDesignShowcase lang="es" />
 
   <!-- About Section -->
-  <section id="about" class="section-lg" role="region" aria-labelledby="about-heading">
+  <section id="about" class="section-lg bg-gray-950/20" role="region" aria-labelledby="about-heading">
     <div class="container container-lg">
       <div class="text-center mb-16">
-        <h2 id="about-heading" class="text-heading-xl mb-6 animate-fade-in-up">My Journey in Biomedical Innovation</h2>
+        <h2 id="about-heading" class="text-heading-xl mb-6 animate-fade-in-up">Mi Trayectoria en Innovación Biomédica</h2>
         <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-red-400 mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.1s;"></div>
       </div>
       
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <div class="space-y-6 animate-fade-in-left">
           <div class="space-y-4">
-            <p class="text-body-xl leading-relaxed text-gray-300">I'm a biotechnologist who believes proteins can solve our biggest medical challenges.</p>
-            <p class="text-body-lg text-gray-400">My days are split between <span style="color: var(--red-400); font-weight: 600;">algorithms</span> and <span style="color: var(--red-400); font-weight: 600;">laboratory benches</span>. I design antimicrobial proteins computationally, then validate them experimentally.</p>
-            <p class="text-body text-gray-400">Currently engineering protein scaffolds that fight drug-resistant bacteria, inclusion bodies as smart biomaterials, and AAV vectors for precise gene delivery.</p>
+            <p class="text-body-xl text-gray-300">Soy un biotecnólogo que cree que las proteínas pueden resolver nuestros mayores desafíos médicos.</p>
+            <p class="text-body-lg text-gray-400">Mis días se dividen entre <span style="color: var(--accent-red); font-weight: var(--font-semibold);">algoritmos</span> y <span style="color: var(--accent-red); font-weight: var(--font-semibold);">bancos de laboratorio</span>. Diseño proteínas antimicrobianas computacionalmente, luego las valido experimentalmente.</p>
+            <p class="text-body text-gray-400">Actualmente desarrollando estructuras proteicas que combaten bacterias resistentes a fármacos, cuerpos de inclusión como biomateriales inteligentes, y vectores AAV para la entrega precisa de genes.</p>
           </div>
           
           <div class="flex items-center gap-4 pt-4 text-caption text-gray-500">
@@ -59,25 +78,25 @@ import Icon from '../../components/Icon.astro';
           <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-r from-red-600/20 to-transparent rounded-2xl transform rotate-2"></div>
             <div class="relative bg-surface-elevated border border-gray-800 rounded-2xl p-8 shadow-2xl">
-              <h3 class="text-heading-md mb-4 text-white">Research Focus</h3>
-              <ul class="space-y-3 text-body text-gray-300">
-                <li class="flex items-start gap-3">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Antimicrobial protein engineering</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Computational design & validation</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>AAV vector development</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Smart biomaterial systems</span>
-                </li>
-              </ul>
+              <h3 class="text-heading-md mb-6 text-white">Enfoque de Investigación</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center gap-3 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800/70 transition-colors">
+                  <Icon name="molecule" size="lg" class="text-red-400 flex-shrink-0" />
+                  <span class="text-sm font-medium">Ingeniería Antimicrobiana</span>
+                </div>
+                <div class="flex items-center gap-3 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800/70 transition-colors">
+                  <Icon name="cpu" size="lg" class="text-blue-400 flex-shrink-0" />
+                  <span class="text-sm font-medium">Diseño Computacional</span>
+                </div>
+                <div class="flex items-center gap-3 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800/70 transition-colors">
+                  <Icon name="dna" size="lg" class="text-green-400 flex-shrink-0" />
+                  <span class="text-sm font-medium">Desarrollo de Vectores AAV</span>
+                </div>
+                <div class="flex items-center gap-3 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800/70 transition-colors">
+                  <Icon name="grid" size="lg" class="text-purple-400 flex-shrink-0" />
+                  <span class="text-sm font-medium">Biomateriales Inteligentes</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -89,24 +108,24 @@ import Icon from '../../components/Icon.astro';
   <section id="research" class="section-lg bg-gray-900/50" role="region" aria-labelledby="research-heading">
     <div class="container container-xl">
       <div class="text-center mb-20">
-        <h2 id="research-heading" class="text-heading-xl mb-6 animate-fade-in-up">Research Excellence</h2>
+        <h2 id="research-heading" class="text-heading-xl mb-6 animate-fade-in-up">Excelencia en Investigación</h2>
         <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-red-400 mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.1s;"></div>
-        <p class="text-body-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Pioneering antimicrobial protein design and viral vector engineering through computational innovation and experimental precision.</p>
+        <p class="text-body-xl text-gray-300 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Pionero en diseño de proteínas antimicrobianas e ingeniería de vectores virales mediante innovación computacional y precisión experimental.</p>
       </div>
       
       <!-- Research Metrics -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
         <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.3s;">
-          <div class="text-4xl font-bold text-white mb-2">{metrics.publications}</div>
-          <div class="text-caption text-gray-400">Peer-reviewed papers</div>
+          <div class="text-display-lg font-bold text-white mb-2">{metrics.publications}</div>
+          <div class="text-caption text-gray-400">Artículos revisados por pares</div>
         </div>
         <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.4s;">
-          <div class="text-4xl font-bold text-white mb-2">{metrics.citations && metrics.citations > 0 ? `${metrics.citations}+` : '250+'}</div>
-          <div class="text-caption text-gray-400">Citations (Scholar)</div>
+          <div class="text-display-lg font-bold text-white mb-2">{metrics.citations && metrics.citations > 0 ? `${metrics.citations}+` : '250+'}</div>
+          <div class="text-caption text-gray-400">Citas (Scholar)</div>
         </div>
         <div class="text-center p-8 bg-surface border border-gray-800 rounded-2xl animate-fade-in-up" style="animation-delay: 0.5s;">
-          <div class="text-4xl font-bold text-white mb-2">10</div>
-          <div class="text-caption text-gray-400">Journals & venues</div>
+          <div class="text-display-lg font-bold text-white mb-2">10</div>
+          <div class="text-caption text-gray-400">Revistas y conferencias</div>
         </div>
       </div>
       
@@ -114,28 +133,28 @@ import Icon from '../../components/Icon.astro';
       <PerformanceMetrics />
       <AntimicrobialTimeline />
       <ProteinVideoShowcase />
-      <ValidationMetrics lang="en" />
+      <ValidationMetrics lang="es" />
     </div>
   </section>
 
-  <ProcessFlow lang="en" />
+  <ProcessFlow lang="es" />
 
   <!-- Feature Grid Section -->
-  <FeatureGrid lang="en" />
+  <FeatureGrid lang="es" />
 
   <!-- FAQ Section -->
-  <FAQAccordion lang="en" />
+  <FAQAccordion lang="es" />
 
   <!-- Call to Action Section -->
-  <CallToAction lang="en" />
+  <CallToAction lang="es" />
 
   <!-- Publications Section -->
-  <section id="publications" class="section-lg" role="region" aria-labelledby="publications-heading">
+  <section id="publications" class="section-lg bg-gray-950/20" role="region" aria-labelledby="publications-heading">
     <div class="container container-xl">
       <div class="text-center mb-16">
-        <h2 id="publications-heading" class="text-heading-xl mb-6 animate-fade-in-up">Selected Publications</h2>
+        <h2 id="publications-heading" class="text-heading-xl mb-6 animate-fade-in-up">Publicaciones Seleccionadas</h2>
         <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-red-400 mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.1s;"></div>
-        <p class="text-body-lg text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Peer-reviewed research advancing antimicrobial protein engineering and therapeutic development.</p>
+        <p class="text-body-lg text-gray-400 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Investigación revisada por pares que avanza la ingeniería de proteínas antimicrobianas y desarrollo terapéutico.</p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
@@ -192,9 +211,9 @@ import Icon from '../../components/Icon.astro';
   <section id="contact" class="section-lg bg-gray-950/50" role="region" aria-labelledby="contact-heading">
     <div class="container container-lg">
       <div class="text-center mb-16">
-        <h2 id="contact-heading" class="text-heading-xl mb-6 animate-fade-in-up">Let's Collaborate</h2>
+        <h2 id="contact-heading" class="text-heading-xl mb-6 animate-fade-in-up">Colaboremos</h2>
         <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-red-400 mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.1s;"></div>
-        <p class="text-body-xl text-gray-300 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">I welcome collaborations on antimicrobial protein design, viral vector systems, and computational approaches to therapeutic development.</p>
+        <p class="text-body-xl text-gray-300 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Doy la bienvenida a colaboraciones en diseño de proteínas antimicrobianas, sistemas de vectores virales y enfoques computacionales para el desarrollo terapéutico.</p>
       </div>
       
       <div class="grid md:grid-cols-3 gap-8 mb-16">
@@ -210,7 +229,7 @@ import Icon from '../../components/Icon.astro';
           <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Icon name="location" size="xl" class="text-blue-400" />
           </div>
-          <h3 class="text-heading-sm mb-4 text-white">Location</h3>
+          <h3 class="text-heading-sm mb-4 text-white">Ubicación</h3>
           <p class="text-body text-gray-300">Children's Medical Research Institute<br>Sydney, Australia</p>
         </div>
         
@@ -218,7 +237,7 @@ import Icon from '../../components/Icon.astro';
           <div class="w-16 h-16 bg-green-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Icon name="globe" size="xl" class="text-green-400" />
           </div>
-          <h3 class="text-heading-sm mb-4 text-white">Connect</h3>
+          <h3 class="text-heading-sm mb-4 text-white">Conectar</h3>
           <div class="flex justify-center gap-4">
             <a href="https://www.linkedin.com/in/ramonrocapinilla/" target="_blank" rel="noopener" aria-label="LinkedIn" class="p-3 bg-blue-700 hover:bg-blue-600 text-white rounded-xl transition-all duration-300 hover:transform hover:-translate-y-1">
               <Icon name="linkedin" size="md" />

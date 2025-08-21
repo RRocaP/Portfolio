@@ -9,6 +9,7 @@ const currentLang = currentPath.includes('/es/') ? 'es' : currentPath.includes('
 const navItems = {
   en: [
     { href: '#home', label: 'Home' },
+    { href: '#position', label: 'Position' },
     { href: '#about', label: 'About' },
     { href: '#research', label: 'Research' },
     { href: '#publications', label: 'Publications' },
@@ -16,6 +17,7 @@ const navItems = {
   ],
   es: [
     { href: '#home', label: 'Inicio' },
+    { href: '#position', label: 'Posición' },
     { href: '#about', label: 'Acerca' },
     { href: '#research', label: 'Investigación' },
     { href: '#publications', label: 'Publicaciones' },
@@ -23,6 +25,7 @@ const navItems = {
   ],
   ca: [
     { href: '#home', label: 'Inici' },
+    { href: '#position', label: 'Posició' },
     { href: '#about', label: 'Sobre' },
     { href: '#research', label: 'Recerca' },
     { href: '#publications', label: 'Publicacions' },
@@ -35,14 +38,14 @@ const items = navItems[currentLang];
 
 <nav class="nav-premium" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
-    <a href={`/Portfolio/${currentLang}/`} class="nav-logo" aria-label="Ramon Roca Pinilla - Home">
+    <a href={`/Portfolio/${currentLang}/`} class="nav-logo magnetic-button touch-feedback" aria-label="Ramon Roca Pinilla - Home">
       <span class="logo-text">RRP</span>
     </a>
     
     <ul class="nav-menu" role="menubar" aria-label="Site navigation">
       {items.map(item => (
         <li role="none">
-          <a href={item.href} class="nav-link" role="menuitem">{item.label}</a>
+          <a href={item.href} class="nav-link magnetic-button touch-feedback" role="menuitem">{item.label}</a>
         </li>
       ))}
     </ul>
@@ -52,12 +55,12 @@ const items = navItems[currentLang];
     </div>
     
     <div class="nav-lang" role="navigation" aria-label="Language selector">
-      <a href="/Portfolio/en/" class={currentLang === 'en' ? 'active' : ''} aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>EN</a>
-      <a href="/Portfolio/es/" class={currentLang === 'es' ? 'active' : ''} aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>ES</a>
-      <a href="/Portfolio/ca/" class={currentLang === 'ca' ? 'active' : ''} aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>CA</a>
+      <a href="/Portfolio/en/" class={`magnetic-button touch-feedback ${currentLang === 'en' ? 'active' : ''}`} aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>EN</a>
+      <a href="/Portfolio/es/" class={`magnetic-button touch-feedback ${currentLang === 'es' ? 'active' : ''}`} aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>ES</a>
+      <a href="/Portfolio/ca/" class={`magnetic-button touch-feedback ${currentLang === 'ca' ? 'active' : ''}`} aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>CA</a>
     </div>
     
-    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+    <button class="nav-toggle magnetic-button touch-feedback" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
       <span></span>
       <span></span>
       <span></span>
@@ -66,6 +69,20 @@ const items = navItems[currentLang];
 </nav>
 
 <style>
+  /* Enhanced GPU Acceleration for Navigation */
+  .nav-premium,
+  .nav-container,
+  .nav-logo,
+  .nav-link,
+  .nav-lang a,
+  .nav-toggle,
+  .nav-menu {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
   .nav-premium {
     position: fixed;
     top: 0;
@@ -76,7 +93,6 @@ const items = navItems[currentLang];
     backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, box-shadow 0.3s ease;
-    will-change: transform;
   }
   
   .nav-premium.scrolled {
@@ -149,8 +165,13 @@ const items = navItems[currentLang];
     color: #FFFFFF;
   }
   
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .nav-link.active::after {
     width: 100%;
+  }
+  
+  .nav-link.active {
+    color: #FFFFFF;
   }
   
   .nav-lang {
@@ -296,8 +317,16 @@ const items = navItems[currentLang];
 </style>
 
 <script>
-  // Enhanced scroll effects with throttling and intersection observer
+  import { getAnimationController } from '../utils/animations';
+
+  // Enhanced scroll effects with animation controller integration
   const nav = document.querySelector('.nav-premium');
+  const animationController = getAnimationController({
+    enableGPUAcceleration: true,
+    enableWillChangeManagement: true,
+    enableHapticFeedback: true
+  });
+  
   let lastScroll = 0;
   let ticking = false;
   
@@ -331,13 +360,41 @@ const items = navItems[currentLang];
   
   window.addEventListener('scroll', requestTick, { passive: true });
   
-  // Mobile menu toggle
+  // Enhanced mobile menu toggle with animation controller
   const toggle = document.querySelector('.nav-toggle');
   const menu = document.querySelector('.nav-menu');
+  
+  // Register magnetic button effects for navigation elements
+  if (toggle) {
+    animationController.magneticButton('nav-toggle', toggle, 0.2, 'high');
+  }
+  
+  // Register magnetic effects for nav links
+  document.querySelectorAll('.nav-link').forEach((link, index) => {
+    const linkElement = link as HTMLElement;
+    animationController.magneticButton(`nav-link-${index}`, linkElement, 0.15, 'medium');
+  });
+  
+  // Register magnetic effects for language links
+  document.querySelectorAll('.nav-lang a').forEach((link, index) => {
+    const linkElement = link as HTMLElement;
+    animationController.magneticButton(`nav-lang-${index}`, linkElement, 0.1, 'medium');
+  });
+  
+  // Register magnetic effect for logo
+  const logo = document.querySelector('.nav-logo');
+  if (logo) {
+    animationController.magneticButton('nav-logo', logo as HTMLElement, 0.1, 'medium');
+  }
   
   toggle?.addEventListener('click', () => {
     toggle.classList.toggle('active');
     menu?.classList.toggle('active');
+    
+    // Trigger haptic feedback on mobile menu toggle (if supported)
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
   });
   
   // Close mobile menu on link click
@@ -348,7 +405,7 @@ const items = navItems[currentLang];
     });
   });
   
-  // Smooth scroll for anchor links
+  // Smooth scroll for anchor links and active state management
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -358,7 +415,36 @@ const items = navItems[currentLang];
           behavior: 'smooth',
           block: 'start'
         });
+        
+        // Update active state
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
       }
     });
   });
+  
+  // Active section indicator on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  function updateActiveLink() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (window.pageYOffset >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+    
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  }
+  
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  updateActiveLink(); // Call once to set initial state
 </script>

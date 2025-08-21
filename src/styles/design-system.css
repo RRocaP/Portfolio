@@ -1,49 +1,67 @@
 /* ==========================================================================
-   Design System Foundation - Professional Portfolio
+   Typography System - Multilingual Scientific Portfolio
    ========================================================================== */
 
-/* Typography Scale - Inspired by Modern Design Systems */
+/* Unified Typography Scale - Optimized for multilingual content */
 :root {
-  /* Typography Scale - Perfect Fourth (1.414) */
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  --text-5xl: 3rem;        /* 48px */
-  --text-6xl: 3.75rem;     /* 60px */
-  --text-7xl: 4.5rem;      /* 72px */
-  --text-8xl: 6rem;        /* 96px */
-  --text-9xl: 8rem;        /* 128px */
+  /* Core Typography Scale - Major Third (1.25) + Language Multipliers */
+  --text-xs: 0.75rem;      /* 12px - Captions, metadata */
+  --text-sm: 0.875rem;     /* 14px - Small body text */
+  --text-base: 1rem;       /* 16px - Default body */
+  --text-lg: 1.125rem;     /* 18px - Large body */
+  --text-xl: 1.25rem;      /* 20px - Subheadings */
+  --text-2xl: 1.5rem;      /* 24px - Section headers */
+  --text-3xl: 1.875rem;    /* 30px - Page headers */
+  --text-4xl: 2.25rem;     /* 36px - Hero secondary */
+  --text-5xl: 3rem;        /* 48px - Hero primary */
+  --text-6xl: 4rem;        /* 64px - Display large */
+  --text-7xl: 5rem;        /* 80px - Display xl */
+  --text-8xl: 6rem;        /* 96px - Display 2xl */
+  --text-9xl: 7rem;        /* 112px - Display 3xl */
 
-  /* Font Weights */
+  /* Font Weights - Scientific Content Optimized */
   --font-thin: 100;
-  --font-light: 300;
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
-  --font-black: 900;
+  --font-light: 300;        /* Hero names, elegant text */
+  --font-normal: 400;       /* Body text, readable content */
+  --font-medium: 500;       /* Emphasis, UI elements */
+  --font-semibold: 600;     /* Section headers, navigation */
+  --font-bold: 700;         /* Strong emphasis, headings */
+  --font-extrabold: 800;    /* Display headings */
+  --font-black: 900;        /* Hero titles, brand elements */
 
-  /* Line Heights */
-  --leading-none: 1;
-  --leading-tight: 1.25;
-  --leading-snug: 1.375;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
-  --leading-loose: 2;
+  /* Line Heights - Multilingual Optimized */
+  --leading-none: 1;         /* Display text, hero titles */
+  --leading-tight: 1.25;     /* Large headings */
+  --leading-snug: 1.375;     /* Medium headings */
+  --leading-normal: 1.5;     /* Body text (EN) */
+  --leading-relaxed: 1.625;  /* Body text (ES/CA - longer words) */
+  --leading-loose: 1.75;     /* Scientific content, citations */
+  --leading-extra: 2;        /* Special spacing cases */
 
-  /* Letter Spacing */
-  --tracking-tighter: -0.05em;
-  --tracking-tight: -0.025em;
-  --tracking-normal: 0em;
-  --tracking-wide: 0.025em;
-  --tracking-wider: 0.05em;
-  --tracking-widest: 0.1em;
+  /* Letter Spacing - Language & Content Aware */
+  --tracking-tighter: -0.05em;  /* Large display text */
+  --tracking-tight: -0.025em;   /* Headlines, hero content */
+  --tracking-normal: 0em;       /* Body text, default */
+  --tracking-wide: 0.025em;     /* UI elements, navigation */
+  --tracking-wider: 0.05em;     /* Captions, small text */
+  --tracking-widest: 0.1em;     /* All caps, metadata */
+  
+  /* Font Families - System Font Stack */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  
+  /* Standardized Spacing System */
+  --space-xs: 0.5rem;     /* 8px - Micro spacing */
+  --space-sm: 1rem;       /* 16px - Small spacing */
+  --space-md: 2rem;       /* 32px - Medium spacing */
+  --space-lg: 4rem;       /* 64px - Large spacing */
+  --space-xl: 8rem;       /* 128px - Extra large spacing */
+  
+  /* Content Gaps - Component-Specific */
+  --content-gap-sm: 2rem;   /* 32px - Between elements */
+  --content-gap-md: 3rem;   /* 48px - Between groups */
+  --content-gap-lg: 4rem;   /* 64px - Between sections */
+  --font-display: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 
   /* Spacing Scale - Based on 8px grid */
   --space-px: 1px;
@@ -154,7 +172,7 @@
   --z-toast: 1030;
 }
 
-/* Dark Mode Theme */
+/* Dark Mode Theme - Typography Optimized */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--gray-950);
@@ -179,84 +197,166 @@
     --primary-light: var(--red-900);
     --primary-dark: var(--red-600);
   }
+  
+  /* Dark mode typography enhancements */
+  .text-display-3xl,
+  .text-display-2xl,
+  .text-display-xl {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  .text-body,
+  .text-body-lg,
+  .text-body-xl {
+    color: var(--gray-200);
+    line-height: var(--leading-relaxed);
+  }
+  
+  .text-caption {
+    color: var(--gray-400);
+  }
 }
 
-/* Typography Classes */
+/* Typography Component Classes - Standardized & Multilingual */
+
+/* Display Typography - Hero & Large Headings */
+.text-display-3xl {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tighter);
+  font-weight: var(--font-extrabold);
+}
+
 .text-display-2xl {
-  font-size: var(--text-7xl);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
   line-height: var(--leading-none);
   letter-spacing: var(--tracking-tighter);
   font-weight: var(--font-extrabold);
 }
 
 .text-display-xl {
-  font-size: var(--text-6xl);
-  line-height: var(--leading-none);
-  letter-spacing: var(--tracking-tighter);
-  font-weight: var(--font-bold);
-}
-
-.text-display-lg {
-  font-size: var(--text-5xl);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   font-weight: var(--font-bold);
 }
 
-.text-heading-xl {
-  font-size: var(--text-4xl);
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--font-bold);
+}
+
+/* Heading Typography - Section & Component Headers */
+.text-heading-xl {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
   font-weight: var(--font-bold);
 }
 
 .text-heading-lg {
-  font-size: var(--text-3xl);
-  line-height: var(--leading-tight);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
   font-weight: var(--font-semibold);
 }
 
 .text-heading-md {
-  font-size: var(--text-2xl);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-normal);
   font-weight: var(--font-semibold);
 }
 
 .text-heading-sm {
-  font-size: var(--text-xl);
+  font-family: var(--font-primary);
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
   line-height: var(--leading-snug);
-  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-normal);
+  font-weight: var(--font-semibold);
 }
 
+/* Body Typography - Content & Reading */
 .text-body-xl {
-  font-size: var(--text-xl);
+  font-family: var(--font-primary);
+  font-size: clamp(1.125rem, 2.25vw, 1.25rem);
   line-height: var(--leading-relaxed);
   font-weight: var(--font-normal);
 }
 
 .text-body-lg {
-  font-size: var(--text-lg);
+  font-family: var(--font-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
   line-height: var(--leading-relaxed);
   font-weight: var(--font-normal);
 }
 
 .text-body {
+  font-family: var(--font-primary);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   font-weight: var(--font-normal);
 }
 
 .text-body-sm {
+  font-family: var(--font-primary);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   font-weight: var(--font-normal);
 }
 
+/* Caption & UI Typography */
 .text-caption {
+  font-family: var(--font-primary);
   font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.text-label {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
   line-height: var(--leading-normal);
   font-weight: var(--font-medium);
   letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+}
+
+/* Language-Specific Adjustments */
+:lang(es) .text-body,
+:lang(ca) .text-body {
+  line-height: var(--leading-relaxed);
+}
+
+:lang(es) .text-heading-xl,
+:lang(ca) .text-heading-xl {
+  font-size: clamp(1.625rem, 3.75vw, 2.125rem);
+}
+
+/* Scientific Content Typography */
+.text-scientific {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  line-height: var(--leading-loose);
+  font-weight: var(--font-normal);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
 }
 
 /* Icon Sizing System */
@@ -268,7 +368,7 @@
 .icon-2xl { width: 2.5rem; height: 2.5rem; }
 .icon-3xl { width: 3rem; height: 3rem; }
 
-/* Container System */
+/* Container System - Typography Content Aware */
 .container {
   width: 100%;
   margin-left: auto;
@@ -283,12 +383,43 @@
 .container-xl { max-width: 1280px; }
 .container-2xl { max-width: 1536px; }
 
+/* Reading-optimized containers */
+.container-reading {
+  max-width: 65ch; /* Optimal reading width */
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.container-content {
+  max-width: 75ch; /* Scientific content width */
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
 @media (min-width: 640px) {
-  .container { padding-left: var(--space-6); padding-right: var(--space-6); }
+  .container { 
+    padding-left: var(--space-6); 
+    padding-right: var(--space-6); 
+  }
+  
+  .container-reading,
+  .container-content {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
 }
 
 @media (min-width: 1024px) {
-  .container { padding-left: var(--space-8); padding-right: var(--space-8); }
+  .container { 
+    padding-left: var(--space-8); 
+    padding-right: var(--space-8); 
+  }
+  
+  .container-reading,
+  .container-content {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
 }
 
 /* Section Spacing */
@@ -319,11 +450,164 @@
   }
 }
 
-/* Responsive Utilities */
+/* Responsive Typography Adjustments */
+@media (max-width: 768px) {
+  /* Mobile typography optimizations */
+  .text-display-3xl {
+    font-size: clamp(2.5rem, 9vw, 4rem);
+    line-height: 0.95;
+  }
+  
+  .text-display-2xl {
+    font-size: clamp(2.25rem, 8vw, 3.5rem);
+    line-height: 0.95;
+  }
+  
+  .text-body-xl,
+  .text-body-lg {
+    line-height: var(--leading-relaxed);
+  }
+  
+  /* Tighter spacing for mobile */
+  .text-heading-xl,
+  .text-heading-lg {
+    letter-spacing: var(--tracking-normal);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens - focus on readability */
+  .text-caption {
+    font-size: 0.8rem;
+    letter-spacing: var(--tracking-wide);
+  }
+  
+  /* Ensure minimum touch targets for interactive text */
+  .text-label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* High DPI / Retina adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .text-display-3xl,
+  .text-display-2xl,
+  .text-display-xl {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Character length optimization for languages */
 @media (max-width: 640px) {
-  .text-display-2xl { font-size: var(--text-5xl); }
-  .text-display-xl { font-size: var(--text-4xl); }
-  .text-display-lg { font-size: var(--text-3xl); }
-  .text-heading-xl { font-size: var(--text-3xl); }
-  .text-heading-lg { font-size: var(--text-2xl); }
+  /* Spanish and Catalan text tends to be 25-30% longer */
+  :lang(es) .text-heading-xl,
+  :lang(ca) .text-heading-xl {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    line-height: 1.3;
+  }
+  
+  :lang(es) .text-body-xl,
+  :lang(ca) .text-body-xl {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.7;
+  }
+  
+  /* Ensure proper word wrapping for longer words */
+  :lang(es) .text-body,
+  :lang(ca) .text-body {
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
+
+/* Container adjustments for different text lengths */
+@media (min-width: 768px) {
+  .container-reading:lang(es),
+  .container-reading:lang(ca) {
+    max-width: 70ch; /* Slightly wider for longer text */
+  }
+}
+
+/* Scientific content with multilingual considerations */
+.text-scientific:lang(es),
+.text-scientific:lang(ca) {
+  line-height: 1.8; /* Extra spacing for readability */
+  word-spacing: 0.02em;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .text-caption {
+    text-transform: none;
+  }
+}
+
+/* ==========================================================================
+   Standardized Spacing System - Section Classes
+   ========================================================================== */
+
+/* Section Spacing Classes */
+.section-hero { 
+  padding: 6rem 0; 
+}
+
+.section-primary { 
+  padding: 5rem 0; 
+}
+
+.section-secondary { 
+  padding: 4rem 0; 
+}
+
+.section-compact { 
+  padding: 3rem 0; 
+}
+
+/* Content Gap Utilities */
+.content-gap-lg { 
+  margin-bottom: var(--content-gap-lg); 
+}
+
+.content-gap-md { 
+  margin-bottom: var(--content-gap-md); 
+}
+
+.content-gap-sm { 
+  margin-bottom: var(--content-gap-sm); 
+}
+
+/* Container Size Standardization */
+.container-hero { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  padding: 0 1.5rem; 
+}
+
+.container-lg { 
+  max-width: 1024px; 
+  margin: 0 auto; 
+  padding: 0 1.5rem; 
+}
+
+.container-xl { 
+  max-width: 1280px; 
+  margin: 0 auto; 
+  padding: 0 1.5rem; 
+}
+
+/* Responsive Spacing Adjustments */
+@media (max-width: 768px) {
+  .section-hero { padding: 4rem 0; }
+  .section-primary { padding: 3rem 0; }
+  .section-secondary { padding: 2.5rem 0; }
+  .section-compact { padding: 2rem 0; }
+  
+  .container-hero,
+  .container-lg,
+  .container-xl { 
+    padding: 0 1rem; 
+  }
 }

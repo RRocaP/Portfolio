@@ -183,7 +183,11 @@ const {
     private animationController = getAnimationController({
       enableDebugMode: false,
       enablePerformanceMonitoring: true,
-      respectReducedMotion: true
+      respectReducedMotion: true,
+      enableGPUAcceleration: true,
+      enableWillChangeManagement: true,
+      enableHapticFeedback: true,
+      networkAwarePreloading: true
     });
     
     private scrollProgress: HTMLElement | null;
@@ -192,8 +196,13 @@ const {
     private fadeElements: NodeListOf<Element>;
     private staggerElements: NodeListOf<Element>;
     private lastScrollY: number = 0;
+    private scrollVelocity: number = 0;
+    private scrollDirection: 'up' | 'down' = 'down';
     private ticking: boolean = false;
     private prefersReducedMotion: boolean;
+    private momentumScrollTimeout: number | null = null;
+    private touchStartY: number = 0;
+    private isTouch: boolean = false;
 
     constructor() {
       this.scrollProgress = document.getElementById('scrollProgress');
@@ -205,8 +214,13 @@ const {
       // Check for reduced motion preference
       this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       
+      // Detect touch devices
+      this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
       if (!this.prefersReducedMotion) {
         this.init();
+        this.initMomentumDetection();
+        this.initTouchOptimizations();
       }
     }
 
@@ -240,6 +254,82 @@ const {
       this.initSmoothScroll();
     }
 
+    initMomentumDetection() {
+      // Track scroll momentum for better animation timing
+      let lastTimestamp = 0;
+      
+      const trackMomentum = () => {
+        const currentScrollY = window.pageYOffset;
+        const currentTimestamp = performance.now();
+        
+        if (lastTimestamp > 0) {
+          const deltaY = currentScrollY - this.lastScrollY;
+          const deltaTime = currentTimestamp - lastTimestamp;
+          
+          this.scrollVelocity = deltaY / deltaTime;
+          this.scrollDirection = deltaY > 0 ? 'down' : 'up';
+          
+          // Clear momentum timeout and set new one
+          if (this.momentumScrollTimeout) {
+            clearTimeout(this.momentumScrollTimeout);
+          }
+          
+          // Momentum ends when scrolling stops for 100ms
+          this.momentumScrollTimeout = setTimeout(() => {
+            this.scrollVelocity = 0;
+          }, 100);
+        }
+        
+        this.lastScrollY = currentScrollY;
+        lastTimestamp = currentTimestamp;
+      };
+
+      window.addEventListener('scroll', trackMomentum, { passive: true });
+    }
+
+    initTouchOptimizations() {
+      if (!this.isTouch) return;
+
+      // Enhance touch target sizes
+      this.magneticButtons.forEach(button => {
+        const btn = button as HTMLElement;
+        const rect = btn.getBoundingClientRect();
+        
+        // Ensure minimum 44px touch target
+        if (rect.width < 44 || rect.height < 44) {
+          btn.style.position = 'relative';
+          
+          // Add invisible padding for larger touch area
+          const touchArea = document.createElement('div');
+          touchArea.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 44px;
+            min-height: 44px;
+            z-index: -1;
+          `;
+          btn.appendChild(touchArea);
+        }
+      });
+
+      // Add touch momentum preservation
+      window.addEventListener('touchstart', (e) => {
+        this.touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        const touchY = e.touches[0].clientY;
+        const deltaY = this.touchStartY - touchY;
+        
+        // Preserve momentum direction for animations
+        if (Math.abs(deltaY) > 10) {
+          this.scrollDirection = deltaY > 0 ? 'down' : 'up';
+        }
+      }, { passive: true });
+    }
+
     initScrollProgress() {
       const updateProgress = () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -248,6 +338,13 @@ const {
         
         if (this.scrollProgress) {
           this.scrollProgress.style.width = `${scrollPercent}%`;
+          
+          // Add velocity-based visual feedback
+          if (Math.abs(this.scrollVelocity) > 0.5) {
+            this.scrollProgress.style.boxShadow = `0 0 ${Math.min(20, Math.abs(this.scrollVelocity) * 10)}px rgba(218, 41, 28, 0.8)`;
+          } else {
+            this.scrollProgress.style.boxShadow = '0 0 10px rgba(218, 41, 28, 0.5)';
+          }
         }
       };
 
@@ -259,7 +356,7 @@ const {
           });
           this.ticking = true;
         }
-      });
+      }, { passive: true });
     }
 
     initMagneticButtons() {
@@ -294,56 +391,108 @@ const {
     }
 
     initFadeIn() {
-      // Use AnimationController for scroll-triggered fade-in animations
-      this.fadeElements.forEach((element, index) => {
-        const el = element as HTMLElement;
-        const fadeId = `fade-in-${index}`;
-        
-        this.animationController.onScroll(
-          fadeId,
-          el,
-          animations.fadeIn,
-          {
-            duration: 800,
-            easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+      // Enhanced margin-based intersection observers for better performance
+      const observerOptions = {
+        threshold: [0, 0.1, 0.2, 0.3],
+        rootMargin: '100px 0px -10% 0px' // Start early, trigger before element is fully visible
+      };
+
+      const fadeInObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target as HTMLElement;
+          const fadeId = `fade-in-${Array.from(this.fadeElements).indexOf(el)}`;
+          
+          if (entry.isIntersecting) {
+            // Choose animation based on scroll direction and velocity
+            let animationType = animations.fadeInUp;
+            
+            if (this.scrollDirection === 'up') {
+              animationType = animations.fadeInDown;
+            }
+            
+            // Adjust timing based on scroll velocity
+            const duration = Math.max(400, Math.min(1200, 800 - Math.abs(this.scrollVelocity) * 100));
+            
+            this.animationController.animate(fadeId, animationType, {
+              duration,
+              easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+              fill: 'forwards'
+            }).catch(() => {
+              // Fallback to CSS class if animation fails
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            });
+            
+            fadeInObserver.unobserve(el);
           }
-        );
+        });
+      }, observerOptions);
+
+      this.fadeElements.forEach((element) => {
+        const el = element as HTMLElement;
+        const fadeId = `fade-in-${Array.from(this.fadeElements).indexOf(el)}`;
+        
+        // Register with animation controller
+        this.animationController.register(fadeId, el, 'scroll', 'medium');
+        
+        // Start observing
+        fadeInObserver.observe(el);
       });
     }
 
     initStagger() {
-      // Use AnimationController for stagger animations
+      // Enhanced stagger animations with momentum-aware timing
       this.staggerElements.forEach((element, index) => {
         const el = element as HTMLElement;
         const children = Array.from(el.children) as HTMLElement[];
         const staggerId = `stagger-group-${index}`;
         
         if (children.length > 0) {
-          // Create intersection observer for this stagger group
+          // Better observer configuration for smoother animations
           const observer = new IntersectionObserver(
             (entries) => {
               entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                  // Use AnimationController's stagger method
+                  // Choose animation direction based on scroll momentum
+                  let animationType = animations.slideUp;
+                  if (this.scrollDirection === 'up' && Math.abs(this.scrollVelocity) > 0.3) {
+                    animationType = animations.slideDown;
+                  }
+                  
+                  // Adjust stagger timing based on number of children and velocity
+                  const baseDelay = 80; // Base 80ms delay
+                  const velocityMultiplier = Math.max(0.5, Math.min(2, 1 - Math.abs(this.scrollVelocity) * 0.5));
+                  const adaptiveDelay = baseDelay * velocityMultiplier;
+                  
+                  // Limit total animation time for large groups
+                  const maxStaggerDelay = Math.min(adaptiveDelay, 2000 / children.length);
+                  
+                  // Use AnimationController's stagger method with adaptive timing
                   this.animationController.stagger(
                     staggerId,
                     children,
-                    animations.slideUp,
+                    animationType,
                     {
                       duration: 600,
                       easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-                      staggerDelay: 100
+                      staggerDelay: maxStaggerDelay,
+                      fill: 'forwards'
                     }
-                  );
+                  ).catch(() => {
+                    // Fallback: animate all at once
+                    children.forEach(child => {
+                      child.style.opacity = '1';
+                      child.style.transform = 'translateY(0)';
+                    });
+                  });
+                  
                   observer.unobserve(entry.target);
                 }
               });
             },
             {
               threshold: 0.1,
-              rootMargin: '0px 0px -50px 0px'
+              rootMargin: '50px 0px -25% 0px' // More generous margins for better UX
             }
           );
           

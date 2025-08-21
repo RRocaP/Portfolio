@@ -1,0 +1,458 @@
+---
+import { publications } from '../data/publications.js';
+import { journalDistribution } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Publication Analytics',
+    publicationTimeline: 'Publication Timeline',
+    journalDistribution: 'Journal Distribution',
+    impactMetrics: 'Impact Metrics',
+    yearlyOutput: 'Yearly Output',
+    journalQuality: 'Journal Quality',
+    researchTrends: 'Research Trends',
+    totalPublications: 'Total Publications',
+    averagePerYear: 'Average per Year',
+    topJournals: 'Top Journals',
+    recentWork: 'Recent Work',
+    highImpact: 'High Impact',
+    featured: 'Featured',
+    viewPublication: 'View Publication',
+    citations: 'Citations',
+    impactFactor: 'Impact Factor',
+    quartile: 'Quartile'
+  },
+  es: {
+    title: 'Análisis de Publicaciones',
+    publicationTimeline: 'Cronología de Publicaciones',
+    journalDistribution: 'Distribución de Revistas',
+    impactMetrics: 'Métricas de Impacto',
+    yearlyOutput: 'Producción Anual',
+    journalQuality: 'Calidad de Revistas',
+    researchTrends: 'Tendencias de Investigación',
+    totalPublications: 'Publicaciones Totales',
+    averagePerYear: 'Promedio por Año',
+    topJournals: 'Principales Revistas',
+    recentWork: 'Trabajo Reciente',
+    highImpact: 'Alto Impacto',
+    featured: 'Destacadas',
+    viewPublication: 'Ver Publicación',
+    citations: 'Citas',
+    impactFactor: 'Factor de Impacto',
+    quartile: 'Cuartil'
+  },
+  ca: {
+    title: 'Anàlisi de Publicacions',
+    publicationTimeline: 'Cronologia de Publicacions',
+    journalDistribution: 'Distribució de Revistes',
+    impactMetrics: 'Mètriques d\'Impacte',
+    yearlyOutput: 'Producció Anual',
+    journalQuality: 'Qualitat de Revistes',
+    researchTrends: 'Tendències de Recerca',
+    totalPublications: 'Publicacions Totals',
+    averagePerYear: 'Mitjana per Any',
+    topJournals: 'Principals Revistes',
+    recentWork: 'Treball Recent',
+    highImpact: 'Alt Impacte',
+    featured: 'Destacades',
+    viewPublication: 'Veure Publicació',
+    citations: 'Citacions',
+    impactFactor: 'Factor d\'Impacte',
+    quartile: 'Quartil'
+  }
+};
+
+const t = translations[lang];
+
+// Process publications data
+const publicationsByYear = publications.reduce((acc, pub) => {
+  const year = pub.year;
+  if (!acc[year]) acc[year] = 0;
+  acc[year]++;
+  return acc;
+}, {} as Record<string, number>);
+
+const yearLabels = Object.keys(publicationsByYear).sort();
+const yearData = yearLabels.map(year => publicationsByYear[year]);
+
+const featuredPublications = publications.filter(pub => pub.featured);
+const recentPublications = publications
+  .filter(pub => parseInt(pub.year) >= 2022)
+  .sort((a, b) => parseInt(b.year) - parseInt(a.year));
+
+// Calculate metrics
+const totalPubs = publications.length;
+const activeYears = yearLabels.length;
+const avgPerYear = Math.round((totalPubs / activeYears) * 10) / 10;
+const maxYear = Math.max(...yearData);
+
+// Top journals by publication count
+const topJournals = journalDistribution
+  .filter(j => j.journal !== 'Other Journals')
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 5);
+---
+
+<div class="interactive-publication-viz" role="region" aria-labelledby="publication-viz-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="publication-viz-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-400 mx-auto mb-6"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Publication Timeline -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex items-center gap-3 mb-6">
+        <Icon name="chart-line" size="lg" class="text-blue-400" />
+        <h3 class="text-heading-lg text-white">{t.publicationTimeline}</h3>
+      </div>
+
+      <!-- Timeline Chart -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="mb-6">
+          <div class="grid grid-cols-3 gap-4 text-center mb-8">
+            <div>
+              <div class="text-heading-lg text-white font-bold">{totalPubs}</div>
+              <div class="text-caption text-gray-400">{t.totalPublications}</div>
+            </div>
+            <div>
+              <div class="text-heading-lg text-white font-bold">{avgPerYear}</div>
+              <div class="text-caption text-gray-400">{t.averagePerYear}</div>
+            </div>
+            <div>
+              <div class="text-heading-lg text-white font-bold">{activeYears}</div>
+              <div class="text-caption text-gray-400">Active Years</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="relative h-64" role="img" aria-label="Publication timeline chart">
+          <div class="absolute inset-0 flex items-end justify-between gap-2">
+            {yearLabels.map((year, index) => {
+              const height = (publicationsByYear[year] / maxYear) * 100;
+              const isRecent = parseInt(year) >= 2022;
+              return (
+                <div class="flex-1 flex flex-col items-center group">
+                  <div 
+                    class={`w-full transition-all duration-1000 ease-out rounded-t-lg ${
+                      isRecent ? 'bg-gradient-to-t from-blue-600 to-blue-400' : 'bg-gradient-to-t from-gray-600 to-gray-500'
+                    } hover:shadow-lg hover:shadow-blue-500/20`}
+                    style={`height: ${height}%; animation-delay: ${index * 0.1}s`}
+                    data-animate="bar"
+                    data-height={height}
+                  >
+                    <!-- Tooltip -->
+                    <div class="opacity-0 group-hover:opacity-100 absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-2 py-1 rounded text-xs whitespace-nowrap border border-gray-700 transition-opacity">
+                      {publicationsByYear[year]} publication{publicationsByYear[year] > 1 ? 's' : ''}
+                    </div>
+                  </div>
+                  <div class="mt-2 text-xs text-gray-400 font-medium">{year}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Growth indicator -->
+        <div class="mt-6 flex items-center justify-center gap-2 text-green-400">
+          <Icon name="trending-up" size="sm" />
+          <span class="text-caption">Consistent research output growth</span>
+        </div>
+      </div>
+
+      <!-- Recent Publications -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center justify-between mb-6">
+          <h4 class="text-heading-md text-white">{t.recentWork}</h4>
+          <span class="px-3 py-1 bg-green-600/10 border border-green-600/20 rounded-full text-caption text-green-300">
+            {t.highImpact}
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          {recentPublications.slice(0, 4).map((pub, index) => (
+            <div 
+              class="group p-4 bg-gray-800/30 border border-gray-700 rounded-xl hover:border-gray-600 transition-all duration-300"
+              style={`animation-delay: ${index * 0.1}s`}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                  <h5 class="text-body font-medium text-white mb-2 group-hover:text-blue-300 transition-colors">
+                    {pub.title}
+                  </h5>
+                  <div class="flex items-center gap-4 text-caption text-gray-400">
+                    <span class="font-medium">{pub.journal}</span>
+                    <span>•</span>
+                    <span>{pub.year}</span>
+                    {pub.featured && (
+                      <>
+                        <span>•</span>
+                        <span class="text-yellow-400 flex items-center gap-1">
+                          <Icon name="star" size="xs" />
+                          {t.featured}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <a 
+                  href={pub.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="p-2 bg-blue-600/10 border border-blue-600/20 rounded-lg hover:bg-blue-600/20 transition-colors"
+                  aria-label={`${t.viewPublication}: ${pub.title}`}
+                >
+                  <Icon name="external-link" size="sm" class="text-blue-400" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Journal Distribution -->
+    <div class="space-y-6">
+      <div class="flex items-center gap-3 mb-6">
+        <Icon name="book-open" size="lg" class="text-purple-400" />
+        <h3 class="text-heading-lg text-white">{t.journalDistribution}</h3>
+      </div>
+
+      <!-- Journal Quality Metrics -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <h4 class="text-heading-md text-white mb-6">{t.journalQuality}</h4>
+        
+        <div class="space-y-4">
+          {topJournals.map((journal, index) => {
+            const percentage = (journal.count / totalPubs) * 100;
+            return (
+              <div 
+                class="space-y-2"
+                style={`animation-delay: ${index * 0.2}s`}
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <div class="text-body text-white font-medium mb-1">{journal.journal}</div>
+                    <div class="flex items-center gap-3 text-caption text-gray-400">
+                      <span>IF: {journal.impactFactor}</span>
+                      <span class={`px-2 py-1 rounded text-xs font-medium ${
+                        journal.quartile === 'Q1' ? 'bg-green-600/20 text-green-300 border border-green-600/30' :
+                        journal.quartile === 'Q2' ? 'bg-blue-600/20 text-blue-300 border border-blue-600/30' :
+                        'bg-gray-600/20 text-gray-300 border border-gray-600/30'
+                      }`}>
+                        {journal.quartile}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="text-body-sm text-gray-300 font-medium">{journal.count}</div>
+                </div>
+                
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div 
+                    class="h-2 rounded-full transition-all duration-1000 ease-out"
+                    style={`width: ${percentage}%; background-color: ${journal.color}`}
+                    data-animate="progress"
+                    data-width={percentage}
+                  ></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- Journal quality summary -->
+        <div class="mt-6 p-4 bg-purple-600/10 border border-purple-600/20 rounded-xl">
+          <div class="text-center">
+            <div class="text-heading-md text-white font-bold mb-1">Q1</div>
+            <div class="text-caption text-purple-300">Majority in top-tier journals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Publications -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-2 mb-6">
+          <Icon name="star" size="md" class="text-yellow-400" />
+          <h4 class="text-heading-md text-white">{t.featured}</h4>
+        </div>
+        
+        <div class="space-y-3">
+          {featuredPublications.slice(0, 3).map((pub, index) => (
+            <div 
+              class="p-3 bg-yellow-600/5 border border-yellow-600/20 rounded-lg"
+              style={`animation-delay: ${index * 0.15}s`}
+            >
+              <div class="text-body-sm text-white font-medium mb-1">{pub.title}</div>
+              <div class="text-caption text-gray-400">{pub.journal} • {pub.year}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Research Impact Summary -->
+      <div class="p-6 bg-gradient-to-br from-red-600/10 to-blue-600/10 border border-gray-800 rounded-2xl">
+        <div class="text-center">
+          <Icon name="fire" size="xl" class="text-red-400 mx-auto mb-4" />
+          <div class="text-heading-lg text-white font-bold mb-2">High Impact</div>
+          <div class="text-body text-gray-300 mb-4">Research Portfolio</div>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div class="text-heading-sm text-white font-bold">85%</div>
+              <div class="text-caption text-gray-400">Q1/Q2 Journals</div>
+            </div>
+            <div>
+              <div class="text-heading-sm text-white font-bold">12.8</div>
+              <div class="text-caption text-gray-400">Avg Impact Factor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .interactive-publication-viz {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Bar chart animations */
+  [data-animate="bar"] {
+    height: 0% !important;
+    animation: growUp 1s ease-out forwards;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes growUp {
+    to {
+      height: var(--final-height, 0%) !important;
+    }
+  }
+  
+  /* Progress bar animations */
+  [data-animate="progress"] {
+    width: 0% !important;
+    transition: width 1s ease-out;
+  }
+  
+  /* Hover effects */
+  .group:hover [data-animate="bar"] {
+    filter: brightness(1.2);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .interactive-publication-viz .grid.lg\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+    
+    .interactive-publication-viz .lg\\:col-span-2 {
+      grid-column: span 1;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .interactive-publication-viz .h-64 {
+      height: 12rem;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .interactive-publication-viz,
+    .interactive-publication-viz * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .interactive-publication-viz .border {
+      border-width: 2px;
+    }
+  }
+</style>
+
+<script>
+  function initPublicationViz() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate bar chart
+          const bars = entry.target.querySelectorAll('[data-animate="bar"]');
+          bars.forEach((bar: Element) => {
+            const htmlBar = bar as HTMLElement;
+            const height = htmlBar.dataset.height || '0';
+            htmlBar.style.setProperty('--final-height', `${height}%`);
+          });
+          
+          // Animate progress bars
+          const progressBars = entry.target.querySelectorAll('[data-animate="progress"]');
+          progressBars.forEach((bar: Element) => {
+            const htmlBar = bar as HTMLElement;
+            const width = htmlBar.dataset.width || '0';
+            setTimeout(() => {
+              htmlBar.style.width = `${width}%`;
+            }, 200);
+          });
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    const viz = document.querySelector('.interactive-publication-viz');
+    if (viz) {
+      observer.observe(viz);
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPublicationViz);
+  } else {
+    initPublicationViz();
+  }
+  
+  // Add keyboard navigation for publication links
+  document.querySelectorAll('.group').forEach(publication => {
+    const link = publication.querySelector('a[target="_blank"]');
+    if (link) {
+      publication.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          (link as HTMLAnchorElement).click();
+        }
+      });
+      
+      // Make publication cards focusable
+      publication.setAttribute('tabindex', '0');
+      publication.setAttribute('role', 'button');
+    }
+  });
+</script>

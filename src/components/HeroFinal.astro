@@ -9,32 +9,32 @@ const translations = {
   en: {
     firstName: 'Ramon',
     lastName: 'Roca Pinilla',
-    role1: 'Biomedical Engineer',
-    role2: 'Molecular Biologist',
-    tagline: 'Engineering next-generation antimicrobial proteins through computational design and experimental validation',
-    cta1: 'View Research',
-    cta2: 'Publications',
-    scroll: 'Scroll to explore'
+    role: 'Biomedical Engineer • Antimicrobial Protein Designer',
+    tagline: 'Engineering next-generation antimicrobials through computational design and experimental precision',
+    cta1: 'Explore Research',
+    cta2: 'View Publications',
+    scroll: 'Scroll to discover more',
+    enhancement: 'Enable molecular visualization'
   },
   es: {
     firstName: 'Ramon',
     lastName: 'Roca Pinilla', 
-    role1: 'Ingeniero Biomédico',
-    role2: 'Biólogo Molecular',
-    tagline: 'Desarrollando proteínas antimicrobianas de nueva generación mediante diseño computacional y validación experimental',
-    cta1: 'Ver Investigación',
-    cta2: 'Publicaciones',
-    scroll: 'Desplázate para explorar'
+    role: 'Ingeniero Biomédico • Diseñador de Proteínas Antimicrobianas',
+    tagline: 'Ingeniería de antimicrobianos de nueva generación mediante diseño computacional y precisión experimental',
+    cta1: 'Explorar Investigación',
+    cta2: 'Ver Publicaciones',
+    scroll: 'Desplázate para descubrir',
+    enhancement: 'Activar visualización molecular'
   },
   ca: {
     firstName: 'Ramon',
     lastName: 'Roca Pinilla',
-    role1: 'Enginyer Biomèdic',
-    role2: 'Biòleg Molecular',
-    tagline: 'Desenvolupant proteïnes antimicrobianes de nova generació mitjançant disseny computacional i validació experimental',
-    cta1: 'Veure Recerca',
-    cta2: 'Publicacions',
-    scroll: 'Desplaça\'t per explorar'
+    role: 'Enginyer Biomèdic • Dissenyador de Proteïnes Antimicrobianes',
+    tagline: 'Enginyeria d\'antimicrobians de nova generació mitjançant disseny computacional i precisió experimental',
+    cta1: 'Explorar Recerca',
+    cta2: 'Veure Publicacions',
+    scroll: 'Desplaça\'t per descobrir',
+    enhancement: 'Activar visualització molecular'
   }
 };
 
@@ -205,18 +205,18 @@ const t = translations[lang];
     <!-- Video container (only populated when explicitly requested) -->
     <div class="hero-video-container" data-video-container="hero-bg"></div>
     
-    <!-- Optional: Play button to enable video -->
+    <!-- Optional: Enhancement button to enable protein visualization -->
     <button 
-      class="hero-video-play"
+      class="hero-video-play magnetic-button touch-feedback"
       type="button"
-      aria-label="Enable background video animation"
+      aria-label="Enable protein structure visualization"
       data-enable-hero-video
-      title="Click to enable background video (may use additional bandwidth)"
+      title="Click to see protein dynamics (may use additional bandwidth)"
     >
       <svg width="20" height="20" fill="currentColor" aria-hidden="true">
-        <path d="M8 5v14l11-7z"/>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
-      <span class="play-label">Play</span>
+      <span class="play-label">{t.enhancement}</span>
     </button>
     
     <div class="video-overlay" aria-hidden="true"></div>
@@ -225,29 +225,64 @@ const t = translations[lang];
   <div class="hero-vignette" aria-hidden="true"></div>
   <div class="hero-pattern" aria-hidden="true"></div>
   
+  <!-- Enhanced molecular structure overlay -->
+  <div class="molecular-structure" aria-hidden="true">
+    <!-- Protein nodes with enhanced animation -->
+    <div class="protein-node protein-node-1"></div>
+    <div class="protein-node protein-node-2"></div>
+    <div class="protein-node protein-node-3"></div>
+    <div class="protein-node protein-node-4"></div>
+    <div class="protein-node protein-node-5"></div>
+    <div class="protein-node protein-node-6"></div>
+    
+    <!-- Connection lines between protein nodes -->
+    <svg class="protein-connections" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="connection-line" d="M15 25 Q50 15 85 35" stroke="rgba(220,38,38,0.2)" stroke-width="0.5" fill="none"/>
+      <path class="connection-line" d="M25 75 Q60 65 75 25" stroke="rgba(220,38,38,0.2)" stroke-width="0.5" fill="none"/>
+      <path class="connection-line" d="M15 85 Q35 50 65 70" stroke="rgba(220,38,38,0.2)" stroke-width="0.5" fill="none"/>
+    </svg>
+    
+    <!-- Enhanced DNA helix with better geometry -->
+    <svg class="dna-helix" viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left strand -->
+      <path class="helix-strand helix-left" d="M70 50 Q100 75 70 100 Q40 125 70 150 Q100 175 70 200 Q40 225 70 250 Q100 275 70 300 Q40 325 70 350" 
+            stroke="rgba(220,38,38,0.25)" stroke-width="1.5" fill="none"/>
+      <!-- Right strand -->
+      <path class="helix-strand helix-right" d="M130 50 Q100 75 130 100 Q160 125 130 150 Q100 175 130 200 Q160 225 130 250 Q100 275 130 300 Q160 325 130 350" 
+            stroke="rgba(220,38,38,0.25)" stroke-width="1.5" fill="none"/>
+      <!-- Base pairs -->
+      <g class="base-pairs">
+        <line x1="70" y1="75" x2="130" y2="75" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+        <line x1="70" y1="125" x2="130" y2="125" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+        <line x1="70" y1="175" x2="130" y2="175" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+        <line x1="70" y1="225" x2="130" y2="225" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+        <line x1="70" y1="275" x2="130" y2="275" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+        <line x1="70" y1="325" x2="130" y2="325" stroke="rgba(255,215,0,0.3)" stroke-width="0.8"/>
+      </g>
+    </svg>
+  </div>
+  
   <div class="hero-container">
     <div class="hero-content">
-      <h1 class="hero-title" aria-label="{t.firstName} {t.lastName}">
+      <h1 class="hero-title fade-in-element" data-fade-in aria-label="{t.firstName} {t.lastName}">
         <span class="title-first">{t.firstName}</span>
         <span class="title-last">{t.lastName}</span>
       </h1>
       
-      <div class="hero-roles" role="contentinfo" aria-label="Professional roles">
-        <span class="role">{t.role1}</span>
-        <span class="role-divider"></span>
-        <span class="role">{t.role2}</span>
+      <div class="hero-role fade-in-element" data-fade-in role="contentinfo" aria-label="Professional specialization">
+        <span class="role role-gradient">{t.role}</span>
       </div>
       
-      <p class="hero-tagline">{t.tagline}</p>
+      <p class="hero-tagline fade-in-element" data-fade-in>{t.tagline}</p>
       
-      <div class="hero-actions">
-        <a href="#research" class="btn btn-primary" aria-label="{t.cta1}">
+      <div class="hero-actions stagger-element" data-stagger>
+        <a href="#research" class="btn btn-primary magnetic-button btn-enhanced touch-feedback" aria-label="{t.cta1}">
           {t.cta1}
           <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
-        <a href="#publications" class="btn btn-secondary" aria-label="{t.cta2}">{t.cta2}</a>
+        <a href="#publications" class="btn btn-secondary magnetic-button btn-enhanced touch-feedback" aria-label="{t.cta2}">{t.cta2}</a>
       </div>
     </div>
   </div>
@@ -261,6 +296,28 @@ const t = translations[lang];
 </section>
 
 <style>
+  /* Enhanced GPU Acceleration for All Hero Animations */
+  .hero-final,
+  .hero-bg-video,
+  .hero-poster-static img,
+  .molecular-structure,
+  .protein-node,
+  .dna-helix,
+  .protein-connections,
+  .hero-gradient,
+  .btn-primary,
+  .btn-secondary,
+  .hero-video-play,
+  .hero-content,
+  .hero-title,
+  .hero-role,
+  .hero-tagline {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
   .hero-final {
     position: relative;
     min-height: 100vh;
@@ -360,6 +417,117 @@ const t = translations[lang];
   /* Enhanced state styling */
   .hero-bg-video.video-enhanced .hero-poster-static img {
     filter: brightness(0.5) contrast(1.3) saturate(0.9) blur(0.3px);
+  }
+  
+  /* Molecular structure animation overlay */
+  .molecular-structure {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.15;
+    z-index: 3;
+  }
+  
+  .dna-helix {
+    position: absolute;
+    right: 8%;
+    top: 15%;
+    width: 200px;
+    height: 400px;
+    opacity: 0.15;
+    animation: helixRotate 30s linear infinite;
+  }
+  
+  .protein-connections {
+    position: absolute;
+    left: 8%;
+    top: 60%;
+    width: 150px;
+    height: 150px;
+    opacity: 0.12;
+    animation: connectionsFloat 25s ease-in-out infinite;
+  }
+  
+  .protein-node {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, rgba(220,38,38,0.9) 0%, rgba(255,215,0,0.4) 50%, transparent 70%);
+    border-radius: 50%;
+    animation: proteinPulse 4s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(220,38,38,0.3);
+  }
+  
+  .protein-node-1 { top: 12%; left: 12%; animation-delay: 0s; }
+  .protein-node-2 { top: 22%; right: 18%; animation-delay: 0.8s; }
+  .protein-node-3 { top: 45%; left: 8%; animation-delay: 1.6s; }
+  .protein-node-4 { bottom: 28%; left: 22%; animation-delay: 2.4s; }
+  .protein-node-5 { bottom: 18%; right: 12%; animation-delay: 3.2s; }
+  .protein-node-6 { top: 65%; right: 25%; animation-delay: 1.2s; }
+  
+  @keyframes helixRotate {
+    0% { transform: rotate(0deg) scale(1) translateY(0px); }
+    25% { transform: rotate(90deg) scale(1.05) translateY(-10px); }
+    50% { transform: rotate(180deg) scale(1.1) translateY(0px); }
+    75% { transform: rotate(270deg) scale(1.05) translateY(10px); }
+    100% { transform: rotate(360deg) scale(1) translateY(0px); }
+  }
+  
+  @keyframes proteinPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.8); }
+  }
+  
+  @keyframes connectionsFloat {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.12; }
+    33% { transform: rotate(120deg) scale(1.1); opacity: 0.18; }
+    66% { transform: rotate(240deg) scale(0.9); opacity: 0.08; }
+  }
+  
+  .helix-strand {
+    animation: strandGlow 8s ease-in-out infinite;
+  }
+  
+  .helix-left {
+    animation-delay: 0s;
+  }
+  
+  .helix-right {
+    animation-delay: 4s;
+  }
+  
+  .base-pairs line {
+    animation: basePairFlicker 6s ease-in-out infinite;
+  }
+  
+  .base-pairs line:nth-child(1) { animation-delay: 0s; }
+  .base-pairs line:nth-child(2) { animation-delay: 1s; }
+  .base-pairs line:nth-child(3) { animation-delay: 2s; }
+  .base-pairs line:nth-child(4) { animation-delay: 3s; }
+  .base-pairs line:nth-child(5) { animation-delay: 4s; }
+  .base-pairs line:nth-child(6) { animation-delay: 5s; }
+  
+  @keyframes strandGlow {
+    0%, 100% { opacity: 0.25; stroke-width: 1.5; }
+    50% { opacity: 0.4; stroke-width: 2; }
+  }
+  
+  @keyframes basePairFlicker {
+    0%, 90%, 100% { opacity: 0.3; }
+    5%, 85% { opacity: 0.6; }
+  }
+  
+  .connection-line {
+    animation: connectionPulse 12s ease-in-out infinite;
+  }
+  
+  .connection-line:nth-child(1) { animation-delay: 0s; }
+  .connection-line:nth-child(2) { animation-delay: 4s; }
+  .connection-line:nth-child(3) { animation-delay: 8s; }
+  
+  @keyframes connectionPulse {
+    0%, 90%, 100% { opacity: 0.2; stroke-width: 0.5; }
+    10%, 80% { opacity: 0.4; stroke-width: 1; }
   }
 
   /* Play/Enhancement button */
@@ -508,14 +676,23 @@ const t = translations[lang];
     z-index: 10;
   }
   
-  /* Typography with sophisticated styling */
+  /* Standardized Hero Typography */
   .hero-title {
-    font-size: clamp(3.75rem, 9.5vw, 7rem);
-    font-weight: 200;
-    line-height: 0.9;
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: var(--font-light);
+    line-height: var(--leading-none);
+    letter-spacing: var(--tracking-tighter);
     margin-bottom: 2rem;
     animation: fadeInUp 0.8s ease-out;
+  }
+  
+  /* Language-specific hero title optimizations */
+  .hero-title:lang(es),
+  .hero-title:lang(ca) {
+    font-size: clamp(3.25rem, 8.5vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: var(--tracking-tight);
   }
   
   .title-first {
@@ -534,37 +711,100 @@ const t = translations[lang];
     margin-top: 0.2em;
   }
   
-  .hero-roles {
+  .hero-role {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     animation: fadeInUp 0.8s ease-out 0.1s both;
   }
   
   .role {
-    font-size: 1.125rem;
-    color: #B8B8B8; /* Better contrast */
+    font-family: var(--font-primary);
+    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+    color: #E5E5E5;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-weight: 400;
+    letter-spacing: var(--tracking-wider);
+    font-weight: var(--font-medium);
+    text-align: center;
+    line-height: var(--leading-snug);
   }
   
-  .role-divider {
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(to bottom, transparent, #DC2626, transparent);
+  .role-gradient {
+    background: linear-gradient(135deg, 
+      #FFFFFF 0%, 
+      #FFB3B3 25%, 
+      #FF6B6B 50%, 
+      #DC2626 75%, 
+      #B91C1C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: gradientShimmer 4s ease-in-out infinite;
+    position: relative;
+  }
+  
+  .role-gradient::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(220,38,38,0.6), transparent);
+    border-radius: 1px;
+    animation: underlineGlow 3s ease-in-out infinite;
+  }
+  
+  @keyframes gradientShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  @keyframes underlineGlow {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scaleX(1); }
+    50% { opacity: 0.8; transform: translateX(-50%) scaleX(1.2); }
+  }
+  
+  /* Language-specific role optimizations */
+  .role:lang(es),
+  .role:lang(ca) {
+    font-size: clamp(1rem, 2.25vw, 1.125rem);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-normal);
   }
   
   .hero-tagline {
-    font-size: 1.375rem;
-    line-height: 1.6;
-    color: #E5E5E5; /* Improved contrast */
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    font-weight: 300;
+    font-family: var(--font-primary);
+    font-size: clamp(1.125rem, 3vw, 1.375rem);
+    line-height: var(--leading-relaxed);
+    color: #E5E5E5;
+    max-width: 720px;
+    margin: 0 auto 3.5rem;
+    font-weight: var(--font-light);
     animation: fadeInUp 0.8s ease-out 0.2s both;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Language-specific tagline optimizations */
+  .hero-tagline:lang(es),
+  .hero-tagline:lang(ca) {
+    max-width: 780px;
+    line-height: var(--leading-loose);
+    font-size: clamp(1rem, 2.75vw, 1.25rem);
+  }
+  
+  .hero-tagline::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #DC2626, transparent);
+    margin: 1.5rem auto 0;
+    opacity: 0.6;
   }
   
   .hero-actions {
@@ -576,13 +816,15 @@ const t = translations[lang];
   }
   
   .btn {
-    padding: 0.875rem 2rem; /* Maintain 44px minimum touch target */
+    padding: 0.875rem 2rem;
     min-height: 44px;
-    font-size: 1rem;
-    font-weight: 600; /* Better visibility */
+    font-family: var(--font-primary);
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
     text-decoration: none;
     border-radius: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--anim-duration-base) var(--anim-easing-default);
+    letter-spacing: var(--tracking-normal);
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
@@ -654,11 +896,12 @@ const t = translations[lang];
   }
   
   .scroll-hint span {
-    font-size: 0.875rem;
-    color: #999999; /* Better contrast for small text */
+    font-family: var(--font-primary);
+    font-size: var(--text-sm);
+    color: #999999;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 400;
+    letter-spacing: var(--tracking-wider);
+    font-weight: var(--font-normal);
   }
   
   .scroll-icon {
@@ -775,22 +1018,26 @@ const t = translations[lang];
     
     .hero-title { font-size: clamp(2.75rem, 11vw, 4.25rem); }
     
-    .hero-roles {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .role-divider {
-      width: 40px;
-      height: 2px;
+    .hero-role .role {
+      font-size: 1.1rem;
+      line-height: 1.3;
+      letter-spacing: 0.06em;
     }
     
     .hero-tagline {
-      font-size: 1.125rem;
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
       overflow: hidden;
       white-space: nowrap;
       border-right: 2px solid var(--accent-red);
       animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    
+    .hero-tagline:lang(es),
+    .hero-tagline:lang(ca) {
+      font-size: clamp(0.95rem, 2.25vw, 1.0625rem);
+      max-width: 820px;
+      word-break: break-word;
+      hyphens: auto;
     }
     
     .hero-actions {
@@ -810,9 +1057,26 @@ const t = translations[lang];
     .hero-gradient,
     .scroll-icon,
     .scroll-dot,
-    .hero-tagline {
+    .hero-tagline,
+    .molecular-structure,
+    .dna-helix,
+    .protein-node,
+    .protein-connections,
+    .role-gradient {
       animation: none;
       border-right: none;
+    }
+    
+    .molecular-structure {
+      display: none;
+    }
+    
+    .role-gradient {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FF9A9A 50%, #DC2626 100%);
+    }
+    
+    .role-gradient::after {
+      display: none;
     }
   }
 </style>

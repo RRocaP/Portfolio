@@ -2,6 +2,7 @@
  * Advanced Animation Controller for Portfolio
  * Provides centralized animation management with performance monitoring
  */
+import React from 'react';
 
 interface AnimationState {
   id: string;
@@ -13,6 +14,8 @@ interface AnimationState {
   startTime?: number;
   duration?: number;
   options?: KeyframeAnimationOptions;
+  gpuAccelerated?: boolean;
+  willChangeManaged?: boolean;
 }
 
 interface AnimationMetrics {
@@ -30,6 +33,10 @@ interface AnimationConfig {
   frameRateThreshold: number;
   enablePerformanceMonitoring: boolean;
   enableDebugMode: boolean;
+  enableGPUAcceleration: boolean;
+  enableWillChangeManagement: boolean;
+  enableHapticFeedback: boolean;
+  networkAwarePreloading: boolean;
 }
 
 class AnimationController {
@@ -56,6 +63,10 @@ class AnimationController {
       frameRateThreshold: 50,
       enablePerformanceMonitoring: true,
       enableDebugMode: false,
+      enableGPUAcceleration: true,
+      enableWillChangeManagement: true,
+      enableHapticFeedback: true,
+      networkAwarePreloading: true,
       ...config
     };
 
@@ -101,11 +112,18 @@ class AnimationController {
       element,
       type,
       priority,
-      status: 'idle'
+      status: 'idle',
+      gpuAccelerated: false,
+      willChangeManaged: false
     };
 
     this.animations.set(id, state);
     this.metrics.totalAnimations++;
+
+    // Prepare element for GPU acceleration
+    if (this.config.enableGPUAcceleration) {
+      this.enableGPUAcceleration(element, state);
+    }
 
     // Auto-observe scroll-based animations
     if (type === 'scroll' && this.intersectionObserver) {
@@ -113,6 +131,53 @@ class AnimationController {
     }
 
     this.debugLog(`Registered animation: ${id} (${type}, ${priority})`);
+  }
+
+  /**
+   * Enable GPU acceleration for an element
+   */
+  private enableGPUAcceleration(element: HTMLElement, state: AnimationState): void {
+    if (state.gpuAccelerated) return;
+
+    // Force GPU layer creation with minimal visual impact
+    element.style.transform = element.style.transform || 'translateZ(0)';
+    element.style.backfaceVisibility = 'hidden';
+    element.style.perspective = '1000px';
+    
+    state.gpuAccelerated = true;
+    this.debugLog(`GPU acceleration enabled for ${state.id}`);
+  }
+
+  /**
+   * Manage will-change property for performance
+   */
+  private manageWillChange(element: HTMLElement, state: AnimationState, properties: string[]): void {
+    if (!this.config.enableWillChangeManagement) return;
+
+    if (state.status === 'running' && !state.willChangeManaged) {
+      element.style.willChange = properties.join(', ');
+      state.willChangeManaged = true;
+      this.debugLog(`will-change set for ${state.id}: ${properties.join(', ')}`);
+    } else if (state.status === 'completed' && state.willChangeManaged) {
+      element.style.willChange = 'auto';
+      state.willChangeManaged = false;
+      this.debugLog(`will-change cleared for ${state.id}`);
+    }
+  }
+
+  /**
+   * Trigger haptic feedback for supported devices
+   */
+  private triggerHapticFeedback(intensity: 'light' | 'medium' | 'heavy' = 'light'): void {
+    if (!this.config.enableHapticFeedback || !navigator.vibrate) return;
+
+    const patterns = {
+      light: [10],
+      medium: [20],
+      heavy: [30]
+    };
+
+    navigator.vibrate(patterns[intensity]);
   }
 
   /**
@@ -148,10 +213,17 @@ class AnimationController {
         this.cancelLowestPriorityAnimation();
       }
 
-      // Create and start animation
+      // Detect animated properties for will-change management
+      const animatedProperties = this.detectAnimatedProperties(keyframes);
+      
+      // Manage will-change before animation starts
+      this.manageWillChange(state.element, { ...state, status: 'running' }, animatedProperties);
+
+      // Create and start animation with GPU-optimized defaults
       const animation = state.element.animate(keyframes, {
         duration: 600,
         easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        composite: 'replace',
         ...options
       });
 
@@ -162,10 +234,16 @@ class AnimationController {
       state.options = options;
       this.metrics.runningAnimations++;
 
+      // Trigger haptic feedback for high-priority animations
+      if (state.priority === 'high' && (state.type === 'click' || state.type === 'hover')) {
+        this.triggerHapticFeedback('light');
+      }
+
       animation.addEventListener('finish', () => {
         state.status = 'completed';
         this.metrics.runningAnimations--;
         this.metrics.completedAnimations++;
+        this.manageWillChange(state.element, state, animatedProperties);
         this.debugLog(`Animation ${id} completed`);
         resolve();
       });
@@ -173,12 +251,30 @@ class AnimationController {
       animation.addEventListener('cancel', () => {
         state.status = 'cancelled';
         this.metrics.runningAnimations--;
+        this.manageWillChange(state.element, state, animatedProperties);
         this.debugLog(`Animation ${id} cancelled`);
         reject(new Error(`Animation ${id} was cancelled`));
       });
 
       this.debugLog(`Started animation: ${id}`);
     });
+  }
+
+  /**
+   * Detect animated properties from keyframes for will-change optimization
+   */
+  private detectAnimatedProperties(keyframes: Keyframe[]): string[] {
+    const properties = new Set<string>();
+    
+    keyframes.forEach(keyframe => {
+      Object.keys(keyframe).forEach(property => {
+        if (property !== 'offset' && property !== 'easing' && property !== 'composite') {
+          properties.add(property);
+        }
+      });
+    });
+    
+    return Array.from(properties);
   }
 
   /**
@@ -323,7 +419,7 @@ class AnimationController {
   }
 
   /**
-   * Create magnetic button effect
+   * Create magnetic button effect with enhanced performance and haptic feedback
    */
   magneticButton(
     id: string,
@@ -336,28 +432,89 @@ class AnimationController {
     if (this.shouldSkipAnimation()) return;
 
     let isHovering = false;
+    let animationFrame: number | null = null;
+    const state = this.animations.get(id);
+
+    // Optimize for GPU acceleration
+    if (state && this.config.enableGPUAcceleration) {
+      this.enableGPUAcceleration(button, state);
+    }
+
+    // Manage will-change for transform property
+    if (this.config.enableWillChangeManagement) {
+      button.style.willChange = 'transform';
+    }
 
     button.addEventListener('mouseenter', () => {
       isHovering = true;
+      this.triggerHapticFeedback('light');
+      
+      // Smooth transition with GPU acceleration
       button.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      
+      // Add a subtle glow effect
+      button.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
     });
 
     button.addEventListener('mousemove', (e: MouseEvent) => {
       if (!isHovering) return;
 
-      const rect = button.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const deltaX = (e.clientX - centerX) * strength;
-      const deltaY = (e.clientY - centerY) * strength;
-      
-      button.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.05)`;
+      // Use RAF for smooth animation
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      animationFrame = requestAnimationFrame(() => {
+        const rect = button.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = (e.clientX - centerX) * strength;
+        const deltaY = (e.clientY - centerY) * strength;
+        
+        // Enhanced magnetic effect with rotation
+        const rotateX = (e.clientY - centerY) * 0.1;
+        const rotateY = (centerX - e.clientX) * 0.1;
+        
+        button.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
     });
 
     button.addEventListener('mouseleave', () => {
       isHovering = false;
+      
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+      
+      // Reset with smooth transition
       button.style.transform = '';
+      button.style.boxShadow = '';
+      
+      // Clear will-change when not animating
+      if (this.config.enableWillChangeManagement) {
+        setTimeout(() => {
+          if (!isHovering) {
+            button.style.willChange = 'auto';
+          }
+        }, 300);
+      }
+    });
+
+    // Add click feedback
+    button.addEventListener('click', () => {
+      this.triggerHapticFeedback('medium');
+      
+      // Quick pulse effect on click
+      button.style.transform += ' scale(0.95)';
+      setTimeout(() => {
+        if (isHovering) {
+          // Return to hover state
+          const rect = button.getBoundingClientRect();
+          button.style.transform = button.style.transform.replace(' scale(0.95)', '');
+        }
+      }, 100);
     });
   }
 
@@ -540,45 +697,143 @@ export function getAnimationController(config?: Partial<AnimationConfig>): Anima
 }
 
 /**
- * Convenience functions for common animations
+ * Convenience functions for common animations (GPU-optimized)
  */
 export const animations = {
+  // Basic fade with GPU acceleration
   fadeIn: [
-    { opacity: 0, transform: 'translateY(20px)' },
-    { opacity: 1, transform: 'translateY(0)' }
+    { opacity: 0, transform: 'translate3d(0, 30px, 0)' },
+    { opacity: 1, transform: 'translate3d(0, 0, 0)' }
   ],
   
+  // Optimized slide animations
   slideUp: [
-    { transform: 'translateY(100px)', opacity: 0 },
-    { transform: 'translateY(0)', opacity: 1 }
+    { transform: 'translate3d(0, 100px, 0)', opacity: 0 },
+    { transform: 'translate3d(0, 0, 0)', opacity: 1 }
   ],
   
-  scaleIn: [
-    { transform: 'scale(0.8)', opacity: 0 },
-    { transform: 'scale(1)', opacity: 1 }
-  ],
-  
-  bounceIn: [
-    { transform: 'scale(0.3)', opacity: 0 },
-    { transform: 'scale(1.05)', opacity: 0.8, offset: 0.6 },
-    { transform: 'scale(1)', opacity: 1 }
+  slideDown: [
+    { transform: 'translate3d(0, -100px, 0)', opacity: 0 },
+    { transform: 'translate3d(0, 0, 0)', opacity: 1 }
   ],
   
   slideInLeft: [
-    { transform: 'translateX(-100px)', opacity: 0 },
-    { transform: 'translateX(0)', opacity: 1 }
+    { transform: 'translate3d(-100px, 0, 0)', opacity: 0 },
+    { transform: 'translate3d(0, 0, 0)', opacity: 1 }
   ],
   
   slideInRight: [
-    { transform: 'translateX(100px)', opacity: 0 },
-    { transform: 'translateX(0)', opacity: 1 }
+    { transform: 'translate3d(100px, 0, 0)', opacity: 0 },
+    { transform: 'translate3d(0, 0, 0)', opacity: 1 }
   ],
   
+  // Scale animations with 3D transforms
+  scaleIn: [
+    { transform: 'scale3d(0.8, 0.8, 1)', opacity: 0 },
+    { transform: 'scale3d(1, 1, 1)', opacity: 1 }
+  ],
+  
+  scaleInDown: [
+    { transform: 'scale3d(0.8, 0.8, 1) translate3d(0, -30px, 0)', opacity: 0 },
+    { transform: 'scale3d(1, 1, 1) translate3d(0, 0, 0)', opacity: 1 }
+  ],
+  
+  scaleInUp: [
+    { transform: 'scale3d(0.8, 0.8, 1) translate3d(0, 30px, 0)', opacity: 0 },
+    { transform: 'scale3d(1, 1, 1) translate3d(0, 0, 0)', opacity: 1 }
+  ],
+  
+  // Bounce animation with better performance
+  bounceIn: [
+    { transform: 'scale3d(0.3, 0.3, 1)', opacity: 0 },
+    { transform: 'scale3d(1.05, 1.05, 1)', opacity: 0.8, offset: 0.6 },
+    { transform: 'scale3d(1, 1, 1)', opacity: 1 }
+  ],
+  
+  // Rotation animations
+  rotateIn: [
+    { transform: 'rotate3d(0, 0, 1, -90deg)', opacity: 0 },
+    { transform: 'rotate3d(0, 0, 1, 0deg)', opacity: 1 }
+  ],
+  
+  flipIn: [
+    { transform: 'rotate3d(1, 0, 0, -90deg)', opacity: 0 },
+    { transform: 'rotate3d(1, 0, 0, 0deg)', opacity: 1 }
+  ],
+  
+  // Attention seekers
   pulse: [
-    { transform: 'scale(1)' },
-    { transform: 'scale(1.05)' },
-    { transform: 'scale(1)' }
+    { transform: 'scale3d(1, 1, 1)' },
+    { transform: 'scale3d(1.05, 1.05, 1)' },
+    { transform: 'scale3d(1, 1, 1)' }
+  ],
+  
+  heartbeat: [
+    { transform: 'scale3d(1, 1, 1)' },
+    { transform: 'scale3d(1.3, 1.3, 1)', offset: 0.14 },
+    { transform: 'scale3d(1, 1, 1)', offset: 0.28 },
+    { transform: 'scale3d(1.3, 1.3, 1)', offset: 0.42 },
+    { transform: 'scale3d(1, 1, 1)' }
+  ],
+  
+  // Complex entrance animations
+  fadeInUp: [
+    { opacity: 0, transform: 'translate3d(0, 30px, 0)' },
+    { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+  ],
+  
+  fadeInDown: [
+    { opacity: 0, transform: 'translate3d(0, -30px, 0)' },
+    { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+  ],
+  
+  zoomIn: [
+    { opacity: 0, transform: 'scale3d(0.3, 0.3, 1)' },
+    { opacity: 1, transform: 'scale3d(1, 1, 1)' }
+  ],
+  
+  zoomInLeft: [
+    { opacity: 0, transform: 'scale3d(0.1, 0.1, 1) translate3d(-1000px, 0, 0)' },
+    { opacity: 1, transform: 'scale3d(1, 1, 1) translate3d(0, 0, 0)' }
+  ],
+  
+  zoomInRight: [
+    { opacity: 0, transform: 'scale3d(0.1, 0.1, 1) translate3d(1000px, 0, 0)' },
+    { opacity: 1, transform: 'scale3d(1, 1, 1) translate3d(0, 0, 0)' }
+  ],
+  
+  // Magnetic hover effects
+  magneticHover: [
+    { transform: 'translate3d(0, 0, 0) scale3d(1, 1, 1)' },
+    { transform: 'translate3d(0, -2px, 0) scale3d(1.02, 1.02, 1)' }
+  ],
+  
+  // Loading animations
+  shimmer: [
+    { transform: 'translate3d(-100%, 0, 0)' },
+    { transform: 'translate3d(100%, 0, 0)' }
   ]
 };
 
 export type { AnimationController, AnimationState, AnimationMetrics, AnimationConfig };
+
+/**
+ * React hook to check for reduced motion preference
+ */
+export function useReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(() => {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return prefersReducedMotion;
+}
