@@ -1,0 +1,94 @@
+name: Deploy any branch to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Branch to deploy (e.g., blue-portfolio-gpt5, blue-portfolio-deploy, main)"
+        required: true
+        default: blue-portfolio-gpt5
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy-any-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_branch }}
+
+      - name: Detect site type
+        id: detect
+        run: |
+          if [ -f astro.config.mjs ]; then
+            echo "site=astro" >> $GITHUB_OUTPUT
+          elif [ -f index.html ] && [ -d assets ]; then
+            echo "site=static" >> $GITHUB_OUTPUT
+          else
+            echo "::error::Unrecognized site type in branch ${{ inputs.target_branch }}" && exit 1
+          fi
+
+      - name: Set base path
+        id: base
+        run: |
+          echo "BASE_PATH=/Portfolio" >> $GITHUB_OUTPUT
+
+      - name: Setup Node (Astro only)
+        if: steps.detect.outputs.site == 'astro'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install (Astro only)
+        if: steps.detect.outputs.site == 'astro'
+        run: npm i --no-audit --no-fund
+
+      - name: Build (Astro)
+        if: steps.detect.outputs.site == 'astro'
+        env:
+          NODE_ENV: production
+        run: |
+          npm run build
+          touch dist/.nojekyll
+
+      - name: Prepare artifact (Static branch)
+        if: steps.detect.outputs.site == 'static'
+        run: |
+          mkdir publish
+          shopt -s extglob
+          rsync -av --exclude='.git' --exclude='.github' --exclude='node_modules' ./ publish/
+          touch publish/.nojekyll
+          # Rewrite absolute-root URLs to include the GitHub Pages project base path
+          BASE_PATH="${{ steps.base.outputs.BASE_PATH }}"
+          echo "Applying base path: $BASE_PATH"
+          mapfile -t FILES < <(find publish -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.json' \))
+          for f in "${FILES[@]}"; do
+            # Common patterns: href="/..., src="/..., url(/..., fetch('/..., fetch("/...
+            perl -0777 -pe "s/href=\"\//href=\"${BASE_PATH}\//g; s/src=\"\//src=\"${BASE_PATH}\//g; s/url\(\//url\(${BASE_PATH}\//g; s/fetch\(\'\//fetch\(\'${BASE_PATH}\//g; s/fetch\(\"\//fetch\(\"${BASE_PATH}\//g" -i "$f" || true
+          done
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.detect.outputs.site == 'astro' && 'dist' || 'publish' }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
