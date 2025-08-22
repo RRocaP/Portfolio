@@ -4,13 +4,15 @@ import '../styles/tailwind.css';
 export interface Props {
   title: string;
   lang?: 'en' | 'es' | 'ca';
+  /** Optional theme switch (default is navy across pages) */
+  theme?: 'navy' | 'navy-gold';
 }
 
-const { title, lang = 'en' } = Astro.props;
+const { title, lang = 'en', theme = 'navy' } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={lang} data-theme={theme || undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies" />
@@ -154,6 +156,50 @@ const { title, lang = 'en' } = Astro.props;
     --space-md: 2rem;
     --space-lg: 4rem;
     --space-xl: 8rem;
+  }
+
+  /* Navy Theme Prototype (scoped by data-theme on <html>) */
+  [data-theme='navy'] {
+    /* Swap accent system to deep navy blues while preserving contrast */
+    --accent-red: #1e40af; /* blue-800 */
+    --accent-red-hover: #2563eb; /* blue-600 */
+    --accent-red-bg: rgba(30, 64, 175, 0.12);
+    --accent-yellow: #60a5fa; /* lighten for dual-tone accents */
+    --accent-red-rgb: 30, 64, 175;
+
+    /* Optional: slightly cooler neutrals for surfaces */
+    --background: #070a12;
+    --background-alt: #0d1320;
+    --background-card: #11182a;
+    --background-elevated: #131c2e;
+    --border: #1f2a44;
+    --border-light: #2a3a5f;
+    --text-primary: #f3f6ff;
+    --text-secondary: #d6def7;
+    --text-light: #a8b4d9;
+    --text-muted: #8a97bf;
+  }
+
+  /* Navy + Gold (complementary accent) */
+  [data-theme='navy-gold'] {
+    /* Keep the navy surface & border system */
+    --background: #070a12;
+    --background-alt: #0d1320;
+    --background-card: #11182a;
+    --background-elevated: #131c2e;
+    --border: #1f2a44;
+    --border-light: #2a3a5f;
+    --text-primary: #f3f6ff;
+    --text-secondary: #d6def7;
+    --text-light: #a8b4d9;
+    --text-muted: #8a97bf;
+
+    /* Dual-accent: navy primary, gold secondary */
+    --accent-red: #1e40af;        /* navy */
+    --accent-red-hover: #2563eb;  /* brighter blue hover */
+    --accent-red-bg: rgba(30, 64, 175, 0.12);
+    --accent-yellow: #fbbf24;     /* gold/amber 400 */
+    --accent-red-rgb: 30, 64, 175;
   }
 
   /* Custom Scrollbar */
