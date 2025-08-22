@@ -1,0 +1,56 @@
+{
+  "name": "portfolio-site",
+  "version": "1.0.0",
+  "description": "Optimized portfolio site with advanced build configuration",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:analyze": "vite build --mode analyze",
+    "build:staging": "vite build --mode staging",
+    "preview": "vite preview",
+    "analyze": "npx vite-bundle-analyzer dist",
+    "serve": "vite preview --port 3000",
+    "clean": "rimraf dist",
+    "size": "bundlesize",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./reports/lighthouse.html",
+    "perf": "npm run build && npm run serve & sleep 3 && npm run lighthouse && kill %1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.12",
+    "@vitejs/plugin-legacy": "^5.0.0",
+    "vite-plugin-pwa": "^0.17.4",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-bundle-analyzer": "^0.7.0",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "vite-plugin-webfont-dl": "^3.9.1",
+    "vite-plugin-imagemin": "^0.6.1",
+    "imagemin-webp": "^8.0.0",
+    "imagemin-avif": "^0.1.5",
+    "lightningcss": "^1.23.0",
+    "@types/node": "^20.10.6",
+    "bundlesize": "^0.18.1",
+    "rimraf": "^5.0.5",
+    "workbox-webpack-plugin": "^7.0.0",
+    "terser": "^5.26.0"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/assets/*.js",
+      "maxSize": "50 kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/assets/*.css",
+      "maxSize": "15 kB",
+      "compression": "gzip"
+    }
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ]
+}
