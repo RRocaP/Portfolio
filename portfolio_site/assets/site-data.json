@@ -1,0 +1,48 @@
+{
+  "owner": {
+    "name": "Ramon",
+    "github": "https://github.com/yourhandle",
+    "linkedin": "https://www.linkedin.com/in/yourhandle/"
+  },
+  "projects": [
+    {
+      "title": "shRNA Knockdown Efficacy",
+      "blurb": "Analysis of shRNA knockdown efficacy from transfection experiments.",
+      "tags": ["analysis", "visualization"],
+      "link": "assets/docs/combined_knockdown_efficacy.pdf",
+      "thumb": "assets/docs/combined_knockdown_efficacy.svg"
+    },
+    {
+      "title": "Knockdown Survival Data",
+      "blurb": "Survival data from shRNA knockdown experiments.",
+      "tags": ["data"],
+      "link": "assets/docs/knockdown_survival_data.csv"
+    },
+    {
+      "title": "Grouped Gene Plot",
+      "blurb": "Publication-quality grouped gene plot, created with Matplotlib.",
+      "tags": ["visualization"],
+      "link": "assets/docs/nature_grouped_genes.pdf",
+      "thumb": "assets/docs/nature_grouped_genes.svg"
+    },
+    {
+      "title": "Horizontal Gene Plot",
+      "blurb": "A transparent, horizontally-oriented version of the gene plot.",
+      "tags": ["visualization"],
+      "link": "assets/docs/nature_horizontal_transparent.pdf",
+      "thumb": "assets/docs/nature_horizontal_transparent.svg"
+    }
+  ],
+  "publications": [
+    {
+      "title": "shRNA Knockdown Summary Statistics 2025",
+      "link": "assets/docs/shRNA_Knockdown_Summary_Statistics_2025.csv",
+      "year": 2025
+    },
+    {
+      "title": "Corrected Knockdown Efficacy Summary",
+      "link": "assets/docs/knockdown_efficacy_summary_corrected.csv",
+      "year": 2025
+    }
+  ]
+}

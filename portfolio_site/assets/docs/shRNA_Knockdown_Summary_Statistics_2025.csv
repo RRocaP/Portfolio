@@ -1,0 +1,5 @@
+condition,mean_cell_death,method,cell_line
+PH5CH8_Lipofection,99.7,Lipofection,PH5CH8
+PH5CH8_AAV2,-22.8,AAV2,PH5CH8
+THLE2_Lipofection,56.5,Lipofection,THLE2
+THLE2_AAV2,-25.5,AAV2,THLE2

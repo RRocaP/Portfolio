@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio — Prototype v2</title>
+    <meta name="description" content="A clean, fast, accessible portfolio prototype.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <a class="brand" href="#home">✳︎ Your Name</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#work">Projects</a>
+        <a href="#pubs">Publications</a>
+        <a href="#contact">Contact</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌗</button>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-labelledby="h1">
+        <div class="hero-inner">
+          <h1 id="h1">Building useful biotech and data tools</h1>
+          <p class="lead">Scientist • Developer • Analyst. I design intuitive tools and pipelines that turn complex data into clear decisions.</p>
+          <div class="cta">
+            <a class="btn primary" href="#work">View Projects</a>
+            <a class="btn ghost" href="#contact">Get in touch</a>
+          </div>
+          <div class="meta">
+            <span class="badge">Open to collaborations</span>
+            <span class="badge">Remote-friendly</span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orb"></div>
+          <div class="grid"></div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <h2>About</h2>
+        <p>I blend wet-lab intuition with software engineering. My recent work includes long-read QC pipelines, dose–response analytics, and interactive scientific visualizations. I value clarity, reproducibility, and impact.</p>
+        <ul class="pill-list" id="skills">
+          <li>Python</li>
+          <li>R</li>
+          <li>Nextflow</li>
+          <li>Minimap2/Samtools</li>
+          <li>React/TypeScript</li>
+          <li>Docker</li>
+          <li>CI/CD</li>
+        </ul>
+      </section>
+
+      <section id="work" class="section">
+        <div class="section-header">
+          <h2>Projects</h2>
+          <div class="filters" role="toolbar" aria-label="Project filters">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="analysis">Analysis</button>
+            <button class="chip" data-filter="visualization">Visualization</button>
+            <button class="chip" data-filter="pipeline">Pipelines</button>
+          </div>
+        </div>
+        <div id="projectGrid" class="grid-cards" aria-live="polite"></div>
+      </section>
+
+      <section id="pubs" class="section">
+        <h2>Publications & Reports</h2>
+        <ul id="pubList" class="pub-list"></ul>
+      </section>
+
+      <section id="contact" class="section">
+        <h2>Contact</h2>
+        <div class="contact-card">
+          <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
+          <p>GitHub: <a href="#" id="githubLink" rel="noopener">github.com/yourhandle</a></p>
+          <p>LinkedIn: <a href="#" id="linkedinLink" rel="noopener">linkedin.com/in/yourhandle</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <small>© <span id="year"></span> Your Name — Prototype v2</small>
+    </footer>
+
+    <script id="site-data" type="application/json">
+{
+  "owner": {
+    "name": "Ramon",
+    "github": "https://github.com/yourhandle",
+    "linkedin": "https://www.linkedin.com/in/yourhandle/"
+  },
+  "projects": [
+    {
+      "title": "shRNA Knockdown Efficacy",
+      "blurb": "Analysis of shRNA knockdown efficacy from transfection experiments.",
+      "tags": ["analysis", "visualization"],
+      "link": "assets/docs/combined_knockdown_efficacy.pdf",
+      "thumb": "assets/docs/combined_knockdown_efficacy.svg"
+    },
+    {
+      "title": "Knockdown Survival Data",
+      "blurb": "Survival data from shRNA knockdown experiments.",
+      "tags": ["data"],
+      "link": "assets/docs/knockdown_survival_data.csv"
+    },
+    {
+      "title": "Grouped Gene Plot",
+      "blurb": "Publication-quality grouped gene plot, created with Matplotlib.",
+      "tags": ["visualization"],
+      "link": "assets/docs/nature_grouped_genes.pdf",
+      "thumb": "assets/docs/nature_grouped_genes.svg"
+    },
+    {
+      "title": "Horizontal Gene Plot",
+      "blurb": "A transparent, horizontally-oriented version of the gene plot.",
+      "tags": ["visualization"],
+      "link": "assets/docs/nature_horizontal_transparent.pdf",
+      "thumb": "assets/docs/nature_horizontal_transparent.svg"
+    }
+  ],
+  "publications": [
+    {
+      "title": "shRNA Knockdown Summary Statistics 2025",
+      "link": "assets/docs/shRNA_Knockdown_Summary_Statistics_2025.csv",
+      "year": 2025
+    },
+    {
+      "title": "Corrected Knockdown Efficacy Summary",
+      "link": "assets/docs/knockdown_efficacy_summary_corrected.csv",
+      "year": 2025
+    }
+  ]
+}
+    </script>
+    <script src="assets/js/app.js"></script>
+  </body>
+  </html>
