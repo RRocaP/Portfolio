@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global dark theme and typography */
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-neutral-950 text-neutral-100 antialiased font-sans leading-relaxed;
+    margin: 0;
+  }
+  /* Catalan senyera ribbon */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(
+      45deg,
+      #b91c1c 0 1px,
+      #f1c40f 1px 2px
+    );
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
