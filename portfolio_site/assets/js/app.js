@@ -13,47 +13,76 @@
     setTheme(next);
   });
 
-  // Fill contact links
-  document.getElementById('githubLink').href = data.owner.github;
-  document.getElementById('linkedinLink').href = data.owner.linkedin;
 
-  // Render projects
-  const render = (items) => {
-    grid.innerHTML = '';
-    for (const p of items) {
-      const el = document.createElement('article');
-      el.className = 'card';
-      el.innerHTML = `
-        <div class="thumb">${svgFor(p.thumb)}</div>
-        <h3>${p.title}</h3>
-        <p>${p.blurb}</p>
-        <div class="meta">${p.tags.map(t=>`#${t}`).join(' ')}</div>
-      `;
-      el.addEventListener('click', () => window.open(p.link, '_blank'));
-      el.tabIndex = 0;
-      el.setAttribute('role','button');
-      grid.appendChild(el);
-    }
+  // Create project element helper
+  const createProjectElement = (project) => {
+    const el = document.createElement('article');
+    el.className = 'card';
+    
+    // Use safer DOM manipulation instead of innerHTML
+    const thumb = document.createElement('div');
+    thumb.className = 'thumb';
+    thumb.innerHTML = svgFor(project.thumb); // SVG is safe
+    
+    const title = document.createElement('h3');
+    title.textContent = project.title;
+    
+    const blurb = document.createElement('p');
+    blurb.textContent = project.blurb;
+    
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = project.tags.map(t => `#${t}`).join(' ');
+    
+    el.appendChild(thumb);
+    el.appendChild(title);
+    el.appendChild(blurb);
+    el.appendChild(meta);
+    
+    // Add event listener with proper closure
+    const clickHandler = () => window.open(project.link, '_blank');
+    el.addEventListener('click', clickHandler);
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        clickHandler();
+      }
+    });
+    
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', `Open ${project.title} project`);
+    
+    return el;
   };
 
-  // Filters
-  const chips = Array.from(document.querySelectorAll('.chip'));
-  for (const c of chips) {
-    c.addEventListener('click', () => {
-      chips.forEach(x => x.classList.remove('active'));
-      c.classList.add('active');
-      const f = c.dataset.filter;
-      if (f === 'all') render(data.projects);
-      else render(data.projects.filter(p => p.tags.includes(f)));
-    });
-  }
-  render(data.projects);
+  // Render projects efficiently
+  const render = (items) => {
+    // Use DocumentFragment for efficient DOM manipulation
+    const fragment = document.createDocumentFragment();
+    
+    // Clear grid efficiently
+    grid.textContent = '';
+    
+    for (const project of items) {
+      fragment.appendChild(createProjectElement(project));
+    }
+    
+    grid.appendChild(fragment);
+  };
 
-  // Publications
-  for (const p of data.publications) {
-    const li = document.createElement('li');
-    li.innerHTML = `<a href="${p.link}" target="_blank" rel="noopener">${p.title}</a> <span style="color:#8892a6">(${p.year})</span>`;
-    pubList.appendChild(li);
+  // Filters - will be initialized after data loads
+  function initFilters() {
+    const chips = Array.from(document.querySelectorAll('.chip'));
+    for (const c of chips) {
+      c.addEventListener('click', () => {
+        chips.forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        const f = c.dataset.filter;
+        if (f === 'all') render(data.projects);
+        else render(data.projects.filter(p => p.tags.includes(f)));
+      });
+    }
   }
 
   // Simple inline SVG placeholders
@@ -113,5 +142,19 @@
 
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Initialize components
+  document.getElementById('githubLink').href = data.owner.github;
+  document.getElementById('linkedinLink').href = data.owner.linkedin;
+  
+  render(data.projects);
+  initFilters();
+  
+  // Publications
+  for (const p of data.publications) {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="${p.link}" target="_blank" rel="noopener">${p.title}</a> <span style="color:#8892a6">(${p.year})</span>`;
+    pubList.appendChild(li);
+  }
 })();
 
