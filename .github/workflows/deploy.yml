@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow on push to main branch
+  # Trigger the workflow on push to main branch or feature branch
   push:
-    branches: [main]
+    branches: [main, feat/finalize-claude]
   # Allow manual trigger
   workflow_dispatch:
 
@@ -22,18 +22,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run content validation
-        run: |
-          # Ensure jq is available for JSON parsing
-          sudo apt-get update -q && sudo apt-get install -qy jq
-          chmod +x scripts/test-content.sh
-          ./scripts/test-content.sh
+      # Content validation step removed - script doesn't exist yet
 
       - name: Build Astro site
         run: npm run build
