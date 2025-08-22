@@ -1,1 +1,0 @@
-import{c as o,r as s}from"./vendor-utils.zwXP0I8j.js";const r=o((o,r,t)=>s``,"/Users/ramon/projects/Portfolio/src/components/AnimationStyles.astro",void 0),t="/Users/ramon/projects/Portfolio/src/components/AnimationStyles.astro",a=void 0;export{r as default,t as file,a as url};

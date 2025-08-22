@@ -1,0 +1,1 @@
+import{c as o,r}from"./vendor-utils.gse-eQoW.js";import"./vendor-react.ofrPMlDn.js";const s=o((o,s,e)=>r``,"/Users/ramon/projects/Portfolio/src/components/ResearchVideoCard.astro",void 0),e="/Users/ramon/projects/Portfolio/src/components/ResearchVideoCard.astro",a=void 0;export{s as default,e as file,a as url};

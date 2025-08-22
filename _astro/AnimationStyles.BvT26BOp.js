@@ -1,0 +1,1 @@
+import{c as o,r as s}from"./vendor-utils.gse-eQoW.js";import"./vendor-react.ofrPMlDn.js";const r=o((o,r,t)=>s``,"/Users/ramon/projects/Portfolio/src/components/AnimationStyles.astro",void 0),t="/Users/ramon/projects/Portfolio/src/components/AnimationStyles.astro",e=void 0;export{r as default,t as file,e as url};
