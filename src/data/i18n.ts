@@ -13,6 +13,11 @@ export const translations = {
       title: 'Ramon Roca Pinilla',
       subtitle: 'Biomedical Engineer • Molecular Biologist',
       tagline: 'Engineering proteins to combat antimicrobial resistance through computational design and experimental validation.'
+    },
+    sections: {
+      selectedPublications: 'Selected Publications',
+      aboutMe: 'About',
+      researchAreas: 'Research Areas'
     }
   },
   es: {
@@ -27,6 +32,11 @@ export const translations = {
       title: 'Ramon Roca Pinilla',
       subtitle: 'Ingeniero Biomédico • Biólogo Molecular',
       tagline: 'Diseñando proteínas para combatir la resistencia antimicrobiana mediante diseño computacional y validación experimental.'
+    },
+    sections: {
+      selectedPublications: 'Publicaciones Seleccionadas',
+      aboutMe: 'Sobre mí',
+      researchAreas: 'Áreas de Investigación'
     }
   },
   ca: {
@@ -41,6 +51,11 @@ export const translations = {
       title: 'Ramon Roca Pinilla',
       subtitle: 'Enginyer Biomèdic • Biòleg Molecular',
       tagline: 'Dissenyant proteïnes per combatre la resistència antimicrobiana mitjançant disseny computacional i validació experimental.'
+    },
+    sections: {
+      selectedPublications: 'Publicacions Seleccionades',
+      aboutMe: 'Sobre mi',
+      researchAreas: 'Àrees de Recerca'
     }
   }
 };

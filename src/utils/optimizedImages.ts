@@ -101,38 +101,40 @@ export function generatePictureElement(variants: ImageVariant[], config: Optimiz
 }
 
 /**
- * React component for optimized images
+ * Generate optimized image HTML string
  */
-export function OptimizedImage({ variants, alt, loading = 'lazy', className = '', ...props }: OptimizedImageConfig & any) {
+export function OptimizedImage({ variants, alt, loading = 'lazy', className = '' }: OptimizedImageConfig & { alt: string; loading?: string; className?: string }) {
   const formatGroups = variants.reduce((groups, variant) => {
     if (!groups[variant.format]) groups[variant.format] = [];
     groups[variant.format].push(variant);
     return groups;
   }, {} as Record<string, ImageVariant[]>);
 
-  return (
-    <picture className={className}>
-      {formatGroups.avif && (
-        <source 
-          srcSet={formatGroups.avif.map(v => `${v.src} ${v.width}w`).join(', ')}
-          type="image/avif"
-        />
-      )}
-      {formatGroups.webp && (
-        <source 
-          srcSet={formatGroups.webp.map(v => `${v.src} ${v.width}w`).join(', ')}
-          type="image/webp" 
-        />
-      )}
-      <img
-        src={formatGroups.jpg?.[0]?.src || variants[0].src}
-        alt={alt}
-        loading={loading}
+  const sources = [];
+  
+  if (formatGroups.avif) {
+    const srcSet = formatGroups.avif.map(v => `${v.src} ${v.width}w`).join(', ');
+    sources.push(`<source srcset="${srcSet}" type="image/avif" />`);
+  }
+  
+  if (formatGroups.webp) {
+    const srcSet = formatGroups.webp.map(v => `${v.src} ${v.width}w`).join(', ');
+    sources.push(`<source srcset="${srcSet}" type="image/webp" />`);
+  }
+  
+  const fallbackSrc = formatGroups.jpg?.[0]?.src || variants[0].src;
+  
+  return `
+    <picture class="${className}">
+      ${sources.join('\n      ')}
+      <img 
+        src="${fallbackSrc}" 
+        alt="${alt}"
+        loading="${loading}"
         decoding="async"
-        width={120}
-        height={120}
-        {...props}
+        width="120" 
+        height="120"
       />
     </picture>
-  );
+  `.trim();
 }
