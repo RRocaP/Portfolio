@@ -1,1 +1,0 @@
-import{c as o,r}from"./vendor-utils.gse-eQoW.js";import"./vendor-react.ofrPMlDn.js";const s=o((o,s,t)=>r``,"/Users/ramon/projects/Portfolio/src/components/SmartVideo.astro",void 0),t="/Users/ramon/projects/Portfolio/src/components/SmartVideo.astro",e=void 0;export{s as default,t as file,e as url};

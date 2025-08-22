@@ -1,1 +1,0 @@
-import{c as o,r}from"./vendor-utils.gse-eQoW.js";import"./vendor-react.ofrPMlDn.js";const s=o((o,s,e)=>r``,"/Users/ramon/projects/Portfolio/src/components/AdaptiveVideoPlayer.astro",void 0),e="/Users/ramon/projects/Portfolio/src/components/AdaptiveVideoPlayer.astro",t=void 0;export{s as default,e as file,t as url};
