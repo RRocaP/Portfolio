@@ -4,82 +4,121 @@ import AnimationStyles from '../components/AnimationStyles.astro';
 export interface Props {
   title: string;
   description?: string;
+  lang?: string;
+  canonicalUrl?: string;
 }
 
 const {
   title,
   description = 'Ramon Roca Pinilla - Biomedical engineer and molecular biologist developing next-generation antimicrobial therapies',
+  lang = 'en',
+  canonicalUrl,
 } = Astro.props;
+
+// Get the current URL and construct canonical URL
+const currentUrl = new URL(Astro.request.url);
+const baseUrl = 'https://rrocap.github.io/Portfolio';
+const finalCanonicalUrl = canonicalUrl || `${baseUrl}${currentUrl.pathname}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/Portfolio/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={finalCanonicalUrl} />
+    
+    <!-- Language alternate links (hreflang) -->
+    <link rel="alternate" hreflang="en" href={`${baseUrl}/en/`} />
+    <link rel="alternate" hreflang="es" href={`${baseUrl}/es/`} />
+    <link rel="alternate" hreflang="ca" href={`${baseUrl}/ca/`} />
+    <link rel="alternate" hreflang="x-default" href={`${baseUrl}/`} />
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rrocap.github.io/Portfolio/" />
-    <meta
-      property="og:image"
-      content="https://rrocap.github.io/Portfolio/og-image.png"
-    />
+    <meta property="og:url" content={finalCanonicalUrl} />
+    <meta property="og:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
+    <meta property="og:image:alt" content="Ramon Roca Pinilla - Biomedical Engineer Portfolio" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : lang === 'ca' ? 'ca_ES' : 'en_US'} />
     <meta property="og:site_name" content="Ramon Roca Pinilla - Portfolio" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta
-      name="twitter:image"
-      content="https://rrocap.github.io/Portfolio/og-image.png"
-    />
+    <meta name="twitter:image" content="https://rrocap.github.io/Portfolio/og-image.png" />
+    <meta name="twitter:image:alt" content="Ramon Roca Pinilla - Biomedical Engineer Portfolio" />
+    <meta name="twitter:creator" content="@ramonrocap" />
+    <meta name="twitter:site" content="@ramonrocap" />
 
     <!-- Additional SEO Tags -->
     <meta name="author" content="Ramon Roca Pinilla" />
-    <meta
-      name="keywords"
-      content="biomedical engineering, molecular biology, antimicrobial peptides, gene therapy, protein design, AI, machine learning"
-    />
-    <link rel="canonical" href="https://rrocap.github.io/Portfolio/" />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js"
-    ></script>
+    <meta name="keywords" content="biomedical engineering, molecular biology, antimicrobial peptides, gene therapy, protein design, AI, machine learning, CRISPR, AAV vectors, drug discovery, computational biology" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/Portfolio/site.webmanifest" />
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#da291c" />
+    <meta name="msapplication-TileColor" content="#da291c" />
+    <!-- Resource hints for critical third-party domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://mmtf.rcsb.org" />
     <link rel="dns-prefetch" href="https://mmtf.rcsb.org" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    
+    <!-- Optimized font loading with font-display: swap -->
     <link
       rel="preload"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
-
-    <!-- Performance optimizations -->
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    
+    <!-- Conditionally load NGL library only when needed -->
+    <script>
+      // Lazy load NGL library only when protein viewers are present
+      if (document.querySelector('[data-protein-viewer]')) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.37/dist/ngl.min.js';
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    </script>
 
     <!-- Critical CSS for above-the-fold content -->
     <style>
-      /* Critical CSS - Prevent layout shift */
+      /* Critical CSS - Prevent layout shift and improve Core Web Vitals */
       body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        font-display: swap;
+        /* Improve text rendering */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
       .hero {
         min-height: 100vh;
+        contain: layout style paint;
       }
       .navigation {
         position: fixed;
@@ -87,37 +126,91 @@ const {
         left: 0;
         right: 0;
         height: 72px;
+        will-change: transform;
+        contain: layout style;
+      }
+      /* Prevent font loading layout shift */
+      @font-face {
+        font-family: 'Inter';
+        font-display: swap;
+        src: local('Inter');
+      }
+      /* Optimize image loading */
+      img {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 200px;
       }
     </style>
 
-    <!-- Structured Data -->
+    <!-- Enhanced Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
+        "@type": ["Person", "ProfilePage"],
         "name": "Ramon Roca Pinilla",
+        "givenName": "Ramon",
+        "familyName": "Roca Pinilla",
         "jobTitle": "Biomedical Engineer & Molecular Biologist",
+        "description": "Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most",
+        "url": finalCanonicalUrl,
+        "image": "https://rrocap.github.io/Portfolio/profile.jpg",
         "affiliation": {
           "@type": "Organization",
-          "name": "Children's Medical Research Institute"
+          "name": "Children's Medical Research Institute",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Sydney",
+            "addressCountry": "Australia"
+          }
         },
         "alumniOf": [
           {
             "@type": "CollegeOrUniversity",
-            "name": "University of California, Irvine"
+            "name": "University of California, Irvine",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Irvine",
+              "addressRegion": "CA",
+              "addressCountry": "US"
+            }
           },
           {
             "@type": "CollegeOrUniversity",
-            "name": "Autonomous University of Barcelona"
+            "name": "Autonomous University of Barcelona",
+            "alternateName": "Universitat Autònoma de Barcelona",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Barcelona",
+              "addressCountry": "ES"
+            }
           }
+        ],
+        "knowsAbout": [
+          "Biomedical Engineering",
+          "Molecular Biology",
+          "Antimicrobial Peptides",
+          "Gene Therapy",
+          "Protein Design",
+          "Machine Learning",
+          "AAV Vectors",
+          "Drug Discovery",
+          "Computational Biology",
+          "CRISPR Technology"
         ],
         "sameAs": [
           "https://orcid.org/0000-0002-5670-7959",
           "https://github.com/RRocaP",
           "https://www.linkedin.com/in/ramonrocapinilla"
         ],
-        "url": "https://rrocap.github.io/Portfolio/",
-        "description": "Teaching computers to design proteins that kill superbugs and deliver gene therapies where they're needed most"
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "ramon.rocap@gmail.com",
+          "contactType": "professional"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": finalCanonicalUrl
+        }
       }
     </script>
   </head>
@@ -126,6 +219,8 @@ const {
     <div class="skip-links">
       <a href="#main-content" class="skip-link">Skip to main content</a>
       <a href="#navigation" class="skip-link">Skip to navigation</a>
+      <a href="#research" class="skip-link">Skip to research section</a>
+      <a href="#contact" class="skip-link">Skip to contact information</a>
     </div>
 
     <slot />
@@ -838,6 +933,41 @@ const {
     border-width: 0;
   }
 
+  /* Skip Links Styles for Accessibility */
+  .skip-links {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    z-index: 1000000;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    background: var(--color-primary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    left: 6px;
+    top: 7px;
+    z-index: 999999;
+  }
+
   /* Print Styles */
   @media print {
     body {
@@ -847,7 +977,8 @@ const {
       background: #fff;
     }
 
-    .no-print {
+    .no-print,
+    .skip-links {
       display: none !important;
     }
 

@@ -1,5 +1,5 @@
 ---
-import Timeline from './Timeline.tsx';
+import TimelineComponent from './Timeline.tsx';
 
 export interface Props {
   lang: 'en' | 'es' | 'ca';
@@ -9,4 +9,4 @@ export interface Props {
 const { lang, strings } = Astro.props;
 ---
 
-<Timeline lang={lang} strings={strings} client:visible />
+<TimelineComponent lang={lang} strings={strings} client:visible />

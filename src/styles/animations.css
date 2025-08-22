@@ -32,6 +32,15 @@
   will-change: transform, opacity;
 }
 
+/* Remove will-change after animation completes */
+.will-animate.animate-in {
+  animation-fill-mode: forwards;
+}
+
+.will-animate.animate-in.animation-complete {
+  will-change: auto;
+}
+
 /* Remove animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -180,8 +189,14 @@
 }
 
 .parallax-element {
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Use transform3d for hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  /* Optimize for smooth scrolling */
+  transition: transform 0.1s linear;
   will-change: transform;
+  /* Enable hardware acceleration */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Different parallax speeds */
@@ -274,25 +289,38 @@
    Loading Animations
    =================================== */
 
-/* Skeleton loading animation */
+/* Optimized skeleton loading animation */
 @keyframes skeleton-loading {
   0% {
-    background-position: -200px 0;
+    transform: translateX(-100%);
   }
   100% {
-    background-position: calc(200px + 100%) 0;
+    transform: translateX(100%);
   }
 }
 
 .skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
     90deg,
-    #f0f0f0 25%,
-    #e0e0e0 50%,
-    #f0f0f0 75%
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
   );
-  background-size: 200px 100%;
   animation: skeleton-loading 1.5s infinite;
+  /* Use transform for better performance */
+  will-change: transform;
 }
 
 /* Pulse animation */
@@ -540,17 +568,58 @@
 
 /* GPU acceleration for smooth animations */
 .gpu-accelerated {
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
+  /* Force hardware layer */
+  will-change: transform;
 }
 
-/* Reduce paint areas */
+/* Modern containment for better performance */
 .contain-paint {
   contain: paint;
 }
 
-/* Optimize layout recalculations */
 .contain-layout {
   contain: layout;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* Intersection Observer optimizations */
+.intersection-item {
+  /* Use content-visibility for better performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+}
+
+/* Reduce composite layers */
+.composite-layer {
+  /* Only create composite layer when necessary */
+  will-change: auto;
+}
+
+.composite-layer:hover,
+.composite-layer:focus,
+.composite-layer.animating {
+  will-change: transform, opacity;
+}
+
+/* Optimize for high refresh rate displays */
+@media (min-resolution: 120dpi) {
+  .high-dpi-optimized {
+    /* Reduce animation complexity on high-DPI displays */
+    animation-duration: calc(var(--duration-normal) * 0.8);
+  }
+}
+
+/* Battery optimization */
+@media (prefers-reduced-motion: reduce) {
+  .battery-optimized {
+    /* Disable expensive animations on low battery */
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
 }

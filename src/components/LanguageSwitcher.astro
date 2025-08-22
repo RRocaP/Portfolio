@@ -35,7 +35,8 @@ const languages = [
     // Add smooth transitions between language switches
     switcher.querySelectorAll('.lang-link').forEach(link => {
         link.addEventListener('click', (e) => {
-          const targetLang = link.dataset.lang;
+          const htmlLink = link as HTMLElement;
+          const targetLang = htmlLink.dataset.lang;
           
           // Store current scroll position
           sessionStorage.setItem('scrollPosition', window.scrollY.toString());
@@ -45,7 +46,7 @@ const languages = [
           document.body.style.transition = 'opacity 200ms ease-out';
           
           setTimeout(() => {
-            window.location.href = link.href;
+            window.location.href = (link as HTMLAnchorElement).href;
           }, 200);
           
           e.preventDefault();

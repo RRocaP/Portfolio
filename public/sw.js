@@ -1,26 +1,39 @@
 // Modern Service Worker for Ramon Roca Pinilla Portfolio
 // Ultra-performance caching with latest web standards
 
-const CACHE_NAME = 'ramon-portfolio-v2.1.0';
-const STATIC_CACHE = 'static-v2.1.0';
-const DYNAMIC_CACHE = 'dynamic-v2.1.0';
+const CACHE_NAME = 'ramon-portfolio-v2.2.0';
+const STATIC_CACHE = 'static-v2.2.0';
+const DYNAMIC_CACHE = 'dynamic-v2.2.0';
+const API_CACHE = 'api-v2.2.0';
+const IMAGE_CACHE = 'images-v2.2.0';
 
 // Critical resources to cache immediately
 const STATIC_ASSETS = [
   '/',
   '/en/',
-  '/manifest.json',
+  '/es/',
+  '/ca/',
+  '/site.webmanifest',
   '/offline.html',
-  // Add critical CSS/JS files here when built
+  '/favicon.svg',
+  // Critical CSS/JS will be added dynamically
 ];
 
-// Advanced caching strategies
+// Resources to prefetch for better performance
+const PREFETCH_ASSETS = [
+  '/profile.jpg',
+  '/og-image.png'
+];
+
+// Advanced caching strategies with performance optimizations
 const CACHE_STRATEGIES = {
-  // Images: Cache first with background update
+  // Images: Cache first with long expiration
   images: {
     regex: /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i,
     strategy: 'cache-first',
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    maxAge: 90 * 24 * 60 * 60 * 1000, // 90 days
+    cacheName: IMAGE_CACHE,
+    maxEntries: 100
   },
   
   // Fonts: Cache first (they rarely change)
@@ -28,55 +41,106 @@ const CACHE_STRATEGIES = {
     regex: /\.(woff|woff2|ttf|otf)$/i,
     strategy: 'cache-first',
     maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    cacheName: STATIC_CACHE
   },
   
-  // API data: Network first with cache fallback
+  // Google Fonts: Cache first
+  googleFonts: {
+    regex: /^https:\/\/fonts\.(googleapis|gstatic)\.com\//,
+    strategy: 'cache-first',
+    maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
+    cacheName: STATIC_CACHE
+  },
+  
+  // External APIs: Network first with short cache
   api: {
-    regex: /\/api\//i,
+    regex: /^https:\/\/(mmtf\.rcsb\.org|cdn\.jsdelivr\.net)\//,
     strategy: 'network-first',
-    maxAge: 5 * 60 * 1000, // 5 minutes
+    maxAge: 60 * 60 * 1000, // 1 hour
+    cacheName: API_CACHE,
+    maxEntries: 50
   },
   
-  // Static assets: Stale while revalidate
+  // Static assets: Stale while revalidate for optimal performance
   static: {
-    regex: /\.(css|js)$/i,
+    regex: /\.(css|js|mjs)$/i,
     strategy: 'stale-while-revalidate',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    cacheName: STATIC_CACHE
+  },
+  
+  // HTML pages: Network first with cache fallback
+  pages: {
+    regex: /\/(en|es|ca)?\/?$/,
+    strategy: 'network-first',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
+    cacheName: DYNAMIC_CACHE
   }
 };
 
-// Install event - cache critical resources
+// Install event - cache critical resources with error handling
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: Installing');
+  console.log('Service Worker: Installing v2.2.0');
   
   event.waitUntil(
     Promise.all([
-      caches.open(STATIC_CACHE).then((cache) => {
+      // Cache critical static assets
+      caches.open(STATIC_CACHE).then(async (cache) => {
         console.log('Service Worker: Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+        try {
+          await cache.addAll(STATIC_ASSETS);
+          console.log('Service Worker: Static assets cached successfully');
+        } catch (error) {
+          console.warn('Service Worker: Failed to cache some static assets:', error);
+          // Cache assets individually to avoid complete failure
+          for (const asset of STATIC_ASSETS) {
+            try {
+              await cache.add(asset);
+            } catch (e) {
+              console.warn(`Failed to cache ${asset}:`, e);
+            }
+          }
+        }
       }),
+      
+      // Prefetch important assets
+      caches.open(IMAGE_CACHE).then(async (cache) => {
+        for (const asset of PREFETCH_ASSETS) {
+          try {
+            await cache.add(asset);
+          } catch (e) {
+            console.warn(`Failed to prefetch ${asset}:`, e);
+          }
+        }
+      }),
+      
       self.skipWaiting()
     ])
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and optimize storage
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker: Activating');
+  console.log('Service Worker: Activating v2.2.0');
   
   event.waitUntil(
     Promise.all([
       // Clean up old caches
       caches.keys().then((cacheNames) => {
+        const currentCaches = [STATIC_CACHE, DYNAMIC_CACHE, API_CACHE, IMAGE_CACHE];
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
+            if (!currentCaches.includes(cacheName)) {
               console.log('Service Worker: Deleting old cache', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       }),
+      
+      // Clean up oversized caches
+      cleanupOversizedCaches(),
+      
       self.clients.claim()
     ])
   );
@@ -117,9 +181,10 @@ function getCachingStrategy(url) {
   };
 }
 
-// Handle request based on strategy
+// Handle request based on strategy with performance optimizations
 async function handleRequest(request, strategy) {
-  const cacheName = strategy.name === 'static' ? STATIC_CACHE : DYNAMIC_CACHE;
+  const cacheName = strategy.cacheName || 
+    (strategy.name === 'static' ? STATIC_CACHE : DYNAMIC_CACHE);
   
   switch (strategy.strategy) {
     case 'cache-first':
@@ -317,4 +382,38 @@ async function clearAllCaches() {
   console.log('All caches cleared');
 }
 
-console.log('Service Worker: Loaded', CACHE_NAME);
+// Add cache size management
+async function cleanupOversizedCaches() {
+  const cachePromises = Object.values(CACHE_STRATEGIES)
+    .filter(strategy => strategy.maxEntries)
+    .map(async (strategy) => {
+      const cache = await caches.open(strategy.cacheName || DYNAMIC_CACHE);
+      const keys = await cache.keys();
+      
+      if (keys.length > strategy.maxEntries) {
+        const entriesToDelete = keys.slice(0, keys.length - strategy.maxEntries);
+        await Promise.all(entriesToDelete.map(key => cache.delete(key)));
+        console.log(`Cleaned up ${entriesToDelete.length} entries from ${strategy.cacheName}`);
+      }
+    });
+    
+  await Promise.all(cachePromises);
+}
+
+// Performance monitoring
+function logPerformanceMetrics() {
+  if ('performance' in self && 'memory' in performance) {
+    const memory = performance.memory;
+    console.log('SW Memory Usage:', {
+      used: Math.round(memory.usedJSHeapSize / 1024 / 1024) + ' MB',
+      total: Math.round(memory.totalJSHeapSize / 1024 / 1024) + ' MB'
+    });
+  }
+}
+
+// Log metrics every 10 minutes
+setInterval(logPerformanceMetrics, 600000);
+
+console.log('Service Worker: Loaded v2.2.0', CACHE_NAME);
+console.log('Service Worker: Cache strategies configured:', Object.keys(CACHE_STRATEGIES));
+logPerformanceMetrics();

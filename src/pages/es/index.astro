@@ -2,661 +2,1621 @@
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import ProteinStructure from '../../components/ProteinStructure.astro';
+import AntimicrobialResistanceTimeline from '../../components/AntimicrobialResistanceTimeline';
+import Timeline from '../../components/Timeline.astro';
+import Footer from '../../components/Footer.astro';
+
+// Import i18n strings
+import esStrings from '../../i18n/es.json';
+
+const currentLang = 'es';
+const strings = esStrings;
 ---
 
-<Layout title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular">
+<Layout
+  title="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular"
+  description="Enseñando a las computadoras a diseñar proteínas que maten superbacterias y entreguen terapias génicas donde más se necesitan"
+  lang="es"
+  canonicalUrl="https://rrocap.github.io/Portfolio/es/"
+>
   <Navigation />
 
-  <!-- Hero Section -->
-  <main id="main-content">
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title">Ramon Roca Pinilla</h1>
-        <p class="hero-subtitle">Ingeniero Biomédico y Biólogo Molecular</p>
-        <p class="hero-tagline">
-          Diseñando terapias génicas y soluciones antimicrobianas de nueva
-          generación en la intersección de la biología y la tecnología
-        </p>
-        <div class="hero-cta">
-          <a href="#about" class="btn btn-primary">Saber Más</a>
-          <a href="#contact" class="btn btn-outline">Contacto</a>
-        </div>
-
-        <!-- Research Impact Statistics -->
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-number">16+</div>
-            <div class="stat-label">Publicaciones</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">250+</div>
-            <div class="stat-label">Citas</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">3</div>
-            <div class="stat-label">Patentes</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section with Timeline Roadmap -->
-    <section id="about" class="section about-section">
-      <div class="container">
-        <h2 class="section-title">Mi Trayectoria</h2>
-
-        <div class="timeline-roadmap">
+  <!-- Hero Section with Modern Glass Morphism -->
+  <section id="home" class="hero">
+    <div class="hero-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+    <div class="hero-content container">
+      <h1 class="hero-title" data-split-text>Ramon Roca Pinilla</h1>
+      <p class="hero-subtitle">Ingeniero Biomédico y Biólogo Molecular</p>
+      <p class="hero-tagline">
+        Enseñando a las computadoras a diseñar proteínas que maten superbacterias 
+        y entreguen terapias génicas donde más se necesitan
+      </p>
+      <div class="hero-cta">
+        <a href="#about" class="btn btn-primary">
+          <span>Conocer Más</span>
           <svg
-            class="timeline-path"
-            viewBox="0 0 1200 600"
-            preserveAspectRatio="none"
+            class="btn-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
           >
-            <path
-              d="M 100,500 Q 300,400 400,300 T 600,200 Q 800,150 1000,100"
-              stroke="url(#gradient)"
-              stroke-width="3"
-              fill="none"
-              stroke-dasharray="8,4"
-              opacity="0.3"></path>
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#DA291C;stop-opacity:1"
-                ></stop>
-                <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1"
-                ></stop>
-              </linearGradient>
-            </defs>
+            <path d="M19 12H5M12 19l7-7-7-7"></path>
           </svg>
-
-          <div class="timeline-content">
-            <div class="timeline-item" style="--index: 1">
-              <div class="timeline-dot"></div>
-              <div class="timeline-card">
-                <span class="timeline-year">2013</span>
-                <h3>Grado en Biotecnología</h3>
-                <p>Universitat Autònoma de Barcelona</p>
-                <small
-                  >Fundamentos en biología molecular y aplicaciones
-                  biotecnológicas</small
-                >
-              </div>
-            </div>
-
-            <div class="timeline-item" style="--index: 2">
-              <div class="timeline-dot"></div>
-              <div class="timeline-card">
-                <span class="timeline-year">2015</span>
-                <h3>Máster en Ingeniería Biomédica</h3>
-                <p>UC Irvine</p>
-                <small>Enfoques de ingeniería para problemas biológicos</small>
-              </div>
-            </div>
-
-            <div class="timeline-item" style="--index: 3">
-              <div class="timeline-dot"></div>
-              <div class="timeline-card">
-                <span class="timeline-year">2020</span>
-                <h3>Doctorado en Biomedicina</h3>
-                <p>Universitat Autònoma de Barcelona</p>
-                <small
-                  >Biología Molecular y Bioquímica • Experiencia en ingeniería
-                  de proteínas</small
-                >
-              </div>
-            </div>
-
-            <div class="timeline-item" style="--index: 4">
-              <div class="timeline-dot"></div>
-              <div class="timeline-card">
-                <span class="timeline-year">2021</span>
-                <h3>Investigador Postdoctoral</h3>
-                <p>Children's Medical Research Institute</p>
-                <small
-                  >Unidad de Vectorología Traslacional • Sídney, Australia</small
-                >
-              </div>
-            </div>
-
-            <div class="timeline-item" style="--index: 5">
-              <div class="timeline-dot"></div>
-              <div class="timeline-card highlight">
-                <span class="timeline-year">Ahora</span>
-                <h3>Luchando contra la Resistencia a Fármacos</h3>
-                <p>Antimicrobianos de Nueva Generación</p>
-                <small
-                  >El descubrimiento computacional se une a la validación en el
-                  laboratorio</small
-                >
-              </div>
-            </div>
-
-            <div class="profile-end">
-              <img
-                src="/Portfolio/profile.jpg"
-                alt="Ramon Roca Pinilla - Ingeniero Biomédico y Biólogo Molecular"
-                loading="lazy"
-                width="300"
-                height="300"
-              />
-              <div class="profile-info">
-                <h3>Ramon Roca Pinilla</h3>
-                <p>Convirtiendo algoritmos en terapias</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="about-text">
-          <p class="lead">
-            Soy biotecnólogo, ingeniero biomédico y biólogo molecular, y trabajo
-            para cerrar la brecha entre lo que la IA puede imaginar y lo que la
-            medicina realmente necesita.
-          </p>
-
-          <p>
-            Mi trabajo se sitúa en la vanguardia de la revolución de la IA en el
-            descubrimiento de fármacos. Aprovecho el poder computacional para
-            abordar infecciones resistentes a los medicamentos mediante la
-            ingeniería de proteínas, enseñando esencialmente a las proteínas
-            viejas nuevos trucos para combatir las superbacterias. Aunque
-            todavía no he tratado pacientes directamente, mi Estrella Polar es
-            trasladar estos descubrimientos del algoritmo a la clínica, donde
-            puedan tener un impacto tangible.
-          </p>
-
-          <p>
-            Mi enfoque es directo: aprovechar la IA para acelerar el
-            descubrimiento, validar cada hallazgo en el laboratorio y mantenerme
-            anclado en la realidad científica. La misión es convertir algoritmos
-            inteligentes y un trabajo de laboratorio meticuloso en terapias
-            antiinfecciosas eficaces, sin exageraciones ni atajos, solo ciencia
-            sólida que avanza a la velocidad de la tecnología moderna.
-          </p>
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <span>Contactar</span>
+        </a>
+      </div>
+      <div class="hero-scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Research Section -->
-    <section id="research" class="section research-section">
-      <div class="container">
-        <h2>Investigación</h2>
-        <div class="accent-bar"></div>
+  <!-- Quote Section with Parallax -->
+  <section class="quote-section" data-parallax>
+    <div class="container">
+      <blockquote class="quote-card">
+        <p class="quote-text">"El poder de la imaginación nos hace infinitos."</p>
+        <cite class="quote-author">— John Muir</cite>
+      </blockquote>
+    </div>
+  </section>
 
-        <div class="research-intro">
-          <p class="lead">
-            En la intersección de la computación y la biología, aprovecho la
-            ingeniería de proteínas impulsada por IA para diseñar la próxima
-            generación de terapias, desde la lucha contra infecciones
-            farmacorresistentes hasta el desarrollo de terapias oncolíticas.
+  <!-- About Section with Timeline -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">Sobre Mí</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-content" data-animate="fade-right">
+          <p class="lead-text">
+            Soy un investigador en la intersección de <span class="text-accent"
+              >biología y tecnología</span
+            >, trabajando para resolver los desafíos más apremiantes de la salud 
+            a través del diseño innovador de proteínas y terapia génica.
           </p>
-        </div>
-
-        <div class="research-areas">
-          <div class="research-card">
-            <div class="card-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                ></path>
-              </svg>
+          <p>
+            Actualmente en el <strong
+              >Children's Medical Research Institute</strong
+            > en Sydney, me enfoco en desarrollar péptidos antimicrobianos de próxima
+            generación y optimizar sistemas de entrega génica usando aprendizaje 
+            automático y biología molecular.
+          </p>
+          <div class="about-stats">
+            <div class="stat-card">
+              <span class="stat-number" data-count="16">0</span>
+              <span class="stat-label">Publicaciones</span>
             </div>
-            <h3>Descubrimiento Computacional</h3>
-            <p>
-              Uso de algoritmos avanzados y aprendizaje automático para
-              identificar nuevos compuestos antimicrobianos y predecir su
-              eficacia contra patógenos resistentes.
-            </p>
-          </div>
-
-          <div class="research-card">
-            <div class="card-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                ></path>
-              </svg>
+            <div class="stat-card">
+              <span class="stat-number" data-count="3">0</span>
+              <span class="stat-label">Patentes</span>
             </div>
-            <h3>Validación en Laboratorio</h3>
-            <p>
-              Validación experimental rigurosa de predicciones computacionales
-              mediante técnicas de biología molecular de vanguardia y ensayos
-              antimicrobianos.
-            </p>
-          </div>
-
-          <div class="research-card">
-            <div class="card-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M4 7V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v3m0 10v3a2 2 0 01-2 2h-3m-10 0H6a2 2 0 01-2-2v-3m5-8h6M12 9v6"
-                ></path>
-              </svg>
+            <div class="stat-card">
+              <span class="stat-number" data-count="10">0</span>
+              <span class="stat-label">Años Investigación</span>
             </div>
-            <h3>Ingeniería de Vectores Virales y Proteínas</h3>
-            <p>
-              Diseño e ingeniería de vectores virales y proteínas terapéuticas
-              para garantizar una entrega y actividad eficaces, manteniendo la
-              escalabilidad de producción.
-            </p>
           </div>
         </div>
+
+        <div class="about-visual" data-animate="fade-left">
+          <div class="skill-cloud">
+            <span class="skill-tag" data-level="expert">Aprendizaje Automático</span>
+            <span class="skill-tag" data-level="expert">Diseño de Proteínas</span>
+            <span class="skill-tag" data-level="advanced">Terapia Génica</span>
+            <span class="skill-tag" data-level="expert">Python</span>
+            <span class="skill-tag" data-level="advanced"
+              >Biología Molecular</span
+            >
+            <span class="skill-tag" data-level="intermediate">Ciencia de Datos</span
+            >
+            <span class="skill-tag" data-level="advanced">Ingeniería AAV</span>
+            <span class="skill-tag" data-level="expert">Síntesis de Péptidos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey Timeline with Dashed Path -->
+  <section id="journey" class="section journey-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">Mi Trayectoria</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="timeline-roadmap">
+        <svg
+          class="timeline-path"
+          viewBox="0 0 1200 600"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M 100,500 Q 300,400 400,300 T 600,200 Q 800,150 1000,100"
+            stroke="url(#gradient-path)"
+            stroke-width="3"
+            fill="none"
+            stroke-dasharray="8,4"
+            opacity="0.3"></path>
+          <defs>
+            <linearGradient
+              id="gradient-path"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" style="stop-color:#DA291C;stop-opacity:1"
+              ></stop>
+              <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1"
+              ></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div class="timeline-content">
+          <div class="timeline-item" style="--index: 1">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2013</span>
+              <h3>Grado en Biotecnología</h3>
+              <p>Universitat Autònoma de Barcelona</p>
+              <small>Fundamentos en biología molecular</small>
+            </div>
+          </div>
+
+          <div class="timeline-item" style="--index: 2">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2015</span>
+              <h3>Máster en Ingeniería Biomédica</h3>
+              <p>UC Irvine</p>
+              <small>Enfoques de ingeniería para problemas biológicos</small>
+            </div>
+          </div>
+
+          <div class="timeline-item" style="--index: 3">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2020</span>
+              <h3>Doctorado en Biomedicina</h3>
+              <p>Universidad Autónoma de Barcelona</p>
+              <small>Biología Molecular y Bioquímica</small>
+            </div>
+          </div>
+
+          <div class="timeline-item" style="--index: 4">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">2021</span>
+              <h3>Investigador Postdoctoral</h3>
+              <p>Children's Medical Research Institute</p>
+              <small>Unidad de Vectorología Translacional • Sydney</small>
+            </div>
+          </div>
+
+          <div class="timeline-item" style="--index: 5">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card highlight">
+              <span class="timeline-year">Ahora</span>
+              <h3>Luchando contra la Resistencia</h3>
+              <p>Antimicrobianos de Próxima Generación</p>
+              <small>IA se encuentra con validación en laboratorio</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Academic Timeline Section -->
+  <Timeline lang={currentLang} strings={strings} />
+
+  <!-- Research Section with Interactive Elements -->
+  <section id="research" class="section research-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">Investigación</h2>
+        <div class="section-divider"></div>
+        <p class="section-description">
+          Conectando biología computacional y validación experimental para crear 
+          soluciones médicas transformadoras
+        </p>
+      </div>
+
+      <div class="research-showcase">
         <ProteinStructure />
       </div>
-    </section>
 
-    <!-- Publications Section -->
-    <section id="publications" class="section publications-section">
-      <div class="container">
-        <h2>Selected Publications</h2>
-        <div class="accent-bar"></div>
-
-        <div class="publications-list">
-          <div class="publication-card featured">
-            <span class="pub-year">2024</span>
-            <h3>
-              Tailoring capsid-directed evolution technology for improved
-              AAV-mediated CAR-T generation
-            </h3>
-            <p class="pub-details">Roca-Pinilla, R., et al.</p>
-            <p class="pub-journal"><em>Molecular Therapy</em></p>
-            <p class="pub-description">
-              Developed innovative approaches to enhance cancer immunotherapy by
-              improving how we deliver genetic instructions to immune cells,
-              potentially making CAR-T treatments more accessible and effective.
-            </p>
-          </div>
-
-          <div class="publication-card featured">
-            <span class="pub-year">2024</span>
-            <h3>
-              Harnessing whole human liver ex situ normothermic perfusion for
-              preclinical AAV vector evaluation
-            </h3>
-            <p class="pub-details">Roca-Pinilla, R., et al.</p>
-            <p class="pub-journal"><em>Nature Communications</em></p>
-            <p class="pub-description">
-              Pioneered a method to test gene therapies using donated human
-              livers kept alive outside the body, dramatically improving our
-              ability to predict how treatments will work in patients.
-            </p>
-          </div>
-
-          <div class="publication-card">
-            <span class="pub-year">2023</span>
-            <h3>
-              Antibiofilm surfaces based on the immobilization of a novel
-              recombinant antimicrobial multidomain protein using self-assembly
-              monolayers
-            </h3>
-            <p class="pub-details">Roca-Pinilla, R., et al.</p>
-            <p class="pub-journal"><em>Materials Advances</em></p>
-            <p class="pub-description">
-              Engineered protein-coated surfaces that actively prevent bacterial
-              growth, offering new solutions for medical devices and hospital
-              equipment.
-            </p>
-          </div>
-
-          <div class="publication-card">
-            <span class="pub-year">2022</span>
-            <h3>The future of recombinant host defense peptides</h3>
-            <p class="pub-details">Roca-Pinilla, R., et al.</p>
-            <p class="pub-journal"><em>Microbial Cell Factories</em></p>
-            <p class="pub-description">
-              Created modular protein "building blocks" that can be combined
-              like LEGO to create customized treatments against
-              antibiotic-resistant bacteria.
-            </p>
-          </div>
-
-          <div class="pub-links">
-            <a
-              href="https://scholar.google.com/citations?user=t73kFuAAAAAJ&hl=es"
-              target="_blank"
-              rel="noopener"
-              class="btn btn-outline"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor">
+      <div class="research-grid">
+        <article class="research-card" data-animate="scale-up">
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <svg
+                class="card-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <path
-                  d="M12 24a7 7 0 110-14 7 7 0 010 14zm0-24L0 9.5l4.838 3.94A8 8 0 0112 9a8 8 0 017.162 4.44L24 9.5z"
+                  d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
                 ></path>
               </svg>
-              Google Scholar
-            </a>
-            <a
-              href="https://orcid.org/0000-0002-7393-6200"
-              target="_blank"
-              rel="noopener"
-              class="btn btn-outline gap-2 flex items-center"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 01-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"
-                ></path>
-              </svg>
-              <span class="sr-only">ORCID</span>
-            </a>
+            </div>
+            <h3 class="card-title">Antimicrobianos Diseñados por IA</h3>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Patents Section -->
-    <section id="patents" class="section patents-section">
-      <div class="container">
-        <h2>Patentes y Propiedad Intelectual</h2>
-        <div class="accent-bar"></div>
-
-        <div class="patents-list">
-          <div class="patent-card">
-            <span class="patent-year">2023</span>
-            <h3>Proteínas Antimicrobianas Multidominio y Métodos de Uso</h3>
-            <p class="patent-details">
-              Nuevas proteínas antimicrobianas con múltiples dominios
-              funcionales para mejorar la focalización bacteriana
-            </p>
-            <p class="patent-status">
-              <strong>Estado:</strong> Solicitud de Patente Pendiente
-            </p>
-            <p class="patent-inventors">
-              <em
-                >Inventores: Roca-Pinilla, R., Arís, A., García-Fruitós, E.</em>
-            </p>
-          </div>
-
-          <div class="patent-card">
-            <span class="patent-year">2022</span>
-            <h3>
-              Nanoclusters de Proteínas Recombinantes para Aplicaciones
-              Terapéuticas
-            </h3>
-            <p class="patent-details">
-              Métodos para producir y usar nanopartículas basadas en proteínas
-              como agentes antimicrobianos
-            </p>
-            <p class="patent-status">
-              <strong>Estado:</strong> Solicitud de Patente Pendiente
-            </p>
-            <p class="patent-inventors">
-              <em>Inventores: Roca-Pinilla, R., López-Cano, A., Arís, A.</em>
-            </p>
-          </div>
-
-          <div class="patent-card">
-            <span class="patent-year">2023</span>
-            <h3>
-              Superficies Antibiofilm Usando Proteínas Antimicrobianas
-              Inmovilizadas
-            </h3>
-            <p class="patent-details">
-              Tecnología de modificación de superficies para prevenir la
-              formación de biofilms bacterianos
-            </p>
-            <p class="patent-status">
-              <strong>Estado:</strong> Solicitud de Patente Pendiente
-            </p>
-            <p class="patent-inventors">
-              <em>Inventores: Roca-Pinilla, R., et al.</em>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-      <div class="container">
-        <h2>Conectemos</h2>
-        <div class="accent-bar"></div>
-
-        <div class="contact-content">
-          <p class="lead">
-            ¿Interesado en enfoques antimicrobianos innovadores, sistemas de
-            vectores o en explorar ideas en la interfaz de la computación y la
-            biología? Me encantaría saber de ti.
+          <p class="card-description">
+            Ingeniería de péptidos de próxima generación para combatir superbacterias 
+            resistentes a antibióticos usando aprendizaje profundo y simulaciones de 
+            dinámica molecular.
           </p>
+          <div class="card-tags">
+            <span class="tag">Aprendizaje Profundo</span>
+            <span class="tag">Diseño de Péptidos</span>
+            <span class="tag">Simulaciones DM</span>
+          </div>
+        </article>
 
-          <div class="contact-info">
-            <div class="contact-card">
-              <h3>Email</h3>
-              <p>
-                <a href="mailto:ramon.rocap@gmail.com">ramon.rocap@gmail.com</a>
-              </p>
+        <article class="research-card" data-animate="scale-up" data-delay="100">
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <svg
+                class="card-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
             </div>
+            <h3 class="card-title">Optimización de Terapia Génica</h3>
+          </div>
+          <p class="card-description">
+            Desarrollando vectores AAV específicos de tejido para entrega génica 
+            dirigida, con enfoque en el tratamiento de la ataxia de Friedreich y 
+            otros trastornos genéticos.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Ingeniería AAV</span>
+            <span class="tag">Entrega Génica</span>
+            <span class="tag">Dirigida a Tejidos</span>
+          </div>
+        </article>
 
-            <div class="contact-card">
-              <h3>Ubicación</h3>
-              <p>
-                Children's Medical Research Institute<br />Sídney, Australia
-              </p>
+        <article class="research-card" data-animate="scale-up" data-delay="200">
+          <div class="card-header">
+            <div class="card-icon-wrapper">
+              <svg
+                class="card-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
             </div>
+            <h3 class="card-title">Screening de Alto Rendimiento</h3>
+          </div>
+          <p class="card-description">
+            Implementando plataformas de descubrimiento automatizadas que aceleran 
+            la identificación de candidatos terapéuticos de meses a días.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Automatización</span>
+            <span class="tag">Descubrimiento Fármacos</span>
+            <span class="tag">Pipeline IA</span>
+          </div>
+        </article>
+      </div>
 
-            <div class="contact-card">
-              <h3>Conecta</h3>
-              <div class="social-links">
-                <a
-                  href="https://www.linkedin.com/in/ramonrocapinilla/"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="LinkedIn"
-                >
-                  <svg viewBox="0 0 24 24" fill="#0A66C2">
-                    <path
-                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                    ></path>
-                  </svg>
-                  <span>LinkedIn</span>
-                </a>
-                <a
-                  href="https://github.com/RRocaP"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="GitHub"
-                >
-                  <svg viewBox="0 0 24 24" fill="#181717">
-                    <path
-                      d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                    ></path>
-                  </svg>
-                  <span>GitHub</span>
-                </a>
-                <a
-                  href="https://music.apple.com/au/album/cartographers-daughter/1797174494?i=1797174496"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Apple Music - AI Song"
-                >
-                  <svg viewBox="0 0 24 24" fill="#FA243C">
-                    <path
-                      d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.801.42.127.856.187 1.293.228.555.053 1.11.06 1.667.06h11.03a12.5 12.5 0 001.57-.1c.822-.078 1.596-.298 2.3-.72a4.479 4.479 0 002.054-1.911c.36-.698.52-1.44.602-2.218.044-.435.065-.87.074-1.306 0-.027.007-.053.01-.08V6.124zm-2.96 10.686a5.66 5.66 0 01-.2 1.398 2.133 2.133 0 01-.975 1.313c-.385.236-.813.363-1.26.437a8.748 8.748 0 01-1.042.094l-.758.013H7.182c-.285 0-.57-.004-.854-.015a8.31 8.31 0 01-1.332-.14 2.223 2.223 0 01-1.258-.635 2.105 2.105 0 01-.581-1.237 6.531 6.531 0 01-.107-1.156V7.088c.006-.433.03-.865.096-1.293a2.133 2.133 0 01.698-1.445 2.262 2.262 0 011.357-.52c.495-.059.993-.075 1.493-.076l9.598-.002c.525.002 1.05.02 1.572.087.677.088 1.298.314 1.766.826.374.41.568.91.65 1.46.07.458.092.92.09 1.383v9.302zm-6.962-7.367v5.156c0 .478-.16.88-.502 1.21-.513.492-1.19.634-1.883.53a1.978 1.978 0 01-1.432-.856 1.833 1.833 0 01-.26-1.113c.038-.436.236-.803.563-1.086.37-.32.818-.48 1.293-.54.396-.05.794-.075 1.19-.114.124-.012.247-.027.37-.043v-2.643c0-.066-.014-.1-.073-.12a.286.286 0 00-.11-.007l-3.563.518c-.095.014-.115.048-.115.146v6.44a2.02 2.02 0 01-.433 1.324 1.73 1.73 0 01-1.195.627 2.595 2.595 0 01-1.024-.088 1.607 1.607 0 01-.93-.673 1.636 1.636 0 01-.235-1.053c.036-.46.235-.843.598-1.132.388-.31.853-.467 1.344-.523.462-.053.926-.08 1.388-.118.032-.003.063-.008.094-.012v-7.78c0-.363.14-.548.493-.62a48.89 48.89 0 014.953-.72c.18-.025.36-.044.542-.056.201-.013.313.106.313.315v2.483z"
-                    ></path>
-                  </svg>
-                  <span>Música</span>
-                </a>
-              </div>
+      <!-- Interactive Timeline Component -->
+      <div class="timeline-section">
+        <h3 class="subsection-title">Cronología de Resistencia Antimicrobiana</h3>
+        <AntimicrobialResistanceTimeline client:visible />
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications Section with Filter -->
+  <section id="publications" class="section publications-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">
+          Publicaciones Destacadas
+        </h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="publications-filter" data-animate="fade-down">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="peptides">Péptidos</button>
+        <button class="filter-btn" data-filter="gene-therapy"
+          >Terapia Génica</button
+        >
+        <button class="filter-btn" data-filter="ai-ml">IA/ML</button>
+      </div>
+
+      <div class="publications-grid">
+        <article
+          class="publication-card"
+          data-category="peptides ai-ml"
+          data-animate="fade-up"
+        >
+          <div class="publication-content">
+            <h3 class="publication-title">
+              <a
+                href="https://www.nature.com/articles/s41598-022-07325-x"
+                target="_blank"
+                rel="noopener"
+              >
+                Diseño de péptidos antimicrobianos mediante aprendizaje automático
+              </a>
+            </h3>
+            <div class="publication-meta">
+              <span class="journal">Nature Scientific Reports</span>
+              <span class="year">2022</span>
             </div>
+            <p class="publication-abstract">
+              Enfoque novedoso para diseñar péptidos antimicrobianos usando 
+              modelos de aprendizaje profundo entrenados con datos estructurales 
+              y funcionales.
+            </p>
+            <div class="publication-metrics">
+              <span class="metric">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                  ></path>
+                  <path d="M8 12l2 2 4-4"></path>
+                </svg>
+                45 citas
+              </span>
+              <span class="metric">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"
+                  ></path>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                Acceso Abierto
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="publication-card"
+          data-category="gene-therapy"
+          data-animate="fade-up"
+          data-delay="100"
+        >
+          <div class="publication-content">
+            <h3 class="publication-title">
+              <a href="#" target="_blank" rel="noopener">
+                Ingeniería AAV específica de tejido para entrega génica mejorada
+              </a>
+            </h3>
+            <div class="publication-meta">
+              <span class="journal">Gene Therapy</span>
+              <span class="year">2023</span>
+            </div>
+            <p class="publication-abstract">
+              Desarrollo de vectores AAV modificados con especificidad mejorada 
+              para tejidos cardíacos y neuronales mediante evolución dirigida.
+            </p>
+            <div class="publication-metrics">
+              <span class="metric">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                  ></path>
+                  <path d="M8 12l2 2 4-4"></path>
+                </svg>
+                28 citas
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article
+          class="publication-card"
+          data-category="ai-ml peptides"
+          data-animate="fade-up"
+          data-delay="200"
+        >
+          <div class="publication-content">
+            <h3 class="publication-title">
+              <a href="#" target="_blank" rel="noopener">
+                Plataforma de screening de alto rendimiento para terapéuticos peptídicos
+              </a>
+            </h3>
+            <div class="publication-meta">
+              <span class="journal">J. Biomolecular Screening</span>
+              <span class="year">2023</span>
+            </div>
+            <p class="publication-abstract">
+              Plataforma automatizada que combina robótica e IA para el 
+              descubrimiento rápido de péptidos terapéuticos con mejora 
+              de rendimiento de 100x.
+            </p>
+            <div class="publication-metrics">
+              <span class="metric">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                  ></path>
+                  <path d="M8 12l2 2 4-4"></path>
+                </svg>
+                15 citas
+              </span>
+              <span class="metric">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M9 9h6v6H9z"></path>
+                </svg>
+                Artículo Destacado
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section with Modern Design -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-animate="fade-up">Contacto</h2>
+        <div class="section-divider"></div>
+        <p class="section-description">
+          Colaboremos para resolver los mayores desafíos de la salud
+        </p>
+      </div>
+
+      <div class="contact-wrapper">
+        <div class="contact-info" data-animate="fade-right">
+          <div class="contact-card glass-card">
+            <div class="contact-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            <h3>Correo</h3>
+            <a href="mailto:ramon.rocap@gmail.com" class="contact-link"
+              >ramon.rocap@gmail.com</a
+            >
+          </div>
+
+          <div class="contact-card glass-card">
+            <div class="contact-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <h3>Ubicación</h3>
+            <p>Children's Medical Research Institute<br />Sydney, Australia</p>
+          </div>
+        </div>
+
+        <div class="social-connect" data-animate="fade-left">
+          <h3 class="social-title">Conecta conmigo</h3>
+          <div class="social-grid">
+            <a
+              href="https://www.linkedin.com/in/ramonrocapinilla/"
+              target="_blank"
+              rel="noopener"
+              class="social-card linkedin"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                ></path>
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+
+            <a
+              href="https://github.com/RRocaP"
+              target="_blank"
+              rel="noopener"
+              class="social-card github"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                ></path>
+              </svg>
+              <span>GitHub</span>
+            </a>
+
+            <a
+              href="https://music.apple.com/au/album/cartographers-daughter/1797174494?i=1797174496"
+              target="_blank"
+              rel="noopener"
+              class="social-card apple"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.17 6.5v7.08c0 .99-.81 1.79-1.79 1.79s-1.79-.81-1.79-1.79.81-1.79 1.79-1.79c.35 0 .68.1.96.28V7.38L11 8.67v8.08c0 .99-.81 1.79-1.79 1.79s-1.79-.81-1.79-1.79.81-1.79 1.79-1.79c.35 0 .68.1.96.28V6.5c0-.28.22-.5.5-.5.05 0 .1.01.15.02l5.49-1.37c.16-.04.33 0 .47.09.13.1.22.25.22.41V6.5z"
+                ></path>
+              </svg>
+              <span>Apple Music</span>
+            </a>
           </div>
         </div>
       </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 Ramon Roca Pinilla. Todos los derechos reservados.</p>
     </div>
-  </footer>
+  </section>
+
+  <Footer />
 </Layout>
 
 <style>
+  /* Modern CSS Architecture with CSS Custom Properties */
+  :root {
+    /* Color System */
+    --color-primary: #da291c;
+    --color-primary-dark: #b82318;
+    --color-primary-light: #ff4136;
+    --color-secondary: #2c3e50;
+    --color-accent: #3498db;
+    --color-success: #27ae60;
+    --color-warning: #f39c12;
+
+    /* Text Colors */
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #4a4a4a;
+    --color-text-tertiary: #6a6a6a;
+    --color-text-muted: #9a9a9a;
+
+    /* Background Colors */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8f9fa;
+    --color-bg-tertiary: #e9ecef;
+    --color-bg-overlay: rgba(0, 0, 0, 0.05);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-primary-light) 100%
+    );
+    --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-glass: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+
+    /* Shadows */
+    --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+    /* Typography */
+    --font-sans:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+      Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+
+    /* Font Sizes - Fluid Typography */
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+    --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+    --font-size-3xl: clamp(2rem, 1.7rem + 1.5vw, 2.5rem);
+    --font-size-4xl: clamp(2.5rem, 2rem + 2.5vw, 3.5rem);
+
+    /* Spacing System */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 300ms ease;
+    --transition-slow: 500ms ease;
+    --transition-slower: 700ms ease;
+
+    /* Z-index Scale */
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+  }
+
+  /* Dark Mode Variables */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: #e0e0e0;
+      --color-text-secondary: #b0b0b0;
+      --color-text-tertiary: #808080;
+      --color-text-muted: #606060;
+      --color-bg-primary: #0a0a0a;
+      --color-bg-secondary: #1a1a1a;
+      --color-bg-tertiary: #2a2a2a;
+      --color-bg-overlay: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* Global Styles */
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    line-height: 1.6;
+  }
+
+  /* Container */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
   /* Hero Section */
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 80px;
-    background: var(--background);
     position: relative;
     overflow: hidden;
+    background: var(--color-bg-primary);
   }
 
-  .hero::before {
-    content: '';
+  .hero-background {
     position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 70%;
-    height: 150%;
-    background: linear-gradient(
-      45deg,
-      var(--accent-yellow) 0%,
-      transparent 70%
-    );
-    opacity: 0.05;
-    transform: rotate(-15deg);
+    inset: 0;
     z-index: 0;
   }
 
-  .hero::after {
-    content: '';
+  .gradient-orb {
     position: absolute;
-    bottom: 10%;
-    left: 5%;
-    width: 100px;
-    height: 100px;
-    border: 2px solid var(--accent-red);
-    opacity: 0.1;
-    transform: rotate(45deg);
-    z-index: 0;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: var(--gradient-primary);
+    top: -300px;
+    right: -200px;
+  }
+
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--gradient-secondary);
+    bottom: -200px;
+    left: -100px;
+    animation-delay: -5s;
+  }
+
+  .orb-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--color-accent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
   }
 
   .hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: var(--space-md);
     position: relative;
     z-index: 1;
+    text-align: center;
+    padding: var(--space-2xl) 0;
   }
 
   .hero-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    margin-bottom: var(--space-sm);
-    color: var(--primary);
-    font-weight: var(--font-weight-light);
-    letter-spacing: -0.03em;
-    position: relative;
-  }
-
-  .hero-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(
-      90deg,
-      var(--accent-red) 0%,
-      var(--accent-yellow) 100%
-    );
+    font-size: var(--font-size-4xl);
+    font-weight: 800;
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease-out;
   }
 
   .hero-subtitle {
-    font-size: 1.2rem;
-    color: var(--secondary);
-    margin-bottom: var(--space-xs);
-    margin-top: var(--space-md);
-    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    animation: fadeInUp 0.8s ease-out 0.1s backwards;
   }
 
   .hero-tagline {
-    font-size: 1rem;
-    color: var(--tertiary);
-    margin-bottom: var(--space-lg);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-tertiary);
+    max-width: 700px;
+    margin: 0 auto var(--space-2xl);
     line-height: 1.8;
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
+    /* Prevent typewriter cropping */
+    white-space: normal !important;
+    overflow: visible !important;
+    min-height: 3em;
   }
 
   .hero-cta {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-md);
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: var(--space-3xl);
+    animation: fadeInUp 0.8s ease-out 0.3s backwards;
   }
 
+  /* Button Styles */
   .btn {
-    padding: 0.75rem 2rem;
-    border-radius: 2px;
-    font-weight: var(--font-weight-light);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    display: inline-block;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    font-size: var(--font-size-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .btn:hover::before {
+    opacity: 1;
   }
 
   .btn-primary {
-    background: var(--accent-red);
-    color: var(--background);
-    border: 1px solid var(--accent-red);
-    position: relative;
-    overflow: hidden;
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 14px rgba(218, 41, 28, 0.3);
   }
 
   .btn-primary:hover {
-    background: var(--background);
-    color: var(--accent-red);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(218, 41, 28, 0.4);
   }
 
   .btn-outline {
-    border: 1px solid var(--border);
-    color: var(--primary);
     background: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    padding: calc(var(--space-md) - 2px) calc(var(--space-xl) - 2px);
   }
 
   .btn-outline:hover {
-    border-color: var(--primary);
-    background: var(--primary);
-    color: var(--background);
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(218, 41, 28, 0.3);
   }
 
-  /* Sections */
+  .btn-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-base);
+  }
+
+  .btn:hover .btn-icon {
+    transform: translateX(4px);
+  }
+
+  /* Hero Scroll Indicator */
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: var(--space-2xl);
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+  }
+
+  .mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid var(--color-text-tertiary);
+    border-radius: 13px;
+    position: relative;
+  }
+
+  .wheel {
+    width: 4px;
+    height: 8px;
+    background: var(--color-text-tertiary);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    40% {
+      transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+
+  @keyframes scroll {
+    0% {
+      opacity: 1;
+      top: 8px;
+    }
+    100% {
+      opacity: 0;
+      top: 20px;
+    }
+  }
+
+  /* Quote Section */
+  .quote-section {
+    padding: var(--space-4xl) 0;
+    background: var(--gradient-glass);
+    backdrop-filter: blur(10px);
+    position: relative;
+  }
+
+  .quote-card {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-3xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .quote-text {
+    font-size: var(--font-size-2xl);
+    font-weight: 300;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .quote-author {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* Section Styles */
   .section {
-    padding: calc(var(--space-xl) * 1.5) 0;
+    padding: var(--space-4xl) 0;
+    position: relative;
   }
 
-  /* About Section - Timeline Roadmap */
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .section-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.02em;
+  }
+
+  .section-divider {
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-primary);
+    margin: 0 auto var(--space-lg);
+    border-radius: var(--radius-full);
+  }
+
+  .section-description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* About Section */
   .about-section {
-    background: var(--background);
+    background: var(--color-bg-secondary);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+
+  .lead-text {
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+  }
+
+  .text-accent {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: var(--space-lg);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .stat-number {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Skill Cloud */
+  .skill-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+    padding: var(--space-2xl);
+  }
+
+  .skill-tag {
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all var(--transition-base);
+    cursor: default;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .skill-tag[data-level='expert'] {
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  .skill-tag[data-level='advanced'] {
+    background: var(--color-accent);
+    color: white;
+  }
+
+  .skill-tag[data-level='intermediate'] {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .skill-tag:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Research Section */
+  .research-showcase {
+    margin: var(--space-3xl) 0;
+  }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .research-card {
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    border: 1px solid var(--color-bg-tertiary);
     position: relative;
     overflow: hidden;
+  }
+
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
+  }
+
+  .research-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .research-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .card-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+
+  .card-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .card-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .tag {
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+  }
+
+  /* Timeline Section */
+  .timeline-section {
+    margin-top: var(--space-3xl);
+  }
+
+  .subsection-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    color: var(--color-text-primary);
+  }
+
+  /* Publications Section */
+  .publications-section {
+    background: var(--color-bg-secondary);
+  }
+
+  .publications-filter {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-bg-primary);
+    border: 2px solid var(--color-bg-tertiary);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .filter-btn.active {
+    background: var(--gradient-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+
+  .publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .publication-card {
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    border: 1px solid var(--color-bg-tertiary);
+  }
+
+  .publication-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .publication-content {
+    padding: var(--space-xl);
+  }
+
+  .publication-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    line-height: 1.4;
+  }
+
+  .publication-title a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .publication-title a:hover {
+    color: var(--color-primary);
+  }
+
+  .publication-meta {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .journal {
+    font-style: italic;
+  }
+
+  .year {
+    font-weight: 600;
+  }
+
+  .publication-abstract {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+  }
+
+  .publication-metrics {
+    display: flex;
+    gap: var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+
+  .metric {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-tertiary);
+  }
+
+  /* Contact Section */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .contact-card {
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+  }
+
+  .contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .contact-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+
+  .contact-card h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-primary);
+  }
+
+  .contact-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .contact-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+
+  /* Social Connect */
+  .social-connect {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .social-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-xl);
+    text-align: center;
+    color: var(--color-text-primary);
+  }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-lg);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .social-card svg {
+    width: 32px;
+    height: 32px;
+    transition: transform var(--transition-base);
+  }
+
+  .social-card span {
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+  }
+
+  .social-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .social-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .social-card:hover::before {
+    opacity: 0.1;
+  }
+
+  .social-card:hover svg {
+    transform: scale(1.1);
+  }
+
+  .social-card.linkedin {
+    color: #0077b5;
+    background: rgba(0, 119, 181, 0.1);
+  }
+
+  .social-card.github {
+    color: white;
+    background: var(--color-primary);
+  }
+
+  .social-card.apple {
+    color: #000000;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  /* Animation Classes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeRight {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeLeft {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleUp {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  [data-animate] {
+    opacity: 0;
+  }
+
+  [data-animate='fade-up'] {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  [data-animate='fade-right'] {
+    animation: fadeRight 0.8s ease-out forwards;
+  }
+
+  [data-animate='fade-left'] {
+    animation: fadeLeft 0.8s ease-out forwards;
+  }
+
+  [data-animate='scale-up'] {
+    animation: scaleUp 0.6s ease-out forwards;
+  }
+
+  [data-delay='100'] {
+    animation-delay: 0.1s;
+  }
+
+  [data-delay='200'] {
+    animation-delay: 0.2s;
+  }
+
+  /* Journey Timeline Styles */
+  .journey-section {
+    padding: 4rem 0;
+    background: var(--color-bg-secondary);
   }
 
   .timeline-roadmap {
     position: relative;
-    margin: var(--space-lg) 0;
     min-height: 600px;
+    margin-top: 3rem;
   }
 
   .timeline-path {
@@ -665,14 +1625,16 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     height: 100%;
     top: 0;
     left: 0;
+    z-index: 1;
   }
 
   .timeline-content {
     position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-md);
-    padding: var(--space-lg) 0;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
   }
 
   .timeline-item {
@@ -682,502 +1644,115 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     opacity: 0;
   }
 
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-  }
-
   .timeline-dot {
-    width: 16px;
-    height: 16px;
-    background: var(--accent-red);
-    border: 3px solid var(--background);
-    border-radius: 50%;
     position: absolute;
-    top: -8px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2;
-    box-shadow: 0 0 0 8px rgba(218, 41, 28, 0.1);
+    width: 16px;
+    height: 16px;
+    background: var(--color-primary);
+    border: 3px solid var(--color-bg-primary);
+    border-radius: 50%;
+    z-index: 3;
   }
 
   .timeline-card {
-    background: var(--background);
-    border: 1px solid var(--border);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-bg-tertiary);
     border-radius: 8px;
-    padding: var(--space-sm) var(--space-md);
-    margin-top: var(--space-md);
+    padding: 1.5rem;
+    text-align: center;
     transition: all 0.3s ease;
-    position: relative;
   }
 
   .timeline-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-color: var(--accent-red);
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 30px rgba(218, 41, 28, 0.1);
   }
 
   .timeline-card.highlight {
     background: linear-gradient(
       135deg,
-      rgba(218, 41, 28, 0.05) 0%,
-      rgba(255, 217, 61, 0.05) 100%
+      rgba(218, 41, 28, 0.1),
+      rgba(255, 217, 61, 0.1)
     );
-    border-color: var(--accent-red);
+    border-color: var(--color-primary);
   }
 
   .timeline-year {
     display: inline-block;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-accent)
+    );
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
     font-size: 0.85rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--accent-red);
-    margin-bottom: var(--space-xs);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
   }
 
   .timeline-card h3 {
     font-size: 1.1rem;
-    margin-bottom: 0.25rem;
-    font-weight: var(--font-weight-medium);
+    margin: 0.5rem 0;
+    color: var(--color-text-primary);
   }
 
   .timeline-card p {
     font-size: 0.95rem;
-    color: var(--secondary);
-    margin-bottom: 0.25rem;
+    color: var(--color-text-secondary);
+    margin: 0.25rem 0;
   }
 
   .timeline-card small {
     font-size: 0.85rem;
-    color: var(--tertiary);
-    line-height: 1.4;
+    color: var(--color-text-tertiary);
   }
 
-  .profile-end {
-    grid-column: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: var(--space-lg);
-    animation: fadeIn 1s ease-out 0.6s forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-
-  .profile-end img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--background);
-    box-shadow:
-      0 0 0 1px var(--border),
-      0 8px 24px rgba(0, 0, 0, 0.1);
-    margin-bottom: var(--space-sm);
-  }
-
-  .profile-info {
-    text-align: center;
-  }
-
-  .profile-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .profile-info p {
-    font-size: 0.9rem;
-    color: var(--secondary);
-  }
-
-  .about-text {
-    max-width: 800px;
-    margin: var(--space-xl) auto 0;
-    text-align: center;
-  }
-
-  .about-text p {
+  /* Text Justification - Apply to all content paragraphs */
+  p,
+  .lead-text,
+  .section-description,
+  .card-description,
+  .research-card p,
+  .hero-tagline,
+  .about-content p,
+  .skill-tag {
     text-align: justify;
-    margin-bottom: var(--space-md);
+    text-justify: inter-word;
   }
 
-  .accent-bar {
-    display: none;
+  /* Keep center alignment for specific elements */
+  .hero-title,
+  .hero-subtitle,
+  .section-title,
+  .stat-label,
+  .timeline-card,
+  .contact-info,
+  .section-header,
+  .hero-content {
+    text-align: center !important;
   }
 
-  .lead {
-    font-size: 1.1rem;
-    color: var(--secondary);
-    font-weight: var(--font-weight-light);
-    margin-bottom: var(--space-lg);
-    line-height: 1.8;
-  }
-
-  .about-highlights {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .highlight-card {
-    background: var(--background);
-    padding: var(--space-md) 0;
-    border-top: 1px solid var(--border);
-    position: relative;
-  }
-
-  .highlight-card:first-child {
-    border-top: none;
-  }
-
-  .highlight-card:hover {
-    border-top-color: var(--accent-red);
-  }
-
-  .highlight-card h3 {
-    font-size: 1rem;
-    margin-bottom: var(--space-sm);
-    color: var(--primary);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .timeline {
-    list-style: none;
-  }
-
-  .timeline li {
-    margin-bottom: 1.5rem;
-    padding-left: 1rem;
-    position: relative;
-  }
-
-  .timeline li:last-child {
-    margin-bottom: 0;
-  }
-
-  .timeline .year {
-    display: block;
-    color: var(--tertiary);
-    font-weight: var(--font-weight-light);
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .timeline strong {
-    display: block;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-  }
-
-  .timeline em {
-    color: var(--text-secondary);
-    font-style: normal;
-  }
-
-  .date {
-    color: var(--tertiary);
-    font-weight: var(--font-weight-light);
-    margin-top: var(--space-xs);
-    font-size: 0.9rem;
-  }
-
-  .focus-list {
-    list-style: none;
-  }
-
-  .focus-list li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
-  .focus-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--tertiary);
-  }
-
-  /* Research Section */
-  .research-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 3rem;
-  }
-
-  .research-areas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-
-  .research-card {
-    background: var(--background);
-    padding: var(--space-lg) var(--space-md);
-    border: 1px solid var(--border);
-    transition: all 0.2s ease;
-    position: relative;
-  }
-
-  .research-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      var(--accent-red) 0%,
-      var(--accent-yellow) 50%,
-      var(--accent-red) 100%
-    );
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  }
-
-  .research-card:hover {
-    border-color: var(--border);
-  }
-
-  .research-card:hover::before {
-    transform: scaleX(1);
-  }
-
-  .card-icon {
-    display: none;
-  }
-
-  .research-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-
-  .research-card p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  /* Publications Section */
-  .publications-section {
-    background: var(--background-alt);
-    position: relative;
-  }
-
-  .publications-section::after {
-    content: '';
-    position: absolute;
-    bottom: 10%;
-    left: 10%;
-    width: 150px;
-    height: 150px;
-    border: 40px solid var(--accent-yellow);
-    border-radius: 50%;
-    opacity: 0.02;
-  }
-
-  .publications-list {
-    display: grid;
-    gap: 2rem;
-  }
-
-  .publication-card {
-    background: var(--background);
-    padding: var(--space-lg) 0;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    transition: all 0.2s ease;
-  }
-
-  .publication-card:last-child {
-    border-bottom: none;
-  }
-
-  .publication-card.featured {
-    padding-left: var(--space-sm);
-    border-left: 2px solid var(--accent-red);
-  }
-
-  .pub-year {
-    color: var(--tertiary);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-light);
-    margin-bottom: var(--space-xs);
-    display: inline-block;
-  }
-
-  .publication-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary-black);
-    max-width: 80%;
-  }
-
-  .pub-details {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-  }
-
-  .pub-journal {
-    color: var(--secondary);
-    font-size: 0.9rem;
-    margin-bottom: var(--space-sm);
-    font-weight: var(--font-weight-light);
-  }
-
-  .pub-description {
-    color: var(--text-primary);
-    line-height: 1.6;
-    font-size: 0.95rem;
-  }
-
-  .pub-links {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 3rem;
-  }
-
-  .pub-links .btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .pub-links svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* Contact Section */
-  .contact-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-  }
-
-  .contact-card {
-    background: var(--background);
-    padding: var(--space-md) 0;
-    position: relative;
-  }
-
-  .contact-card:nth-child(2)::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -20px;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    background: var(--accent-yellow);
-    border-radius: 50%;
-  }
-
-  .contact-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: var(--primary-black);
-  }
-
-  .social-links {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  .social-links a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    color: var(--secondary);
-  }
-
-  .social-links a svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .social-links a span {
-    display: none;
-  }
-
-  .social-links a:hover {
-    border-color: var(--accent-red);
-    color: var(--accent-red);
-    background: rgba(218, 41, 28, 0.05);
-  }
-
-  /* Footer */
-  .footer {
-    background: var(--background);
-    border-top: 1px solid var(--border);
-    color: var(--tertiary);
-    padding: var(--space-lg) 0;
-    text-align: center;
-  }
-
-  .footer p {
-    margin: 0;
-    font-size: 0.85rem;
-    font-weight: var(--font-weight-light);
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .hero {
-      padding-top: 60px;
-    }
-
-    .timeline-content {
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .about-grid {
       grid-template-columns: 1fr;
-      gap: var(--space-md);
+      gap: var(--space-2xl);
     }
 
-    .timeline-path {
-      display: none;
+    .contact-wrapper {
+      grid-template-columns: 1fr;
     }
+  }
 
-    .timeline-item {
-      margin-left: var(--space-md);
-      border-left: 2px solid var(--border);
-      padding-left: var(--space-md);
-    }
-
-    .timeline-dot {
-      left: -9px;
-      transform: none;
-    }
-
-    .profile-end {
-      grid-column: 1;
-      margin-top: var(--space-lg);
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: var(--font-size-3xl);
     }
 
     .hero-cta {
@@ -1186,142 +1761,273 @@ import ProteinStructure from '../../components/ProteinStructure.astro';
     }
 
     .btn {
+      width: 100%;
+      justify-content: center;
+      max-width: 280px;
+    }
+
+    .about-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .research-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .publications-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: var(--space-3xl) 0;
+    }
+
+    .quote-card {
+      padding: var(--space-2xl);
+    }
+
+    .gradient-orb {
+      filter: blur(100px);
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+    }
+
+    .orb-3 {
       width: 200px;
-      text-align: center;
+      height: 200px;
     }
   }
 
-  /* Patents Section */
-  .patents-section {
-    background: var(--background);
-    position: relative;
-  }
-
-  .patents-list {
-    display: grid;
-    gap: 2rem;
-  }
-
-  .patent-card {
-    background: var(--background-alt);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2rem;
-    position: relative;
-    transition: all 0.3s ease;
-  }
-
-  .patent-card:hover {
-    border-color: var(--accent-yellow);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(218, 41, 28, 0.1);
-  }
-
-  .patent-year {
-    display: inline-block;
-    background: linear-gradient(
-      135deg,
-      var(--accent-red),
-      var(--accent-yellow)
-    );
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  .patent-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-  }
-
-  .patent-details {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
-  }
-
-  .patent-status {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .patent-inventors {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    font-style: italic;
-  }
-
-  /* Dark Mode */
+  /* Dark Mode Styles */
   @media (prefers-color-scheme: dark) {
-    :root {
-      --primary: #e8e8e8;
-      --secondary: #aaaaaa;
-      --tertiary: #888888;
-      --background: #121212;
-      --background-alt: #1e1e1e;
-      --border: #2a2a2a;
-      --accent-red: #ff4545;
-      --accent-yellow: #ffeb3b;
+    .research-card,
+    .publication-card,
+    .stat-card {
+      background: var(--color-bg-secondary);
+      border-color: var(--color-bg-tertiary);
     }
 
-    body {
-      background: var(--background);
-      color: var(--primary);
+    .glass-card {
+      background: rgba(26, 26, 26, 0.7);
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
-    .navigation {
-      background: rgba(18, 18, 18, 0.95);
-      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+    .quote-card {
+      background: rgba(26, 26, 26, 0.8);
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
-    .timeline-card {
-      background: var(--background-alt);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    .filter-btn {
+      background: var(--color-bg-secondary);
+      border-color: var(--color-bg-tertiary);
     }
 
-    .publication-card {
-      background: var(--background-alt);
+    .skill-tag[data-level='intermediate'] {
+      background: var(--color-bg-tertiary);
+      color: var(--color-text-primary);
     }
 
-    .research-card {
-      background: var(--background-alt);
+    .tag {
+      background: var(--color-bg-tertiary);
+      color: var(--color-text-secondary);
     }
 
-    .contact-card {
-      background: var(--background-alt);
+    .social-card.apple {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
     }
 
+    .gradient-orb {
+      opacity: 0.2;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .hero-scroll-indicator,
+    .navigation,
     .footer {
-      background: var(--background-alt);
-      border-top-color: var(--border);
+      display: none;
     }
 
-    .social-links a {
-      background: var(--background-alt);
-      border-color: var(--border);
+    .section {
+      page-break-inside: avoid;
     }
 
-    .social-links a:hover {
-      background: rgba(218, 41, 28, 0.1);
+    .hero {
+      min-height: auto;
+      padding: var(--space-2xl) 0;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
 
-    a {
-      color: #3dd1e0;
+    html {
+      scroll-behavior: auto;
     }
+  }
 
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
     .btn-primary {
-      background: var(--accent-red);
-      border-color: var(--accent-red);
+      border: 2px solid currentColor;
     }
 
-    .btn-primary:hover {
-      background: transparent;
-      color: var(--accent-red);
+    .card-icon-wrapper {
+      border: 2px solid currentColor;
     }
+  }
+
+  /* Focus Styles */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Selection Styles */
+  ::selection {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  ::-moz-selection {
+    background: var(--color-primary);
+    color: white;
+  }
+</style>
+
+<script>
+  // Same JavaScript as English version
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px',
+  };
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        (entry.target as HTMLElement).style.opacity = '1';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('[data-animate]').forEach(el => {
+    observer.observe(el);
+  });
+
+  const animateCounter = (element: HTMLElement, target: number) => {
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+
+    const updateCounter = () => {
+      current += step;
+      if (current < target) {
+        element.textContent = Math.floor(current).toString();
+        requestAnimationFrame(updateCounter);
+      } else {
+        element.textContent = target.toString();
+      }
+    };
+
+    updateCounter();
+  };
+
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = parseInt(entry.target.getAttribute('data-count') || '0');
+        animateCounter(entry.target as HTMLElement, target);
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.stat-number').forEach(el => {
+    statObserver.observe(el);
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const offsetTop = target.offsetTop - 80;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth',
+        });
+      }
+    });
+  });
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const publicationCards = document.querySelectorAll('.publication-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+      publicationCards.forEach(card => {
+        const htmlCard = card as HTMLElement;
+        const categories = card.getAttribute('data-category')?.split(' ') || [];
+        if (filter === 'all' || categories.includes(filter)) {
+          htmlCard.style.display = 'block';
+          htmlCard.style.animation = 'fadeInUp 0.5s ease-out';
+        } else {
+          htmlCard.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  const parallaxElements = document.querySelectorAll('[data-parallax]');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+
+    parallaxElements.forEach(element => {
+      const htmlElement = element as HTMLElement;
+      const speed = 0.5;
+      const yPos = -(scrolled * speed);
+      htmlElement.style.transform = `translateY(${yPos}px)`;
+    });
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Tab') {
+      document.body.classList.add('keyboard-nav');
+    }
+  });
+
+  document.addEventListener('mousedown', () => {
+    document.body.classList.remove('keyboard-nav');
+  });
+</script>
+
+<style>
+  body.keyboard-nav *:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
   }
 </style>

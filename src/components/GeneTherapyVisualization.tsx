@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { scaleBand, scaleLinear } from 'd3-scale';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { line, curveMonotoneX } from 'd3-shape';
 
 interface AAVVector {
   serotype: string;
@@ -134,7 +137,7 @@ export default function GeneTherapyVisualization() {
   useEffect(() => {
     if (!bodyMapRef.current) return;
 
-    const svg = d3.select(bodyMapRef.current);
+    const svg = select(bodyMapRef.current);
     svg.selectAll('*').remove();
 
     const width = 600;
@@ -191,7 +194,7 @@ export default function GeneTherapyVisualization() {
       organs.each(function(d) {
         const targetData = d.targetingData.find(t => t.serotype === selectedVector.serotype);
         if (targetData) {
-          const g = d3.select(this);
+          const g = select(this);
           
           // Efficiency circle
           g.append('circle')
@@ -237,7 +240,7 @@ export default function GeneTherapyVisualization() {
   useEffect(() => {
     if (!comparisonRef.current || !comparisonMode) return;
 
-    const svg = d3.select(comparisonRef.current);
+    const svg = select(comparisonRef.current);
     svg.selectAll('*').remove();
 
     const margin = { top: 40, right: 120, bottom: 60, left: 60 };
@@ -253,12 +256,12 @@ export default function GeneTherapyVisualization() {
       : aavVectors;
 
     // Scales
-    const xScale = d3.scaleBand()
+    const xScale = scaleBand()
       .domain(organData.map(d => d.organ))
       .range([0, width])
       .padding(0.1);
 
-    const yScale = d3.scaleLinear()
+    const yScale = scaleLinear()
       .domain([0, 100])
       .range([height, 0]);
 
@@ -267,10 +270,10 @@ export default function GeneTherapyVisualization() {
     // Axes
     g.append('g')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(xScale));
+      .call(axisBottom(xScale));
 
     g.append('g')
-      .call(d3.axisLeft(yScale))
+      .call(axisLeft(yScale))
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', -40)
@@ -288,17 +291,17 @@ export default function GeneTherapyVisualization() {
         })
         .filter(d => d.efficiency > 0);
 
-      const line = d3.line<{organ: string, efficiency: number}>()
+      const lineGenerator = line<{organ: string, efficiency: number}>()
         .x(d => xScale(d.organ)! + xScale.bandwidth() / 2)
         .y(d => yScale(d.efficiency))
-        .curve(d3.curveMonotoneX);
+        .curve(curveMonotoneX);
 
       g.append('path')
         .datum(lineData)
         .attr('fill', 'none')
         .attr('stroke', vector.color)
         .attr('stroke-width', 3)
-        .attr('d', line);
+        .attr('d', lineGenerator);
 
       // Points
       g.selectAll(`.point-${vector.serotype}`)

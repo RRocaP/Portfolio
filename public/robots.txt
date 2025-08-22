@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://rrocap.github.io/Portfolio/sitemap.xml
+
+# Additional sitemaps for language versions
+Sitemap: https://rrocap.github.io/Portfolio/sitemap-en.xml
+Sitemap: https://rrocap.github.io/Portfolio/sitemap-es.xml
+Sitemap: https://rrocap.github.io/Portfolio/sitemap-ca.xml
+
+# Block service worker and manifest files from indexing
+Disallow: /sw.js
+Disallow: /site.webmanifest
+
+# Allow all other content
+Allow: /en/
+Allow: /es/
+Allow: /ca/
