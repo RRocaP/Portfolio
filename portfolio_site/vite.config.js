@@ -24,7 +24,7 @@ export default defineConfig(({ command, mode }) => {
       assetsDir: 'assets',
       sourcemap: isProduction ? false : true,
       minify: 'terser',
-      target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
+      target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
       
       // Advanced minification options
       terserOptions: {
@@ -123,17 +123,17 @@ export default defineConfig(({ command, mode }) => {
       postcss: {
         plugins: []
       },
-      // Use Lightning CSS for faster builds
-      transformer: 'lightningcss',
-      lightningcss: {
-        minify: isProduction,
-        targets: {
-          chrome: 87,
-          firefox: 78,
-          safari: 13.1,
-          edge: 88
-        }
-      }
+      // Use default CSS processor for now
+      // transformer: 'lightningcss',
+      // lightningcss: {
+      //   minify: isProduction,
+      //   targets: {
+      //     chrome: 87,
+      //     firefox: 78,
+      //     safari: 14,
+      //     edge: 88
+      //   }
+      // }
     },
     
     // Development server configuration
@@ -162,13 +162,13 @@ export default defineConfig(({ command, mode }) => {
         'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap'
       ]),
       
-      // Legacy browser support
-      legacy({
-        targets: ['defaults', 'not IE 11'],
-        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-        modernPolyfills: ['es.object.has-own'],
-        renderLegacyChunks: isProduction
-      }),
+      // Legacy browser support (disabled for now)
+      // legacy({
+      //   targets: ['defaults', 'not IE 11'],
+      //   additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+      //   modernPolyfills: ['es.object.has-own'],
+      //   renderLegacyChunks: isProduction
+      // }),
       
       // Compression plugins
       ...(isProduction ? [
@@ -204,13 +204,13 @@ export default defineConfig(({ command, mode }) => {
       ] : []),
       
       // Progressive Web App
-      VitePWA({
+      false && VitePWA({
         registerType: 'autoUpdate',
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,pdf}'],
           runtimeCaching: [
             {
-              urlPattern: /^https:\\/\\/fonts\\.googleapis\\.com\\/.*/i,
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
               handler: 'CacheFirst',
               options: {
                 cacheName: 'google-fonts-cache',
@@ -224,7 +224,7 @@ export default defineConfig(({ command, mode }) => {
               }
             },
             {
-              urlPattern: /^https:\\/\\/cdnjs\\.cloudflare\\.com\\/.*/i,
+              urlPattern: /^https:\/\/cdnjs\.cloudflare\.com\/.*/i,
               handler: 'CacheFirst',
               options: {
                 cacheName: 'cdnjs-cache',
