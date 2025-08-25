@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://rrocap.github.io',
-  base: '/Portfolio',
+  base: '/PortfolioV2',
   output: 'static',
   integrations: [
     react(),
