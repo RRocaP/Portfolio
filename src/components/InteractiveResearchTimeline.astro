@@ -1,0 +1,775 @@
+---
+import { researchMilestones } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Research Timeline & Milestones',
+    careerProgression: 'Career Progression',
+    researchEvolution: 'Research Evolution',
+    keyMilestones: 'Key Milestones',
+    publications: 'Publications',
+    positions: 'Career Positions',
+    awards: 'Awards & Recognition',
+    projects: 'Major Projects',
+    viewDetails: 'View Details',
+    expandMilestone: 'Expand Milestone',
+    institution: 'Institution',
+    impact: 'Impact',
+    year: 'Year',
+    milestone: 'Milestone',
+    type: 'Type',
+    description: 'Description',
+    careerJourney: 'Career Journey',
+    researchFocus: 'Research Focus',
+    achievementType: 'Achievement Type'
+  },
+  es: {
+    title: 'Cronología de Investigación y Hitos',
+    careerProgression: 'Progresión Profesional',
+    researchEvolution: 'Evolución de la Investigación',
+    keyMilestones: 'Hitos Clave',
+    publications: 'Publicaciones',
+    positions: 'Posiciones Profesionales',
+    awards: 'Premios y Reconocimiento',
+    projects: 'Proyectos Importantes',
+    viewDetails: 'Ver Detalles',
+    expandMilestone: 'Expandir Hito',
+    institution: 'Institución',
+    impact: 'Impacto',
+    year: 'Año',
+    milestone: 'Hito',
+    type: 'Tipo',
+    description: 'Descripción',
+    careerJourney: 'Trayectoria Profesional',
+    researchFocus: 'Enfoque de Investigación',
+    achievementType: 'Tipo de Logro'
+  },
+  ca: {
+    title: 'Cronologia de Recerca i Fites',
+    careerProgression: 'Progressió Professional',
+    researchEvolution: 'Evolució de la Recerca',
+    keyMilestones: 'Fites Clau',
+    publications: 'Publicacions',
+    positions: 'Posicions Professionals',
+    awards: 'Premis i Reconeixement',
+    projects: 'Projectes Importants',
+    viewDetails: 'Veure Detalls',
+    expandMilestone: 'Expandir Fita',
+    institution: 'Institució',
+    impact: 'Impacte',
+    year: 'Any',
+    milestone: 'Fita',
+    type: 'Tipus',
+    description: 'Descripció',
+    careerJourney: 'Trajectòria Professional',
+    researchFocus: 'Enfocament de Recerca',
+    achievementType: 'Tipus d\'Assoliment'
+  }
+};
+
+const t = translations[lang];
+
+// Enhanced milestone data with additional context
+const enhancedMilestones = researchMilestones.map((milestone, index) => ({
+  ...milestone,
+  id: index,
+  x: parseInt(milestone.year),
+  y: index % 2 === 0 ? 100 : 50, // Alternating vertical positions
+  iconName: milestone.type === 'publication' ? 'document-text' : 
+           milestone.type === 'position' ? 'briefcase' :
+           milestone.type === 'award' ? 'trophy' : 'beaker',
+  category: milestone.type,
+  duration: milestone.type === 'position' ? '2+ years' : 'Achievement',
+  expanded: false
+}));
+
+// Group milestones by type for sidebar
+const milestonesByType = {
+  publications: enhancedMilestones.filter(m => m.type === 'publication'),
+  positions: enhancedMilestones.filter(m => m.type === 'position'),
+  awards: enhancedMilestones.filter(m => m.type === 'award'),
+  projects: enhancedMilestones.filter(m => m.type === 'project')
+};
+
+// Career phases for timeline background
+const careerPhases = [
+  { phase: 'PhD Studies', start: 2017, end: 2019, color: '#3B82F6', description: 'Doctoral research at UAB' },
+  { phase: 'Postdoc Research', start: 2020, end: 2022, color: '#10B981', description: 'Advanced research at UAB' },
+  { phase: 'Research Scientist', start: 2023, end: 2024, color: '#EF4444', description: 'Current role at CMRI' }
+];
+---
+
+<div class="research-timeline-viz" role="region" aria-labelledby="timeline-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="timeline-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 via-green-400 to-red-600 mx-auto mb-6"></div>
+    <p class="text-body text-gray-400 max-w-2xl mx-auto">
+      Interactive timeline showcasing research milestones, career progression, and key achievements from 2017 to present.
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-4 gap-8">
+    <!-- Main Timeline Visualization -->
+    <div class="lg:col-span-3 space-y-8">
+      <!-- Timeline Controls -->
+      <div class="timeline-controls flex flex-wrap items-center gap-4 p-4 bg-surface border border-gray-800 rounded-xl">
+        <div class="flex items-center gap-2">
+          <Icon name="filter" size="sm" class="text-gray-400" />
+          <span class="text-body-sm text-gray-300">Filter by:</span>
+        </div>
+        <div class="flex gap-2">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="publication">Publications</button>
+          <button class="filter-btn" data-filter="position">Positions</button>
+          <button class="filter-btn" data-filter="award">Awards</button>
+        </div>
+      </div>
+
+      <!-- Interactive Timeline Chart -->
+      <div class="timeline-container bg-surface border border-gray-800 rounded-2xl p-8">
+        <div class="timeline-chart-wrapper h-96" id="timeline-chart"></div>
+      </div>
+
+      <!-- Career Phases Overview -->
+      <div class="career-phases grid md:grid-cols-3 gap-4">
+        {careerPhases.map((phase, index) => (
+          <div 
+            class="phase-card p-4 bg-surface border border-gray-800 rounded-xl"
+            style={`animation-delay: ${index * 0.2}s; border-left: 4px solid ${phase.color}`}
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <div 
+                class="w-3 h-3 rounded-full"
+                style={`background-color: ${phase.color}`}
+              ></div>
+              <h4 class="text-body-sm font-semibold text-white">{phase.phase}</h4>
+            </div>
+            <div class="text-caption text-gray-400 mb-2">{phase.start} - {phase.end}</div>
+            <p class="text-caption text-gray-300">{phase.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Milestone Details Panel -->
+      <div id="milestone-details" class="milestone-details hidden p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div id="detail-icon" class="p-2 rounded-lg bg-blue-600/20">
+              <Icon name="document-text" size="md" class="text-blue-400" />
+            </div>
+            <div>
+              <h3 id="detail-title" class="text-heading-md text-white"></h3>
+              <div class="flex items-center gap-4 mt-1">
+                <span id="detail-year" class="text-caption text-blue-400 font-medium"></span>
+                <span id="detail-institution" class="text-caption text-gray-400"></span>
+              </div>
+            </div>
+          </div>
+          <button id="close-details" class="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+            <Icon name="x" size="sm" class="text-gray-400" />
+          </button>
+        </div>
+        <div id="detail-description" class="text-body text-gray-300 mb-4"></div>
+        <div id="detail-impact" class="text-body-sm text-gray-400"></div>
+      </div>
+    </div>
+
+    <!-- Timeline Sidebar -->
+    <div class="space-y-6">
+      <!-- Milestone Categories -->
+      <div class="categories-panel p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="collection" size="lg" class="text-blue-400" />
+          <h3 class="text-heading-md text-white">{t.keyMilestones}</h3>
+        </div>
+        
+        <!-- Publications -->
+        <div class="category-section mb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <Icon name="document-text" size="sm" class="text-green-400" />
+            <h4 class="text-body-sm font-semibold text-white">{t.publications}</h4>
+            <span class="text-caption text-gray-400">({milestonesByType.publications.length})</span>
+          </div>
+          <div class="space-y-2">
+            {milestonesByType.publications.slice(0, 3).map((milestone, index) => (
+              <div 
+                class="milestone-item p-2 bg-green-600/5 border border-green-600/20 rounded-lg cursor-pointer hover:bg-green-600/10 transition-colors"
+                data-milestone-id={milestone.id}
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="text-caption text-white font-medium truncate">{milestone.title}</div>
+                <div class="text-xs text-green-400">{milestone.year}</div>
+              </div>
+            ))}
+            {milestonesByType.publications.length > 3 && (
+              <div class="text-caption text-gray-500 text-center py-2">
+                +{milestonesByType.publications.length - 3} more
+              </div>
+            )}
+          </div>
+        </div>
+
+        <!-- Positions -->
+        <div class="category-section mb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <Icon name="briefcase" size="sm" class="text-blue-400" />
+            <h4 class="text-body-sm font-semibold text-white">{t.positions}</h4>
+            <span class="text-caption text-gray-400">({milestonesByType.positions.length})</span>
+          </div>
+          <div class="space-y-2">
+            {milestonesByType.positions.map((milestone, index) => (
+              <div 
+                class="milestone-item p-2 bg-blue-600/5 border border-blue-600/20 rounded-lg cursor-pointer hover:bg-blue-600/10 transition-colors"
+                data-milestone-id={milestone.id}
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="text-caption text-white font-medium truncate">{milestone.title}</div>
+                <div class="text-xs text-blue-400">{milestone.year}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="category-section">
+          <div class="flex items-center gap-2 mb-3">
+            <Icon name="trophy" size="sm" class="text-yellow-400" />
+            <h4 class="text-body-sm font-semibold text-white">{t.awards}</h4>
+            <span class="text-caption text-gray-400">({milestonesByType.awards.length})</span>
+          </div>
+          <div class="space-y-2">
+            {milestonesByType.awards.map((milestone, index) => (
+              <div 
+                class="milestone-item p-2 bg-yellow-600/5 border border-yellow-600/20 rounded-lg cursor-pointer hover:bg-yellow-600/10 transition-colors"
+                data-milestone-id={milestone.id}
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="text-caption text-white font-medium truncate">{milestone.title}</div>
+                <div class="text-xs text-yellow-400">{milestone.year}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Stats -->
+      <div class="stats-panel p-6 bg-gradient-to-br from-blue-600/10 to-green-600/10 border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="chart-line" size="lg" class="text-blue-400" />
+          <h3 class="text-heading-md text-white">Timeline Stats</h3>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-center">
+            <div class="text-heading-lg text-white font-bold">8</div>
+            <div class="text-caption text-gray-400">Years Active</div>
+          </div>
+          <div class="text-center">
+            <div class="text-heading-lg text-white font-bold">{enhancedMilestones.length}</div>
+            <div class="text-caption text-gray-400">Major Milestones</div>
+          </div>
+          <div class="text-center">
+            <div class="text-heading-lg text-white font-bold">3</div>
+            <div class="text-caption text-gray-400">Institutions</div>
+          </div>
+          <div class="text-center">
+            <div class="text-heading-lg text-white font-bold">2</div>
+            <div class="text-caption text-gray-400">Countries</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Milestones Prediction -->
+      <div class="prediction-panel p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="crystal-ball" size="lg" class="text-purple-400" />
+          <h3 class="text-heading-md text-white">Future Milestones</h3>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="prediction-item p-3 bg-purple-600/5 border border-purple-600/20 rounded-lg">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-body-sm text-white font-medium">h-Index 15</span>
+              <span class="text-caption text-purple-400">2025</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2 mb-2">
+              <div class="bg-purple-500 h-2 rounded-full" style="width: 90%"></div>
+            </div>
+            <div class="text-caption text-gray-400">90% probability</div>
+          </div>
+          
+          <div class="prediction-item p-3 bg-green-600/5 border border-green-600/20 rounded-lg">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-body-sm text-white font-medium">300+ Citations</span>
+              <span class="text-caption text-green-400">2025</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2 mb-2">
+              <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+            </div>
+            <div class="text-caption text-gray-400">85% probability</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- D3.js for timeline visualization -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<style>
+  .research-timeline-viz {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .phase-card,
+  .milestone-item,
+  .prediction-item {
+    animation: fadeInLeft 0.6s ease-out both;
+  }
+  
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    background: transparent;
+    color: #9CA3AF;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .filter-btn:hover {
+    border-color: #6B7280;
+    color: #F3F4F6;
+  }
+  
+  .filter-btn.active {
+    border-color: #3B82F6;
+    background: rgba(59, 130, 246, 0.1);
+    color: #60A5FA;
+  }
+  
+  .timeline-container {
+    background: linear-gradient(135deg, rgba(23, 23, 23, 0.8) 0%, rgba(17, 24, 39, 0.6) 100%);
+    backdrop-filter: blur(10px);
+  }
+  
+  .milestone-details {
+    background: linear-gradient(135deg, rgba(23, 23, 23, 0.9) 0%, rgba(17, 24, 39, 0.8) 100%);
+    backdrop-filter: blur(15px);
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .milestone-details.hidden {
+    display: none;
+  }
+  
+  /* Timeline tooltip */
+  .timeline-tooltip {
+    position: absolute;
+    padding: 12px 16px;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid #374151;
+    border-radius: 8px;
+    color: #F3F4F6;
+    font-size: 12px;
+    line-height: 1.4;
+    pointer-events: none;
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: 280px;
+  }
+  
+  /* Timeline chart styles */
+  .timeline-node {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .timeline-node:hover {
+    filter: brightness(1.2);
+  }
+  
+  .timeline-line {
+    stroke: #374151;
+    stroke-width: 2;
+    stroke-dasharray: 5,5;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .research-timeline-viz .grid.lg\\:grid-cols-4 {
+      grid-template-columns: 1fr;
+    }
+    
+    .research-timeline-viz .lg\\:col-span-3 {
+      grid-column: span 1;
+    }
+    
+    .timeline-chart-wrapper {
+      height: 250px !important;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .research-timeline-viz,
+    .research-timeline-viz * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .filter-btn,
+    .timeline-container,
+    .milestone-details {
+      border-width: 2px;
+    }
+  }
+</style>
+
+<script>
+  const timelineData = [
+    { id: 0, year: 2024, title: "AAV-mediated CAR-T Generation Breakthrough", type: "publication", institution: "CMRI", color: "#10B981", impact: "High impact journal (IF: 12.4)" },
+    { id: 1, year: 2024, title: "Liver Perfusion AAV Evaluation", type: "publication", institution: "CMRI", color: "#10B981", impact: "Nature portfolio journal (IF: 16.6)" },
+    { id: 2, year: 2023, title: "Research Scientist Position", type: "position", institution: "CMRI", color: "#3B82F6", impact: "Advanced gene therapy research" },
+    { id: 3, year: 2022, title: "Trends in Biotechnology Review", type: "publication", institution: "UAB", color: "#10B981", impact: "High-impact review journal (IF: 15.7)" },
+    { id: 4, year: 2021, title: "Multidomain Protein Engineering", type: "publication", institution: "UAB", color: "#10B981", impact: "Nature portfolio journal" },
+    { id: 5, year: 2019, title: "PhD in Biotechnology", type: "award", institution: "UAB", color: "#F59E0B", impact: "Doctoral degree in antimicrobial protein engineering" },
+    { id: 6, year: 2017, title: "Research Career Start", type: "publication", institution: "UAB", color: "#10B981", impact: "First publication on protein aggregates" }
+  ];
+
+  let currentFilter = 'all';
+  
+  function createTimeline() {
+    const container = d3.select('#timeline-chart');
+    if (container.empty()) return;
+
+    const margin = { top: 40, right: 60, bottom: 60, left: 60 };
+    const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
+    const height = 350 - margin.top - margin.bottom;
+
+    // Clear previous content
+    container.selectAll('*').remove();
+
+    const svg = container.append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Filter data based on current filter
+    const filteredData = currentFilter === 'all' 
+      ? timelineData 
+      : timelineData.filter(d => d.type === currentFilter);
+
+    // Scales
+    const xScale = d3.scaleLinear()
+      .domain([2016.5, 2024.5])
+      .range([0, width]);
+
+    const yScale = d3.scaleOrdinal()
+      .domain(filteredData.map(d => d.type))
+      .range([height * 0.2, height * 0.8]);
+
+    // Add timeline baseline
+    svg.append('line')
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y1', height / 2)
+      .attr('y2', height / 2)
+      .attr('class', 'timeline-line')
+      .style('opacity', 0.3);
+
+    // Add year markers
+    const yearTicks = d3.range(2017, 2025);
+    svg.selectAll('.year-tick')
+      .data(yearTicks)
+      .enter().append('line')
+      .attr('class', 'year-tick')
+      .attr('x1', d => xScale(d))
+      .attr('x2', d => xScale(d))
+      .attr('y1', height / 2 - 10)
+      .attr('y2', height / 2 + 10)
+      .style('stroke', '#374151')
+      .style('stroke-width', 1);
+
+    // Add year labels
+    svg.selectAll('.year-label')
+      .data(yearTicks)
+      .enter().append('text')
+      .attr('class', 'year-label')
+      .attr('x', d => xScale(d))
+      .attr('y', height / 2 + 30)
+      .attr('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '11px')
+      .text(d => d);
+
+    // Add milestone nodes
+    const nodes = svg.selectAll('.timeline-node')
+      .data(filteredData)
+      .enter().append('g')
+      .attr('class', 'timeline-node')
+      .attr('transform', d => {
+        const x = xScale(d.year);
+        const y = d.type === 'position' ? height / 2 - 80 : 
+                  d.type === 'award' ? height / 2 + 80 : 
+                  height / 2 + (d.id % 2 === 0 ? -40 : 40);
+        return `translate(${x}, ${y})`;
+      });
+
+    // Add connecting lines to baseline
+    nodes.append('line')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', 0)
+      .attr('y2', d => {
+        const currentY = d.type === 'position' ? -80 : 
+                        d.type === 'award' ? 80 : 
+                        (d.id % 2 === 0 ? -40 : 40);
+        return (height / 2) - currentY;
+      })
+      .style('stroke', d => d.color)
+      .style('stroke-width', 2)
+      .style('stroke-dasharray', '3,3')
+      .style('opacity', 0.6);
+
+    // Add milestone circles
+    nodes.append('circle')
+      .attr('r', 0)
+      .attr('fill', d => d.color)
+      .attr('stroke', '#0A0A0A')
+      .attr('stroke-width', 3)
+      .style('cursor', 'pointer')
+      .transition()
+      .delay((d, i) => i * 200)
+      .duration(600)
+      .attr('r', d => d.type === 'position' ? 12 : d.type === 'award' ? 10 : 8);
+
+    // Add milestone icons
+    nodes.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.35em')
+      .style('fill', '#FFFFFF')
+      .style('font-size', '12px')
+      .style('font-weight', 'bold')
+      .style('pointer-events', 'none')
+      .text(d => d.type === 'publication' ? '📄' : 
+               d.type === 'position' ? '💼' : 
+               d.type === 'award' ? '🏆' : '🔬')
+      .style('opacity', 0)
+      .transition()
+      .delay((d, i) => i * 200 + 300)
+      .duration(300)
+      .style('opacity', 1);
+
+    // Add milestone labels
+    nodes.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', d => d.type === 'position' ? '-25px' : 
+                     d.type === 'award' ? '25px' : 
+                     (d.id % 2 === 0 ? '-25px' : '25px'))
+      .style('fill', '#F3F4F6')
+      .style('font-size', '10px')
+      .style('font-weight', '500')
+      .style('pointer-events', 'none')
+      .text(d => d.title.length > 25 ? d.title.substring(0, 25) + '...' : d.title)
+      .style('opacity', 0)
+      .transition()
+      .delay((d, i) => i * 200 + 600)
+      .duration(300)
+      .style('opacity', 1);
+
+    // Add interactivity
+    nodes
+      .on('mouseover', function(event, d) {
+        d3.select(this).select('circle')
+          .transition().duration(200)
+          .attr('r', d => (d.type === 'position' ? 12 : d.type === 'award' ? 10 : 8) * 1.3);
+
+        const tooltip = d3.select('body').append('div')
+          .attr('class', 'timeline-tooltip')
+          .style('opacity', 0);
+
+        tooltip.transition().duration(200).style('opacity', .95);
+        tooltip.html(`
+          <strong>${d.title}</strong><br/>
+          <em>${d.institution}</em><br/>
+          Year: ${d.year}<br/>
+          Type: ${d.type.charAt(0).toUpperCase() + d.type.slice(1)}<br/>
+          Impact: ${d.impact}
+        `)
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mousemove', function(event) {
+        d3.select('.timeline-tooltip')
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this).select('circle')
+          .transition().duration(200)
+          .attr('r', d => d.type === 'position' ? 12 : d.type === 'award' ? 10 : 8);
+
+        d3.selectAll('.timeline-tooltip').remove();
+      })
+      .on('click', function(event, d) {
+        showMilestoneDetails(d);
+      });
+  }
+
+  function showMilestoneDetails(milestone) {
+    const detailsPanel = document.getElementById('milestone-details');
+    const iconEl = document.getElementById('detail-icon');
+    const titleEl = document.getElementById('detail-title');
+    const yearEl = document.getElementById('detail-year');
+    const institutionEl = document.getElementById('detail-institution');
+    const descriptionEl = document.getElementById('detail-description');
+    const impactEl = document.getElementById('detail-impact');
+
+    // Update content
+    titleEl.textContent = milestone.title;
+    yearEl.textContent = milestone.year;
+    institutionEl.textContent = milestone.institution;
+    descriptionEl.textContent = getDetailedDescription(milestone);
+    impactEl.textContent = milestone.impact;
+
+    // Update icon color based on type
+    const iconColors = {
+      'publication': 'text-green-400 bg-green-600/20',
+      'position': 'text-blue-400 bg-blue-600/20',
+      'award': 'text-yellow-400 bg-yellow-600/20',
+      'project': 'text-purple-400 bg-purple-600/20'
+    };
+    iconEl.className = `p-2 rounded-lg ${iconColors[milestone.type] || 'text-gray-400 bg-gray-600/20'}`;
+
+    // Show panel
+    detailsPanel.classList.remove('hidden');
+  }
+
+  function getDetailedDescription(milestone) {
+    const descriptions = {
+      "AAV-mediated CAR-T Generation Breakthrough": "Published innovative research on tailoring capsid-directed evolution technology for improved AAV-mediated CAR-T cell generation, advancing gene therapy approaches.",
+      "Liver Perfusion AAV Evaluation": "Groundbreaking study using human liver ex situ normothermic perfusion for preclinical AAV vector evaluation, published in Nature Communications.",
+      "Research Scientist Position": "Joined Children's Medical Research Institute in Sydney as Research Scientist, focusing on advanced gene therapy and viral vector development.",
+      "Trends in Biotechnology Review": "Comprehensive review on Functional Inclusion Bodies published in this high-impact journal, establishing thought leadership in the field.",
+      "Multidomain Protein Engineering": "Significant contribution to antimicrobial protein engineering through multidomain recombinant proteins, published in Scientific Reports.",
+      "PhD in Biotechnology": "Successfully completed doctoral studies at Universitat Autònoma de Barcelona, specializing in antimicrobial protein engineering and biotechnology applications.",
+      "Research Career Start": "First scientific publication on protein aggregates in Lactococcus lactis, marking the beginning of a successful research career."
+    };
+    return descriptions[milestone.title] || "Detailed information about this milestone.";
+  }
+
+  // Filter functionality
+  function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update filter and redraw
+        currentFilter = btn.dataset.filter;
+        createTimeline();
+      });
+    });
+  }
+
+  // Milestone item clicks
+  function initializeMilestoneItems() {
+    const milestoneItems = document.querySelectorAll('.milestone-item');
+    
+    milestoneItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const milestoneId = parseInt(item.dataset.milestoneId);
+        const milestone = timelineData.find(m => m.id === milestoneId);
+        if (milestone) {
+          showMilestoneDetails(milestone);
+        }
+      });
+    });
+  }
+
+  // Close details panel
+  function initializeDetailsPanel() {
+    const closeBtn = document.getElementById('close-details');
+    const detailsPanel = document.getElementById('milestone-details');
+    
+    closeBtn?.addEventListener('click', () => {
+      detailsPanel.classList.add('hidden');
+    });
+  }
+
+  // Initialize everything
+  function initializeTimeline() {
+    createTimeline();
+    initializeFilters();
+    initializeMilestoneItems();
+    initializeDetailsPanel();
+  }
+
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTimeline);
+  } else {
+    initializeTimeline();
+  }
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      createTimeline();
+    }, 250);
+  });
+</script>

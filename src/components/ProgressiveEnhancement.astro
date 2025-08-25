@@ -1,0 +1,620 @@
+---
+/**
+ * Progressive Enhancement Component
+ * Ensures core functionality works without JavaScript and enhances with JS
+ */
+export interface Props {
+  enableFallbacks?: boolean;
+  enableNoscriptStyles?: boolean;
+  enableCriticalCSS?: boolean;
+}
+
+const {
+  enableFallbacks = true,
+  enableNoscriptStyles = true,
+  enableCriticalCSS = true
+} = Astro.props;
+---
+
+<!-- No-JavaScript Fallback Message -->
+<noscript>
+  <div class="noscript-notice">
+    <div class="noscript-content">
+      <h2>JavaScript Disabled</h2>
+      <p>
+        This site works best with JavaScript enabled, but all core content and navigation 
+        remain fully accessible without it. Some interactive features may be limited.
+      </p>
+      <div class="noscript-features">
+        <h3>Available without JavaScript:</h3>
+        <ul>
+          <li>✓ Full content access</li>
+          <li>✓ Navigation links</li>
+          <li>✓ Contact information</li>
+          <li>✓ Research publications</li>
+          <li>✓ Responsive design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</noscript>
+
+<!-- Critical CSS for No-JS Experience -->
+{enableNoscriptStyles && (
+  <noscript>
+    <style>
+      /* No-JS specific styles for core functionality */
+      .fade-in-element,
+      .stagger-element,
+      .lazy-load,
+      .skeleton-animate {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+      
+      .mobile-menu {
+        position: static !important;
+        transform: none !important;
+        opacity: 1 !important;
+        display: block !important;
+      }
+      
+      .hidden {
+        display: block !important;
+      }
+      
+      /* Simplify interactions for no-JS */
+      .hover-card,
+      .magnetic-button,
+      .glow-effect {
+        transform: none !important;
+        transition: none !important;
+      }
+      
+      /* Ensure content is visible */
+      .content-visibility-auto {
+        content-visibility: visible !important;
+      }
+      
+      /* Fallback navigation for mobile */
+      .mobile-menu-btn {
+        display: none !important;
+      }
+      
+      @media (max-width: 768px) {
+        .hidden.md\\:flex {
+          display: flex !important;
+          flex-direction: column;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+      }
+    </style>
+  </noscript>
+)}
+
+<!-- Progressive Enhancement Detection -->
+<script>
+  // Feature Detection and Progressive Enhancement
+  class ProgressiveEnhancement {
+    private features: Map<string, boolean> = new Map();
+    private fallbacks: Map<string, () => void> = new Map();
+    
+    constructor() {
+      this.detectFeatures();
+      this.setupFallbacks();
+      this.enhanceExperience();
+    }
+    
+    private detectFeatures() {
+      // Core JavaScript features
+      this.features.set('javascript', true);
+      this.features.set('es6', typeof Symbol !== 'undefined');
+      this.features.set('modules', 'noModule' in HTMLScriptElement.prototype);
+      
+      // Web APIs
+      this.features.set('intersectionObserver', 'IntersectionObserver' in window);
+      this.features.set('requestIdleCallback', 'requestIdleCallback' in window);
+      this.features.set('customElements', 'customElements' in window);
+      this.features.set('webAnimations', 'animate' in Element.prototype);
+      
+      // CSS Features
+      this.features.set('cssGrid', CSS.supports('display: grid'));
+      this.features.set('cssCustomProperties', CSS.supports('color: var(--test)'));
+      this.features.set('backdropFilter', CSS.supports('backdrop-filter: blur(10px)'));
+      this.features.set('cssContainment', CSS.supports('contain: layout'));
+      
+      // Performance APIs
+      this.features.set('performanceObserver', 'PerformanceObserver' in window);
+      this.features.set('navigation', 'navigation' in window);
+      
+      // Input capabilities
+      this.features.set('touch', 'ontouchstart' in window);
+      this.features.set('hover', window.matchMedia('(hover: hover)').matches);
+      this.features.set('reducedMotion', window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      
+      // Network information
+      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+      this.features.set('networkInfo', !!connection);
+      this.features.set('saveData', connection?.saveData || false);
+      
+      // Hardware capabilities
+      this.features.set('hardwareConcurrency', navigator.hardwareConcurrency > 2);
+      this.features.set('deviceMemory', (navigator as any).deviceMemory > 2);
+      
+      // Accessibility preferences
+      this.features.set('highContrast', window.matchMedia('(prefers-contrast: high)').matches);
+      this.features.set('darkMode', window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    
+    private setupFallbacks() {
+      // Intersection Observer fallback
+      if (!this.features.get('intersectionObserver')) {
+        this.fallbacks.set('scrollAnimations', () => {
+          // Simple scroll-based animation fallback
+          window.addEventListener('scroll', this.throttle(() => {
+            const elements = document.querySelectorAll('.fade-in-element, .stagger-element');
+            elements.forEach(el => {
+              const rect = el.getBoundingClientRect();
+              if (rect.top < window.innerHeight * 0.8) {
+                (el as HTMLElement).style.opacity = '1';
+                (el as HTMLElement).style.transform = 'none';
+              }
+            });
+          }, 100), { passive: true });
+        });
+      }
+      
+      // RequestIdleCallback fallback
+      if (!this.features.get('requestIdleCallback')) {
+        (window as any).requestIdleCallback = (callback: Function, options?: any) => {
+          return setTimeout(callback, options?.timeout || 100);
+        };
+      }
+      
+      // Custom Elements fallback
+      if (!this.features.get('customElements')) {
+        this.fallbacks.set('customElements', () => {
+          // Add basic functionality to custom element-like classes
+          document.querySelectorAll('[is], .custom-element').forEach(el => {
+            el.classList.add('enhanced-fallback');
+          });
+        });
+      }
+      
+      // CSS Grid fallback
+      if (!this.features.get('cssGrid')) {
+        this.fallbacks.set('gridLayout', () => {
+          document.documentElement.classList.add('no-grid');
+          // Apply flexbox fallback styles
+          const style = document.createElement('style');
+          style.textContent = `
+            .no-grid .grid { display: flex; flex-wrap: wrap; }
+            .no-grid .grid > * { flex: 1 1 300px; margin: 0.5rem; }
+          `;
+          document.head.appendChild(style);
+        });
+      }
+      
+      // Backdrop filter fallback
+      if (!this.features.get('backdropFilter')) {
+        this.fallbacks.set('backdropFilter', () => {
+          document.documentElement.classList.add('no-backdrop-filter');
+          const style = document.createElement('style');
+          style.textContent = `
+            .no-backdrop-filter .backdrop-blur {
+              background-color: rgba(0, 0, 0, 0.8) !important;
+              backdrop-filter: none !important;
+            }
+          `;
+          document.head.appendChild(style);
+        });
+      }
+    }
+    
+    private enhanceExperience() {
+      // Apply enhancements based on capabilities
+      document.documentElement.classList.add('js-enabled');
+      
+      // Add feature classes to html element for CSS targeting
+      this.features.forEach((supported, feature) => {
+        document.documentElement.classList.add(supported ? `has-${feature}` : `no-${feature}`);
+      });
+      
+      // Apply fallbacks where needed
+      this.fallbacks.forEach((fallback, feature) => {
+        if (!this.features.get(feature.replace('Fallback', ''))) {
+          fallback();
+        }
+      });
+      
+      // Performance-based enhancements
+      this.applyPerformanceEnhancements();
+      
+      // Accessibility enhancements
+      this.applyAccessibilityEnhancements();
+      
+      // Network-aware enhancements
+      this.applyNetworkEnhancements();
+    }
+    
+    private applyPerformanceEnhancements() {
+      const isHighPerformance = this.features.get('hardwareConcurrency') && this.features.get('deviceMemory');
+      
+      if (!isHighPerformance) {
+        // Reduce animation complexity on low-end devices
+        document.documentElement.classList.add('performance-conservative');
+        
+        const style = document.createElement('style');
+        style.textContent = `
+          .performance-conservative .complex-animation {
+            animation-duration: 0.3s !important;
+            animation-iteration-count: 1 !important;
+          }
+          .performance-conservative .particle-effect,
+          .performance-conservative .complex-transform {
+            display: none !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Disable expensive effects on battery-powered devices
+      if ((navigator as any).getBattery) {
+        (navigator as any).getBattery().then((battery: any) => {
+          if (battery.level < 0.3 || !battery.charging) {
+            document.documentElement.classList.add('battery-saver');
+          }
+        });
+      }
+    }
+    
+    private applyAccessibilityEnhancements() {
+      // High contrast mode enhancements
+      if (this.features.get('highContrast')) {
+        document.documentElement.classList.add('high-contrast-mode');
+      }
+      
+      // Reduced motion enhancements
+      if (this.features.get('reducedMotion')) {
+        document.documentElement.classList.add('reduced-motion');
+        
+        // Remove or simplify all animations
+        const style = document.createElement('style');
+        style.textContent = `
+          .reduced-motion *, 
+          .reduced-motion *::before, 
+          .reduced-motion *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      // Touch device enhancements
+      if (this.features.get('touch')) {
+        document.documentElement.classList.add('touch-device');
+        this.enhanceTouchTargets();
+      }
+      
+      // Keyboard navigation enhancements
+      this.enhanceKeyboardNavigation();
+    }
+    
+    private applyNetworkEnhancements() {
+      const connection = (navigator as any).connection;
+      
+      if (connection) {
+        // Adapt to connection quality
+        if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+          document.documentElement.classList.add('slow-connection');
+          this.disableNonEssentialFeatures();
+        }
+        
+        // Save data mode
+        if (connection.saveData || this.features.get('saveData')) {
+          document.documentElement.classList.add('save-data');
+          this.enableDataSavingMode();
+        }
+      }
+    }
+    
+    private enhanceTouchTargets() {
+      const touchTargets = document.querySelectorAll('button, a, input, [role=\"button\"]');
+      
+      touchTargets.forEach(target => {
+        const element = target as HTMLElement;
+        const rect = element.getBoundingClientRect();
+        
+        // Ensure minimum 44px touch target
+        if (rect.width < 44 || rect.height < 44) {
+          element.style.minHeight = '44px';
+          element.style.minWidth = '44px';
+          element.style.display = element.style.display || 'inline-flex';
+          element.style.alignItems = 'center';
+          element.style.justifyContent = 'center';
+        }
+      });
+    }
+    
+    private enhanceKeyboardNavigation() {
+      // Ensure all interactive elements are keyboard accessible
+      const interactiveElements = document.querySelectorAll('.magnetic-button, .hover-card, .glow-effect');
+      
+      interactiveElements.forEach(element => {
+        const el = element as HTMLElement;
+        
+        // Add tabindex if not present
+        if (!el.hasAttribute('tabindex') && !el.matches('a, button, input, textarea, select')) {
+          el.setAttribute('tabindex', '0');
+          el.setAttribute('role', el.getAttribute('role') || 'button');
+        }
+        
+        // Add keyboard event listeners
+        el.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            el.click();
+          }
+        });
+      });
+      
+      // Focus management for modal-like elements
+      this.setupFocusManagement();
+    }
+    
+    private setupFocusManagement() {
+      document.addEventListener('keydown', (event) => {
+        // Skip to main content shortcut
+        if (event.key === 'Tab' && !event.shiftKey && document.activeElement === document.body) {
+          const skipLink = document.querySelector('.skip-link') as HTMLElement;
+          if (skipLink) {
+            event.preventDefault();
+            skipLink.focus();
+          }
+        }
+      });
+    }
+    
+    private disableNonEssentialFeatures() {
+      const style = document.createElement('style');
+      style.textContent = `
+        .slow-connection .background-animation,
+        .slow-connection .particle-effect,
+        .slow-connection .complex-gradient {
+          display: none !important;
+        }
+        .slow-connection .magnetic-button:hover,
+        .slow-connection .hover-card:hover {
+          transform: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    private enableDataSavingMode() {
+      const style = document.createElement('style');
+      style.textContent = `
+        .save-data .background-image,
+        .save-data .hero-video,
+        .save-data .non-critical-image {
+          display: none !important;
+        }
+        .save-data .skeleton-animate {
+          animation: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    // Utility function for throttling
+    private throttle(func: Function, wait: number) {
+      let timeout: number | null = null;
+      let previous = 0;
+      
+      return function executedFunction(...args: any[]) {
+        const now = Date.now();
+        
+        if (!previous) previous = now;
+        
+        const remaining = wait - (now - previous);
+        
+        if (remaining <= 0 || remaining > wait) {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+          previous = now;
+          func.apply(null, args);
+        } else if (!timeout) {
+          timeout = setTimeout(() => {
+            previous = Date.now();
+            timeout = null;
+            func.apply(null, args);
+          }, remaining);
+        }
+      };
+    }
+    
+    // Public API for checking features
+    public hasFeature(feature: string): boolean {
+      return this.features.get(feature) || false;
+    }
+    
+    public getFeatures(): Map<string, boolean> {
+      return new Map(this.features);
+    }
+  }
+  
+  // Initialize Progressive Enhancement
+  const initProgressiveEnhancement = () => {
+    const pe = new ProgressiveEnhancement();
+    (window as any).ProgressiveEnhancement = pe;
+    
+    // Dispatch custom event to signal enhancement is complete
+    document.dispatchEvent(new CustomEvent('progressive-enhancement-ready', {
+      detail: { features: pe.getFeatures() }
+    }));
+  };
+  
+  // Initialize immediately (progressive enhancement should not wait)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProgressiveEnhancement);
+  } else {
+    initProgressiveEnhancement();
+  }
+</script>
+
+<!-- Noscript Styles -->
+<style>
+  /* No-script notice styling */
+  .noscript-notice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .noscript-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .noscript-content h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .noscript-content p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+  
+  .noscript-features {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .noscript-features h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .noscript-features ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .noscript-features li {
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+  }
+  
+  /* Progressive Enhancement States */
+  .js-enabled .noscript-notice {
+    display: none;
+  }
+  
+  /* High Performance Mode */
+  .has-hardwareConcurrency.has-deviceMemory {
+    --animation-complexity: high;
+  }
+  
+  .no-hardwareConcurrency,
+  .no-deviceMemory,
+  .performance-conservative {
+    --animation-complexity: low;
+  }
+  
+  /* Touch Device Optimizations */
+  .touch-device {
+    --min-touch-target: 48px;
+  }
+  
+  .no-touch {
+    --min-touch-target: 32px;
+  }
+  
+  /* Network Adaptive Styles */
+  .slow-connection .expensive-animation,
+  .save-data .expensive-animation {
+    display: none !important;
+  }
+  
+  /* Accessibility States */
+  .high-contrast-mode {
+    --border-width: 2px;
+    --focus-outline-width: 3px;
+  }
+  
+  .reduced-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  /* Battery Saver Mode */
+  .battery-saver .complex-animation,
+  .battery-saver .particle-effect {
+    display: none !important;
+  }
+  
+  /* Feature Detection Classes */
+  .no-grid .grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .no-grid .grid > * {
+    flex: 1 1 300px !important;
+    margin: 0.5rem !important;
+  }
+  
+  .no-backdropFilter .backdrop-blur {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: none !important;
+  }
+  
+  .no-intersectionObserver .fade-in-element,
+  .no-intersectionObserver .stagger-element {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Mobile-first Progressive Enhancement */
+  @media (max-width: 768px) {
+    .noscript-notice {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    
+    .noscript-content {
+      text-align: left;
+      padding: 0;
+    }
+    
+    .noscript-features {
+      max-width: none;
+    }
+  }
+</style>

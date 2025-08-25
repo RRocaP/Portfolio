@@ -1,0 +1,990 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'h-Index Progression Analysis',
+    hIndexEvolution: 'h-Index Evolution',
+    benchmarkComparison: 'Benchmark Comparison',
+    careerTrajectory: 'Career Trajectory',
+    currentHIndex: 'Current h-Index',
+    fieldAverage: 'Field Average',
+    topPercentile: 'Top Percentile',
+    projectedGrowth: 'Projected Growth',
+    yearsPostPhD: 'Years Post-PhD',
+    hIndexValue: 'h-Index',
+    myTrajectory: 'My Trajectory',
+    fieldBenchmark: 'Field Average',
+    topResearchers: 'Top 10%',
+    excellentProgress: 'Excellent Progress',
+    aboveAverage: 'Above Field Average',
+    risingTalent: 'Rising Research Talent',
+    strongTrajectory: 'Strong Growth Trajectory',
+    nextMilestone: 'Next Milestone',
+    targetYear: 'Target Year',
+    growthRate: 'Growth Rate',
+    percentileRank: 'Percentile Rank',
+    careerStage: 'Career Stage',
+    researchImpact: 'Research Impact',
+    futureProjection: 'Future Projection',
+    historicalData: 'Historical Data'
+  },
+  es: {
+    title: 'Análisis de Progresión del Índice h',
+    hIndexEvolution: 'Evolución del Índice h',
+    benchmarkComparison: 'Comparación de Referencias',
+    careerTrajectory: 'Trayectoria Profesional',
+    currentHIndex: 'Índice h Actual',
+    fieldAverage: 'Promedio del Campo',
+    topPercentile: 'Percentil Superior',
+    projectedGrowth: 'Crecimiento Proyectado',
+    yearsPostPhD: 'Años Post-Doctorado',
+    hIndexValue: 'Valor del Índice h',
+    myTrajectory: 'Mi Trayectoria',
+    fieldBenchmark: 'Promedio del Campo',
+    topResearchers: '10% Superior',
+    excellentProgress: 'Progreso Excelente',
+    aboveAverage: 'Sobre el Promedio del Campo',
+    risingTalent: 'Talento Emergente en Investigación',
+    strongTrajectory: 'Trayectoria de Crecimiento Sólida',
+    nextMilestone: 'Próximo Hito',
+    targetYear: 'Año Objetivo',
+    growthRate: 'Tasa de Crecimiento',
+    percentileRank: 'Rango Percentil',
+    careerStage: 'Etapa Profesional',
+    researchImpact: 'Impacto de Investigación',
+    futureProjection: 'Proyección Futura',
+    historicalData: 'Datos Históricos'
+  },
+  ca: {
+    title: 'Anàlisi de Progressió de l\'Índex h',
+    hIndexEvolution: 'Evolució de l\'Índex h',
+    benchmarkComparison: 'Comparació de Referències',
+    careerTrajectory: 'Trajectòria Professional',
+    currentHIndex: 'Índex h Actual',
+    fieldAverage: 'Mitjana del Camp',
+    topPercentile: 'Percentil Superior',
+    projectedGrowth: 'Creixement Projectat',
+    yearsPostPhD: 'Anys Post-Doctorat',
+    hIndexValue: 'Valor de l\'Índex h',
+    myTrajectory: 'La Meva Trajectòria',
+    fieldBenchmark: 'Mitjana del Camp',
+    topResearchers: '10% Superior',
+    excellentProgress: 'Progrés Excel·lent',
+    aboveAverage: 'Sobre la Mitjana del Camp',
+    risingTalent: 'Talent Emergent en Recerca',
+    strongTrajectory: 'Trajectòria de Creixement Sòlida',
+    nextMilestone: 'Pròxim Punt de Referència',
+    targetYear: 'Any Objectiu',
+    growthRate: 'Taxa de Creixement',
+    percentileRank: 'Rang Percentil',
+    careerStage: 'Etapa Professional',
+    researchImpact: 'Impacte de Recerca',
+    futureProjection: 'Projecció Futura',
+    historicalData: 'Dades Històriques'
+  }
+};
+
+const t = translations[lang];
+
+// h-Index progression data (years since PhD completion in 2019)
+const hIndexData = [
+  { year: 2019, yearsPostPhD: 0, hIndex: 3, fieldAverage: 2, topPercentile: 5 },
+  { year: 2020, yearsPostPhD: 1, hIndex: 4, fieldAverage: 3, topPercentile: 7 },
+  { year: 2021, yearsPostPhD: 2, hIndex: 6, fieldAverage: 4, topPercentile: 9 },
+  { year: 2022, yearsPostPhD: 3, hIndex: 8, fieldAverage: 5, topPercentile: 11 },
+  { year: 2023, yearsPostPhD: 4, hIndex: 10, fieldAverage: 6, topPercentile: 13 },
+  { year: 2024, yearsPostPhD: 5, hIndex: 12, fieldAverage: 7, topPercentile: 15 },
+];
+
+// Future projections (2025-2027)
+const projectionData = [
+  { year: 2025, yearsPostPhD: 6, hIndex: 15, fieldAverage: 8, topPercentile: 17 },
+  { year: 2026, yearsPostPhD: 7, hIndex: 18, fieldAverage: 9, topPercentile: 19 },
+  { year: 2027, yearsPostPhD: 8, hIndex: 22, fieldAverage: 10, topPercentile: 21 }
+];
+
+const currentHIndex = hIndexData[hIndexData.length - 1].hIndex;
+const currentFieldAverage = hIndexData[hIndexData.length - 1].fieldAverage;
+const percentileRank = Math.round((currentHIndex / (currentHIndex + currentFieldAverage) * 100));
+const nextMilestone = Math.ceil(currentHIndex / 5) * 5;
+const growthRate = hIndexData.length > 1 ? 
+  ((currentHIndex / hIndexData[0].hIndex - 1) * 100 / hIndexData.length).toFixed(1) : '0';
+
+// Career stage assessment
+const careerStages = [
+  { stage: 'Early Career', range: [0, 5], color: '#3B82F6' },
+  { stage: 'Established', range: [6, 15], color: '#10B981' },
+  { stage: 'Senior', range: [16, 25], color: '#F59E0B' },
+  { stage: 'Distinguished', range: [26, 40], color: '#EF4444' }
+];
+
+const currentStage = careerStages.find(stage => 
+  currentHIndex >= stage.range[0] && currentHIndex <= stage.range[1]
+);
+---
+
+<div class="h-index-progression-chart" role="region" aria-labelledby="hindex-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="hindex-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-green-600 to-green-400 mx-auto mb-6"></div>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="trending-up" size="lg" class="text-green-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{currentHIndex}</div>
+      <div class="text-body-sm text-gray-400">{t.currentHIndex}</div>
+      <div class="text-caption text-green-400 mt-2">+{growthRate}% annual</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="chart-line" size="lg" class="text-blue-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{currentFieldAverage}</div>
+      <div class="text-body-sm text-gray-400">{t.fieldAverage}</div>
+      <div class="text-caption text-blue-400 mt-2">Bioengineering</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="trophy" size="lg" class="text-yellow-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{percentileRank}th</div>
+      <div class="text-body-sm text-gray-400">{t.percentileRank}</div>
+      <div class="text-caption text-yellow-400 mt-2">{t.aboveAverage}</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="target" size="lg" class="text-purple-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{nextMilestone}</div>
+      <div class="text-body-sm text-gray-400">{t.nextMilestone}</div>
+      <div class="text-caption text-purple-400 mt-2">2025 Target</div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Main h-Index Chart -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <Icon name="chart-line-up" size="lg" class="text-green-400" />
+          <h3 class="text-heading-lg text-white">{t.hIndexEvolution}</h3>
+        </div>
+        
+        <!-- Chart Controls -->
+        <div class="flex items-center gap-2">
+          <button id="show-historical" class="px-3 py-1 bg-green-600/10 border border-green-600/20 rounded-lg text-green-300 font-medium active">
+            {t.historicalData}
+          </button>
+          <button id="show-projection" class="px-3 py-1 hover:bg-gray-600/10 border border-gray-600/20 rounded-lg text-gray-400 hover:text-white transition-colors">
+            {t.futureProjection}
+          </button>
+        </div>
+      </div>
+
+      <!-- D3 Chart Container -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div id="h-index-chart" class="w-full h-80" role="img" 
+             aria-label="h-Index progression chart comparing personal trajectory with field average and top percentile benchmarks">
+          <!-- Chart will be rendered here by D3.js -->
+        </div>
+        
+        <!-- Chart Legend -->
+        <div class="flex items-center justify-center gap-6 mt-6 text-caption">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-1 bg-green-500 rounded-full"></div>
+            <span class="text-gray-400">{t.myTrajectory}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-1 bg-blue-500 rounded-full"></div>
+            <span class="text-gray-400">{t.fieldBenchmark}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-1 bg-yellow-500 rounded-full"></div>
+            <span class="text-gray-400">{t.topResearchers}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-1 bg-purple-500 rounded-full opacity-50"></div>
+            <span class="text-gray-400">{t.projectedGrowth}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Growth Analysis -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Career Stage -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-3 mb-4">
+            <Icon name="badge-check" size="lg" class="text-green-400" />
+            <h4 class="text-heading-md text-white">{t.careerStage}</h4>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="text-center">
+              <div class={`inline-flex items-center px-4 py-2 rounded-full text-heading-sm font-bold text-white mb-3`} 
+                   style={`background-color: ${currentStage?.color}20; border: 1px solid ${currentStage?.color}40`}>
+                <div class={`w-3 h-3 rounded-full mr-2`} style={`background-color: ${currentStage?.color}`}></div>
+                {currentStage?.stage}
+              </div>
+              <div class="text-body text-gray-300 mb-4">{t.risingTalent}</div>
+            </div>
+            
+            <!-- Stage Progress -->
+            <div class="space-y-2">
+              {careerStages.map((stage, index) => {
+                const isActive = stage === currentStage;
+                const isPassed = currentHIndex > stage.range[1];
+                return (
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class={`w-3 h-3 rounded-full ${
+                        isActive ? 'animate-pulse' : ''
+                      }`} style={`background-color: ${isPassed || isActive ? stage.color : '#374151'}`}></div>
+                      <span class={`text-body-sm ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>
+                        {stage.stage}
+                      </span>
+                    </div>
+                    <span class="text-caption text-gray-500">
+                      {stage.range[0]}-{stage.range[1]}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <!-- Growth Velocity -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-3 mb-4">
+            <Icon name="zap" size="lg" class="text-yellow-400" />
+            <h4 class="text-heading-md text-white">Growth Velocity</h4>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Annual Growth Rate -->
+            <div class="text-center mb-4">
+              <div class="text-heading-lg text-white font-bold mb-2">+{growthRate}%</div>
+              <div class="text-body-sm text-gray-400 mb-4">Annual Growth Rate</div>
+              
+              <!-- Growth velocity indicator -->
+              <div class="relative w-24 h-24 mx-auto">
+                <svg class="w-24 h-24 transform -rotate-90" viewBox="0 0 80 80">
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="32"
+                    stroke="currentColor"
+                    stroke-width="6"
+                    fill="none"
+                    class="text-gray-700"
+                  />
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="32"
+                    stroke="currentColor"
+                    stroke-width="6"
+                    fill="none"
+                    stroke-linecap="round"
+                    class="text-yellow-500 transition-all duration-2000 ease-out"
+                    style={`stroke-dasharray: ${2 * Math.PI * 32}; stroke-dashoffset: ${2 * Math.PI * 32 * (1 - parseFloat(growthRate) / 50)}`}
+                    data-animate="growth-circle"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <Icon name="trending-up" size="md" class="text-yellow-400" />
+                </div>
+              </div>
+            </div>
+            
+            <!-- Comparison metrics -->
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div class="p-3 bg-gray-800/30 rounded-lg">
+                <div class="text-body-sm text-white font-medium">+{currentHIndex - currentFieldAverage}</div>
+                <div class="text-caption text-green-400">Above Average</div>
+              </div>
+              <div class="p-3 bg-gray-800/30 rounded-lg">
+                <div class="text-body-sm text-white font-medium">2025</div>
+                <div class="text-caption text-purple-400">{t.targetYear}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benchmarks and Projections -->
+    <div class="space-y-6">
+      <div class="flex items-center gap-3 mb-6">
+        <Icon name="chart-bar" size="lg" class="text-blue-400" />
+        <h3 class="text-heading-lg text-white">{t.benchmarkComparison}</h3>
+      </div>
+
+      <!-- Benchmark Progress -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <h4 class="text-heading-md text-white mb-6">Progress vs Benchmarks</h4>
+        
+        <div class="space-y-4">
+          <!-- Personal Progress -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-body text-white">My h-Index</span>
+              <span class="text-body-sm text-green-400 font-medium">{currentHIndex}</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3">
+              <div 
+                class="h-3 bg-gradient-to-r from-green-600 to-green-400 rounded-full transition-all duration-2000 ease-out"
+                style={`width: ${(currentHIndex / 25) * 100}%`}
+                data-animate="progress-bar"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Field Average -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-body text-gray-300">Field Average</span>
+              <span class="text-body-sm text-blue-400 font-medium">{currentFieldAverage}</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3">
+              <div 
+                class="h-3 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-2000 ease-out"
+                style={`width: ${(currentFieldAverage / 25) * 100}%`}
+                data-animate="progress-bar"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Top Percentile -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-body text-gray-300">Top 10%</span>
+              <span class="text-body-sm text-yellow-400 font-medium">{hIndexData[hIndexData.length - 1].topPercentile}</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3">
+              <div 
+                class="h-3 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full transition-all duration-2000 ease-out"
+                style={`width: ${(hIndexData[hIndexData.length - 1].topPercentile / 25) * 100}%`}
+                data-animate="progress-bar"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance assessment -->
+        <div class="mt-6 p-4 bg-green-600/10 border border-green-600/20 rounded-xl text-center">
+          <Icon name="trophy" size="lg" class="text-green-400 mx-auto mb-2" />
+          <div class="text-body-sm text-green-300 font-medium">{t.excellentProgress}</div>
+          <div class="text-caption text-gray-400">{t.strongTrajectory}</div>
+        </div>
+      </div>
+
+      <!-- Future Milestones -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-2 mb-6">
+          <Icon name="flag" size="md" class="text-purple-400" />
+          <h4 class="text-heading-md text-white">Future Milestones</h4>
+        </div>
+        
+        <div class="space-y-4">
+          {[
+            { milestone: 'h-Index 15', year: '2025', probability: '90%', color: '#10B981' },
+            { milestone: 'h-Index 20', year: '2026', probability: '75%', color: '#3B82F6' },
+            { milestone: 'h-Index 25', year: '2027', probability: '60%', color: '#F59E0B' }
+          ].map((milestone, index) => (
+            <div 
+              class="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg"
+              style={`animation-delay: ${index * 0.1}s`}
+            >
+              <div class="flex items-center gap-3">
+                <div class={`w-3 h-3 rounded-full`} style={`background-color: ${milestone.color}`}></div>
+                <div>
+                  <div class="text-body-sm text-white font-medium">{milestone.milestone}</div>
+                  <div class="text-caption text-gray-400">{milestone.year}</div>
+                </div>
+              </div>
+              <div class="text-caption text-green-400 font-medium">
+                {milestone.probability}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Research Impact Summary -->
+      <div class="p-6 bg-gradient-to-br from-green-600/10 to-blue-600/10 border border-gray-800 rounded-2xl">
+        <div class="text-center">
+          <Icon name="rocket" size="xl" class="text-green-400 mx-auto mb-4" />
+          <div class="text-heading-lg text-white font-bold mb-2">Accelerating Impact</div>
+          <div class="text-body text-gray-300 mb-4">{t.researchImpact}</div>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div class="text-heading-sm text-white font-bold">5 yrs</div>
+              <div class="text-caption text-gray-400">Post-PhD</div>
+            </div>
+            <div>
+              <div class="text-heading-sm text-white font-bold">12</div>
+              <div class="text-caption text-gray-400">h-Index</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .h-index-progression-chart {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* D3 Chart Styles */
+  .trajectory-line {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  
+  .trajectory-line.personal {
+    stroke: #10B981;
+  }
+  
+  .trajectory-line.field-average {
+    stroke: #3B82F6;
+  }
+  
+  .trajectory-line.top-percentile {
+    stroke: #F59E0B;
+  }
+  
+  .trajectory-line.projection {
+    stroke: #A855F7;
+    stroke-dasharray: 5,5;
+    opacity: 0.7;
+  }
+  
+  .data-point {
+    r: 5;
+    stroke-width: 3;
+    stroke: #1F2937;
+  }
+  
+  .data-point.personal {
+    fill: #10B981;
+  }
+  
+  .data-point.field-average {
+    fill: #3B82F6;
+  }
+  
+  .data-point.top-percentile {
+    fill: #F59E0B;
+  }
+  
+  .data-point.projection {
+    fill: #A855F7;
+    opacity: 0.7;
+  }
+  
+  .data-point:hover {
+    r: 7;
+    filter: brightness(1.3);
+  }
+  
+  .axis {
+    color: #9CA3AF;
+  }
+  
+  .axis .domain,
+  .axis .tick line {
+    stroke: #374151;
+    stroke-width: 1;
+  }
+  
+  .axis .tick text {
+    fill: #9CA3AF;
+    font-size: 12px;
+  }
+  
+  .grid-line {
+    stroke: #374151;
+    stroke-width: 0.5;
+    opacity: 0.3;
+    stroke-dasharray: 2,2;
+  }
+  
+  .tooltip {
+    position: absolute;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+    color: white;
+    pointer-events: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .tooltip.visible {
+    opacity: 1;
+  }
+  
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #1F2937;
+  }
+  
+  .tooltip .metric {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+  }
+  
+  .tooltip .metric .label {
+    color: #9CA3AF;
+  }
+  
+  .tooltip .metric .value {
+    color: #10B981;
+    font-weight: 600;
+  }
+  
+  /* Button states */
+  .active {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    color: #34D399 !important;
+  }
+  
+  /* Progress bar animations */
+  [data-animate="progress-bar"] {
+    width: 0% !important;
+    animation: expandBar 2s ease-out 0.5s forwards;
+  }
+  
+  @keyframes expandBar {
+    to {
+      width: var(--target-width, 0%) !important;
+    }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .h-index-progression-chart .grid.lg\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+    
+    .h-index-progression-chart .lg\\:col-span-2 {
+      grid-column: span 1;
+    }
+    
+    .h-index-progression-chart .grid.grid-cols-2.lg\\:grid-cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 640px) {
+    #h-index-chart {
+      height: 16rem;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .h-index-progression-chart,
+    .h-index-progression-chart * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .h-index-progression-chart .border {
+      border-width: 2px;
+    }
+    
+    .trajectory-line {
+      stroke-width: 4;
+    }
+    
+    .data-point {
+      stroke-width: 2;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  // Data
+  const historicalData = [
+    { year: 2019, yearsPostPhD: 0, hIndex: 3, fieldAverage: 2, topPercentile: 5 },
+    { year: 2020, yearsPostPhD: 1, hIndex: 4, fieldAverage: 3, topPercentile: 7 },
+    { year: 2021, yearsPostPhD: 2, hIndex: 6, fieldAverage: 4, topPercentile: 9 },
+    { year: 2022, yearsPostPhD: 3, hIndex: 8, fieldAverage: 5, topPercentile: 11 },
+    { year: 2023, yearsPostPhD: 4, hIndex: 10, fieldAverage: 6, topPercentile: 13 },
+    { year: 2024, yearsPostPhD: 5, hIndex: 12, fieldAverage: 7, topPercentile: 15 },
+  ];
+
+  const projectionData = [
+    { year: 2025, yearsPostPhD: 6, hIndex: 15, fieldAverage: 8, topPercentile: 17 },
+    { year: 2026, yearsPostPhD: 7, hIndex: 18, fieldAverage: 9, topPercentile: 19 },
+    { year: 2027, yearsPostPhD: 8, hIndex: 22, fieldAverage: 10, topPercentile: 21 }
+  ];
+
+  let showProjections = false;
+
+  function createHIndexChart() {
+    // Set up dimensions
+    const container = d3.select('#h-index-chart');
+    const containerRect = container.node()?.getBoundingClientRect();
+    const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+    const width = (containerRect?.width || 800) - margin.left - margin.right;
+    const height = 320 - margin.top - margin.bottom;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Combine data based on current view
+    let dataToShow = [...historicalData];
+    if (showProjections) {
+      dataToShow = [...historicalData, ...projectionData];
+    }
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom);
+
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(dataToShow, d => d.yearsPostPhD) as number])
+      .range([0, width]);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(dataToShow, d => Math.max(d.hIndex, d.fieldAverage, d.topPercentile)) as number])
+      .nice()
+      .range([height, 0]);
+
+    // Create tooltip
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
+    // Grid lines
+    g.selectAll('.grid-line-x')
+      .data(xScale.ticks(6))
+      .enter()
+      .append('line')
+      .attr('class', 'grid-line')
+      .attr('x1', d => xScale(d))
+      .attr('x2', d => xScale(d))
+      .attr('y1', 0)
+      .attr('y2', height);
+
+    g.selectAll('.grid-line-y')
+      .data(yScale.ticks(6))
+      .enter()
+      .append('line')
+      .attr('class', 'grid-line')
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y1', d => yScale(d))
+      .attr('y2', d => yScale(d));
+
+    // Axes
+    g.append('g')
+      .attr('class', 'axis')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale).ticks(6))
+      .append('text')
+      .attr('fill', '#9CA3AF')
+      .attr('x', width / 2)
+      .attr('y', 40)
+      .style('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text('Years Post-PhD');
+
+    g.append('g')
+      .attr('class', 'axis')
+      .call(d3.axisLeft(yScale).ticks(6))
+      .append('text')
+      .attr('fill', '#9CA3AF')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', -45)
+      .attr('x', -height / 2)
+      .style('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .text('h-Index');
+
+    // Line generators
+    const personalLine = d3
+      .line<typeof dataToShow[0]>()
+      .x(d => xScale(d.yearsPostPhD))
+      .y(d => yScale(d.hIndex))
+      .curve(d3.curveMonotoneX);
+
+    const fieldLine = d3
+      .line<typeof dataToShow[0]>()
+      .x(d => xScale(d.yearsPostPhD))
+      .y(d => yScale(d.fieldAverage))
+      .curve(d3.curveMonotoneX);
+
+    const topLine = d3
+      .line<typeof dataToShow[0]>()
+      .x(d => xScale(d.yearsPostPhD))
+      .y(d => yScale(d.topPercentile))
+      .curve(d3.curveMonotoneX);
+
+    // Draw lines
+    const historicalEndIndex = historicalData.length - 1;
+
+    // Historical personal trajectory
+    const personalPath = g
+      .append('path')
+      .datum(historicalData)
+      .attr('class', 'trajectory-line personal')
+      .attr('d', personalLine);
+
+    // Historical field average
+    g.append('path')
+      .datum(historicalData)
+      .attr('class', 'trajectory-line field-average')
+      .attr('d', fieldLine);
+
+    // Historical top percentile
+    g.append('path')
+      .datum(historicalData)
+      .attr('class', 'trajectory-line top-percentile')
+      .attr('d', topLine);
+
+    // Projection lines (if enabled)
+    if (showProjections && projectionData.length > 0) {
+      const projectionStart = historicalData[historicalEndIndex];
+      const fullProjectionData = [projectionStart, ...projectionData];
+
+      g.append('path')
+        .datum(fullProjectionData)
+        .attr('class', 'trajectory-line projection')
+        .attr('d', personalLine);
+    }
+
+    // Animate main line
+    const totalLength = (personalPath.node() as SVGPathElement).getTotalLength();
+    personalPath
+      .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
+      .attr('stroke-dashoffset', totalLength)
+      .transition()
+      .duration(2000)
+      .attr('stroke-dashoffset', 0);
+
+    // Data points for historical data
+    ['hIndex', 'fieldAverage', 'topPercentile'].forEach((metric, index) => {
+      const className = metric === 'hIndex' ? 'personal' : 
+                       metric === 'fieldAverage' ? 'field-average' : 'top-percentile';
+      
+      g.selectAll(`.data-point.${className}`)
+        .data(historicalData)
+        .enter()
+        .append('circle')
+        .attr('class', `data-point ${className}`)
+        .attr('cx', d => xScale(d.yearsPostPhD))
+        .attr('cy', d => yScale(d[metric as keyof typeof d] as number))
+        .attr('r', 0)
+        .on('mouseover', function(event, d) {
+          tooltip.transition().duration(200).style('opacity', 1);
+          tooltip.html(`
+            <div style="font-weight: 600; margin-bottom: 8px; color: #10B981;">${d.year} (${d.yearsPostPhD} years post-PhD)</div>
+            <div class="metric">
+              <span class="label">My h-Index:</span>
+              <span class="value">${d.hIndex}</span>
+            </div>
+            <div class="metric">
+              <span class="label">Field Average:</span>
+              <span class="value">${d.fieldAverage}</span>
+            </div>
+            <div class="metric">
+              <span class="label">Top 10%:</span>
+              <span class="value">${d.topPercentile}</span>
+            </div>
+            <div style="margin-top: 8px; color: #34D399; font-size: 11px;">
+              +${d.hIndex - d.fieldAverage} above field average
+            </div>
+          `)
+          .style('left', (event.pageX + 15) + 'px')
+          .style('top', (event.pageY - 15) + 'px');
+        })
+        .on('mouseout', function() {
+          tooltip.transition().duration(200).style('opacity', 0);
+        })
+        .transition()
+        .duration(500)
+        .delay(2000 + index * 300)
+        .attr('r', 5);
+    });
+
+    // Projection points (if enabled)
+    if (showProjections) {
+      g.selectAll('.data-point.projection')
+        .data(projectionData)
+        .enter()
+        .append('circle')
+        .attr('class', 'data-point projection')
+        .attr('cx', d => xScale(d.yearsPostPhD))
+        .attr('cy', d => yScale(d.hIndex))
+        .attr('r', 0)
+        .on('mouseover', function(event, d) {
+          tooltip.transition().duration(200).style('opacity', 1);
+          tooltip.html(`
+            <div style="font-weight: 600; margin-bottom: 8px; color: #A855F7;">Projected ${d.year}</div>
+            <div class="metric">
+              <span class="label">Projected h-Index:</span>
+              <span class="value">${d.hIndex}</span>
+            </div>
+            <div style="margin-top: 8px; color: #A855F7; font-size: 11px;">
+              Based on current trajectory
+            </div>
+          `)
+          .style('left', (event.pageX + 15) + 'px')
+          .style('top', (event.pageY - 15) + 'px');
+        })
+        .on('mouseout', function() {
+          tooltip.transition().duration(200).style('opacity', 0);
+        })
+        .transition()
+        .duration(500)
+        .delay(3000)
+        .attr('r', 5);
+    }
+  }
+
+  function setupControls() {
+    const historicalBtn = document.getElementById('show-historical');
+    const projectionBtn = document.getElementById('show-projection');
+
+    historicalBtn?.addEventListener('click', () => {
+      showProjections = false;
+      historicalBtn.classList.add('active');
+      projectionBtn?.classList.remove('active');
+      createHIndexChart();
+    });
+
+    projectionBtn?.addEventListener('click', () => {
+      showProjections = true;
+      projectionBtn.classList.add('active');
+      historicalBtn?.classList.remove('active');
+      createHIndexChart();
+    });
+  }
+
+  function animateProgressBars() {
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const progressBars = entry.target.querySelectorAll('[data-animate="progress-bar"]');
+          progressBars.forEach((bar: Element) => {
+            const htmlBar = bar as HTMLElement;
+            const targetWidth = htmlBar.style.width;
+            htmlBar.style.setProperty('--target-width', targetWidth);
+          });
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    const container = document.querySelector('.h-index-progression-chart');
+    if (container) {
+      observer.observe(container);
+    }
+  }
+
+  function initChart() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createHIndexChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const chartContainer = document.querySelector('#h-index-chart');
+    if (chartContainer) {
+      observer.observe(chartContainer);
+    }
+  }
+
+  // Handle resize
+  function handleResize() {
+    const chartContainer = document.querySelector('#h-index-chart');
+    if (chartContainer?.querySelector('svg')) {
+      createHIndexChart();
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initChart();
+      setupControls();
+      animateProgressBars();
+    });
+  } else {
+    initChart();
+    setupControls();
+    animateProgressBars();
+  }
+
+  // Handle window resize with debounce
+  let resizeTimeout: NodeJS.Timeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>

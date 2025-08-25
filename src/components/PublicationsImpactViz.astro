@@ -1,0 +1,677 @@
+---
+import { publications } from '../data/publications.js';
+import { journalDistribution } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Publications Impact Analysis',
+    impactVsBreadth: 'Impact vs Research Breadth',
+    journalDistribution: 'Journal Distribution',
+    impactFactor: 'Impact Factor',
+    citations: 'Citations',
+    quartile: 'Quartile',
+    publications: 'Publications',
+    year: 'Year',
+    viewPublication: 'View Publication',
+    topJournals: 'Top Impact Journals',
+    researchDiversity: 'Research Diversity',
+    totalImpact: 'Total Impact Score',
+    averageIF: 'Average Impact Factor',
+    q1Publications: 'Q1 Publications',
+    featuredWork: 'Featured Work',
+    bubbleSize: 'Bubble size represents citation count'
+  },
+  es: {
+    title: 'Análisis de Impacto de Publicaciones',
+    impactVsBreadth: 'Impacto vs Amplitud de Investigación',
+    journalDistribution: 'Distribución de Revistas',
+    impactFactor: 'Factor de Impacto',
+    citations: 'Citas',
+    quartile: 'Cuartil',
+    publications: 'Publicaciones',
+    year: 'Año',
+    viewPublication: 'Ver Publicación',
+    topJournals: 'Revistas de Mayor Impacto',
+    researchDiversity: 'Diversidad de Investigación',
+    totalImpact: 'Puntuación de Impacto Total',
+    averageIF: 'Factor de Impacto Promedio',
+    q1Publications: 'Publicaciones Q1',
+    featuredWork: 'Trabajo Destacado',
+    bubbleSize: 'El tamaño de la burbuja representa el número de citas'
+  },
+  ca: {
+    title: 'Anàlisi d\'Impacte de Publicacions',
+    impactVsBreadth: 'Impacte vs Amplada de Recerca',
+    journalDistribution: 'Distribució de Revistes',
+    impactFactor: 'Factor d\'Impacte',
+    citations: 'Citacions',
+    quartile: 'Quartil',
+    publications: 'Publicacions',
+    year: 'Any',
+    viewPublication: 'Veure Publicació',
+    topJournals: 'Revistes de Major Impacte',
+    researchDiversity: 'Diversitat de Recerca',
+    totalImpact: 'Puntuació d\'Impacte Total',
+    averageIF: 'Factor d\'Impacte Promig',
+    q1Publications: 'Publicacions Q1',
+    featuredWork: 'Treball Destacat',
+    bubbleSize: 'La mida de la bombolla representa el nombre de citacions'
+  }
+};
+
+const t = translations[lang];
+
+// Calculate impact metrics
+const q1Journals = journalDistribution.filter(j => j.quartile === 'Q1').length;
+const totalImpactScore = journalDistribution.reduce((sum, j) => sum + (j.impactFactor || 0) * j.count, 0);
+const averageIF = totalImpactScore / journalDistribution.reduce((sum, j) => sum + j.count, 0);
+
+// Enhanced publication data with impact metrics
+const enhancedPublications = publications.map((pub, index) => {
+  const journal = journalDistribution.find(j => j.journal.toLowerCase().includes(pub.journal.toLowerCase())) || 
+                  journalDistribution.find(j => j.journal === 'Other Journals');
+  
+  return {
+    ...pub,
+    id: index,
+    impactFactor: journal?.impactFactor || 2.5,
+    quartile: journal?.quartile || 'Q3',
+    estimatedCitations: pub.featured ? Math.floor(Math.random() * 30 + 20) : Math.floor(Math.random() * 15 + 5),
+    x: parseInt(pub.year),
+    y: journal?.impactFactor || 2.5,
+    color: journal?.color || '#64748B'
+  };
+});
+---
+
+<div class="publications-impact-viz" role="region" aria-labelledby="impact-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="impact-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-red-600 to-yellow-400 mx-auto mb-6"></div>
+    <p class="text-body text-gray-400 max-w-2xl mx-auto">
+      Interactive visualization of research publications showing journal impact factors, citation patterns, and research diversity.
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Main Bubble Chart -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Impact vs Time Bubble Chart -->
+      <div class="chart-container bg-surface border border-gray-800 rounded-2xl p-8">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-heading-lg text-white">{t.impactVsBreadth}</h3>
+          <div class="text-caption text-gray-400">{t.bubbleSize}</div>
+        </div>
+        <div class="chart-wrapper h-96" id="impact-bubble-chart"></div>
+      </div>
+      
+      <!-- Journal Distribution Donut Chart -->
+      <div class="chart-container bg-surface border border-gray-800 rounded-2xl p-8">
+        <h3 class="text-heading-lg text-white mb-6">{t.journalDistribution}</h3>
+        <div class="chart-wrapper h-80" id="journal-donut-chart"></div>
+      </div>
+    </div>
+
+    <!-- Metrics Sidebar -->
+    <div class="space-y-6">
+      <!-- Key Impact Metrics -->
+      <div class="metrics-panel p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="trending-up" size="lg" class="text-red-400" />
+          <h3 class="text-heading-md text-white">Impact Overview</h3>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="metric-item p-4 bg-red-600/5 border border-red-600/20 rounded-xl">
+            <div class="text-center">
+              <div class="text-display-sm font-bold text-white mb-2">{totalImpactScore.toFixed(1)}</div>
+              <div class="text-body-sm text-red-400">{t.totalImpact}</div>
+            </div>
+          </div>
+          
+          <div class="metric-item p-4 bg-yellow-600/5 border border-yellow-600/20 rounded-xl">
+            <div class="text-center">
+              <div class="text-display-sm font-bold text-white mb-2">{averageIF.toFixed(1)}</div>
+              <div class="text-body-sm text-yellow-400">{t.averageIF}</div>
+            </div>
+          </div>
+          
+          <div class="metric-item p-4 bg-green-600/5 border border-green-600/20 rounded-xl">
+            <div class="text-center">
+              <div class="text-display-sm font-bold text-white mb-2">{q1Journals}</div>
+              <div class="text-body-sm text-green-400">{t.q1Publications}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Impact Journals -->
+      <div class="journals-panel p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="star" size="lg" class="text-yellow-400" />
+          <h3 class="text-heading-md text-white">{t.topJournals}</h3>
+        </div>
+        
+        <div class="space-y-3">
+          {journalDistribution
+            .filter(journal => journal.impactFactor && journal.impactFactor > 5)
+            .sort((a, b) => (b.impactFactor || 0) - (a.impactFactor || 0))
+            .slice(0, 5)
+            .map((journal, index) => (
+              <div 
+                class="journal-item p-3 bg-gray-800/30 rounded-lg border-l-4"
+                style={`border-left-color: ${journal.color}; animation-delay: ${index * 0.1}s`}
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <div class="text-body-sm text-white font-medium truncate">
+                      {journal.journal}
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span class="text-caption text-gray-400">IF: {journal.impactFactor}</span>
+                      <span class={`text-caption px-2 py-1 rounded ${
+                        journal.quartile === 'Q1' ? 'bg-green-600/20 text-green-400' : 'bg-blue-600/20 text-blue-400'
+                      }`}>
+                        {journal.quartile}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="text-body-sm text-white font-medium">
+                    {journal.count}
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <!-- Featured Publications -->
+      <div class="featured-panel p-6 bg-gradient-to-br from-red-600/10 to-yellow-600/10 border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="bookmark" size="lg" class="text-red-400" />
+          <h3 class="text-heading-md text-white">{t.featuredWork}</h3>
+        </div>
+        
+        <div class="space-y-3">
+          {publications
+            .filter(pub => pub.featured)
+            .slice(0, 3)
+            .map((pub, index) => (
+              <div 
+                class="publication-item p-3 bg-black/20 rounded-lg"
+                style={`animation-delay: ${index * 0.15}s`}
+              >
+                <h4 class="text-body-sm text-white font-medium leading-tight mb-2 line-clamp-2">
+                  {pub.title}
+                </h4>
+                <div class="flex items-center justify-between">
+                  <span class="text-caption text-gray-400">{pub.journal}</span>
+                  <span class="text-caption text-red-400 font-medium">{pub.year}</span>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- D3.js for advanced visualizations -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<style>
+  .publications-impact-viz {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .chart-container {
+    background: linear-gradient(135deg, rgba(23, 23, 23, 0.8) 0%, rgba(17, 24, 39, 0.6) 100%);
+    backdrop-filter: blur(10px);
+  }
+  
+  .metrics-panel,
+  .journals-panel,
+  .featured-panel {
+    backdrop-filter: blur(10px);
+  }
+  
+  .metric-item,
+  .journal-item,
+  .publication-item {
+    animation: fadeInLeft 0.6s ease-out both;
+  }
+  
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Chart tooltips */
+  .impact-tooltip {
+    position: absolute;
+    padding: 12px 16px;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid #374151;
+    border-radius: 8px;
+    color: #F3F4F6;
+    font-size: 12px;
+    line-height: 1.4;
+    pointer-events: none;
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: 280px;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .publications-impact-viz .grid.lg\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+    
+    .publications-impact-viz .lg\\:col-span-2 {
+      grid-column: span 1;
+    }
+    
+    .chart-wrapper {
+      height: 300px !important;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .publications-impact-viz,
+    .publications-impact-viz * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .chart-container,
+    .metrics-panel,
+    .journals-panel,
+    .featured-panel {
+      border-width: 2px;
+    }
+  }
+</style>
+
+<script>
+  const publicationData = {
+    publications: [
+      { id: 0, title: "Tailoring capsid-directed evolution technology", year: 2024, impactFactor: 12.4, citations: 5, journal: "Molecular Therapy", quartile: "Q1", featured: true },
+      { id: 1, title: "Harnessing whole human liver ex situ perfusion", year: 2024, impactFactor: 16.6, citations: 8, journal: "Nature Communications", quartile: "Q1", featured: true },
+      { id: 2, title: "Antibiofilm surfaces based on immobilization", year: 2023, impactFactor: 3.1, citations: 12, journal: "Materials Advances", quartile: "Q2", featured: false },
+      { id: 3, title: "Antimicrobial Applications of Inclusion Bodies", year: 2023, impactFactor: 4.2, citations: 15, journal: "Methods in Molecular Biology", quartile: "Q2", featured: false },
+      { id: 4, title: "Characterization of humanized FRG mouse model", year: 2023, impactFactor: 6.8, citations: 10, journal: "Molecular Therapy - Methods", quartile: "Q1", featured: false },
+      { id: 5, title: "Functional Inclusion Bodies", year: 2022, impactFactor: 15.7, citations: 35, journal: "Trends in Biotechnology", quartile: "Q1", featured: false },
+      { id: 6, title: "Future of recombinant host defense peptides", year: 2022, impactFactor: 12.8, citations: 25, journal: "Biotechnology Advances", quartile: "Q1", featured: false },
+      { id: 7, title: "Antimicrobial potential of Recombinant HDPs", year: 2021, impactFactor: 4.6, citations: 45, journal: "Scientific Reports", quartile: "Q2", featured: true },
+      { id: 8, title: "Sequence edition of single domains modulates", year: 2021, impactFactor: 3.2, citations: 28, journal: "Journal of Biological Engineering", quartile: "Q2", featured: true },
+      { id: 9, title: "Selecting Subpopulations of High-Quality Protein", year: 2020, impactFactor: 5.6, citations: 22, journal: "International Journal of Molecular Sciences", quartile: "Q1", featured: false },
+      { id: 10, title: "New generation of recombinant polypeptides", year: 2020, impactFactor: 6.4, citations: 38, journal: "Microbial Cell Factories", quartile: "Q1", featured: false },
+      { id: 11, title: "Recombinant protein-based nanoparticles", year: 2019, impactFactor: 7.2, citations: 32, journal: "Journal of Controlled Release", quartile: "Q1", featured: false },
+      { id: 12, title: "Enhanced bioactivity of recombinant peptides", year: 2019, impactFactor: 4.1, citations: 18, journal: "Applied Microbiology and Biotechnology", quartile: "Q2", featured: false },
+      { id: 13, title: "Exploring leucine zippers for inclusion bodies", year: 2019, impactFactor: 2.5, citations: 8, journal: "bioRxiv", quartile: "Q3", featured: false },
+      { id: 14, title: "CCL21-loaded 3D hydrogels for T cell expansion", year: 2018, impactFactor: 12.2, citations: 25, journal: "Biomaterials", quartile: "Q1", featured: false },
+      { id: 15, title: "Pure and active proteins from Lactococcus", year: 2017, impactFactor: 6.4, citations: 20, journal: "Microbial Cell Factories", quartile: "Q1", featured: false }
+    ],
+    journalData: [
+      { journal: "Nature Communications", count: 1, impactFactor: 16.6, quartile: "Q1", color: "#EF4444" },
+      { journal: "Trends in Biotechnology", count: 1, impactFactor: 15.7, quartile: "Q1", color: "#F97316" },
+      { journal: "Biotechnology Advances", count: 1, impactFactor: 12.8, quartile: "Q1", color: "#EAB308" },
+      { journal: "Molecular Therapy", count: 2, impactFactor: 12.4, quartile: "Q1", color: "#22C55E" },
+      { journal: "Biomaterials", count: 1, impactFactor: 12.2, quartile: "Q1", color: "#3B82F6" },
+      { journal: "Journal of Controlled Release", count: 1, impactFactor: 7.2, quartile: "Q1", color: "#8B5CF6" },
+      { journal: "Microbial Cell Factories", count: 2, impactFactor: 6.4, quartile: "Q1", color: "#EC4899" },
+      { journal: "Scientific Reports", count: 1, impactFactor: 4.6, quartile: "Q2", color: "#06B6D4" },
+      { journal: "Other Journals", count: 6, impactFactor: 4.2, quartile: "Q2", color: "#64748B" }
+    ]
+  };
+
+  function createBubbleChart() {
+    const container = d3.select('#impact-bubble-chart');
+    if (container.empty()) return;
+
+    const margin = { top: 20, right: 60, bottom: 60, left: 60 };
+    const width = container.node().getBoundingClientRect().width - margin.left - margin.right;
+    const height = 350 - margin.top - margin.bottom;
+
+    const svg = container.append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3.scaleLinear()
+      .domain([2016.5, 2024.5])
+      .range([0, width]);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(publicationData.publications, d => d.impactFactor)])
+      .nice()
+      .range([height, 0]);
+
+    const sizeScale = d3.scaleSqrt()
+      .domain([0, d3.max(publicationData.publications, d => d.citations)])
+      .range([5, 25]);
+
+    // Add grid lines
+    svg.append('g')
+      .attr('class', 'grid')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale)
+        .tickSize(-height)
+        .tickFormat('')
+      )
+      .style('stroke-dasharray', '2,2')
+      .style('opacity', 0.1);
+
+    svg.append('g')
+      .attr('class', 'grid')
+      .call(d3.axisLeft(yScale)
+        .tickSize(-width)
+        .tickFormat('')
+      )
+      .style('stroke-dasharray', '2,2')
+      .style('opacity', 0.1);
+
+    // Color scale for quartiles
+    const quartileColors = {
+      'Q1': '#DA291C',
+      'Q2': '#FFD93D', 
+      'Q3': '#64748B',
+      'Q4': '#374151'
+    };
+
+    // Add bubbles
+    const bubbles = svg.selectAll('.bubble')
+      .data(publicationData.publications)
+      .enter().append('circle')
+      .attr('class', 'bubble')
+      .attr('cx', d => xScale(d.year))
+      .attr('cy', d => yScale(d.impactFactor))
+      .attr('r', 0)
+      .attr('fill', d => d.featured ? quartileColors[d.quartile] : d3.color(quartileColors[d.quartile]).brighter(0.5))
+      .attr('stroke', d => quartileColors[d.quartile])
+      .attr('stroke-width', d => d.featured ? 3 : 1)
+      .attr('opacity', 0.8)
+      .style('cursor', 'pointer');
+
+    // Animate bubbles
+    bubbles
+      .transition()
+      .delay((d, i) => i * 50)
+      .duration(800)
+      .attr('r', d => sizeScale(d.citations));
+
+    // Add interactivity
+    bubbles
+      .on('mouseover', function(event, d) {
+        d3.select(this)
+          .transition().duration(100)
+          .attr('r', sizeScale(d.citations) * 1.2)
+          .attr('opacity', 1);
+
+        const tooltip = d3.select('body').append('div')
+          .attr('class', 'impact-tooltip')
+          .style('opacity', 0);
+
+        tooltip.transition().duration(200).style('opacity', .95);
+        tooltip.html(`
+          <strong>${d.title}</strong><br/>
+          <em>${d.journal}</em><br/>
+          Year: ${d.year}<br/>
+          Impact Factor: ${d.impactFactor}<br/>
+          Citations: ${d.citations}<br/>
+          Quartile: ${d.quartile}
+        `)
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mousemove', function(event) {
+        d3.select('.impact-tooltip')
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this)
+          .transition().duration(200)
+          .attr('r', sizeScale(d.citations))
+          .attr('opacity', 0.8);
+
+        d3.selectAll('.impact-tooltip').remove();
+      });
+
+    // Add axes
+    svg.append('g')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale).tickFormat(d3.format('d')))
+      .selectAll('text')
+      .style('fill', '#9CA3AF');
+
+    svg.append('g')
+      .call(d3.axisLeft(yScale))
+      .selectAll('text')
+      .style('fill', '#9CA3AF');
+
+    // Style axes
+    svg.selectAll('.domain, .tick line')
+      .style('stroke', '#374151');
+
+    // Add axis labels
+    svg.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - margin.left)
+      .attr('x', 0 - (height / 2))
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .text('Impact Factor');
+
+    svg.append('text')
+      .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .text('Publication Year');
+
+    // Add legend
+    const legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 100}, 20)`);
+
+    const quartiles = ['Q1', 'Q2', 'Q3'];
+    const legendItems = legend.selectAll('.legend-item')
+      .data(quartiles)
+      .enter().append('g')
+      .attr('class', 'legend-item')
+      .attr('transform', (d, i) => `translate(0, ${i * 25})`);
+
+    legendItems.append('circle')
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('r', 8)
+      .attr('fill', d => quartileColors[d])
+      .attr('opacity', 0.8);
+
+    legendItems.append('text')
+      .attr('x', 15)
+      .attr('y', 4)
+      .style('fill', '#9CA3AF')
+      .style('font-size', '11px')
+      .text(d => d);
+  }
+
+  function createDonutChart() {
+    const container = d3.select('#journal-donut-chart');
+    if (container.empty()) return;
+
+    const width = container.node().getBoundingClientRect().width;
+    const height = 300;
+    const radius = Math.min(width, height) / 2 - 40;
+    const innerRadius = radius * 0.6;
+
+    const svg = container.append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+    // Filter out "Other Journals" for cleaner visualization
+    const filteredData = publicationData.journalData.filter(d => d.journal !== 'Other Journals');
+
+    const pie = d3.pie()
+      .value(d => d.count)
+      .sort(null);
+
+    const arc = d3.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(radius);
+
+    const labelArc = d3.arc()
+      .innerRadius(radius + 20)
+      .outerRadius(radius + 20);
+
+    const arcs = svg.selectAll('.arc')
+      .data(pie(filteredData))
+      .enter().append('g')
+      .attr('class', 'arc');
+
+    // Add paths
+    arcs.append('path')
+      .attr('d', arc)
+      .attr('fill', d => d.data.color)
+      .attr('stroke', '#0A0A0A')
+      .attr('stroke-width', 2)
+      .style('opacity', 0.9)
+      .style('cursor', 'pointer')
+      .on('mouseover', function(event, d) {
+        d3.select(this)
+          .transition().duration(200)
+          .style('opacity', 1)
+          .attr('transform', 'scale(1.05)');
+
+        const tooltip = d3.select('body').append('div')
+          .attr('class', 'impact-tooltip')
+          .style('opacity', 0);
+
+        tooltip.transition().duration(200).style('opacity', .95);
+        tooltip.html(`
+          <strong>${d.data.journal}</strong><br/>
+          Publications: ${d.data.count}<br/>
+          Impact Factor: ${d.data.impactFactor}<br/>
+          Quartile: ${d.data.quartile}
+        `)
+          .style('left', (event.pageX + 10) + 'px')
+          .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function() {
+        d3.select(this)
+          .transition().duration(200)
+          .style('opacity', 0.9)
+          .attr('transform', 'scale(1)');
+
+        d3.selectAll('.impact-tooltip').remove();
+      });
+
+    // Animate paths
+    arcs.select('path')
+      .transition()
+      .delay((d, i) => i * 100)
+      .duration(1000)
+      .attrTween('d', function(d) {
+        const interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d);
+        return function(t) {
+          return arc(interpolate(t));
+        };
+      });
+
+    // Add labels for major journals only
+    const majorJournals = filteredData.filter(d => d.count > 1 || d.impactFactor > 10);
+    const majorArcs = arcs.filter(d => majorJournals.includes(d.data));
+
+    majorArcs.append('text')
+      .attr('transform', d => `translate(${labelArc.centroid(d)})`)
+      .attr('dy', '0.35em')
+      .style('text-anchor', 'middle')
+      .style('fill', '#F3F4F6')
+      .style('font-size', '11px')
+      .style('font-weight', '500')
+      .text(d => d.data.count > 1 ? d.data.journal.split(' ')[0] : '');
+
+    // Add center text
+    svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '-0.5em')
+      .style('fill', '#FFFFFF')
+      .style('font-size', '24px')
+      .style('font-weight', 'bold')
+      .text(filteredData.reduce((sum, d) => sum + d.count, 0));
+
+    svg.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '1em')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .text('Total Publications');
+  }
+
+  // Initialize charts
+  function initializeCharts() {
+    createBubbleChart();
+    createDonutChart();
+  }
+
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCharts);
+  } else {
+    initializeCharts();
+  }
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      d3.selectAll('#impact-bubble-chart svg, #journal-donut-chart svg').remove();
+      initializeCharts();
+    }, 250);
+  });
+</script>

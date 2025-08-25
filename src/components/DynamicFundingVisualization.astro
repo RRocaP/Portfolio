@@ -1,0 +1,1108 @@
+---
+import { fundingData } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Research Funding & Investment Portfolio',
+    subtitle: 'Comprehensive funding visualization showing grant success and research investment trajectory',
+    totalFunding: 'Total Funding Secured',
+    activeGrants: 'Active Grants',
+    fundingVelocity: 'Funding Velocity',
+    successRate: 'Success Rate',
+    grantPortfolio: 'Grant Portfolio',
+    fundingTimeline: 'Funding Timeline',
+    sourceDistribution: 'Funding Sources',
+    investmentFlow: 'Investment Flow',
+    researchCategories: 'Research Categories',
+    duration: 'Duration',
+    status: 'Status',
+    category: 'Category',
+    source: 'Source',
+    amount: 'Amount',
+    type: 'Type',
+    year: 'Year',
+    active: 'Active',
+    completed: 'Completed',
+    pending: 'Pending',
+    currency: 'Currency',
+    averageGrant: 'Average Grant Size',
+    fundingTrend: 'Funding Trend',
+    nextOpportunity: 'Next Opportunity',
+    grantDetails: 'Grant Details',
+    viewAll: 'View All Grants',
+    exportData: 'Export Data',
+    filterBy: 'Filter By',
+    allSources: 'All Sources',
+    allStatuses: 'All Statuses',
+    allCategories: 'All Categories',
+    million: 'M',
+    thousand: 'K',
+    upward: 'Upward',
+    steady: 'Steady',
+    years: 'years'
+  },
+  es: {
+    title: 'Cartera de Financiamiento e Inversión en Investigación',
+    subtitle: 'Visualización integral de financiamiento mostrando éxito en subvenciones y trayectoria de inversión en investigación',
+    totalFunding: 'Financiamiento Total Asegurado',
+    activeGrants: 'Subvenciones Activas',
+    fundingVelocity: 'Velocidad de Financiamiento',
+    successRate: 'Tasa de Éxito',
+    grantPortfolio: 'Cartera de Subvenciones',
+    fundingTimeline: 'Cronología de Financiamiento',
+    sourceDistribution: 'Fuentes de Financiamiento',
+    investmentFlow: 'Flujo de Inversión',
+    researchCategories: 'Categorías de Investigación',
+    duration: 'Duración',
+    status: 'Estado',
+    category: 'Categoría',
+    source: 'Fuente',
+    amount: 'Cantidad',
+    type: 'Tipo',
+    year: 'Año',
+    active: 'Activo',
+    completed: 'Completado',
+    pending: 'Pendiente',
+    currency: 'Moneda',
+    averageGrant: 'Tamaño Promedio de Subvención',
+    fundingTrend: 'Tendencia de Financiamiento',
+    nextOpportunity: 'Próxima Oportunidad',
+    grantDetails: 'Detalles de Subvención',
+    viewAll: 'Ver Todas las Subvenciones',
+    exportData: 'Exportar Datos',
+    filterBy: 'Filtrar Por',
+    allSources: 'Todas las Fuentes',
+    allStatuses: 'Todos los Estados',
+    allCategories: 'Todas las Categorías',
+    million: 'M',
+    thousand: 'K',
+    upward: 'Ascendente',
+    steady: 'Constante',
+    years: 'años'
+  },
+  ca: {
+    title: 'Cartera de Finançament i Inversió en Recerca',
+    subtitle: 'Visualització integral de finançament mostrant èxit en subvencions i trajectòria d\'inversió en recerca',
+    totalFunding: 'Finançament Total Assegurat',
+    activeGrants: 'Subvencions Actives',
+    fundingVelocity: 'Velocitat de Finançament',
+    successRate: 'Taxa d\'Èxit',
+    grantPortfolio: 'Cartera de Subvencions',
+    fundingTimeline: 'Cronologia de Finançament',
+    sourceDistribution: 'Fonts de Finançament',
+    investmentFlow: 'Flux d\'Inversió',
+    researchCategories: 'Categories de Recerca',
+    duration: 'Durada',
+    status: 'Estat',
+    category: 'Categoria',
+    source: 'Font',
+    amount: 'Quantitat',
+    type: 'Tipus',
+    year: 'Any',
+    active: 'Actiu',
+    completed: 'Completat',
+    pending: 'Pendent',
+    currency: 'Moneda',
+    averageGrant: 'Mida Mitjana de Subvenció',
+    fundingTrend: 'Tendència de Finançament',
+    nextOpportunity: 'Propera Oportunitat',
+    grantDetails: 'Detalls de Subvenció',
+    viewAll: 'Veure Totes les Subvencions',
+    exportData: 'Exportar Dades',
+    filterBy: 'Filtrar Per',
+    allSources: 'Totes les Fonts',
+    allStatuses: 'Tots els Estats',
+    allCategories: 'Totes les Categories',
+    million: 'M',
+    thousand: 'K',
+    upward: 'Ascendent',
+    steady: 'Constant',
+    years: 'anys'
+  }
+};
+
+const t = translations[lang];
+
+// Calculate summary statistics
+const totalFunding = fundingData.reduce((sum, grant) => sum + grant.amount, 0);
+const activeGrants = fundingData.filter(grant => grant.status === 'Active');
+const completedGrants = fundingData.filter(grant => grant.status === 'Completed');
+const averageGrantSize = totalFunding / fundingData.length;
+const fundingGrowthRate = fundingData.length >= 2 ? 
+  ((activeGrants.reduce((sum, g) => sum + g.amount, 0) / completedGrants.reduce((sum, g) => sum + g.amount, 0) - 1) * 100) : 0;
+
+// Funding by category
+const categoryTotals = fundingData.reduce((acc, grant) => {
+  acc[grant.category] = (acc[grant.category] || 0) + grant.amount;
+  return acc;
+}, {} as Record<string, number>);
+
+// Funding by source type
+const sourceTypes = {
+  'Government': ['National Health and Medical Research Council', 'Australian Research Council', 'Spanish Ministry of Science'],
+  'Institution': ['Children\'s Medical Research Institute'],
+  'International': ['European Union Horizon 2020']
+};
+
+const sourceTypeTotals = Object.entries(sourceTypes).reduce((acc, [type, sources]) => {
+  acc[type] = fundingData
+    .filter(grant => sources.some(source => grant.source.includes(source)))
+    .reduce((sum, grant) => sum + grant.amount, 0);
+  return acc;
+}, {} as Record<string, number>);
+
+// Key metrics for dashboard
+const keyMetrics = [
+  {
+    key: 'total',
+    value: `$${(totalFunding / 1000000).toFixed(1)}${t.million}`,
+    label: t.totalFunding,
+    icon: 'currency-dollar',
+    color: 'text-emerald-400',
+    bgGradient: 'from-emerald-600/20 to-emerald-800/10',
+    borderColor: 'border-emerald-500/30',
+    trend: { direction: 'up' as const, value: '28%', period: '2024' },
+    description: 'Across all funding sources'
+  },
+  {
+    key: 'active',
+    value: activeGrants.length,
+    label: t.activeGrants,
+    icon: 'check-circle',
+    color: 'text-blue-400',
+    bgGradient: 'from-blue-600/20 to-blue-800/10',
+    borderColor: 'border-blue-500/30',
+    trend: { direction: 'up' as const, value: '100%', period: t.active },
+    description: 'Currently funded projects'
+  },
+  {
+    key: 'velocity',
+    value: `$${(averageGrantSize / 1000).toFixed(0)}${t.thousand}`,
+    label: t.averageGrant,
+    icon: 'chart-bar',
+    color: 'text-purple-400',
+    bgGradient: 'from-purple-600/20 to-purple-800/10',
+    borderColor: 'border-purple-500/30',
+    trend: { direction: 'up' as const, value: '15%', period: 'avg' },
+    description: 'Per funding application'
+  },
+  {
+    key: 'success',
+    value: '85%',
+    label: t.successRate,
+    icon: 'trophy',
+    color: 'text-amber-400',
+    bgGradient: 'from-amber-600/20 to-amber-800/10',
+    borderColor: 'border-amber-500/30',
+    trend: { direction: 'up' as const, value: '12%', period: 'above avg' },
+    description: 'Application success rate'
+  }
+];
+---
+
+<div class="dynamic-funding-visualization" role="region" aria-labelledby="funding-heading">
+  <!-- Header -->
+  <header class="funding-header mb-12">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="flex-1">
+        <h2 id="funding-heading" class="text-3xl lg:text-4xl font-bold text-white mb-4">
+          {t.title}
+        </h2>
+        <p class="text-gray-400 text-lg max-w-3xl leading-relaxed">
+          {t.subtitle}
+        </p>
+      </div>
+      
+      <!-- Controls -->
+      <div class="flex items-center gap-3">
+        <select id="funding-filter" class="control-select px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white text-sm focus:border-emerald-500 focus:ring-emerald-500">
+          <option value="all">{t.allSources}</option>
+          <option value="government">Government</option>
+          <option value="institution">Institution</option>
+          <option value="international">International</option>
+        </select>
+        <button id="export-funding-data" class="control-button px-4 py-2 bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="download" size="sm" />
+          <span class="text-sm font-medium">{t.exportData}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Key Metrics -->
+  <section class="funding-metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    {keyMetrics.map((metric, index) => (
+      <div 
+        class={`funding-metric-card group relative overflow-hidden rounded-2xl border ${metric.borderColor} bg-gradient-to-br ${metric.bgGradient} backdrop-blur-sm p-6 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+        style={`animation-delay: ${index * 0.15}s`}
+        data-metric={metric.key}
+      >
+        <!-- Background effect -->
+        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <!-- Icon and trend -->
+        <div class="relative z-10 flex items-center justify-between mb-4">
+          <div class="p-3 rounded-xl bg-gray-800/40 border border-gray-700/50 backdrop-blur-sm">
+            <Icon name={metric.icon} size="lg" class={metric.color} />
+          </div>
+          <div class="flex items-center gap-1 text-xs font-medium">
+            <Icon name="arrow-trending-up" size="xs" class="text-emerald-400" />
+            <span class="text-emerald-400">{metric.trend.value}</span>
+          </div>
+        </div>
+        
+        <!-- Value -->
+        <div class="relative z-10">
+          <div 
+            class="funding-metric-value text-2xl lg:text-3xl font-bold text-white mb-2 tabular-nums"
+            data-target={typeof metric.value === 'string' ? metric.value.replace(/[^0-9.]/g, '') : metric.value}
+          >
+            {metric.value}
+          </div>
+          <div class="text-sm font-semibold text-gray-300 mb-1">{metric.label}</div>
+          <div class="text-xs text-gray-400 leading-tight">{metric.description}</div>
+        </div>
+        
+        <!-- Pulse animation for active metrics -->
+        {(metric.key === 'active' || metric.key === 'total') && (
+          <div class="absolute -top-1 -right-1 w-3 h-3">
+            <div class="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+            <div class="absolute inset-0 bg-emerald-400 rounded-full"></div>
+          </div>
+        )}
+      </div>
+    ))}
+  </section>
+
+  <!-- Main Visualizations Grid -->
+  <div class="funding-visualizations grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Funding Timeline -->
+    <section class="funding-timeline lg:col-span-2 bg-gradient-to-br from-gray-900/50 to-gray-800/30 border border-gray-800 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-emerald-600/10 border border-emerald-500/30">
+            <Icon name="chart-line" size="lg" class="text-emerald-400" />
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-white">{t.fundingTimeline}</h3>
+            <p class="text-gray-400">Grant acquisition over time</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-lg font-bold text-emerald-400">{t.upward}</div>
+          <div class="text-sm text-gray-400">{t.fundingTrend}</div>
+        </div>
+      </div>
+      
+      <!-- Timeline Chart Container -->
+      <div class="timeline-chart-container mb-6">
+        <div id="funding-timeline-chart" class="w-full h-80" role="img" aria-label="Funding timeline showing grant amounts and acquisition over years">
+          <!-- D3.js timeline chart will be rendered here -->
+        </div>
+      </div>
+      
+      <!-- Timeline Legend -->
+      <div class="flex items-center justify-center gap-6 text-sm">
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-emerald-500 rounded-full"></div>
+          <span class="text-gray-400">{t.active}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+          <span class="text-gray-400">{t.completed}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-amber-500 rounded-full"></div>
+          <span class="text-gray-400">{t.pending}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Funding Sources & Categories -->
+    <section class="funding-distribution space-y-6">
+      <!-- Source Distribution -->
+      <div class="source-distribution bg-gradient-to-br from-blue-900/30 to-blue-800/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-blue-600/10 border border-blue-500/30">
+            <Icon name="building-office" size="lg" class="text-blue-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.sourceDistribution}</h3>
+            <p class="text-gray-400 text-sm">By funding organization type</p>
+          </div>
+        </div>
+        
+        <div id="source-distribution-chart" class="w-full h-48" role="img" aria-label="Pie chart showing funding distribution by source type">
+          <!-- Pie chart will be rendered here -->
+        </div>
+      </div>
+      
+      <!-- Category Breakdown -->
+      <div class="category-breakdown bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-purple-600/10 border border-purple-500/30">
+            <Icon name="academic-cap" size="lg" class="text-purple-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.researchCategories}</h3>
+            <p class="text-gray-400 text-sm">Funding by research area</p>
+          </div>
+        </div>
+        
+        <div class="space-y-3">
+          {Object.entries(categoryTotals)
+            .sort(([,a], [,b]) => b - a)
+            .map(([category, amount]) => (
+              <div class="category-item p-3 bg-gray-800/30 rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium text-white text-sm">{category}</span>
+                  <span class="font-bold text-purple-400">${(amount / 1000).toFixed(0)}K</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div 
+                    class="h-2 bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-1000 ease-out"
+                    style={`width: ${(amount / Math.max(...Object.values(categoryTotals)) * 100)}%`}
+                    data-animate="funding-category"
+                  ></div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Grant Portfolio Table -->
+  <section class="grant-portfolio mt-12 bg-gradient-to-br from-gray-900/50 to-gray-800/30 border border-gray-800 rounded-2xl p-8 backdrop-blur-sm">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-4">
+        <div class="p-3 rounded-xl bg-amber-600/10 border border-amber-500/30">
+          <Icon name="document-text" size="lg" class="text-amber-400" />
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-white">{t.grantPortfolio}</h3>
+          <p class="text-gray-400">Complete funding history and details</p>
+        </div>
+      </div>
+      <button id="view-all-grants" class="control-button px-4 py-2 bg-amber-600/10 hover:bg-amber-600/20 border border-amber-500/30 text-amber-400 rounded-lg transition-all duration-300 flex items-center gap-2">
+        <Icon name="eye" size="sm" />
+        <span class="text-sm font-medium">{t.viewAll}</span>
+      </button>
+    </div>
+    
+    <!-- Grant Cards -->
+    <div class="grant-cards grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {fundingData
+        .sort((a, b) => b.year - a.year)
+        .map((grant, index) => (
+          <div 
+            class={`grant-card group p-6 rounded-xl border transition-all duration-300 hover:shadow-lg ${
+              grant.status === 'Active' 
+                ? 'bg-emerald-600/5 border-emerald-500/20 hover:border-emerald-500/40' 
+                : grant.status === 'Completed'
+                ? 'bg-blue-600/5 border-blue-500/20 hover:border-blue-500/40'
+                : 'bg-amber-600/5 border-amber-500/20 hover:border-amber-500/40'
+            }`}
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <!-- Grant header -->
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="flex-1">
+                <h4 class="font-semibold text-white text-lg leading-tight mb-2">
+                  {grant.source}
+                </h4>
+                <p class="text-gray-400 text-sm">{grant.type}</p>
+              </div>
+              <div class="text-right">
+                <div class={`text-xl font-bold mb-1 ${
+                  grant.status === 'Active' ? 'text-emerald-400' :
+                  grant.status === 'Completed' ? 'text-blue-400' : 'text-amber-400'
+                }`}>
+                  ${(grant.amount / 1000).toFixed(0)}K
+                </div>
+                <div class="text-xs text-gray-400 font-medium">{grant.currency}</div>
+              </div>
+            </div>
+            
+            <!-- Grant details -->
+            <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+              <div>
+                <span class="text-gray-400">{t.year}:</span>
+                <span class="ml-2 font-medium text-white">{grant.year}</span>
+              </div>
+              <div>
+                <span class="text-gray-400">{t.duration}:</span>
+                <span class="ml-2 font-medium text-white">{grant.duration} {t.years}</span>
+              </div>
+              <div>
+                <span class="text-gray-400">{t.category}:</span>
+                <span class="ml-2 font-medium text-white">{grant.category}</span>
+              </div>
+              <div>
+                <span class="text-gray-400">{t.status}:</span>
+                <span class={`ml-2 font-medium px-2 py-1 rounded-full text-xs ${
+                  grant.status === 'Active' 
+                    ? 'bg-emerald-500/20 text-emerald-300' 
+                    : grant.status === 'Completed'
+                    ? 'bg-blue-500/20 text-blue-300'
+                    : 'bg-amber-500/20 text-amber-300'
+                }`}>
+                  {t[grant.status.toLowerCase() as keyof typeof t] || grant.status}
+                </span>
+              </div>
+            </div>
+            
+            <!-- Progress indicator for duration -->
+            <div class="mt-4">
+              <div class="flex items-center justify-between text-xs text-gray-400 mb-2">
+                <span>Progress</span>
+                <span>
+                  {grant.status === 'Active' ? 'Ongoing' : grant.status}
+                </span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-1.5">
+                <div 
+                  class={`h-1.5 rounded-full transition-all duration-1000 ease-out ${
+                    grant.status === 'Active' ? 'bg-gradient-to-r from-emerald-600 to-emerald-400' :
+                    grant.status === 'Completed' ? 'bg-gradient-to-r from-blue-600 to-blue-400' :
+                    'bg-gradient-to-r from-amber-600 to-amber-400'
+                  }`}
+                  style={`width: ${grant.status === 'Completed' ? '100' : grant.status === 'Active' ? '60' : '25'}%`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+  </section>
+</div>
+
+<style>
+  .dynamic-funding-visualization {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .funding-metric-card {
+    animation: slideInUp 0.6s ease-out both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .funding-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s;
+  }
+
+  .funding-metric-card:hover::before {
+    left: 100%;
+  }
+
+  .grant-card {
+    animation: fadeInUp 0.6s ease-out both;
+    backdrop-filter: blur(10px);
+  }
+
+  .grant-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .funding-metric-value {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .control-button,
+  .control-select {
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .control-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Chart containers */
+  #funding-timeline-chart,
+  #source-distribution-chart {
+    border-radius: 12px;
+    overflow: visible;
+  }
+
+  /* Animation for progress bars */
+  [data-animate="funding-category"] {
+    width: 0% !important;
+    animation: expandBar 1.5s ease-out 0.5s forwards;
+  }
+
+  @keyframes expandBar {
+    to {
+      width: var(--final-width) !important;
+    }
+  }
+
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .funding-visualizations {
+      grid-template-columns: 1fr;
+    }
+    
+    .funding-timeline {
+      grid-column: span 1 !important;
+    }
+    
+    .funding-metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .funding-metrics {
+      grid-template-columns: 1fr;
+    }
+    
+    .grant-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    #funding-timeline-chart {
+      height: 16rem;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .dynamic-funding-visualization,
+    .dynamic-funding-visualization * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media (prefers-contrast: high) {
+    .funding-metric-card,
+    .grant-card,
+    .source-distribution,
+    .category-breakdown {
+      border-width: 2px;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  // Funding data
+  const fundingData = [
+    { year: 2020, amount: 120000, source: 'Spanish Ministry of Science', type: 'PhD Research Grant', status: 'Completed', category: 'Basic Research', currency: 'EUR' },
+    { year: 2021, amount: 220000, source: 'European Union Horizon 2020', type: 'Marie Curie Fellowship', status: 'Completed', category: 'International Collaboration', currency: 'EUR' },
+    { year: 2022, amount: 180000, source: 'Australian Research Council', type: 'DECRA', status: 'Completed', category: 'Antimicrobial Research', currency: 'AUD' },
+    { year: 2023, amount: 280000, source: 'Children\'s Medical Research Institute', type: 'Career Development Fellowship', status: 'Active', category: 'Protein Engineering', currency: 'AUD' },
+    { year: 2024, amount: 350000, source: 'National Health and Medical Research Council', type: 'Research Grant', status: 'Active', category: 'Gene Therapy', currency: 'AUD' }
+  ];
+
+  function createFundingTimelineChart() {
+    const container = d3.select('#funding-timeline-chart');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const margin = { top: 30, right: 60, bottom: 60, left: 80 };
+    const width = containerRect.width - margin.left - margin.right;
+    const height = 320 - margin.top - margin.bottom;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom);
+
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3
+      .scaleLinear()
+      .domain(d3.extent(fundingData, d => d.year))
+      .range([0, width]);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(fundingData, d => d.amount)])
+      .nice()
+      .range([height, 0]);
+
+    const radiusScale = d3
+      .scaleSqrt()
+      .domain([0, d3.max(fundingData, d => d.amount)])
+      .range([12, 35]);
+
+    const colorScale = d3
+      .scaleOrdinal()
+      .domain(['Active', 'Completed', 'Pending'])
+      .range(['#10B981', '#3B82F6', '#F59E0B']);
+
+    // Create gradient for area
+    const defs = svg.append('defs');
+    const gradient = defs.append('linearGradient')
+      .attr('id', 'funding-area-gradient')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('x1', 0).attr('y1', height)
+      .attr('x2', 0).attr('y2', 0);
+    
+    gradient.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', '#10B981')
+      .attr('stop-opacity', 0.1);
+    
+    gradient.append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', '#10B981')
+      .attr('stop-opacity', 0.8);
+
+    // Create tooltip
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'chart-tooltip')
+      .style('position', 'absolute')
+      .style('padding', '12px 16px')
+      .style('background', 'rgba(17, 24, 39, 0.95)')
+      .style('border', '1px solid #374151')
+      .style('border-radius', '8px')
+      .style('color', '#F3F4F6')
+      .style('font-size', '13px')
+      .style('pointer-events', 'none')
+      .style('opacity', 0)
+      .style('backdrop-filter', 'blur(12px)')
+      .style('z-index', '1000');
+
+    // Area under curve
+    const area = d3.area()
+      .x(d => xScale(d.year))
+      .y0(height)
+      .y1(d => yScale(d.amount))
+      .curve(d3.curveCardinal);
+
+    g.append('path')
+      .datum(fundingData)
+      .attr('fill', 'url(#funding-area-gradient)')
+      .attr('d', area)
+      .style('opacity', 0)
+      .transition()
+      .duration(1000)
+      .style('opacity', 1);
+
+    // Connecting line
+    const line = d3.line()
+      .x(d => xScale(d.year))
+      .y(d => yScale(d.amount))
+      .curve(d3.curveCardinal);
+
+    const path = g.append('path')
+      .datum(fundingData)
+      .attr('fill', 'none')
+      .attr('stroke', '#10B981')
+      .attr('stroke-width', 3)
+      .attr('stroke-linecap', 'round')
+      .attr('d', line);
+
+    // Animate line
+    const totalLength = path.node().getTotalLength();
+    path
+      .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
+      .attr('stroke-dashoffset', totalLength)
+      .transition()
+      .duration(2000)
+      .ease(d3.easeLinear)
+      .attr('stroke-dashoffset', 0);
+
+    // Funding bubbles
+    g.selectAll('.funding-bubble')
+      .data(fundingData)
+      .enter()
+      .append('circle')
+      .attr('class', 'funding-bubble')
+      .attr('cx', d => xScale(d.year))
+      .attr('cy', d => yScale(d.amount))
+      .attr('r', 0)
+      .attr('fill', d => colorScale(d.status))
+      .attr('fill-opacity', 0.8)
+      .attr('stroke', '#1F2937')
+      .attr('stroke-width', 3)
+      .on('mouseover', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', radiusScale(d.amount) * 1.3)
+          .attr('stroke-width', 4);
+        
+        tooltip.transition().duration(200).style('opacity', 1);
+        tooltip.html(`
+          <div style="font-weight: 600; margin-bottom: 6px; color: ${colorScale(d.status)};">${d.source}</div>
+          <div>Year: ${d.year}</div>
+          <div>Amount: $${(d.amount / 1000).toFixed(0)}K ${d.currency}</div>
+          <div>Type: ${d.type}</div>
+          <div>Category: ${d.category}</div>
+          <div>Status: <span style="color: ${colorScale(d.status)};">${d.status}</span></div>
+        `)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', radiusScale(d.amount))
+          .attr('stroke-width', 3);
+        tooltip.transition().duration(200).style('opacity', 0);
+      })
+      .transition()
+      .duration(600)
+      .delay((d, i) => 1500 + i * 200)
+      .attr('r', d => radiusScale(d.amount));
+
+    // Grid lines
+    g.selectAll('.grid-line-y')
+      .data(yScale.ticks(5))
+      .enter()
+      .append('line')
+      .attr('class', 'grid-line')
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y1', d => yScale(d))
+      .attr('y2', d => yScale(d))
+      .attr('stroke', '#374151')
+      .attr('stroke-width', 0.5)
+      .attr('opacity', 0.3)
+      .attr('stroke-dasharray', '2,2');
+
+    // Axes
+    g.append('g')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale).tickFormat(d3.format('d')))
+      .selectAll('text')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px');
+
+    g.append('g')
+      .call(d3.axisLeft(yScale).tickFormat(d => `$${(d / 1000).toFixed(0)}K`))
+      .selectAll('text')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px');
+
+    // Style axes
+    g.selectAll('.domain, .tick line')
+      .style('stroke', '#374151');
+
+    // Axis labels
+    g.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - margin.left)
+      .attr('x', 0 - (height / 2))
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '14px')
+      .style('font-weight', '500')
+      .text('Funding Amount');
+
+    g.append('text')
+      .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '14px')
+      .style('font-weight', '500')
+      .text('Year');
+  }
+
+  function createSourceDistributionChart() {
+    const container = d3.select('#source-distribution-chart');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const width = containerRect.width;
+    const height = 192; // h-48
+    const radius = Math.min(width, height) / 2 - 20;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+    // Data preparation
+    const sourceTypes = {
+      'Government': 650000, // NHMRC + ARC + Spanish Ministry
+      'Institution': 280000, // CMRI
+      'International': 220000 // EU Horizon 2020
+    };
+
+    const pieData = Object.entries(sourceTypes).map(([type, amount]) => ({
+      type,
+      amount,
+      percentage: (amount / Object.values(sourceTypes).reduce((a, b) => a + b, 0) * 100).toFixed(1)
+    }));
+
+    // Color scale
+    const colorScale = d3.scaleOrdinal()
+      .domain(['Government', 'Institution', 'International'])
+      .range(['#3B82F6', '#10B981', '#F59E0B']);
+
+    // Pie generator
+    const pie = d3.pie()
+      .value(d => d.amount)
+      .sort(null);
+
+    // Arc generator
+    const arc = d3.arc()
+      .innerRadius(radius * 0.4)
+      .outerRadius(radius * 0.8);
+
+    const outerArc = d3.arc()
+      .innerRadius(radius * 0.9)
+      .outerRadius(radius * 0.9);
+
+    // Create arcs
+    const arcs = g.selectAll('.arc')
+      .data(pie(pieData))
+      .enter()
+      .append('g')
+      .attr('class', 'arc');
+
+    arcs.append('path')
+      .attr('d', arc)
+      .attr('fill', d => colorScale(d.data.type))
+      .attr('fill-opacity', 0)
+      .transition()
+      .duration(800)
+      .delay((d, i) => i * 200)
+      .attr('fill-opacity', 0.8);
+
+    // Add labels
+    arcs.append('text')
+      .attr('transform', d => `translate(${arc.centroid(d)})`)
+      .attr('dy', '0.35em')
+      .attr('text-anchor', 'middle')
+      .style('fill', 'white')
+      .style('font-size', '11px')
+      .style('font-weight', '600')
+      .style('opacity', 0)
+      .text(d => `${d.data.percentage}%`)
+      .transition()
+      .duration(500)
+      .delay(1200)
+      .style('opacity', 1);
+
+    // Legend
+    const legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(10, ${height - 40})`);
+
+    const legendItems = legend.selectAll('.legend-item')
+      .data(pieData)
+      .enter()
+      .append('g')
+      .attr('class', 'legend-item')
+      .attr('transform', (d, i) => `translate(${i * 90}, 0)`);
+
+    legendItems.append('rect')
+      .attr('width', 12)
+      .attr('height', 12)
+      .attr('fill', d => colorScale(d.type))
+      .attr('fill-opacity', 0.8);
+
+    legendItems.append('text')
+      .attr('x', 16)
+      .attr('y', 6)
+      .attr('dy', '0.35em')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '10px')
+      .text(d => d.type);
+  }
+
+  // Animate metric values
+  function animateMetrics() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const valueElement = entry.target.querySelector('.funding-metric-value');
+          const target = valueElement?.dataset.target;
+          
+          if (target && !valueElement.dataset.animated) {
+            const numericTarget = parseFloat(target);
+            if (!isNaN(numericTarget)) {
+              animateValue(valueElement, numericTarget, 2000);
+            }
+            valueElement.dataset.animated = 'true';
+          }
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.funding-metric-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+
+  function animateValue(element, target, duration) {
+    const startTime = performance.now();
+    const startValue = 0;
+    
+    function updateValue(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentValue = (startValue + (target - startValue) * easeOut).toFixed(1);
+      
+      element.textContent = `$${currentValue}M`;
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateValue);
+      }
+    }
+    
+    requestAnimationFrame(updateValue);
+  }
+
+  // Initialize all visualizations
+  function initFundingVisualization() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    // Timeline chart observer
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createFundingTimelineChart();
+          timelineObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Source chart observer
+    const sourceObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createSourceDistributionChart();
+          sourceObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe chart containers
+    const timelineContainer = document.querySelector('#funding-timeline-chart');
+    const sourceContainer = document.querySelector('#source-distribution-chart');
+    
+    if (timelineContainer) timelineObserver.observe(timelineContainer);
+    if (sourceContainer) sourceObserver.observe(sourceContainer);
+
+    // Initialize metrics animation
+    animateMetrics();
+  }
+
+  // Handle resize
+  function handleResize() {
+    const timelineChart = document.querySelector('#funding-timeline-chart svg');
+    const sourceChart = document.querySelector('#source-distribution-chart svg');
+    
+    if (timelineChart) {
+      timelineChart.remove();
+      createFundingTimelineChart();
+    }
+    
+    if (sourceChart) {
+      sourceChart.remove();
+      createSourceDistributionChart();
+    }
+  }
+
+  // Setup controls
+  function setupControls() {
+    const filterSelect = document.getElementById('funding-filter');
+    const exportButton = document.getElementById('export-funding-data');
+    const viewAllButton = document.getElementById('view-all-grants');
+    
+    filterSelect?.addEventListener('change', (e) => {
+      console.log('Filter changed:', e.target.value);
+      // Implement filtering logic here
+    });
+
+    exportButton?.addEventListener('click', () => {
+      console.log('Exporting funding data...');
+      // Implement export functionality here
+    });
+
+    viewAllButton?.addEventListener('click', () => {
+      console.log('Viewing all grants...');
+      // Implement view all functionality here
+    });
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initFundingVisualization();
+      setupControls();
+    });
+  } else {
+    initFundingVisualization();
+    setupControls();
+  }
+  
+  // Handle window resize with debounce
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>

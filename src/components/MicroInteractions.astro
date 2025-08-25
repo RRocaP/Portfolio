@@ -1,0 +1,724 @@
+---
+/**
+ * Advanced Micro-Interactions Component
+ * Implements sophisticated hover effects, magnetic buttons, and touch optimizations
+ */
+export interface Props {
+  enableMagneticButtons?: boolean;
+  enableHoverEffects?: boolean;
+  enableRippleEffects?: boolean;
+  enableFloatingLabels?: boolean;
+  enableProgressiveEnhancement?: boolean;
+}
+
+const {
+  enableMagneticButtons = true,
+  enableHoverEffects = true,
+  enableRippleEffects = true,
+  enableFloatingLabels = true,
+  enableProgressiveEnhancement = true
+} = Astro.props;
+---
+
+<style>
+  /* ==========================================================================
+     Advanced Micro-Interactions - Performance Optimized
+     ========================================================================== */
+
+  /* Magnetic Button Effects */
+  .magnetic-button {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    contain: layout style;
+    min-height: 44px; /* Accessibility: minimum touch target */
+    min-width: 44px;
+  }
+
+  .magnetic-button:hover {
+    transform: translate3d(0, -2px, 0) scale(1.02);
+  }
+
+  .magnetic-button:active {
+    transform: translate3d(0, 0, 0) scale(0.98);
+    transition-duration: 0.1s;
+  }
+
+  /* Enhanced Card Hover Effects */
+  .hover-card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translate3d(0, 0, 0);
+    will-change: transform, box-shadow;
+    contain: layout style;
+  }
+
+  .hover-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      transparent 25%,
+      rgba(var(--accent-red-rgb, 218, 41, 28), 0.1) 50%,
+      transparent 75%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hover-card:hover {
+    transform: translate3d(0, -8px, 0) rotateX(2deg);
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .hover-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Glow Effect for Links and Buttons */
+  .glow-effect {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    contain: layout style;
+  }
+
+  .glow-effect::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+      circle,
+      rgba(var(--accent-red-rgb, 218, 41, 28), 0.3) 0%,
+      rgba(var(--accent-red-rgb, 218, 41, 28), 0.1) 40%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-effect:hover::after {
+    width: 300px;
+    height: 300px;
+    opacity: 1;
+  }
+
+  .glow-effect > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ripple Effect for Touch Interactions */
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    contain: layout style;
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+  }
+
+  @keyframes ripple-animation {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  /* Floating Label Effects */
+  .floating-label-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .floating-label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--background, #0a0a0a);
+    padding: 0 4px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 2;
+  }
+
+  .floating-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    outline: none;
+  }
+
+  .floating-input:focus,
+  .floating-input:not(:placeholder-shown) {
+    border-color: var(--accent-red, #da291c);
+    box-shadow: 0 0 0 2px rgba(var(--accent-red-rgb, 218, 41, 28), 0.1);
+  }
+
+  .floating-input:focus + .floating-label,
+  .floating-input:not(:placeholder-shown) + .floating-label {
+    transform: translateY(-28px) scale(0.875);
+    color: var(--accent-red, #da291c);
+    font-weight: 600;
+  }
+
+  /* Progress Ring Animation */
+  .progress-ring {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    transform: rotate(-90deg);
+  }
+
+  .progress-ring-circle {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 3;
+  }
+
+  .progress-ring-progress {
+    fill: none;
+    stroke: var(--accent-red, #da291c);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 126.92; /* 2 * π * 20.2 (radius) */
+    stroke-dashoffset: 126.92;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Button State Animations */
+  .btn-state {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    contain: layout style;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .btn-state[data-state="loading"] {
+    color: transparent;
+    pointer-events: none;
+  }
+
+  .btn-state[data-state="loading"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .btn-state[data-state="success"] {
+    background-color: #10b981;
+    border-color: #10b981;
+  }
+
+  .btn-state[data-state="error"] {
+    background-color: #ef4444;
+    border-color: #ef4444;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Subtle Scale Effects */
+  .scale-hover {
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: scale(1);
+    contain: layout;
+  }
+
+  .scale-hover:hover {
+    transform: scale(1.05);
+  }
+
+  .scale-hover:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
+  }
+
+  /* Icon Rotation Effects */
+  .rotate-icon {
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: center;
+  }
+
+  .rotate-icon:hover {
+    transform: rotate(180deg);
+  }
+
+  /* Slide Reveal Effects */
+  .slide-reveal {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-reveal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%
+    );
+    transition: left 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .slide-reveal:hover::before {
+    left: 100%;
+  }
+
+  /* Mobile Touch Optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    /* Ensure minimum touch target sizes */
+    .magnetic-button,
+    .hover-card,
+    .glow-effect,
+    .ripple-effect,
+    .btn-state,
+    .scale-hover {
+      min-height: 48px;
+      min-width: 48px;
+    }
+
+    /* Disable hover effects on touch devices */
+    .magnetic-button:hover,
+    .hover-card:hover,
+    .hover-card:hover::before,
+    .glow-effect:hover::after,
+    .scale-hover:hover,
+    .rotate-icon:hover,
+    .slide-reveal:hover::before {
+      transform: none;
+      opacity: initial;
+      left: initial;
+      width: initial;
+      height: initial;
+    }
+
+    /* Enhanced touch feedback */
+    .magnetic-button:active,
+    .hover-card:active,
+    .glow-effect:active,
+    .btn-state:active,
+    .scale-hover:active {
+      transform: scale(0.95);
+      transition-duration: 0.1s;
+    }
+
+    /* Simplify animations for touch devices */
+    .ripple-effect {
+      /* Keep ripple effect as it provides good touch feedback */
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .magnetic-button,
+    .hover-card,
+    .glow-effect,
+    .ripple-effect,
+    .floating-label,
+    .floating-input,
+    .progress-ring-progress,
+    .btn-state,
+    .scale-hover,
+    .rotate-icon,
+    .slide-reveal::before {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+
+    .ripple {
+      display: none !important;
+    }
+  }
+
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .hover-card {
+      border: 2px solid currentColor;
+    }
+
+    .floating-input {
+      border-width: 2px;
+    }
+
+    .floating-input:focus {
+      border-width: 3px;
+    }
+  }
+
+  /* Performance: Limit concurrent animations */
+  .micro-interaction:nth-child(n+8) {
+    transition-delay: 100ms;
+  }
+
+  .micro-interaction:nth-child(n+16) {
+    transition-delay: 200ms;
+  }
+</style>
+
+<script>
+  // Advanced Micro-Interactions Controller
+  class MicroInteractionsController {
+    private rippleElements: Set<HTMLElement> = new Set();
+    private magneticElements: Set<HTMLElement> = new Set();
+    private isTouch: boolean;
+    private prefersReducedMotion: boolean;
+    private performanceMode: 'high' | 'medium' | 'low' = 'high';
+
+    constructor() {
+      this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      // Detect device performance level
+      this.detectPerformanceMode();
+      
+      if (!this.prefersReducedMotion) {
+        this.init();
+      }
+    }
+
+    private detectPerformanceMode() {
+      // Simple performance detection based on device characteristics
+      const hardwareConcurrency = navigator.hardwareConcurrency || 2;
+      const deviceMemory = (navigator as any).deviceMemory || 4;
+      
+      if (hardwareConcurrency >= 8 && deviceMemory >= 8) {
+        this.performanceMode = 'high';
+      } else if (hardwareConcurrency >= 4 && deviceMemory >= 4) {
+        this.performanceMode = 'medium';
+      } else {
+        this.performanceMode = 'low';
+      }
+    }
+
+    private init() {
+      // Initialize different interaction types based on performance
+      this.initRippleEffects();
+      
+      if (this.performanceMode !== 'low') {
+        this.initMagneticButtons();
+        this.initFloatingLabels();
+        this.initProgressRings();
+      }
+
+      this.initButtonStates();
+      this.initKeyboardNavigation();
+    }
+
+    private initRippleEffects() {
+      const rippleElements = document.querySelectorAll('.ripple-effect');
+      
+      rippleElements.forEach(element => {
+        const el = element as HTMLElement;
+        this.rippleElements.add(el);
+        
+        // Use both mouse and touch events for universal support
+        const events = this.isTouch ? ['touchstart'] : ['mousedown'];
+        
+        events.forEach(event => {
+          el.addEventListener(event, this.createRipple.bind(this), { passive: true });
+        });
+      });
+    }
+
+    private createRipple(event: MouseEvent | TouchEvent) {
+      const button = event.currentTarget as HTMLElement;
+      const rect = button.getBoundingClientRect();
+      
+      // Get coordinates (support both mouse and touch)
+      let x: number, y: number;
+      
+      if (event.type === 'touchstart') {
+        const touch = (event as TouchEvent).touches[0];
+        x = touch.clientX - rect.left;
+        y = touch.clientY - rect.top;
+      } else {
+        x = (event as MouseEvent).clientX - rect.left;
+        y = (event as MouseEvent).clientY - rect.top;
+      }
+
+      // Create ripple element
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      
+      ripple.classList.add('ripple');
+      ripple.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x - size / 2}px;
+        top: ${y - size / 2}px;
+      `;
+
+      button.appendChild(ripple);
+
+      // Remove ripple after animation
+      setTimeout(() => {
+        if (ripple.parentNode) {
+          ripple.parentNode.removeChild(ripple);
+        }
+      }, 600);
+    }
+
+    private initMagneticButtons() {
+      const magneticElements = document.querySelectorAll('.magnetic-button');
+      
+      magneticElements.forEach(element => {
+        const el = element as HTMLElement;
+        this.magneticElements.add(el);
+
+        // Skip on touch devices to preserve battery
+        if (this.isTouch) return;
+
+        let isHovering = false;
+        const strength = 0.3;
+        const maxDistance = 100;
+
+        const handleMouseMove = (e: MouseEvent) => {
+          if (!isHovering) return;
+
+          const rect = el.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          const deltaX = e.clientX - centerX;
+          const deltaY = e.clientY - centerY;
+          const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+          
+          if (distance < maxDistance) {
+            const factor = (1 - distance / maxDistance) * strength;
+            const translateX = deltaX * factor;
+            const translateY = deltaY * factor;
+            
+            el.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(1.02)`;
+          }
+        };
+
+        const handleMouseEnter = () => {
+          isHovering = true;
+          document.addEventListener('mousemove', handleMouseMove, { passive: true });
+        };
+
+        const handleMouseLeave = () => {
+          isHovering = false;
+          document.removeEventListener('mousemove', handleMouseMove);
+          el.style.transform = '';
+        };
+
+        el.addEventListener('mouseenter', handleMouseEnter);
+        el.addEventListener('mouseleave', handleMouseLeave);
+      });
+    }
+
+    private initFloatingLabels() {
+      const floatingContainers = document.querySelectorAll('.floating-label-container');
+      
+      floatingContainers.forEach(container => {
+        const input = container.querySelector('.floating-input') as HTMLInputElement;
+        const label = container.querySelector('.floating-label') as HTMLElement;
+        
+        if (!input || !label) return;
+
+        // Check initial state
+        const checkState = () => {
+          if (input.value.length > 0 || input === document.activeElement) {
+            container.classList.add('active');
+          } else {
+            container.classList.remove('active');
+          }
+        };
+
+        input.addEventListener('focus', checkState);
+        input.addEventListener('blur', checkState);
+        input.addEventListener('input', checkState);
+        
+        // Initial check
+        checkState();
+      });
+    }
+
+    private initProgressRings() {
+      const progressRings = document.querySelectorAll('.progress-ring');
+      
+      progressRings.forEach(ring => {
+        const progressCircle = ring.querySelector('.progress-ring-progress') as SVGCircleElement;
+        if (!progressCircle) return;
+
+        const updateProgress = (progress: number) => {
+          const circumference = 126.92;
+          const offset = circumference - (progress / 100) * circumference;
+          progressCircle.style.strokeDashoffset = offset.toString();
+        };
+
+        // Example: animate to 75% on hover
+        ring.addEventListener('mouseenter', () => {
+          if (!this.isTouch) updateProgress(75);
+        });
+
+        ring.addEventListener('mouseleave', () => {
+          if (!this.isTouch) updateProgress(0);
+        });
+      });
+    }
+
+    private initButtonStates() {
+      // Handle button state management
+      document.addEventListener('click', async (event) => {
+        const button = (event.target as HTMLElement).closest('.btn-state') as HTMLElement;
+        if (!button) return;
+
+        const originalState = button.dataset.state || 'idle';
+        const action = button.dataset.action;
+
+        if (action && originalState === 'idle') {
+          // Simulate async action
+          button.dataset.state = 'loading';
+          
+          try {
+            // Simulate network request
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            button.dataset.state = 'success';
+            
+            // Reset after success indication
+            setTimeout(() => {
+              button.dataset.state = 'idle';
+            }, 2000);
+          } catch (error) {
+            button.dataset.state = 'error';
+            
+            setTimeout(() => {
+              button.dataset.state = 'idle';
+            }, 3000);
+          }
+        }
+      });
+    }
+
+    private initKeyboardNavigation() {
+      // Enhanced keyboard navigation for interactive elements
+      document.addEventListener('keydown', (event) => {
+        const focusedElement = document.activeElement as HTMLElement;
+        
+        if (!focusedElement) return;
+
+        // Space or Enter on interactive elements
+        if (event.code === 'Space' || event.code === 'Enter') {
+          if (focusedElement.classList.contains('magnetic-button') ||
+              focusedElement.classList.contains('hover-card') ||
+              focusedElement.classList.contains('glow-effect')) {
+            
+            event.preventDefault();
+            
+            // Trigger click with keyboard feedback
+            focusedElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              focusedElement.style.transform = '';
+              focusedElement.click();
+            }, 100);
+          }
+        }
+      });
+    }
+
+    // Public methods for external use
+    public addRippleEffect(element: HTMLElement) {
+      if (!this.rippleElements.has(element)) {
+        element.classList.add('ripple-effect');
+        this.rippleElements.add(element);
+        
+        const event = this.isTouch ? 'touchstart' : 'mousedown';
+        element.addEventListener(event, this.createRipple.bind(this), { passive: true });
+      }
+    }
+
+    public removeRippleEffect(element: HTMLElement) {
+      element.classList.remove('ripple-effect');
+      this.rippleElements.delete(element);
+    }
+
+    public updateButtonState(button: HTMLElement, state: 'idle' | 'loading' | 'success' | 'error') {
+      button.dataset.state = state;
+    }
+
+    public destroy() {
+      // Cleanup event listeners and elements
+      this.rippleElements.clear();
+      this.magneticElements.clear();
+    }
+  }
+
+  // Initialize when DOM is ready with performance considerations
+  const initMicroInteractions = () => {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(
+        () => new MicroInteractionsController(),
+        { timeout: 1000 }
+      );
+    } else {
+      setTimeout(() => new MicroInteractionsController(), 100);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMicroInteractions);
+  } else {
+    initMicroInteractions();
+  }
+
+  // Export for external use
+  (window as any).MicroInteractionsController = MicroInteractionsController;
+</script>

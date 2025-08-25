@@ -1,0 +1,473 @@
+---
+/**
+ * High-Performance Skeleton Loading Component
+ * Optimized for Core Web Vitals and smooth UX transitions
+ */
+export interface Props {
+  type?: 'card' | 'text' | 'publication' | 'hero' | 'custom';
+  lines?: number;
+  height?: string;
+  width?: string;
+  className?: string;
+  animate?: boolean;
+}
+
+const {
+  type = 'text',
+  lines = 3,
+  height,
+  width,
+  className = '',
+  animate = true
+} = Astro.props;
+---
+
+{type === 'card' && (
+  <div class={`skeleton-card ${className} ${animate ? 'skeleton-animate' : ''}`}>
+    <div class="skeleton skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text skeleton-text-short"></div>
+    </div>
+  </div>
+)}
+
+{type === 'text' && (
+  <div class={`skeleton-text-container ${className}`}>
+    {Array.from({ length: lines }, (_, i) => (
+      <div 
+        key={i}
+        class={`skeleton skeleton-text ${animate ? 'skeleton-animate' : ''}`}
+        style={`
+          width: ${i === lines - 1 ? '75%' : '100%'};
+          animation-delay: ${i * 100}ms;
+        `}
+      ></div>
+    ))}
+  </div>
+)}
+
+{type === 'publication' && (
+  <div class={`skeleton-publication ${className} ${animate ? 'skeleton-animate' : ''}`}>
+    <div class="skeleton-publication-header">
+      <div class="skeleton skeleton-badge"></div>
+      <div class="skeleton skeleton-year"></div>
+    </div>
+    <div class="skeleton skeleton-pub-title"></div>
+    <div class="skeleton skeleton-pub-journal"></div>
+    <div class="skeleton skeleton-pub-authors"></div>
+    <div class="skeleton skeleton-pub-metrics"></div>
+  </div>
+)}
+
+{type === 'hero' && (
+  <div class={`skeleton-hero ${className} ${animate ? 'skeleton-animate' : ''}`}>
+    <div class="skeleton skeleton-hero-badge"></div>
+    <div class="skeleton skeleton-hero-title"></div>
+    <div class="skeleton skeleton-hero-subtitle"></div>
+    <div class="skeleton-hero-buttons">
+      <div class="skeleton skeleton-button"></div>
+      <div class="skeleton skeleton-button skeleton-button-secondary"></div>
+    </div>
+  </div>
+)}
+
+{type === 'custom' && (
+  <div 
+    class={`skeleton ${className} ${animate ? 'skeleton-animate' : ''}`}
+    style={`
+      ${height ? `height: ${height};` : ''}
+      ${width ? `width: ${width};` : ''}
+    `}
+  ></div>
+)}
+
+<style>
+  /* Base Skeleton Styles - Optimized for Performance */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 25%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.04) 75%
+    );
+    background-size: 200% 100%;
+    border-radius: 6px;
+    /* Use contain for performance */
+    contain: layout style paint;
+    /* Optimize for GPU acceleration */
+    transform: translateZ(0);
+    will-change: background-position;
+  }
+
+  .skeleton-animate {
+    animation: skeleton-shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Card Skeleton */
+  .skeleton-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Performance optimization */
+    contain: layout style;
+  }
+
+  .skeleton-image {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+  }
+
+  .skeleton-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .skeleton-title {
+    height: 1.5rem;
+    width: 80%;
+  }
+
+  .skeleton-text {
+    height: 1rem;
+    width: 100%;
+  }
+
+  .skeleton-text-short {
+    width: 60%;
+  }
+
+  /* Text Skeleton */
+  .skeleton-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Publication Skeleton */
+  .skeleton-publication {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .skeleton-publication-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .skeleton-badge {
+    height: 1.25rem;
+    width: 80px;
+    border-radius: 12px;
+  }
+
+  .skeleton-year {
+    height: 1rem;
+    width: 50px;
+  }
+
+  .skeleton-pub-title {
+    height: 1.25rem;
+    width: 90%;
+  }
+
+  .skeleton-pub-journal {
+    height: 1rem;
+    width: 70%;
+  }
+
+  .skeleton-pub-authors {
+    height: 0.875rem;
+    width: 85%;
+  }
+
+  .skeleton-pub-metrics {
+    height: 0.875rem;
+    width: 40%;
+  }
+
+  /* Hero Skeleton */
+  .skeleton-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .skeleton-hero-badge {
+    height: 1.25rem;
+    width: 120px;
+    border-radius: 20px;
+  }
+
+  .skeleton-hero-title {
+    height: 3rem;
+    width: 80%;
+    max-width: 600px;
+  }
+
+  .skeleton-hero-subtitle {
+    height: 1.5rem;
+    width: 60%;
+    max-width: 400px;
+  }
+
+  .skeleton-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .skeleton-button {
+    height: 2.75rem;
+    width: 140px;
+    border-radius: 8px;
+  }
+
+  .skeleton-button-secondary {
+    width: 120px;
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .skeleton-card {
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+
+    .skeleton-image {
+      height: 160px;
+    }
+
+    .skeleton-hero {
+      padding: 2rem 1rem;
+      gap: 1rem;
+    }
+
+    .skeleton-hero-title {
+      height: 2.5rem;
+      width: 95%;
+    }
+
+    .skeleton-hero-subtitle {
+      height: 1.25rem;
+      width: 85%;
+    }
+
+    .skeleton-hero-buttons {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.75rem;
+    }
+
+    .skeleton-button,
+    .skeleton-button-secondary {
+      width: 100%;
+      max-width: 200px;
+    }
+  }
+
+  /* Touch Device Optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    .skeleton-animate {
+      animation-duration: 1.5s; /* Faster animation on mobile */
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-animate {
+      animation: none !important;
+      background: rgba(255, 255, 255, 0.06) !important;
+    }
+  }
+
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .skeleton {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .skeleton-card,
+    .skeleton-publication {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* Dark Mode Optimizations */
+  @media (prefers-color-scheme: dark) {
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 25%,
+        rgba(255, 255, 255, 0.06) 50%,
+        rgba(255, 255, 255, 0.03) 75%
+      );
+    }
+  }
+
+  /* Performance: Limit concurrent animations */
+  .skeleton-animate:nth-child(n+6) {
+    animation-delay: 200ms;
+  }
+
+  .skeleton-animate:nth-child(n+12) {
+    animation-delay: 400ms;
+  }
+
+  /* Progressive Enhancement */
+  @supports (backdrop-filter: blur(8px)) {
+    .skeleton-card,
+    .skeleton-publication {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+  }
+</style>
+
+<script>
+  // Enhanced skeleton loader with performance optimizations
+  class SkeletonLoader {
+    private static instances = new Set<HTMLElement>();
+    private static intersectionObserver: IntersectionObserver | null = null;
+    
+    static initialize() {
+      // Create global intersection observer for skeleton optimization
+      if ('IntersectionObserver' in window && !this.intersectionObserver) {
+        this.intersectionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const skeleton = entry.target as HTMLElement;
+              
+              if (entry.isIntersecting) {
+                // Start animation when visible
+                skeleton.style.animationPlayState = 'running';
+              } else {
+                // Pause animation when not visible for performance
+                skeleton.style.animationPlayState = 'paused';
+              }
+            });
+          },
+          {
+            rootMargin: '50px',
+            threshold: 0.1
+          }
+        );
+      }
+      
+      // Observe all skeleton elements
+      this.observeSkeletons();
+    }
+    
+    private static observeSkeletons() {
+      const skeletons = document.querySelectorAll('.skeleton-animate');
+      
+      skeletons.forEach((skeleton) => {
+        const el = skeleton as HTMLElement;
+        
+        // Add to instances tracking
+        this.instances.add(el);
+        
+        // Start with paused animation for performance
+        el.style.animationPlayState = 'paused';
+        
+        // Observe with intersection observer
+        if (this.intersectionObserver) {
+          this.intersectionObserver.observe(el);
+        }
+      });
+    }
+    
+    static destroy() {
+      // Clean up observers and animations
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect();
+        this.intersectionObserver = null;
+      }
+      
+      // Remove all instances
+      this.instances.clear();
+    }
+    
+    // Method to smoothly transition from skeleton to real content
+    static fadeToContent(skeletonElement: HTMLElement, contentElement: HTMLElement) {
+      return new Promise<void>((resolve) => {
+        // Ensure both elements have same dimensions initially
+        const rect = skeletonElement.getBoundingClientRect();
+        contentElement.style.opacity = '0';
+        contentElement.style.position = 'absolute';
+        contentElement.style.top = `${rect.top}px`;
+        contentElement.style.left = `${rect.left}px`;
+        contentElement.style.width = `${rect.width}px`;
+        contentElement.style.height = `${rect.height}px`;
+        
+        // Append content element
+        document.body.appendChild(contentElement);
+        
+        // Animate transition
+        requestAnimationFrame(() => {
+          skeletonElement.style.transition = 'opacity 0.3s ease-out';
+          contentElement.style.transition = 'opacity 0.3s ease-out';
+          
+          skeletonElement.style.opacity = '0';
+          contentElement.style.opacity = '1';
+          
+          setTimeout(() => {
+            // Replace skeleton with content
+            if (skeletonElement.parentNode) {
+              skeletonElement.parentNode.replaceChild(contentElement, skeletonElement);
+            }
+            
+            // Reset content styles
+            contentElement.style.position = '';
+            contentElement.style.top = '';
+            contentElement.style.left = '';
+            contentElement.style.width = '';
+            contentElement.style.height = '';
+            
+            resolve();
+          }, 300);
+        });
+      });
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      SkeletonLoader.initialize();
+    });
+  } else {
+    SkeletonLoader.initialize();
+  }
+  
+  // Export for global use
+  (window as any).SkeletonLoader = SkeletonLoader;
+</script>

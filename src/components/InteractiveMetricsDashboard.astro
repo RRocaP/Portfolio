@@ -1,0 +1,1203 @@
+---
+import { 
+  metrics, 
+  fundingData, 
+  researchVelocityData, 
+  futureProjections, 
+  collaborationNetwork,
+  journalDistribution 
+} from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Interactive Research Analytics Dashboard',
+    subtitle: 'Comprehensive visual analytics showcasing research impact, funding success, and collaboration networks',
+    overview: 'Research Overview',
+    funding: 'Grant Funding',
+    velocity: 'Research Velocity',
+    projections: 'Future Projections',
+    collaboration: 'Global Collaboration',
+    impact: 'Publication Impact',
+    totalFunding: 'Total Funding Secured',
+    activegrants: 'Active Grants',
+    citationGrowth: 'Citation Growth Rate',
+    hIndexProjection: 'h-Index Trajectory',
+    internationalReach: 'International Reach',
+    publicationVelocity: 'Publication Velocity',
+    currency: 'AUD',
+    years: 'years',
+    publications: 'Publications',
+    citations: 'Citations',
+    hIndex: 'h-Index',
+    grantFunding: 'Grant Funding',
+    collaborations: 'Collaborations',
+    impactScore: 'Impact Score',
+    viewDetails: 'View Details',
+    exportData: 'Export Data',
+    probability: 'Probability',
+    projected: 'Projected',
+    current: 'Current',
+    trend: 'Trend'
+  },
+  es: {
+    title: 'Panel Interactivo de Análisis de Investigación',
+    subtitle: 'Análisis visuales integrales que muestran impacto de investigación, éxito en financiamiento y redes de colaboración',
+    overview: 'Resumen de Investigación',
+    funding: 'Financiamiento de Subvenciones',
+    velocity: 'Velocidad de Investigación',
+    projections: 'Proyecciones Futuras',
+    collaboration: 'Colaboración Global',
+    impact: 'Impacto de Publicación',
+    totalFunding: 'Financiamiento Total Asegurado',
+    activegrants: 'Subvenciones Activas',
+    citationGrowth: 'Tasa de Crecimiento de Citaciones',
+    hIndexProjection: 'Trayectoria del Índice h',
+    internationalReach: 'Alcance Internacional',
+    publicationVelocity: 'Velocidad de Publicación',
+    currency: 'AUD',
+    years: 'años',
+    publications: 'Publicaciones',
+    citations: 'Citaciones',
+    hIndex: 'Índice h',
+    grantFunding: 'Financiamiento de Subvención',
+    collaborations: 'Colaboraciones',
+    impactScore: 'Puntuación de Impacto',
+    viewDetails: 'Ver Detalles',
+    exportData: 'Exportar Datos',
+    probability: 'Probabilidad',
+    projected: 'Proyectado',
+    current: 'Actual',
+    trend: 'Tendencia'
+  },
+  ca: {
+    title: 'Panell Interactiu d\'Anàlisi de Recerca',
+    subtitle: 'Anàlisis visuals integrals que mostren impacte de recerca, èxit en finançament i xarxes de col·laboració',
+    overview: 'Resum de Recerca',
+    funding: 'Finançament de Subvencions',
+    velocity: 'Velocitat de Recerca',
+    projections: 'Projeccions Futures',
+    collaboration: 'Col·laboració Global',
+    impact: 'Impacte de Publicació',
+    totalFunding: 'Finançament Total Assegurat',
+    activegrants: 'Subvencions Actives',
+    citationGrowth: 'Taxa de Creixement de Citacions',
+    hIndexProjection: 'Trajectòria de l\'Índex h',
+    internationalReach: 'Abast Internacional',
+    publicationVelocity: 'Velocitat de Publicació',
+    currency: 'AUD',
+    years: 'anys',
+    publications: 'Publicacions',
+    citations: 'Citacions',
+    hIndex: 'Índex h',
+    grantFunding: 'Finançament de Subvenció',
+    collaborations: 'Col·laboracions',
+    impactScore: 'Puntuació d\'Impacte',
+    viewDetails: 'Veure Detalls',
+    exportData: 'Exportar Dades',
+    probability: 'Probabilitat',
+    projected: 'Projectat',
+    current: 'Actual',
+    trend: 'Tendència'
+  }
+};
+
+const t = translations[lang];
+
+// Calculate key summary metrics
+const totalFunding = fundingData.reduce((sum, grant) => sum + grant.amount, 0);
+const activeGrants = fundingData.filter(grant => grant.status === 'Active').length;
+const currentYear = new Date().getFullYear();
+const latestVelocity = researchVelocityData[researchVelocityData.length - 1];
+const citationGrowthRate = researchVelocityData.length >= 2 ? 
+  ((latestVelocity.citations / researchVelocityData[researchVelocityData.length - 2].citations - 1) * 100).toFixed(1) : '0';
+
+// Key performance indicators with enhanced visuals
+const kpiMetrics = [
+  {
+    key: 'publications',
+    value: metrics.publications,
+    label: t.publications,
+    icon: 'document-text',
+    color: 'text-blue-400',
+    bgColor: 'from-blue-600/20 to-blue-800/10',
+    borderColor: 'border-blue-500/30',
+    trend: { direction: 'up' as const, value: '12.5%', period: '2024' },
+    description: 'Peer-reviewed research articles'
+  },
+  {
+    key: 'citations',
+    value: `${metrics.citations}+`,
+    label: t.citations,
+    icon: 'academic-cap',
+    color: 'text-emerald-400',
+    bgColor: 'from-emerald-600/20 to-emerald-800/10',
+    borderColor: 'border-emerald-500/30',
+    trend: { direction: 'up' as const, value: citationGrowthRate + '%', period: '2024' },
+    description: 'Total research citations'
+  },
+  {
+    key: 'hIndex',
+    value: metrics.hIndex,
+    label: t.hIndex,
+    icon: 'chart-bar',
+    color: 'text-purple-400',
+    bgColor: 'from-purple-600/20 to-purple-800/10',
+    borderColor: 'border-purple-500/30',
+    trend: { direction: 'up' as const, value: '20%', period: '2024' },
+    description: 'Research impact index'
+  },
+  {
+    key: 'funding',
+    value: `$${(totalFunding / 1000000).toFixed(1)}M`,
+    label: t.grantFunding,
+    icon: 'currency-dollar',
+    color: 'text-amber-400',
+    bgColor: 'from-amber-600/20 to-amber-800/10',
+    borderColor: 'border-amber-500/30',
+    trend: { direction: 'up' as const, value: '28%', period: '2024' },
+    description: 'Total funding secured'
+  },
+  {
+    key: 'collaborations',
+    value: metrics.collaborations,
+    label: t.collaborations,
+    icon: 'user-group',
+    color: 'text-cyan-400',
+    bgColor: 'from-cyan-600/20 to-cyan-800/10',
+    borderColor: 'border-cyan-500/30',
+    trend: { direction: 'up' as const, value: '35%', period: '2024' },
+    description: 'Active research partnerships'
+  },
+  {
+    key: 'impact',
+    value: metrics.impactScore || 85,
+    label: t.impactScore,
+    icon: 'lightning-bolt',
+    color: 'text-red-400',
+    bgColor: 'from-red-600/20 to-red-800/10',
+    borderColor: 'border-red-500/30',
+    trend: { direction: 'up' as const, value: '15%', period: '2024' },
+    description: 'Composite research impact score'
+  }
+];
+
+// Future projections for the next 4 years
+const projectionYears = futureProjections.map(p => p.year);
+const projectionLabels = projectionYears.map(year => `'${year.toString().slice(-2)}`);
+---
+
+<div class="interactive-metrics-dashboard" role="region" aria-labelledby="dashboard-heading">
+  <!-- Dashboard Header with Controls -->
+  <header class="dashboard-header mb-12">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="flex-1">
+        <h1 id="dashboard-heading" class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent mb-4">
+          {t.title}
+        </h1>
+        <p class="text-gray-400 text-lg max-w-3xl leading-relaxed">
+          {t.subtitle}
+        </p>
+      </div>
+      
+      <!-- Dashboard Controls -->
+      <div class="flex items-center gap-3">
+        <button class="dashboard-control px-4 py-2 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 hover:border-gray-600 text-white rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="eye" size="sm" />
+          <span class="text-sm font-medium">{t.viewDetails}</span>
+        </button>
+        <button class="dashboard-control px-4 py-2 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/30 hover:border-blue-500/50 text-blue-400 rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="download" size="sm" />
+          <span class="text-sm font-medium">{t.exportData}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Key Performance Indicators -->
+  <section class="kpi-section mb-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+      {kpiMetrics.map((kpi, index) => (
+        <div 
+          class={`kpi-card group relative overflow-hidden rounded-2xl border ${kpi.borderColor} bg-gradient-to-br ${kpi.bgColor} backdrop-blur-sm p-6 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10`}
+          style={`animation-delay: ${index * 0.1}s`}
+          data-metric={kpi.key}
+        >
+          <!-- Background decoration -->
+          <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <!-- Icon and trend -->
+          <div class="relative z-10 flex items-center justify-between mb-4">
+            <div class={`p-3 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/30 border border-gray-700/50`}>
+              <Icon name={kpi.icon} size="lg" class={kpi.color} />
+            </div>
+            <div class="flex items-center gap-1 text-xs text-emerald-400 font-medium">
+              <Icon name="arrow-trending-up" size="xs" />
+              <span>{kpi.trend.value}</span>
+            </div>
+          </div>
+          
+          <!-- Value and label -->
+          <div class="relative z-10">
+            <div 
+              class="kpi-value text-2xl lg:text-3xl font-bold text-white mb-2 tabular-nums"
+              data-target={typeof kpi.value === 'string' ? kpi.value.replace(/[^0-9.]/g, '') : kpi.value}
+            >
+              {kpi.value}
+            </div>
+            <div class="text-sm font-semibold text-gray-300 mb-1">{kpi.label}</div>
+            <div class="text-xs text-gray-400 leading-tight">{kpi.description}</div>
+          </div>
+          
+          <!-- Progress indicator for scores -->
+          {(kpi.key === 'impact') && (
+            <div class="relative z-10 mt-4">
+              <div class="w-full bg-gray-700/50 rounded-full h-1.5">
+                <div 
+                  class="h-1.5 rounded-full bg-gradient-to-r from-red-500 to-red-400 transition-all duration-1000 ease-out"
+                  style={`width: ${kpi.value}%`}
+                  data-animate="progress"
+                ></div>
+              </div>
+            </div>
+          )}
+          
+          <!-- Active indicator for funding and collaborations -->
+          {(kpi.key === 'funding' || kpi.key === 'collaborations') && (
+            <div class="absolute -top-1 -right-1 w-3 h-3">
+              <div class="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+              <div class="absolute inset-0 bg-emerald-400 rounded-full"></div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Main Visualization Grid -->
+  <div class="visualization-grid grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Funding Timeline Visualization -->
+    <section class="funding-section lg:col-span-8 bg-gradient-to-br from-gray-900/50 to-gray-800/30 border border-gray-800 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-amber-600/10 border border-amber-500/30">
+            <Icon name="currency-dollar" size="lg" class="text-amber-400" />
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">{t.funding}</h2>
+            <p class="text-gray-400">Research funding secured over time</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-3xl font-bold text-amber-400">${(totalFunding / 1000000).toFixed(1)}M</div>
+          <div class="text-sm text-gray-400">{t.totalFunding}</div>
+        </div>
+      </div>
+      
+      <!-- Funding Chart Container -->
+      <div class="funding-chart-container mb-6">
+        <div id="funding-timeline-chart" class="w-full h-80" role="img" aria-label="Funding timeline showing grant amounts and sources over years">
+          <!-- D3.js chart will be rendered here -->
+        </div>
+      </div>
+      
+      <!-- Active Grants Summary -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {fundingData.filter(grant => grant.status === 'Active').map(grant => (
+          <div class="grant-card p-4 bg-amber-600/5 border border-amber-500/20 rounded-xl">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <h4 class="font-semibold text-white text-sm leading-tight">{grant.source}</h4>
+              <span class="text-xs font-medium text-amber-400 bg-amber-600/10 px-2 py-1 rounded-full">{grant.status}</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-400">{grant.type}</span>
+              <span class="font-semibold text-amber-400">${(grant.amount / 1000).toFixed(0)}K {grant.currency}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Research Velocity & Future Projections -->
+    <section class="velocity-section lg:col-span-4 space-y-6">
+      <!-- Citation Velocity -->
+      <div class="velocity-card bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 border border-emerald-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-emerald-600/10 border border-emerald-500/30">
+            <Icon name="chart-line" size="lg" class="text-emerald-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.velocity}</h3>
+            <p class="text-gray-400 text-sm">Publication and citation trends</p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="metric-display">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-400 text-sm">{t.citationGrowth}</span>
+              <span class="font-bold text-emerald-400">+{citationGrowthRate}%</span>
+            </div>
+            <div class="w-full bg-gray-700/50 rounded-full h-2">
+              <div class="h-2 bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-1000 ease-out" style={`width: ${Math.min(parseFloat(citationGrowthRate) * 2, 100)}%`}></div>
+            </div>
+          </div>
+          
+          <div class="metric-display">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-400 text-sm">{t.publicationVelocity}</span>
+              <span class="font-bold text-blue-400">{latestVelocity.publications} / year</span>
+            </div>
+            <div class="w-full bg-gray-700/50 rounded-full h-2">
+              <div class="h-2 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-1000 ease-out" style={`width: ${Math.min(latestVelocity.publications * 20, 100)}%`}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Future Projections -->
+      <div class="projections-card bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-purple-600/10 border border-purple-500/30">
+            <Icon name="sparkles" size="lg" class="text-purple-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.projections}</h3>
+            <p class="text-gray-400 text-sm">Data-driven predictions</p>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          {futureProjections.slice(0, 3).map(projection => (
+            <div class="projection-item flex items-center justify-between p-3 bg-purple-600/5 border border-purple-500/20 rounded-lg">
+              <div>
+                <div class="font-semibold text-white text-sm">{projection.year}</div>
+                <div class="text-xs text-gray-400">h-Index: {projection.hIndex}</div>
+              </div>
+              <div class="text-right">
+                <div class="font-bold text-purple-400">{projection.publications}</div>
+                <div class="text-xs text-gray-400">{projection.probability}% {t.probability}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Collaboration Network Visualization -->
+    <section class="collaboration-section lg:col-span-7 bg-gradient-to-br from-cyan-900/30 to-cyan-800/20 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-cyan-600/10 border border-cyan-500/30">
+            <Icon name="globe-alt" size="lg" class="text-cyan-400" />
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white">{t.collaboration}</h2>
+            <p class="text-gray-400">International research networks</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="text-3xl font-bold text-cyan-400">{collaborationNetwork.length - 1}</div>
+          <div class="text-sm text-gray-400">{t.internationalReach}</div>
+        </div>
+      </div>
+      
+      <!-- Network Chart Container -->
+      <div class="network-chart-container">
+        <div id="collaboration-network-chart" class="w-full h-80" role="img" aria-label="Collaboration network showing international research partnerships and connections">
+          <!-- D3.js network visualization will be rendered here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Publication Impact Heatmap -->
+    <section class="impact-section lg:col-span-5 bg-gradient-to-br from-red-900/30 to-red-800/20 border border-red-500/30 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="p-3 rounded-xl bg-red-600/10 border border-red-500/30">
+          <Icon name="fire" size="lg" class="text-red-400" />
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">{t.impact}</h2>
+          <p class="text-gray-400">Journal quartile distribution</p>
+        </div>
+      </div>
+      
+      <!-- Impact Heatmap -->
+      <div class="impact-heatmap mb-6">
+        <div id="publication-impact-heatmap" class="w-full h-64" role="img" aria-label="Publication impact heatmap showing journal quality distribution">
+          <!-- Heatmap visualization will be rendered here -->
+        </div>
+      </div>
+      
+      <!-- Quartile Breakdown -->
+      <div class="quartile-breakdown grid grid-cols-2 gap-3">
+        {journalDistribution.slice(0, 4).map(journal => (
+          <div class="quartile-item p-3 bg-gray-800/30 border border-gray-700/50 rounded-lg text-center">
+            <div class="font-bold text-white text-lg">{journal.count}</div>
+            <div class="text-xs text-gray-400">{journal.quartile} Papers</div>
+            <div class="text-xs font-medium" style={`color: ${journal.color}`}>IF: {journal.impactFactor}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  .interactive-metrics-dashboard {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .kpi-card {
+    animation: slideInUp 0.6s ease-out both;
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .kpi-card:hover::before {
+    left: 100%;
+  }
+
+  .kpi-value {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Visualization containers */
+  .funding-section,
+  .velocity-section .velocity-card,
+  .velocity-section .projections-card,
+  .collaboration-section,
+  .impact-section {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(31, 41, 55, 0.6) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+  }
+
+  /* Chart containers */
+  #funding-timeline-chart,
+  #collaboration-network-chart,
+  #publication-impact-heatmap {
+    border-radius: 12px;
+    overflow: visible;
+  }
+
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .visualization-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .visualization-grid > section {
+      grid-column: span 1 !important;
+    }
+    
+    .kpi-section .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .kpi-section .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .kpi-value {
+      font-size: 1.5rem;
+    }
+    
+    .dashboard-header h1 {
+      font-size: 2rem;
+    }
+  }
+
+  /* Dark theme enhancements */
+  .dashboard-control {
+    backdrop-filter: blur(10px);
+  }
+
+  .dashboard-control:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .interactive-metrics-dashboard,
+    .interactive-metrics-dashboard * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media (prefers-contrast: high) {
+    .kpi-card,
+    .funding-section,
+    .collaboration-section,
+    .impact-section {
+      border-width: 2px;
+      border-color: #6B7280;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .dashboard-control {
+      display: none;
+    }
+    
+    .kpi-card,
+    .funding-section,
+    .collaboration-section,
+    .impact-section {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+  
+  // Data from metrics
+  const fundingData = [
+    { year: 2020, amount: 120000, source: 'Spanish Ministry of Science', type: 'PhD Research Grant', status: 'Completed', category: 'Basic Research' },
+    { year: 2021, amount: 220000, source: 'European Union Horizon 2020', type: 'Marie Curie Fellowship', status: 'Completed', category: 'International Collaboration' },
+    { year: 2022, amount: 180000, source: 'Australian Research Council', type: 'DECRA', status: 'Completed', category: 'Antimicrobial Research' },
+    { year: 2023, amount: 280000, source: 'Children\'s Medical Research Institute', type: 'Career Development Fellowship', status: 'Active', category: 'Protein Engineering' },
+    { year: 2024, amount: 350000, source: 'National Health and Medical Research Council', type: 'Research Grant', status: 'Active', category: 'Gene Therapy' }
+  ];
+
+  const collaborationData = [
+    { id: 'ramon', name: 'Ramon Roca Pinilla', type: 'primary', weight: 1.0, publications: 16, country: 'Australia' },
+    { id: 'cmri', name: 'CMRI', type: 'institution', weight: 0.8, publications: 3, country: 'Australia' },
+    { id: 'uab', name: 'UAB', type: 'institution', weight: 0.9, publications: 10, country: 'Spain' },
+    { id: 'eu', name: 'EU Partners', type: 'collaborator', weight: 0.6, publications: 5, country: 'Europe' },
+    { id: 'us', name: 'US Partners', type: 'collaborator', weight: 0.4, publications: 3, country: 'USA' },
+    { id: 'au', name: 'AU Network', type: 'collaborator', weight: 0.7, publications: 4, country: 'Australia' }
+  ];
+
+  const impactData = [
+    { journal: 'Nature Communications', count: 1, quartile: 'Q1', impactFactor: 16.6 },
+    { journal: 'Molecular Therapy', count: 2, quartile: 'Q1', impactFactor: 12.4 },
+    { journal: 'Trends in Biotechnology', count: 1, quartile: 'Q1', impactFactor: 15.7 },
+    { journal: 'Scientific Reports', count: 1, quartile: 'Q2', impactFactor: 4.6 },
+    { journal: 'Other Q1', count: 2, quartile: 'Q1', impactFactor: 8.5 },
+    { journal: 'Other Q2', count: 3, quartile: 'Q2', impactFactor: 5.2 }
+  ];
+
+  function createFundingTimelineChart() {
+    const container = d3.select('#funding-timeline-chart');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const margin = { top: 20, right: 60, bottom: 60, left: 80 };
+    const width = containerRect.width - margin.left - margin.right;
+    const height = 320 - margin.top - margin.bottom;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom);
+
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3
+      .scaleLinear()
+      .domain(d3.extent(fundingData, d => d.year))
+      .range([0, width]);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(fundingData, d => d.amount)])
+      .nice()
+      .range([height, 0]);
+
+    const radiusScale = d3
+      .scaleSqrt()
+      .domain([0, d3.max(fundingData, d => d.amount)])
+      .range([8, 30]);
+
+    const colorScale = d3
+      .scaleOrdinal()
+      .domain(['Basic Research', 'International Collaboration', 'Antimicrobial Research', 'Protein Engineering', 'Gene Therapy'])
+      .range(['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6']);
+
+    // Create gradient definitions
+    const defs = svg.append('defs');
+    const gradient = defs.append('linearGradient')
+      .attr('id', 'funding-gradient')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('x1', 0).attr('y1', height)
+      .attr('x2', 0).attr('y2', 0);
+    
+    gradient.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', '#F59E0B')
+      .attr('stop-opacity', 0.1);
+    
+    gradient.append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', '#F59E0B')
+      .attr('stop-opacity', 0.8);
+
+    // Create connecting line
+    const line = d3.line()
+      .x(d => xScale(d.year))
+      .y(d => yScale(d.amount))
+      .curve(d3.curveCardinal);
+
+    // Add area under curve
+    const area = d3.area()
+      .x(d => xScale(d.year))
+      .y0(height)
+      .y1(d => yScale(d.amount))
+      .curve(d3.curveCardinal);
+
+    g.append('path')
+      .datum(fundingData)
+      .attr('fill', 'url(#funding-gradient)')
+      .attr('d', area)
+      .style('opacity', 0)
+      .transition()
+      .duration(1000)
+      .style('opacity', 1);
+
+    // Add connecting line
+    g.append('path')
+      .datum(fundingData)
+      .attr('fill', 'none')
+      .attr('stroke', '#F59E0B')
+      .attr('stroke-width', 2)
+      .attr('d', line)
+      .attr('stroke-dasharray', function() { return this.getTotalLength(); })
+      .attr('stroke-dashoffset', function() { return this.getTotalLength(); })
+      .transition()
+      .duration(1500)
+      .attr('stroke-dashoffset', 0);
+
+    // Create tooltip
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'chart-tooltip')
+      .style('position', 'absolute')
+      .style('padding', '12px')
+      .style('background', 'rgba(17, 24, 39, 0.95)')
+      .style('border', '1px solid #374151')
+      .style('border-radius', '8px')
+      .style('color', '#F3F4F6')
+      .style('font-size', '13px')
+      .style('pointer-events', 'none')
+      .style('opacity', 0)
+      .style('backdrop-filter', 'blur(8px)')
+      .style('z-index', '1000');
+
+    // Add funding bubbles
+    g.selectAll('.funding-bubble')
+      .data(fundingData)
+      .enter()
+      .append('circle')
+      .attr('class', 'funding-bubble')
+      .attr('cx', d => xScale(d.year))
+      .attr('cy', d => yScale(d.amount))
+      .attr('r', 0)
+      .attr('fill', d => colorScale(d.category))
+      .attr('fill-opacity', 0.8)
+      .attr('stroke', '#1F2937')
+      .attr('stroke-width', 2)
+      .on('mouseover', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', radiusScale(d.amount) * 1.2)
+          .attr('stroke-width', 3);
+        
+        tooltip.transition().duration(200).style('opacity', 1);
+        tooltip.html(`
+          <div style="font-weight: 600; margin-bottom: 4px; color: ${colorScale(d.category)};">${d.source}</div>
+          <div>Year: ${d.year}</div>
+          <div>Amount: $${(d.amount / 1000).toFixed(0)}K</div>
+          <div>Type: ${d.type}</div>
+          <div>Status: <span style="color: ${d.status === 'Active' ? '#10B981' : '#6B7280'};">${d.status}</span></div>
+        `)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', radiusScale(d.amount))
+          .attr('stroke-width', 2);
+        tooltip.transition().duration(200).style('opacity', 0);
+      })
+      .transition()
+      .duration(800)
+      .delay((d, i) => i * 200 + 500)
+      .attr('r', d => radiusScale(d.amount));
+
+    // Add axes
+    g.append('g')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(xScale).tickFormat(d3.format('d')))
+      .selectAll('text')
+      .style('fill', '#9CA3AF');
+
+    g.append('g')
+      .call(d3.axisLeft(yScale).tickFormat(d => `$${(d / 1000).toFixed(0)}K`))
+      .selectAll('text')
+      .style('fill', '#9CA3AF');
+
+    // Style axes
+    g.selectAll('.domain, .tick line')
+      .style('stroke', '#374151');
+
+    // Add axis labels
+    g.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - margin.left)
+      .attr('x', 0 - (height / 2))
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .text('Funding Amount');
+
+    g.append('text')
+      .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
+      .style('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .text('Year');
+  }
+
+  function createCollaborationNetworkChart() {
+    const container = d3.select('#collaboration-network-chart');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const width = containerRect.width;
+    const height = 320;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Color scale for different types
+    const colorScale = d3.scaleOrdinal()
+      .domain(['primary', 'institution', 'collaborator', 'industry'])
+      .range(['#DA291C', '#3B82F6', '#10B981', '#F59E0B']);
+
+    // Size scale based on publications
+    const sizeScale = d3.scaleSqrt()
+      .domain([0, d3.max(collaborationData, d => d.publications)])
+      .range([20, 50]);
+
+    // Create links data
+    const links = collaborationData
+      .filter(d => d.id !== 'ramon')
+      .map(d => ({
+        source: 'ramon',
+        target: d.id,
+        strength: d.weight
+      }));
+
+    // Create force simulation
+    const simulation = d3.forceSimulation(collaborationData)
+      .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius(d => sizeScale(d.publications) + 5));
+
+    // Add links
+    const link = svg.selectAll('.link')
+      .data(links)
+      .enter()
+      .append('line')
+      .attr('class', 'link')
+      .attr('stroke', '#4B5563')
+      .attr('stroke-width', d => d.strength * 3)
+      .attr('stroke-opacity', 0.6)
+      .attr('stroke-dasharray', '5,5');
+
+    // Add nodes
+    const node = svg.selectAll('.node')
+      .data(collaborationData)
+      .enter()
+      .append('g')
+      .attr('class', 'node');
+
+    // Add circles for nodes
+    node.append('circle')
+      .attr('r', 0)
+      .attr('fill', d => colorScale(d.type))
+      .attr('fill-opacity', 0.8)
+      .attr('stroke', '#1F2937')
+      .attr('stroke-width', 2)
+      .transition()
+      .duration(800)
+      .delay((d, i) => i * 100)
+      .attr('r', d => sizeScale(d.publications));
+
+    // Add labels
+    node.append('text')
+      .text(d => d.name.length > 15 ? d.name.substring(0, 15) + '...' : d.name)
+      .attr('dy', d => sizeScale(d.publications) + 15)
+      .attr('text-anchor', 'middle')
+      .style('fill', '#F3F4F6')
+      .style('font-size', '11px')
+      .style('font-weight', '500')
+      .style('pointer-events', 'none');
+
+    // Add publication count
+    node.append('text')
+      .text(d => d.publications)
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.3em')
+      .style('fill', 'white')
+      .style('font-size', '12px')
+      .style('font-weight', 'bold')
+      .style('pointer-events', 'none');
+
+    // Update positions on simulation tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    // Add hover effects
+    node.on('mouseover', function(event, d) {
+      d3.select(this).select('circle')
+        .transition().duration(200)
+        .attr('r', sizeScale(d.publications) * 1.2)
+        .attr('stroke-width', 3);
+    })
+    .on('mouseout', function(event, d) {
+      d3.select(this).select('circle')
+        .transition().duration(200)
+        .attr('r', sizeScale(d.publications))
+        .attr('stroke-width', 2);
+    });
+  }
+
+  function createPublicationImpactHeatmap() {
+    const container = d3.select('#publication-impact-heatmap');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const width = containerRect.width;
+    const height = 256;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Prepare data for heatmap
+    const heatmapData = [];
+    const quartiles = ['Q1', 'Q2', 'Q3', 'Q4'];
+    const impactRanges = ['Very High (>10)', 'High (5-10)', 'Medium (3-5)', 'Low (<3)'];
+    
+    quartiles.forEach((quartile, qi) => {
+      impactRanges.forEach((range, ri) => {
+        const count = impactData.filter(d => {
+          const inQuartile = d.quartile === quartile;
+          const inRange = 
+            (range.includes('Very High') && d.impactFactor > 10) ||
+            (range.includes('High') && d.impactFactor >= 5 && d.impactFactor <= 10) ||
+            (range.includes('Medium') && d.impactFactor >= 3 && d.impactFactor < 5) ||
+            (range.includes('Low') && d.impactFactor < 3);
+          return inQuartile && inRange;
+        }).reduce((sum, d) => sum + d.count, 0);
+        
+        heatmapData.push({
+          quartile,
+          range,
+          count,
+          qi,
+          ri
+        });
+      });
+    });
+
+    // Scales
+    const cellWidth = width / quartiles.length;
+    const cellHeight = height / impactRanges.length;
+    
+    const colorScale = d3.scaleSequential()
+      .interpolator(d3.interpolateReds)
+      .domain([0, d3.max(heatmapData, d => d.count)]);
+
+    // Create cells
+    const cells = svg.selectAll('.heat-cell')
+      .data(heatmapData)
+      .enter()
+      .append('g')
+      .attr('class', 'heat-cell')
+      .attr('transform', d => `translate(${d.qi * cellWidth}, ${d.ri * cellHeight})`);
+
+    cells.append('rect')
+      .attr('width', cellWidth - 2)
+      .attr('height', cellHeight - 2)
+      .attr('fill', '#1F2937')
+      .transition()
+      .duration(800)
+      .delay((d, i) => i * 50)
+      .attr('fill', d => d.count > 0 ? colorScale(d.count) : '#1F2937')
+      .attr('fill-opacity', 0.8);
+
+    // Add text labels
+    cells.append('text')
+      .text(d => d.count || '')
+      .attr('x', cellWidth / 2)
+      .attr('y', cellHeight / 2)
+      .attr('dy', '0.3em')
+      .attr('text-anchor', 'middle')
+      .style('fill', d => d.count > 2 ? 'white' : '#9CA3AF')
+      .style('font-size', '14px')
+      .style('font-weight', 'bold')
+      .style('opacity', 0)
+      .transition()
+      .duration(500)
+      .delay((d, i) => i * 50 + 800)
+      .style('opacity', 1);
+
+    // Add axes labels
+    svg.append('g')
+      .selectAll('.quartile-label')
+      .data(quartiles)
+      .enter()
+      .append('text')
+      .attr('class', 'quartile-label')
+      .text(d => d)
+      .attr('x', (d, i) => (i + 0.5) * cellWidth)
+      .attr('y', height + 20)
+      .attr('text-anchor', 'middle')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '12px')
+      .style('font-weight', '600');
+
+    svg.append('g')
+      .selectAll('.range-label')
+      .data(impactRanges)
+      .enter()
+      .append('text')
+      .attr('class', 'range-label')
+      .text(d => d)
+      .attr('x', -10)
+      .attr('y', (d, i) => (i + 0.5) * cellHeight)
+      .attr('dy', '0.3em')
+      .attr('text-anchor', 'end')
+      .style('fill', '#9CA3AF')
+      .style('font-size', '10px');
+  }
+
+  // Animate counter values
+  function animateCounters() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const valueElement = entry.target.querySelector('.kpi-value');
+          const target = valueElement?.dataset.target;
+          
+          if (target && !valueElement.dataset.animated) {
+            animateValue(valueElement, target);
+            valueElement.dataset.animated = 'true';
+          }
+          
+          // Animate progress bars
+          const progressBar = entry.target.querySelector('[data-animate="progress"]');
+          if (progressBar && !progressBar.dataset.animated) {
+            progressBar.style.width = progressBar.style.width || '0%';
+            progressBar.dataset.animated = 'true';
+          }
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.kpi-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+
+  function animateValue(element, target) {
+    const isStringValue = target.includes('+') || isNaN(Number(target));
+    if (isStringValue) return; // Don't animate string values
+    
+    const targetNum = parseInt(target);
+    const duration = 2000;
+    const startTime = performance.now();
+    const startValue = 0;
+    
+    function updateValue(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function (ease-out)
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.floor(startValue + (targetNum - startValue) * easeOut);
+      
+      element.textContent = currentValue.toString();
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateValue);
+      } else {
+        element.textContent = target; // Ensure final value is exact
+      }
+    }
+    
+    requestAnimationFrame(updateValue);
+  }
+
+  // Initialize all visualizations
+  function initDashboard() {
+    // Use intersection observer for performance
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    // Funding chart observer
+    const fundingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createFundingTimelineChart();
+          fundingObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Collaboration chart observer
+    const collaborationObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createCollaborationNetworkChart();
+          collaborationObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Impact heatmap observer
+    const impactObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createPublicationImpactHeatmap();
+          impactObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe chart containers
+    const fundingContainer = document.querySelector('#funding-timeline-chart');
+    const collaborationContainer = document.querySelector('#collaboration-network-chart');
+    const impactContainer = document.querySelector('#publication-impact-heatmap');
+    
+    if (fundingContainer) fundingObserver.observe(fundingContainer);
+    if (collaborationContainer) collaborationObserver.observe(collaborationContainer);
+    if (impactContainer) impactObserver.observe(impactContainer);
+
+    // Initialize counters
+    animateCounters();
+  }
+
+  // Handle resize
+  function handleResize() {
+    const fundingChart = document.querySelector('#funding-timeline-chart svg');
+    const collaborationChart = document.querySelector('#collaboration-network-chart svg');
+    const impactChart = document.querySelector('#publication-impact-heatmap svg');
+    
+    if (fundingChart) {
+      fundingChart.remove();
+      createFundingTimelineChart();
+    }
+    
+    if (collaborationChart) {
+      collaborationChart.remove();
+      createCollaborationNetworkChart();
+    }
+    
+    if (impactChart) {
+      impactChart.remove();
+      createPublicationImpactHeatmap();
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  } else {
+    initDashboard();
+  }
+  
+  // Handle window resize with debounce
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>

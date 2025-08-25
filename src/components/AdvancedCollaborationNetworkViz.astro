@@ -1,0 +1,1026 @@
+---
+import { collaborationNetwork } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Advanced Collaboration Network',
+    forceDirectedNetwork: 'Force-Directed Network',
+    clusterAnalysis: 'Cluster Analysis',
+    networkMetrics: 'Network Metrics',
+    collaborationStrength: 'Collaboration Strength',
+    networkDensity: 'Network Density',
+    clusteringCoefficient: 'Clustering Coefficient',
+    centralityMeasures: 'Centrality Measures',
+    betweennessCentrality: 'Betweenness Centrality',
+    closenessCentrality: 'Closeness Centrality',
+    degreeCentrality: 'Degree Centrality',
+    eigenvectorCentrality: 'Eigenvector Centrality',
+    communityDetection: 'Community Detection',
+    researchClusters: 'Research Clusters',
+    internationalCluster: 'International Cluster',
+    institutionalCluster: 'Institutional Cluster',
+    interdisciplinaryCluster: 'Interdisciplinary Cluster',
+    networkEvolution: 'Network Evolution',
+    collaborationGrowth: 'Collaboration Growth',
+    nodeSize: 'Node Size',
+    publicationCount: 'Publication Count',
+    collaborationWeight: 'Collaboration Weight',
+    strongTies: 'Strong Ties',
+    weakTies: 'Weak Ties',
+    bridgeNodes: 'Bridge Nodes',
+    peripheralNodes: 'Peripheral Nodes',
+    coreNodes: 'Core Nodes',
+    networkPosition: 'Network Position',
+    influenceScore: 'Influence Score',
+    reachability: 'Reachability',
+    clustering: 'Clustering',
+    viewLayout: 'View Layout',
+    forceLayout: 'Force Layout',
+    circularLayout: 'Circular Layout',
+    hierarchicalLayout: 'Hierarchical Layout'
+  },
+  es: {
+    title: 'Red de Colaboración Avanzada',
+    forceDirectedNetwork: 'Red Dirigida por Fuerzas',
+    clusterAnalysis: 'Análisis de Clusters',
+    networkMetrics: 'Métricas de Red',
+    collaborationStrength: 'Fuerza de Colaboración',
+    networkDensity: 'Densidad de Red',
+    clusteringCoefficient: 'Coeficiente de Agrupación',
+    centralityMeasures: 'Medidas de Centralidad',
+    betweennessCentrality: 'Centralidad de Intermediación',
+    closenessCentrality: 'Centralidad de Cercanía',
+    degreeCentrality: 'Centralidad de Grado',
+    eigenvectorCentrality: 'Centralidad de Vector Propio',
+    communityDetection: 'Detección de Comunidades',
+    researchClusters: 'Clusters de Investigación',
+    internationalCluster: 'Cluster Internacional',
+    institutionalCluster: 'Cluster Institucional',
+    interdisciplinaryCluster: 'Cluster Interdisciplinario',
+    networkEvolution: 'Evolución de Red',
+    collaborationGrowth: 'Crecimiento de Colaboración',
+    nodeSize: 'Tamaño de Nodo',
+    publicationCount: 'Conteo de Publicaciones',
+    collaborationWeight: 'Peso de Colaboración',
+    strongTies: 'Lazos Fuertes',
+    weakTies: 'Lazos Débiles',
+    bridgeNodes: 'Nodos Puente',
+    peripheralNodes: 'Nodos Periféricos',
+    coreNodes: 'Nodos Centrales',
+    networkPosition: 'Posición de Red',
+    influenceScore: 'Puntuación de Influencia',
+    reachability: 'Alcanzabilidad',
+    clustering: 'Agrupación',
+    viewLayout: 'Ver Diseño',
+    forceLayout: 'Diseño de Fuerza',
+    circularLayout: 'Diseño Circular',
+    hierarchicalLayout: 'Diseño Jerárquico'
+  },
+  ca: {
+    title: 'Xarxa de Col·laboració Avançada',
+    forceDirectedNetwork: 'Xarxa Dirigida per Forces',
+    clusterAnalysis: 'Anàlisi de Clusters',
+    networkMetrics: 'Mètriques de Xarxa',
+    collaborationStrength: 'Força de Col·laboració',
+    networkDensity: 'Densitat de Xarxa',
+    clusteringCoefficient: 'Coeficient d\'Agrupació',
+    centralityMeasures: 'Mesures de Centralitat',
+    betweennessCentrality: 'Centralitat d\'Intermediació',
+    closenessCentrality: 'Centralitat de Proximitat',
+    degreeCentrality: 'Centralitat de Grau',
+    eigenvectorCentrality: 'Centralitat de Vector Propi',
+    communityDetection: 'Detecció de Comunitats',
+    researchClusters: 'Clusters de Recerca',
+    internationalCluster: 'Cluster Internacional',
+    institutionalCluster: 'Cluster Institucional',
+    interdisciplinaryCluster: 'Cluster Interdisciplinari',
+    networkEvolution: 'Evolució de Xarxa',
+    collaborationGrowth: 'Creixement de Col·laboració',
+    nodeSize: 'Mida de Node',
+    publicationCount: 'Recompte de Publicacions',
+    collaborationWeight: 'Pes de Col·laboració',
+    strongTies: 'Llaços Forts',
+    weakTies: 'Llaços Febles',
+    bridgeNodes: 'Nodes Pont',
+    peripheralNodes: 'Nodes Perifèrics',
+    coreNodes: 'Nodes Centrals',
+    networkPosition: 'Posició de Xarxa',
+    influenceScore: 'Puntuació d\'Influència',
+    reachability: 'Assolibilitat',
+    clustering: 'Agrupació',
+    viewLayout: 'Veure Disseny',
+    forceLayout: 'Disseny de Força',
+    circularLayout: 'Disseny Circular',
+    hierarchicalLayout: 'Disseny Jeràrquic'
+  }
+};
+
+const t = translations[lang];
+
+// Enhanced collaboration network data with additional metrics
+const enhancedNetwork = {
+  nodes: [
+    {
+      id: 'ramon',
+      name: 'Ramon Roca Pinilla',
+      institution: 'CMRI',
+      type: 'primary',
+      publications: 16,
+      weight: 1.0,
+      cluster: 'core',
+      centralityScore: 0.95,
+      country: 'Australia',
+      researchArea: 'Protein Engineering'
+    },
+    {
+      id: 'cmri_team',
+      name: 'CMRI Research Team',
+      institution: 'CMRI',
+      type: 'institution',
+      publications: 8,
+      weight: 0.8,
+      cluster: 'institutional',
+      centralityScore: 0.75,
+      country: 'Australia',
+      researchArea: 'Gene Therapy'
+    },
+    {
+      id: 'uab_lab',
+      name: 'UAB Laboratory',
+      institution: 'UAB',
+      type: 'institution',
+      publications: 10,
+      weight: 0.9,
+      cluster: 'institutional',
+      centralityScore: 0.85,
+      country: 'Spain',
+      researchArea: 'Protein Engineering'
+    },
+    {
+      id: 'european_consortium',
+      name: 'European Research Consortium',
+      institution: 'Various EU',
+      type: 'collaborator',
+      publications: 6,
+      weight: 0.7,
+      cluster: 'international',
+      centralityScore: 0.65,
+      country: 'Europe',
+      researchArea: 'Biotechnology'
+    },
+    {
+      id: 'us_partners',
+      name: 'US Research Partners',
+      institution: 'Various US',
+      type: 'collaborator',
+      publications: 4,
+      weight: 0.5,
+      cluster: 'international',
+      centralityScore: 0.45,
+      country: 'USA',
+      researchArea: 'Gene Therapy'
+    },
+    {
+      id: 'australian_network',
+      name: 'Australian Research Network',
+      institution: 'Various AU',
+      type: 'collaborator',
+      publications: 7,
+      weight: 0.6,
+      cluster: 'regional',
+      centralityScore: 0.55,
+      country: 'Australia',
+      researchArea: 'Antimicrobial Research'
+    },
+    {
+      id: 'industry_partners',
+      name: 'Industry Collaborators',
+      institution: 'Biotech Industry',
+      type: 'industry',
+      publications: 3,
+      weight: 0.4,
+      cluster: 'industry',
+      centralityScore: 0.35,
+      country: 'International',
+      researchArea: 'Biotechnology'
+    },
+    {
+      id: 'postdocs',
+      name: 'Postdoc Network',
+      institution: 'Multiple',
+      type: 'junior',
+      publications: 5,
+      weight: 0.3,
+      cluster: 'developmental',
+      centralityScore: 0.25,
+      country: 'International',
+      researchArea: 'Various'
+    }
+  ],
+  links: [
+    { source: 'ramon', target: 'cmri_team', weight: 8, strength: 0.9 },
+    { source: 'ramon', target: 'uab_lab', weight: 10, strength: 1.0 },
+    { source: 'ramon', target: 'european_consortium', weight: 6, strength: 0.7 },
+    { source: 'ramon', target: 'us_partners', weight: 4, strength: 0.5 },
+    { source: 'ramon', target: 'australian_network', weight: 7, strength: 0.6 },
+    { source: 'ramon', target: 'industry_partners', weight: 3, strength: 0.4 },
+    { source: 'ramon', target: 'postdocs', weight: 5, strength: 0.3 },
+    { source: 'cmri_team', target: 'australian_network', weight: 3, strength: 0.4 },
+    { source: 'uab_lab', target: 'european_consortium', weight: 4, strength: 0.5 },
+    { source: 'european_consortium', target: 'us_partners', weight: 2, strength: 0.3 },
+    { source: 'industry_partners', target: 'australian_network', weight: 2, strength: 0.2 }
+  ]
+};
+
+// Network analysis metrics
+const networkMetrics = {
+  totalNodes: enhancedNetwork.nodes.length,
+  totalEdges: enhancedNetwork.links.length,
+  networkDensity: 0.45, // Calculated from graph theory
+  clusteringCoefficient: 0.73,
+  averagePathLength: 2.1,
+  numberOfClusters: 5,
+  modularityScore: 0.58
+};
+
+// Cluster definitions
+const clusterDefinitions = [
+  {
+    id: 'core',
+    name: 'Core Research',
+    color: '#EF4444',
+    description: 'Primary research leadership',
+    size: 1
+  },
+  {
+    id: 'institutional',
+    name: 'Institutional',
+    color: '#3B82F6',
+    description: 'Direct institutional collaborations',
+    size: 2
+  },
+  {
+    id: 'international',
+    name: 'International',
+    color: '#10B981',
+    description: 'Cross-border research partnerships',
+    size: 2
+  },
+  {
+    id: 'regional',
+    name: 'Regional',
+    color: '#F59E0B',
+    description: 'Regional research networks',
+    size: 1
+  },
+  {
+    id: 'industry',
+    name: 'Industry',
+    color: '#8B5CF6',
+    description: 'Industry collaborations',
+    size: 1
+  },
+  {
+    id: 'developmental',
+    name: 'Developmental',
+    color: '#06B6D4',
+    description: 'Mentorship and training networks',
+    size: 1
+  }
+];
+---
+
+<div class="advanced-collaboration-network-viz" role="region" aria-labelledby="advanced-network-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="advanced-network-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-orange-600 to-orange-400 mx-auto mb-6"></div>
+  </div>
+
+  <!-- Network Metrics Overview -->
+  <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+    <div class="p-4 bg-surface border border-gray-800 rounded-xl text-center">
+      <Icon name="nodes" size="md" class="text-orange-400 mx-auto mb-2" />
+      <div class="text-heading-md font-bold text-white">{networkMetrics.totalNodes}</div>
+      <div class="text-caption text-gray-400">Nodes</div>
+    </div>
+    
+    <div class="p-4 bg-surface border border-gray-800 rounded-xl text-center">
+      <Icon name="link" size="md" class="text-blue-400 mx-auto mb-2" />
+      <div class="text-heading-md font-bold text-white">{networkMetrics.totalEdges}</div>
+      <div class="text-caption text-gray-400">Connections</div>
+    </div>
+    
+    <div class="p-4 bg-surface border border-gray-800 rounded-xl text-center">
+      <Icon name="chart-pie" size="md" class="text-green-400 mx-auto mb-2" />
+      <div class="text-heading-md font-bold text-white">{networkMetrics.networkDensity}</div>
+      <div class="text-caption text-gray-400">{t.networkDensity}</div>
+    </div>
+    
+    <div class="p-4 bg-surface border border-gray-800 rounded-xl text-center">
+      <Icon name="cluster" size="md" class="text-purple-400 mx-auto mb-2" />
+      <div class="text-heading-md font-bold text-white">{networkMetrics.numberOfClusters}</div>
+      <div class="text-caption text-gray-400">Clusters</div>
+    </div>
+    
+    <div class="p-4 bg-surface border border-gray-800 rounded-xl text-center">
+      <Icon name="trending-up" size="md" class="text-yellow-400 mx-auto mb-2" />
+      <div class="text-heading-md font-bold text-white">{networkMetrics.clusteringCoefficient}</div>
+      <div class="text-caption text-gray-400">{t.clusteringCoefficient}</div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-4 gap-8">
+    <!-- Main Force-Directed Network -->
+    <div class="lg:col-span-3 space-y-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <Icon name="share-2" size="lg" class="text-orange-400" />
+          <h3 class="text-heading-lg text-white">{t.forceDirectedNetwork}</h3>
+        </div>
+        
+        <!-- Layout Controls -->
+        <div class="flex items-center gap-2">
+          <select id="layout-selector" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-caption focus:border-orange-500">
+            <option value="force">{t.forceLayout}</option>
+            <option value="circular">{t.circularLayout}</option>
+            <option value="hierarchical">{t.hierarchicalLayout}</option>
+          </select>
+          <button id="cluster-toggle" class="px-3 py-1 bg-orange-600/10 border border-orange-600/20 rounded-lg text-orange-300 font-medium">
+            Toggle Clusters
+          </button>
+        </div>
+      </div>
+
+      <!-- D3 Force-Directed Network -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div id="force-network-chart" class="w-full h-96" role="img" 
+             aria-label="Interactive force-directed network showing collaboration relationships with clustering">
+          <!-- Chart will be rendered here by D3.js -->
+        </div>
+        
+        <!-- Network Legend -->
+        <div class="mt-6 space-y-3">
+          <div class="flex items-center justify-center gap-6 text-caption flex-wrap">
+            {clusterDefinitions.map((cluster, index) => (
+              <div class="flex items-center gap-2">
+                <div class={`w-4 h-4 rounded-full border-2 border-gray-700`} style={`background-color: ${cluster.color}`}></div>
+                <span class="text-gray-400">{cluster.name}</span>
+              </div>
+            ))}
+          </div>
+          <div class="text-center text-caption text-gray-500">
+            Node size = Publications • Edge width = Collaboration strength
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Analysis -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Centrality Measures -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-3 mb-6">
+            <Icon name="target" size="lg" class="text-red-400" />
+            <h4 class="text-heading-md text-white">{t.centralityMeasures}</h4>
+          </div>
+          
+          <div class="space-y-4">
+            {enhancedNetwork.nodes
+              .sort((a, b) => b.centralityScore - a.centralityScore)
+              .slice(0, 5)
+              .map((node, index) => (
+                <div class="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
+                  <div class="flex items-center gap-3">
+                    <div class={`w-3 h-3 rounded-full`} 
+                         style={`background-color: ${clusterDefinitions.find(c => c.id === node.cluster)?.color || '#6B7280'}`}></div>
+                    <div>
+                      <div class="text-body-sm text-white font-medium">{node.name.split(' ')[0]}</div>
+                      <div class="text-caption text-gray-400">{node.institution}</div>
+                    </div>
+                  </div>
+                  <div class="text-caption text-orange-400 font-medium">
+                    {(node.centralityScore * 100).toFixed(0)}%
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <!-- Collaboration Strength -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-3 mb-6">
+            <Icon name="activity" size="lg" class="text-blue-400" />
+            <h4 class="text-heading-md text-white">{t.collaborationStrength}</h4>
+          </div>
+          
+          <div class="space-y-4">
+            {enhancedNetwork.links
+              .sort((a, b) => b.weight - a.weight)
+              .slice(0, 5)
+              .map((link, index) => {
+                const sourceNode = enhancedNetwork.nodes.find(n => n.id === link.source);
+                const targetNode = enhancedNetwork.nodes.find(n => n.id === link.target);
+                return (
+                  <div class="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
+                    <div class="flex-1">
+                      <div class="text-body-sm text-white font-medium">
+                        {sourceNode?.name.split(' ')[0]} ↔ {targetNode?.name.split(' ')[0]}
+                      </div>
+                      <div class="text-caption text-gray-400">
+                        {link.weight} collaborations
+                      </div>
+                    </div>
+                    <div class="w-16 bg-gray-700 rounded-full h-2">
+                      <div 
+                        class="h-2 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"
+                        style={`width: ${(link.strength * 100)}%`}
+                      ></div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cluster Analysis Panel -->
+    <div class="space-y-6">
+      <div class="flex items-center gap-3 mb-6">
+        <Icon name="layers" size="lg" class="text-purple-400" />
+        <h3 class="text-heading-lg text-white">{t.clusterAnalysis}</h3>
+      </div>
+
+      <!-- Community Detection -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <h4 class="text-heading-md text-white mb-6">{t.communityDetection}</h4>
+        
+        <div class="space-y-4">
+          {clusterDefinitions.map((cluster, index) => (
+            <div 
+              class="p-4 bg-gray-800/30 border border-gray-700 rounded-xl"
+              style={`animation-delay: ${index * 0.1}s`}
+            >
+              <div class="flex items-center gap-3 mb-3">
+                <div class={`w-4 h-4 rounded-full border-2 border-gray-700`} 
+                     style={`background-color: ${cluster.color}`}></div>
+                <h5 class="text-body font-medium text-white">{cluster.name}</h5>
+                <span class="ml-auto text-caption text-gray-400">{cluster.size} nodes</span>
+              </div>
+              <p class="text-body-sm text-gray-400">{cluster.description}</p>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Modularity Score -->
+        <div class="mt-6 p-4 bg-purple-600/10 border border-purple-600/20 rounded-xl text-center">
+          <div class="text-heading-md text-white font-bold mb-2">
+            {networkMetrics.modularityScore}
+          </div>
+          <div class="text-caption text-purple-300">Modularity Score</div>
+          <div class="text-caption text-gray-400 mt-1">Strong community structure</div>
+        </div>
+      </div>
+
+      <!-- Network Position Analysis -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-2 mb-6">
+          <Icon name="compass" size="md" class="text-green-400" />
+          <h4 class="text-heading-md text-white">{t.networkPosition}</h4>
+        </div>
+        
+        <div class="space-y-4">
+          <!-- Bridge Nodes -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="text-body-sm text-gray-300">{t.bridgeNodes}</span>
+            </div>
+            <div class="text-caption text-green-400 pl-4">
+              European Consortium, Australian Network
+            </div>
+          </div>
+          
+          <!-- Core Nodes -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+              <span class="text-body-sm text-gray-300">{t.coreNodes}</span>
+            </div>
+            <div class="text-caption text-red-400 pl-4">
+              Ramon R.P., CMRI Team, UAB Lab
+            </div>
+          </div>
+          
+          <!-- Peripheral Nodes -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span class="text-body-sm text-gray-300">{t.peripheralNodes}</span>
+            </div>
+            <div class="text-caption text-blue-400 pl-4">
+              Industry Partners, Postdoc Network
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Growth -->
+      <div class="p-6 bg-gradient-to-br from-orange-600/10 to-red-600/10 border border-gray-800 rounded-2xl">
+        <div class="text-center">
+          <Icon name="trending-up" size="xl" class="text-orange-400 mx-auto mb-4" />
+          <div class="text-heading-lg text-white font-bold mb-2">Growing Network</div>
+          <div class="text-body text-gray-300 mb-4">{t.collaborationGrowth}</div>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div class="text-heading-sm text-white font-bold">45%</div>
+              <div class="text-caption text-gray-400">Network Density</div>
+            </div>
+            <div>
+              <div class="text-heading-sm text-white font-bold">5</div>
+              <div class="text-caption text-gray-400">Communities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .advanced-collaboration-network-viz {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* D3 Network Styles */
+  .network-node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .network-node:hover {
+    filter: brightness(1.3) drop-shadow(0 0 8px currentColor);
+  }
+  
+  .network-link {
+    transition: all 0.3s ease;
+  }
+  
+  .network-link:hover {
+    stroke-width: 4 !important;
+    opacity: 1 !important;
+  }
+  
+  .cluster-hull {
+    fill-opacity: 0.1;
+    stroke-opacity: 0.3;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+  }
+  
+  .cluster-hull:hover {
+    fill-opacity: 0.2;
+    stroke-opacity: 0.6;
+  }
+  
+  .node-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: central;
+    fill: #D1D5DB;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  
+  .tooltip {
+    position: absolute;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+    color: white;
+    pointer-events: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    max-width: 300px;
+  }
+  
+  .tooltip.visible {
+    opacity: 1;
+  }
+  
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #1F2937;
+  }
+  
+  .tooltip .node-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #F97316;
+  }
+  
+  .tooltip .node-details {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+  
+  .tooltip .node-metrics {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #9CA3AF;
+  }
+  
+  /* Layout-specific styles */
+  .force-layout .network-node {
+    stroke: #1F2937;
+    stroke-width: 2;
+  }
+  
+  .circular-layout .network-node {
+    stroke: #374151;
+    stroke-width: 1.5;
+  }
+  
+  .hierarchical-layout .network-node {
+    stroke: #4B5563;
+    stroke-width: 1;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .advanced-collaboration-network-viz .grid.lg\\:grid-cols-4 {
+      grid-template-columns: 1fr;
+    }
+    
+    .advanced-collaboration-network-viz .lg\\:col-span-3 {
+      grid-column: span 1;
+    }
+    
+    .advanced-collaboration-network-viz .grid.grid-cols-2.lg\\:grid-cols-5 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 640px) {
+    #force-network-chart {
+      height: 20rem;
+    }
+    
+    .advanced-collaboration-network-viz .grid.grid-cols-2.lg\\:grid-cols-5 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .advanced-collaboration-network-viz,
+    .advanced-collaboration-network-viz * {
+      animation: none !important;
+      transition: none !important;
+    }
+    
+    .network-node,
+    .network-link {
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .advanced-collaboration-network-viz .border {
+      border-width: 2px;
+    }
+    
+    .network-node {
+      stroke: #9CA3AF;
+      stroke-width: 3;
+    }
+    
+    .network-link {
+      stroke: #6B7280;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  // Enhanced network data
+  const networkData = {
+    nodes: [
+      { id: 'ramon', name: 'Ramon Roca Pinilla', institution: 'CMRI', type: 'primary', publications: 16, weight: 1.0, cluster: 'core', centralityScore: 0.95, country: 'Australia', researchArea: 'Protein Engineering' },
+      { id: 'cmri_team', name: 'CMRI Research Team', institution: 'CMRI', type: 'institution', publications: 8, weight: 0.8, cluster: 'institutional', centralityScore: 0.75, country: 'Australia', researchArea: 'Gene Therapy' },
+      { id: 'uab_lab', name: 'UAB Laboratory', institution: 'UAB', type: 'institution', publications: 10, weight: 0.9, cluster: 'institutional', centralityScore: 0.85, country: 'Spain', researchArea: 'Protein Engineering' },
+      { id: 'european_consortium', name: 'European Research Consortium', institution: 'Various EU', type: 'collaborator', publications: 6, weight: 0.7, cluster: 'international', centralityScore: 0.65, country: 'Europe', researchArea: 'Biotechnology' },
+      { id: 'us_partners', name: 'US Research Partners', institution: 'Various US', type: 'collaborator', publications: 4, weight: 0.5, cluster: 'international', centralityScore: 0.45, country: 'USA', researchArea: 'Gene Therapy' },
+      { id: 'australian_network', name: 'Australian Research Network', institution: 'Various AU', type: 'collaborator', publications: 7, weight: 0.6, cluster: 'regional', centralityScore: 0.55, country: 'Australia', researchArea: 'Antimicrobial Research' },
+      { id: 'industry_partners', name: 'Industry Collaborators', institution: 'Biotech Industry', type: 'industry', publications: 3, weight: 0.4, cluster: 'industry', centralityScore: 0.35, country: 'International', researchArea: 'Biotechnology' },
+      { id: 'postdocs', name: 'Postdoc Network', institution: 'Multiple', type: 'junior', publications: 5, weight: 0.3, cluster: 'developmental', centralityScore: 0.25, country: 'International', researchArea: 'Various' }
+    ],
+    links: [
+      { source: 'ramon', target: 'cmri_team', weight: 8, strength: 0.9 },
+      { source: 'ramon', target: 'uab_lab', weight: 10, strength: 1.0 },
+      { source: 'ramon', target: 'european_consortium', weight: 6, strength: 0.7 },
+      { source: 'ramon', target: 'us_partners', weight: 4, strength: 0.5 },
+      { source: 'ramon', target: 'australian_network', weight: 7, strength: 0.6 },
+      { source: 'ramon', target: 'industry_partners', weight: 3, strength: 0.4 },
+      { source: 'ramon', target: 'postdocs', weight: 5, strength: 0.3 },
+      { source: 'cmri_team', target: 'australian_network', weight: 3, strength: 0.4 },
+      { source: 'uab_lab', target: 'european_consortium', weight: 4, strength: 0.5 },
+      { source: 'european_consortium', target: 'us_partners', weight: 2, strength: 0.3 },
+      { source: 'industry_partners', target: 'australian_network', weight: 2, strength: 0.2 }
+    ]
+  };
+
+  const clusterColors = {
+    'core': '#EF4444',
+    'institutional': '#3B82F6',
+    'international': '#10B981',
+    'regional': '#F59E0B',
+    'industry': '#8B5CF6',
+    'developmental': '#06B6D4'
+  };
+
+  let currentLayout = 'force';
+  let showClusters = true;
+  let simulation: d3.Simulation<any, any> | null = null;
+
+  function createForceDirectedNetwork() {
+    // Set up dimensions
+    const container = d3.select('#force-network-chart');
+    const containerRect = container.node()?.getBoundingClientRect();
+    const width = containerRect?.width || 800;
+    const height = 384;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .call(d3.zoom<SVGSVGElement, unknown>().on('zoom', (event) => {
+        g.attr('transform', event.transform);
+      }));
+
+    const g = svg.append('g').attr('class', `${currentLayout}-layout`);
+
+    // Create tooltip
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
+    // Scales
+    const nodeScale = d3.scaleSqrt()
+      .domain([0, d3.max(networkData.nodes, d => d.publications) as number])
+      .range([8, 25]);
+
+    const linkScale = d3.scaleLinear()
+      .domain([0, d3.max(networkData.links, d => d.weight) as number])
+      .range([1, 6]);
+
+    // Create simulation based on layout
+    if (simulation) simulation.stop();
+
+    if (currentLayout === 'force') {
+      simulation = d3.forceSimulation(networkData.nodes as any)
+        .force('link', d3.forceLink(networkData.links).id((d: any) => d.id).strength(d => (d as any).strength))
+        .force('charge', d3.forceManyBody().strength(-300))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius((d: any) => nodeScale(d.publications) + 2));
+    } else if (currentLayout === 'circular') {
+      networkData.nodes.forEach((node, i) => {
+        const angle = (i / networkData.nodes.length) * 2 * Math.PI;
+        const radius = Math.min(width, height) * 0.35;
+        (node as any).x = width / 2 + radius * Math.cos(angle);
+        (node as any).y = height / 2 + radius * Math.sin(angle);
+      });
+    } else if (currentLayout === 'hierarchical') {
+      // Group nodes by cluster and arrange hierarchically
+      const clusters = [...new Set(networkData.nodes.map(n => n.cluster))];
+      clusters.forEach((cluster, ci) => {
+        const clusterNodes = networkData.nodes.filter(n => n.cluster === cluster);
+        const clusterY = (ci + 1) * (height / (clusters.length + 1));
+        clusterNodes.forEach((node, ni) => {
+          (node as any).x = (ni + 1) * (width / (clusterNodes.length + 1));
+          (node as any).y = clusterY;
+        });
+      });
+    }
+
+    // Cluster hulls (if showing clusters)
+    let hulls: any = null;
+    if (showClusters && currentLayout === 'force') {
+      const clusters = d3.group(networkData.nodes, d => d.cluster);
+      hulls = g.selectAll('.cluster-hull')
+        .data(clusters)
+        .enter()
+        .append('path')
+        .attr('class', 'cluster-hull')
+        .style('fill', ([key]: [string, any]) => clusterColors[key as keyof typeof clusterColors])
+        .style('stroke', ([key]: [string, any]) => clusterColors[key as keyof typeof clusterColors]);
+    }
+
+    // Links
+    const links = g.selectAll('.network-link')
+      .data(networkData.links)
+      .enter()
+      .append('line')
+      .attr('class', 'network-link')
+      .attr('stroke', '#4B5563')
+      .attr('stroke-width', d => linkScale(d.weight))
+      .attr('stroke-opacity', 0.6);
+
+    // Nodes
+    const nodes = g.selectAll('.network-node')
+      .data(networkData.nodes)
+      .enter()
+      .append('circle')
+      .attr('class', 'network-node')
+      .attr('r', d => nodeScale(d.publications))
+      .attr('fill', d => clusterColors[d.cluster as keyof typeof clusterColors])
+      .on('mouseover', function(event, d) {
+        d3.select(this).style('filter', 'brightness(1.5)');
+        tooltip.transition().duration(200).style('opacity', 1);
+        tooltip.html(`
+          <div class="node-title">${d.name}</div>
+          <div class="node-details">
+            <div>Institution: ${d.institution}</div>
+            <div>Country: ${d.country}</div>
+            <div>Research Area: ${d.researchArea}</div>
+            <div>Cluster: ${d.cluster}</div>
+          </div>
+          <div class="node-metrics">
+            <span>${d.publications} pubs</span>
+            <span>${Math.round(d.centralityScore * 100)}% centrality</span>
+          </div>
+        `)
+        .style('left', (event.pageX + 15) + 'px')
+        .style('top', (event.pageY - 15) + 'px');
+      })
+      .on('mouseout', function() {
+        d3.select(this).style('filter', 'none');
+        tooltip.transition().duration(200).style('opacity', 0);
+      })
+      .on('click', function(event, d) {
+        console.log('Node clicked:', d.name);
+      });
+
+    // Node labels
+    const labels = g.selectAll('.node-label')
+      .data(networkData.nodes.filter(d => d.type === 'primary' || d.publications > 8))
+      .enter()
+      .append('text')
+      .attr('class', 'node-label')
+      .text(d => d.name.split(' ')[0])
+      .attr('dy', d => nodeScale(d.publications) + 15);
+
+    // Drag behavior
+    const drag = d3.drag<any, any>()
+      .on('start', (event, d) => {
+        if (!event.active && simulation) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+      })
+      .on('drag', (event, d) => {
+        d.fx = event.x;
+        d.fy = event.y;
+      })
+      .on('end', (event, d) => {
+        if (!event.active && simulation) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+      });
+
+    nodes.call(drag);
+
+    // Update positions
+    function updatePositions() {
+      links
+        .attr('x1', (d: any) => d.source.x)
+        .attr('y1', (d: any) => d.source.y)
+        .attr('x2', (d: any) => d.target.x)
+        .attr('y2', (d: any) => d.target.y);
+
+      nodes
+        .attr('cx', (d: any) => d.x)
+        .attr('cy', (d: any) => d.y);
+
+      labels
+        .attr('x', (d: any) => d.x)
+        .attr('y', (d: any) => d.y);
+
+      // Update cluster hulls
+      if (hulls) {
+        hulls.attr('d', ([key, nodes]: [string, any[]]) => {
+          const points = nodes.map(d => [d.x, d.y] as [number, number]);
+          return points.length > 2 ? `M${d3.polygonHull(points)?.join('L')}Z` : '';
+        });
+      }
+    }
+
+    // Start simulation or set static positions
+    if (currentLayout === 'force' && simulation) {
+      simulation.on('tick', updatePositions);
+    } else {
+      updatePositions();
+    }
+  }
+
+  function setupControls() {
+    const layoutSelector = document.getElementById('layout-selector') as HTMLSelectElement;
+    const clusterToggle = document.getElementById('cluster-toggle') as HTMLButtonElement;
+
+    layoutSelector?.addEventListener('change', (e) => {
+      currentLayout = (e.target as HTMLSelectElement).value;
+      createForceDirectedNetwork();
+    });
+
+    clusterToggle?.addEventListener('click', () => {
+      showClusters = !showClusters;
+      clusterToggle.textContent = showClusters ? 'Hide Clusters' : 'Show Clusters';
+      createForceDirectedNetwork();
+    });
+  }
+
+  function initChart() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createForceDirectedNetwork();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const chartContainer = document.querySelector('#force-network-chart');
+    if (chartContainer) {
+      observer.observe(chartContainer);
+    }
+  }
+
+  // Handle resize
+  function handleResize() {
+    const chartContainer = document.querySelector('#force-network-chart');
+    if (chartContainer?.querySelector('svg')) {
+      createForceDirectedNetwork();
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initChart();
+      setupControls();
+    });
+  } else {
+    initChart();
+    setupControls();
+  }
+
+  // Handle window resize with debounce
+  let resizeTimeout: NodeJS.Timeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>

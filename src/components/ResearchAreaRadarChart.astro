@@ -1,0 +1,911 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Research Expertise Mapping',
+    expertiseRadar: 'Expertise Radar',
+    researchAreas: 'Research Areas',
+    skillAssessment: 'Skill Assessment',
+    domainExpertise: 'Domain Expertise',
+    technicalSkills: 'Technical Skills',
+    researchImpact: 'Research Impact',
+    collaborationNetwork: 'Collaboration Network',
+    innovation: 'Innovation',
+    publications: 'Publications',
+    grants: 'Grants',
+    mentoring: 'Mentoring',
+    proteinEngineering: 'Protein Engineering',
+    geneTherapy: 'Gene Therapy',
+    antimicrobialResearch: 'Antimicrobial Research',
+    molecularBiology: 'Molecular Biology',
+    biotechnology: 'Biotechnology',
+    bioinformatics: 'Bioinformatics',
+    expertise: 'Expertise',
+    experience: 'Experience',
+    impact: 'Impact',
+    proficiency: 'Proficiency',
+    advanced: 'Advanced',
+    expert: 'Expert',
+    intermediate: 'Intermediate',
+    beginner: 'Beginner',
+    overallScore: 'Overall Score',
+    topStrengths: 'Top Strengths',
+    emergingAreas: 'Emerging Areas',
+    researchFocus: 'Research Focus',
+    interdisciplinary: 'Interdisciplinary',
+    coreExpertise: 'Core Expertise',
+    growthAreas: 'Growth Areas'
+  },
+  es: {
+    title: 'Mapeo de Experiencia en Investigación',
+    expertiseRadar: 'Radar de Experiencia',
+    researchAreas: 'Áreas de Investigación',
+    skillAssessment: 'Evaluación de Habilidades',
+    domainExpertise: 'Experiencia del Dominio',
+    technicalSkills: 'Habilidades Técnicas',
+    researchImpact: 'Impacto de Investigación',
+    collaborationNetwork: 'Red de Colaboración',
+    innovation: 'Innovación',
+    publications: 'Publicaciones',
+    grants: 'Subvenciones',
+    mentoring: 'Mentoría',
+    proteinEngineering: 'Ingeniería de Proteínas',
+    geneTherapy: 'Terapia Génica',
+    antimicrobialResearch: 'Investigación Antimicrobiana',
+    molecularBiology: 'Biología Molecular',
+    biotechnology: 'Biotecnología',
+    bioinformatics: 'Bioinformática',
+    expertise: 'Experiencia',
+    experience: 'Experiencia',
+    impact: 'Impacto',
+    proficiency: 'Competencia',
+    advanced: 'Avanzado',
+    expert: 'Experto',
+    intermediate: 'Intermedio',
+    beginner: 'Principiante',
+    overallScore: 'Puntuación General',
+    topStrengths: 'Fortalezas Principales',
+    emergingAreas: 'Áreas Emergentes',
+    researchFocus: 'Enfoque de Investigación',
+    interdisciplinary: 'Interdisciplinario',
+    coreExpertise: 'Experiencia Central',
+    growthAreas: 'Áreas de Crecimiento'
+  },
+  ca: {
+    title: 'Mapatge d\'Experiència en Recerca',
+    expertiseRadar: 'Radar d\'Experiència',
+    researchAreas: 'Àrees de Recerca',
+    skillAssessment: 'Avaluació d\'Habilitats',
+    domainExpertise: 'Experiència del Domini',
+    technicalSkills: 'Habilitats Tècniques',
+    researchImpact: 'Impacte de Recerca',
+    collaborationNetwork: 'Xarxa de Col·laboració',
+    innovation: 'Innovació',
+    publications: 'Publicacions',
+    grants: 'Subvencions',
+    mentoring: 'Mentoria',
+    proteinEngineering: 'Enginyeria de Proteïnes',
+    geneTherapy: 'Teràpia Gènica',
+    antimicrobialResearch: 'Recerca Antimicrobiana',
+    molecularBiology: 'Biologia Molecular',
+    biotechnology: 'Biotecnologia',
+    bioinformatics: 'Bioinformàtica',
+    expertise: 'Experiència',
+    experience: 'Experiència',
+    impact: 'Impacte',
+    proficiency: 'Competència',
+    advanced: 'Avançat',
+    expert: 'Expert',
+    intermediate: 'Intermedi',
+    beginner: 'Principiant',
+    overallScore: 'Puntuació General',
+    topStrengths: 'Fortaleses Principals',
+    emergingAreas: 'Àrees Emergents',
+    researchFocus: 'Enfocament de Recerca',
+    interdisciplinary: 'Interdisciplinari',
+    coreExpertise: 'Experiència Central',
+    growthAreas: 'Àrees de Creixement'
+  }
+};
+
+const t = translations[lang];
+
+// Research expertise data (scale of 0-100)
+const expertiseData = [
+  {
+    area: t.proteinEngineering,
+    score: 95,
+    level: t.expert,
+    color: '#10B981',
+    publications: 8,
+    years: 6,
+    description: 'Functional inclusion bodies, recombinant proteins'
+  },
+  {
+    area: t.geneTherapy,
+    score: 88,
+    level: t.expert,
+    color: '#3B82F6',
+    publications: 5,
+    years: 3,
+    description: 'AAV vectors, capsid engineering, liver perfusion'
+  },
+  {
+    area: t.antimicrobialResearch,
+    score: 85,
+    level: t.expert,
+    color: '#EF4444',
+    publications: 4,
+    years: 5,
+    description: 'Host defense peptides, biofilm inhibition'
+  },
+  {
+    area: t.molecularBiology,
+    score: 90,
+    level: t.expert,
+    color: '#F59E0B',
+    publications: 12,
+    years: 8,
+    description: 'Bacterial expression systems, protein purification'
+  },
+  {
+    area: t.biotechnology,
+    score: 92,
+    level: t.expert,
+    color: '#8B5CF6',
+    publications: 10,
+    years: 7,
+    description: 'Bioprocess optimization, industrial applications'
+  },
+  {
+    area: t.bioinformatics,
+    score: 75,
+    level: t.advanced,
+    color: '#06B6D4',
+    publications: 3,
+    years: 4,
+    description: 'Protein modeling, sequence analysis'
+  }
+];
+
+// Technical skills assessment
+const technicalSkills = [
+  { skill: 'Protein Expression', proficiency: 95, category: 'Molecular Biology' },
+  { skill: 'Vector Engineering', proficiency: 90, category: 'Gene Therapy' },
+  { skill: 'Cell Culture', proficiency: 88, category: 'Biotechnology' },
+  { skill: 'Chromatography', proficiency: 92, category: 'Protein Purification' },
+  { skill: 'Microscopy', proficiency: 80, category: 'Imaging' },
+  { skill: 'Bioinformatics', proficiency: 75, category: 'Computational' },
+  { skill: 'Project Management', proficiency: 85, category: 'Leadership' },
+  { skill: 'Manuscript Writing', proficiency: 93, category: 'Communication' }
+];
+
+// Calculate overall metrics
+const averageScore = Math.round(expertiseData.reduce((sum, area) => sum + area.score, 0) / expertiseData.length);
+const topAreas = expertiseData.filter(area => area.score >= 90).length;
+const totalPublications = expertiseData.reduce((sum, area) => sum + area.publications, 0);
+---
+
+<div class="research-area-radar-chart" role="region" aria-labelledby="radar-chart-heading">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 id="radar-chart-heading" class="text-heading-xl mb-4 text-white">{t.title}</h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-cyan-600 to-cyan-400 mx-auto mb-6"></div>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="chart-pie" size="lg" class="text-cyan-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{averageScore}</div>
+      <div class="text-body-sm text-gray-400">{t.overallScore}</div>
+      <div class="text-caption text-cyan-400 mt-2">Expert Level</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="trophy" size="lg" class="text-yellow-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{topAreas}</div>
+      <div class="text-body-sm text-gray-400">{t.topStrengths}</div>
+      <div class="text-caption text-yellow-400 mt-2">Core Areas</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="document-text" size="lg" class="text-green-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">{expertiseData.length}</div>
+      <div class="text-body-sm text-gray-400">{t.researchAreas}</div>
+      <div class="text-caption text-green-400 mt-2">{t.interdisciplinary}</div>
+    </div>
+    
+    <div class="p-6 bg-surface border border-gray-800 rounded-2xl text-center">
+      <Icon name="academic-cap" size="lg" class="text-purple-400 mx-auto mb-4" />
+      <div class="text-display-sm font-bold text-white mb-2">8</div>
+      <div class="text-body-sm text-gray-400">Years Experience</div>
+      <div class="text-caption text-purple-400 mt-2">PhD → Senior</div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Main Radar Chart -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <Icon name="radar" size="lg" class="text-cyan-400" />
+          <h3 class="text-heading-lg text-white">{t.expertiseRadar}</h3>
+        </div>
+        
+        <!-- Chart Controls -->
+        <div class="flex items-center gap-2">
+          <button id="show-expertise" class="px-3 py-1 bg-cyan-600/10 border border-cyan-600/20 rounded-lg text-cyan-300 font-medium active">
+            {t.expertise}
+          </button>
+          <button id="show-impact" class="px-3 py-1 hover:bg-gray-600/10 border border-gray-600/20 rounded-lg text-gray-400 hover:text-white transition-colors">
+            {t.impact}
+          </button>
+        </div>
+      </div>
+
+      <!-- D3 Radar Chart Container -->
+      <div class="p-8 bg-surface border border-gray-800 rounded-2xl">
+        <div id="expertise-radar-chart" class="w-full h-96" role="img" 
+             aria-label="Radar chart showing expertise levels across different research areas">
+          <!-- Chart will be rendered here by D3.js -->
+        </div>
+        
+        <!-- Chart Legend -->
+        <div class="flex items-center justify-center gap-6 mt-6 text-caption flex-wrap">
+          {expertiseData.map((area, index) => (
+            <div class="flex items-center gap-2">
+              <div class={`w-3 h-3 rounded-full`} style={`background-color: ${area.color}`}></div>
+              <span class="text-gray-400">{area.area.split(' ')[0]}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Technical Skills Breakdown -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <div class="flex items-center gap-3 mb-6">
+          <Icon name="cog" size="lg" class="text-blue-400" />
+          <h4 class="text-heading-md text-white">{t.technicalSkills}</h4>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {technicalSkills.map((skill, index) => (
+            <div 
+              class="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg"
+              style={`animation-delay: ${index * 0.1}s`}
+            >
+              <div class="flex-1">
+                <div class="text-body-sm text-white font-medium">{skill.skill}</div>
+                <div class="text-caption text-gray-400">{skill.category}</div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-16 bg-gray-700 rounded-full h-2">
+                  <div 
+                    class={`h-2 rounded-full transition-all duration-1000 ease-out ${
+                      skill.proficiency >= 90 ? 'bg-gradient-to-r from-green-600 to-green-400' :
+                      skill.proficiency >= 80 ? 'bg-gradient-to-r from-blue-600 to-blue-400' :
+                      'bg-gradient-to-r from-yellow-600 to-yellow-400'
+                    }`}
+                    style={`width: ${skill.proficiency}%`}
+                    data-animate="skill-bar"
+                  ></div>
+                </div>
+                <span class="text-body-sm text-gray-300 font-medium w-8 text-right">
+                  {skill.proficiency}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Expertise Details -->
+    <div class="space-y-6">
+      <div class="flex items-center gap-3 mb-6">
+        <Icon name="clipboard-list" size="lg" class="text-green-400" />
+        <h3 class="text-heading-lg text-white">{t.domainExpertise}</h3>
+      </div>
+
+      <!-- Research Areas Breakdown -->
+      <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+        <h4 class="text-heading-md text-white mb-6">{t.researchAreas}</h4>
+        
+        <div class="space-y-4">
+          {expertiseData
+            .sort((a, b) => b.score - a.score)
+            .map((area, index) => (
+              <div 
+                class="group p-4 bg-gray-800/30 border border-gray-700 rounded-xl hover:border-cyan-600/50 transition-all duration-300"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <div class={`w-4 h-4 rounded-full`} style={`background-color: ${area.color}`}></div>
+                    <h5 class="text-body font-medium text-white">{area.area}</h5>
+                  </div>
+                  <span class={`px-2 py-1 rounded text-xs font-medium ${
+                    area.score >= 90 ? 'bg-green-600/20 text-green-300 border border-green-600/30' :
+                    area.score >= 80 ? 'bg-blue-600/20 text-blue-300 border border-blue-600/30' :
+                    'bg-yellow-600/20 text-yellow-300 border border-yellow-600/30'
+                  }`}>
+                    {area.level}
+                  </span>
+                </div>
+                
+                <p class="text-body-sm text-gray-400 mb-3">{area.description}</p>
+                
+                <div class="flex items-center justify-between text-caption">
+                  <div class="flex items-center gap-4">
+                    <span class="text-cyan-400">{area.publications} pubs</span>
+                    <span class="text-purple-400">{area.years} yrs exp</span>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-body-sm text-white font-bold">{area.score}/100</div>
+                  </div>
+                </div>
+                
+                <!-- Progress bar -->
+                <div class="w-full bg-gray-700 rounded-full h-1.5 mt-3">
+                  <div 
+                    class={`h-1.5 rounded-full transition-all duration-1000 ease-out`}
+                    style={`width: ${area.score}%; background-color: ${area.color}`}
+                    data-animate="expertise-bar"
+                  ></div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <!-- Core vs Emerging Areas -->
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Core Expertise -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-2 mb-4">
+            <Icon name="star" size="md" class="text-yellow-400" />
+            <h4 class="text-heading-md text-white">{t.coreExpertise}</h4>
+          </div>
+          
+          <div class="space-y-2">
+            {expertiseData
+              .filter(area => area.score >= 90)
+              .map((area, index) => (
+                <div class="flex items-center justify-between p-2 bg-yellow-600/5 border border-yellow-600/20 rounded">
+                  <span class="text-body-sm text-white">{area.area}</span>
+                  <span class="text-caption text-yellow-400 font-medium">{area.score}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        <!-- Growth Areas -->
+        <div class="p-6 bg-surface border border-gray-800 rounded-2xl">
+          <div class="flex items-center gap-2 mb-4">
+            <Icon name="trending-up" size="md" class="text-green-400" />
+            <h4 class="text-heading-md text-white">{t.growthAreas}</h4>
+          </div>
+          
+          <div class="space-y-2">
+            {expertiseData
+              .filter(area => area.score < 90)
+              .sort((a, b) => b.score - a.score)
+              .map((area, index) => (
+                <div class="flex items-center justify-between p-2 bg-green-600/5 border border-green-600/20 rounded">
+                  <span class="text-body-sm text-white">{area.area}</span>
+                  <span class="text-caption text-green-400 font-medium">{area.score}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Profile Summary -->
+      <div class="p-6 bg-gradient-to-br from-cyan-600/10 to-purple-600/10 border border-gray-800 rounded-2xl">
+        <div class="text-center">
+          <Icon name="user-circle" size="xl" class="text-cyan-400 mx-auto mb-4" />
+          <div class="text-heading-lg text-white font-bold mb-2">{t.interdisciplinary}</div>
+          <div class="text-body text-gray-300 mb-4">Research Profile</div>
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div class="text-heading-sm text-white font-bold">6</div>
+              <div class="text-caption text-gray-400">Core Areas</div>
+            </div>
+            <div>
+              <div class="text-heading-sm text-white font-bold">95</div>
+              <div class="text-caption text-gray-400">Peak Expertise</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .research-area-radar-chart {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* D3 Radar Chart Styles */
+  .radar-chart {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+  
+  .radar-grid {
+    stroke: #374151;
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.5;
+  }
+  
+  .radar-axis {
+    stroke: #4B5563;
+    stroke-width: 1;
+  }
+  
+  .radar-axis-label {
+    font-size: 14px;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: #D1D5DB;
+  }
+  
+  .radar-area {
+    fill-opacity: 0.15;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+  }
+  
+  .radar-area:hover {
+    fill-opacity: 0.25;
+    filter: brightness(1.2);
+  }
+  
+  .radar-point {
+    r: 5;
+    fill: white;
+    stroke-width: 3;
+    transition: all 0.3s ease;
+  }
+  
+  .radar-point:hover {
+    r: 7;
+    filter: brightness(1.3);
+  }
+  
+  .tooltip {
+    position: absolute;
+    background: #1F2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 13px;
+    color: white;
+    pointer-events: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    max-width: 250px;
+  }
+  
+  .tooltip.visible {
+    opacity: 1;
+  }
+  
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #1F2937;
+  }
+  
+  .tooltip .area-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #06B6D4;
+  }
+  
+  .tooltip .score {
+    font-size: 18px;
+    font-weight: bold;
+    color: #10B981;
+    margin-bottom: 4px;
+  }
+  
+  .tooltip .details {
+    font-size: 11px;
+    color: #9CA3AF;
+    margin-top: 8px;
+  }
+  
+  /* Button states */
+  .active {
+    background-color: rgba(6, 182, 212, 0.1) !important;
+    border-color: rgba(6, 182, 212, 0.2) !important;
+    color: #67E8F9 !important;
+  }
+  
+  /* Progress bar animations */
+  [data-animate="skill-bar"],
+  [data-animate="expertise-bar"] {
+    width: 0% !important;
+    animation: expandBar 1.5s ease-out forwards;
+  }
+  
+  @keyframes expandBar {
+    to {
+      width: var(--target-width, 0%) !important;
+    }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .research-area-radar-chart .grid.lg\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+    }
+    
+    .research-area-radar-chart .lg\\:col-span-2 {
+      grid-column: span 1;
+    }
+    
+    .research-area-radar-chart .grid.grid-cols-2.lg\\:grid-cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 640px) {
+    #expertise-radar-chart {
+      height: 20rem;
+    }
+    
+    .research-area-radar-chart .grid.grid-cols-1.md\\:grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .research-area-radar-chart,
+    .research-area-radar-chart * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  @media (prefers-contrast: high) {
+    .research-area-radar-chart .border {
+      border-width: 2px;
+    }
+    
+    .radar-grid {
+      stroke: #6B7280;
+      stroke-width: 2;
+      opacity: 0.8;
+    }
+    
+    .radar-axis {
+      stroke: #9CA3AF;
+      stroke-width: 2;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  // Expertise data
+  const expertiseData = [
+    { area: 'Protein Engineering', score: 95, color: '#10B981', publications: 8, years: 6 },
+    { area: 'Gene Therapy', score: 88, color: '#3B82F6', publications: 5, years: 3 },
+    { area: 'Antimicrobial Research', score: 85, color: '#EF4444', publications: 4, years: 5 },
+    { area: 'Molecular Biology', score: 90, color: '#F59E0B', publications: 12, years: 8 },
+    { area: 'Biotechnology', score: 92, color: '#8B5CF6', publications: 10, years: 7 },
+    { area: 'Bioinformatics', score: 75, color: '#06B6D4', publications: 3, years: 4 }
+  ];
+
+  // Impact-based data (alternative view)
+  const impactData = [
+    { area: 'Protein Engineering', score: 90, color: '#10B981' },
+    { area: 'Gene Therapy', score: 95, color: '#3B82F6' },
+    { area: 'Antimicrobial Research', score: 80, color: '#EF4444' },
+    { area: 'Molecular Biology', score: 85, color: '#F59E0B' },
+    { area: 'Biotechnology', score: 88, color: '#8B5CF6' },
+    { area: 'Bioinformatics', score: 70, color: '#06B6D4' }
+  ];
+
+  let currentData = expertiseData;
+  let showingExpertise = true;
+
+  function createRadarChart() {
+    // Set up dimensions
+    const container = d3.select('#expertise-radar-chart');
+    const containerRect = container.node()?.getBoundingClientRect();
+    const size = Math.min(containerRect?.width || 400, 384);
+    const margin = 60;
+    const radius = (size - 2 * margin) / 2;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', size)
+      .attr('height', size)
+      .attr('class', 'radar-chart');
+
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${size / 2}, ${size / 2})`);
+
+    // Scale
+    const maxValue = Math.max(...currentData.map(d => d.score));
+    const scale = d3.scaleLinear()
+      .domain([0, 100])
+      .range([0, radius]);
+
+    // Number of concentric circles
+    const levels = 5;
+    const angleSlice = Math.PI * 2 / currentData.length;
+
+    // Create tooltip
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
+    // Draw concentric circles (grid)
+    for (let i = 1; i <= levels; i++) {
+      g.append('circle')
+        .attr('class', 'radar-grid')
+        .attr('r', (radius / levels) * i)
+        .style('opacity', 0)
+        .transition()
+        .duration(1000)
+        .delay(i * 100)
+        .style('opacity', 0.5);
+    }
+
+    // Draw axis lines
+    const axes = g.selectAll('.radar-axis')
+      .data(currentData)
+      .enter()
+      .append('line')
+      .attr('class', 'radar-axis')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', (d, i) => radius * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y2', (d, i) => radius * Math.sin(angleSlice * i - Math.PI / 2))
+      .style('opacity', 0)
+      .transition()
+      .duration(1000)
+      .delay(500)
+      .style('opacity', 1);
+
+    // Add axis labels
+    const labels = g.selectAll('.radar-axis-label')
+      .data(currentData)
+      .enter()
+      .append('text')
+      .attr('class', 'radar-axis-label')
+      .attr('x', (d, i) => (radius + 20) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y', (d, i) => (radius + 20) * Math.sin(angleSlice * i - Math.PI / 2))
+      .text(d => d.area.split(' ')[0]) // First word only for space
+      .style('opacity', 0)
+      .transition()
+      .duration(500)
+      .delay(1200)
+      .style('opacity', 1);
+
+    // Create radar area
+    const radarLine = d3.lineRadial()
+      .radius(d => scale(d.score))
+      .angle((d, i) => i * angleSlice)
+      .curve(d3.curveLinearClosed);
+
+    // Convert to cartesian coordinates for the area path
+    const radarArea = d3.area()
+      .x((d, i) => scale(d.score) * Math.cos(angleSlice * i - Math.PI / 2))
+      .y((d, i) => scale(d.score) * Math.sin(angleSlice * i - Math.PI / 2))
+      .curve(d3.curveLinearClosed);
+
+    // Add the area
+    const area = g.append('path')
+      .datum(currentData)
+      .attr('class', 'radar-area')
+      .style('fill', showingExpertise ? '#06B6D4' : '#10B981')
+      .style('stroke', showingExpertise ? '#0891B2' : '#059669')
+      .style('fill-opacity', 0)
+      .style('stroke-width', 0)
+      .attr('d', radarLine.radius(0)) // Start with radius 0
+      .transition()
+      .duration(1500)
+      .delay(1500)
+      .attr('d', radarLine)
+      .style('fill-opacity', 0.15)
+      .style('stroke-width', 2);
+
+    // Add data points
+    const points = g.selectAll('.radar-point')
+      .data(currentData)
+      .enter()
+      .append('circle')
+      .attr('class', 'radar-point')
+      .attr('cx', (d, i) => scale(d.score) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('cy', (d, i) => scale(d.score) * Math.sin(angleSlice * i - Math.PI / 2))
+      .attr('r', 0)
+      .style('fill', d => d.color)
+      .style('stroke', d => d.color)
+      .on('mouseover', function(event, d) {
+        d3.select(this).transition().duration(200).attr('r', 8);
+        tooltip.transition().duration(200).style('opacity', 1);
+        tooltip.html(`
+          <div class="area-title">${d.area}</div>
+          <div class="score">${d.score}/100</div>
+          <div>Level: ${d.score >= 90 ? 'Expert' : d.score >= 80 ? 'Advanced' : 'Intermediate'}</div>
+          ${showingExpertise ? `
+            <div class="details">
+              ${d.publications} publications • ${d.years} years experience
+            </div>
+          ` : ''}
+        `)
+        .style('left', (event.pageX + 15) + 'px')
+        .style('top', (event.pageY - 15) + 'px');
+      })
+      .on('mouseout', function() {
+        d3.select(this).transition().duration(200).attr('r', 5);
+        tooltip.transition().duration(200).style('opacity', 0);
+      })
+      .transition()
+      .duration(300)
+      .delay((d, i) => 2000 + i * 150)
+      .attr('r', 5);
+
+    // Add score labels for each point
+    const scoreLabels = g.selectAll('.score-label')
+      .data(currentData)
+      .enter()
+      .append('text')
+      .attr('class', 'score-label')
+      .attr('x', (d, i) => (scale(d.score) + 15) * Math.cos(angleSlice * i - Math.PI / 2))
+      .attr('y', (d, i) => (scale(d.score) + 15) * Math.sin(angleSlice * i - Math.PI / 2))
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .style('font-size', '11px')
+      .style('font-weight', '600')
+      .style('fill', '#9CA3AF')
+      .text(d => d.score)
+      .style('opacity', 0)
+      .transition()
+      .duration(300)
+      .delay(2500)
+      .style('opacity', 1);
+  }
+
+  function setupControls() {
+    const expertiseBtn = document.getElementById('show-expertise');
+    const impactBtn = document.getElementById('show-impact');
+
+    expertiseBtn?.addEventListener('click', () => {
+      if (!showingExpertise) {
+        showingExpertise = true;
+        currentData = expertiseData;
+        expertiseBtn.classList.add('active');
+        impactBtn?.classList.remove('active');
+        createRadarChart();
+      }
+    });
+
+    impactBtn?.addEventListener('click', () => {
+      if (showingExpertise) {
+        showingExpertise = false;
+        currentData = impactData;
+        impactBtn.classList.add('active');
+        expertiseBtn?.classList.remove('active');
+        createRadarChart();
+      }
+    });
+  }
+
+  function animateProgressBars() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const progressBars = entry.target.querySelectorAll('[data-animate="skill-bar"], [data-animate="expertise-bar"]');
+          progressBars.forEach((bar: Element) => {
+            const htmlBar = bar as HTMLElement;
+            const targetWidth = htmlBar.style.width;
+            htmlBar.style.setProperty('--target-width', targetWidth);
+          });
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    const container = document.querySelector('.research-area-radar-chart');
+    if (container) {
+      observer.observe(container);
+    }
+  }
+
+  function initChart() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createRadarChart();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const chartContainer = document.querySelector('#expertise-radar-chart');
+    if (chartContainer) {
+      observer.observe(chartContainer);
+    }
+  }
+
+  // Handle resize
+  function handleResize() {
+    const chartContainer = document.querySelector('#expertise-radar-chart');
+    if (chartContainer?.querySelector('svg')) {
+      createRadarChart();
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initChart();
+      setupControls();
+      animateProgressBars();
+    });
+  } else {
+    initChart();
+    setupControls();
+    animateProgressBars();
+  }
+
+  // Handle window resize with debounce
+  let resizeTimeout: NodeJS.Timeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>

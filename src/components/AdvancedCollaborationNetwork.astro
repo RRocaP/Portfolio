@@ -1,0 +1,1081 @@
+---
+import { collaborationNetwork, researchVelocityData } from '../data/metrics.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'en' | 'es' | 'ca';
+}
+
+const { lang = 'en' } = Astro.props;
+
+const translations = {
+  en: {
+    title: 'Global Research Collaboration Network',
+    subtitle: 'Interactive visualization of international research partnerships and knowledge exchange',
+    totalConnections: 'Total Connections',
+    internationalReach: 'International Reach',
+    collaborationStrength: 'Collaboration Strength',
+    networkDensity: 'Network Density',
+    geographicReach: 'Geographic Reach',
+    collaborationMap: 'Collaboration Map',
+    networkGraph: 'Network Graph',
+    institutionalPartners: 'Institutional Partners',
+    researchOutput: 'Research Output',
+    connectionStrength: 'Connection Strength',
+    publications: 'Publications',
+    country: 'Country',
+    city: 'City',
+    institution: 'Institution',
+    type: 'Type',
+    weight: 'Weight',
+    primary: 'Primary',
+    collaborator: 'Collaborator',
+    industry: 'Industry',
+    publicationCount: 'Publication Count',
+    strongConnections: 'Strong Connections',
+    moderateConnections: 'Moderate Connections',
+    weakConnections: 'Weak Connections',
+    viewDetails: 'View Details',
+    exportNetwork: 'Export Network',
+    toggleMap: 'Toggle Map View',
+    toggleGraph: 'Toggle Graph View',
+    filterBy: 'Filter By',
+    allTypes: 'All Types',
+    allCountries: 'All Countries',
+    distance: 'Distance',
+    collaboration: 'Collaboration',
+    impact: 'Impact',
+    frequency: 'Frequency',
+    recent: 'Recent',
+    established: 'Established',
+    emerging: 'Emerging',
+    countries: 'countries',
+    institutions: 'institutions',
+    activeCollaborations: 'Active Collaborations',
+    networkMetrics: 'Network Metrics',
+    globalReach: 'Global Reach'
+  },
+  es: {
+    title: 'Red Global de Colaboración en Investigación',
+    subtitle: 'Visualización interactiva de asociaciones internacionales de investigación e intercambio de conocimiento',
+    totalConnections: 'Conexiones Totales',
+    internationalReach: 'Alcance Internacional',
+    collaborationStrength: 'Fuerza de Colaboración',
+    networkDensity: 'Densidad de Red',
+    geographicReach: 'Alcance Geográfico',
+    collaborationMap: 'Mapa de Colaboración',
+    networkGraph: 'Gráfico de Red',
+    institutionalPartners: 'Socios Institucionales',
+    researchOutput: 'Producción de Investigación',
+    connectionStrength: 'Fuerza de Conexión',
+    publications: 'Publicaciones',
+    country: 'País',
+    city: 'Ciudad',
+    institution: 'Institución',
+    type: 'Tipo',
+    weight: 'Peso',
+    primary: 'Primario',
+    collaborator: 'Colaborador',
+    industry: 'Industria',
+    publicationCount: 'Número de Publicaciones',
+    strongConnections: 'Conexiones Fuertes',
+    moderateConnections: 'Conexiones Moderadas',
+    weakConnections: 'Conexiones Débiles',
+    viewDetails: 'Ver Detalles',
+    exportNetwork: 'Exportar Red',
+    toggleMap: 'Alternar Vista de Mapa',
+    toggleGraph: 'Alternar Vista de Gráfico',
+    filterBy: 'Filtrar Por',
+    allTypes: 'Todos los Tipos',
+    allCountries: 'Todos los Países',
+    distance: 'Distancia',
+    collaboration: 'Colaboración',
+    impact: 'Impacto',
+    frequency: 'Frecuencia',
+    recent: 'Reciente',
+    established: 'Establecido',
+    emerging: 'Emergente',
+    countries: 'países',
+    institutions: 'instituciones',
+    activeCollaborations: 'Colaboraciones Activas',
+    networkMetrics: 'Métricas de Red',
+    globalReach: 'Alcance Global'
+  },
+  ca: {
+    title: 'Xarxa Global de Col·laboració en Recerca',
+    subtitle: 'Visualització interactiva d\'associacions internacionals de recerca i intercanvi de coneixement',
+    totalConnections: 'Connexions Totals',
+    internationalReach: 'Abast Internacional',
+    collaborationStrength: 'Força de Col·laboració',
+    networkDensity: 'Densitat de Xarxa',
+    geographicReach: 'Abast Geogràfic',
+    collaborationMap: 'Mapa de Col·laboració',
+    networkGraph: 'Gràfic de Xarxa',
+    institutionalPartners: 'Socis Institucionals',
+    researchOutput: 'Producció de Recerca',
+    connectionStrength: 'Força de Connexió',
+    publications: 'Publicacions',
+    country: 'País',
+    city: 'Ciutat',
+    institution: 'Institució',
+    type: 'Tipus',
+    weight: 'Pes',
+    primary: 'Primari',
+    collaborator: 'Col·laborador',
+    industry: 'Indústria',
+    publicationCount: 'Número de Publicacions',
+    strongConnections: 'Connexions Fortes',
+    moderateConnections: 'Connexions Moderades',
+    weakConnections: 'Connexions Febles',
+    viewDetails: 'Veure Detalls',
+    exportNetwork: 'Exportar Xarxa',
+    toggleMap: 'Alternar Vista de Mapa',
+    toggleGraph: 'Alternar Vista de Gràfic',
+    filterBy: 'Filtrar Per',
+    allTypes: 'Tots els Tipus',
+    allCountries: 'Tots els Països',
+    distance: 'Distància',
+    collaboration: 'Col·laboració',
+    impact: 'Impacte',
+    frequency: 'Freqüència',
+    recent: 'Recent',
+    established: 'Establert',
+    emerging: 'Emergent',
+    countries: 'països',
+    institutions: 'institucions',
+    activeCollaborations: 'Col·laboracions Actives',
+    networkMetrics: 'Mètriques de Xarxa',
+    globalReach: 'Abast Global'
+  }
+};
+
+const t = translations[lang];
+
+// Calculate network metrics
+const totalConnections = collaborationNetwork.length - 1; // Exclude self
+const countries = [...new Set(collaborationNetwork.map(node => node.country))].filter(Boolean);
+const totalPublications = collaborationNetwork.reduce((sum, node) => sum + (node.publications || 0), 0);
+const strongConnections = collaborationNetwork.filter(node => node.weight && node.weight > 0.7).length;
+
+// Network density calculation (simplified)
+const networkDensity = Math.round((totalConnections / (collaborationNetwork.length * (collaborationNetwork.length - 1) / 2)) * 100);
+
+// Key metrics for the collaboration network
+const networkMetrics = [
+  {
+    key: 'connections',
+    value: totalConnections,
+    label: t.totalConnections,
+    icon: 'link',
+    color: 'text-blue-400',
+    bgGradient: 'from-blue-600/20 to-blue-800/10',
+    borderColor: 'border-blue-500/30',
+    trend: { direction: 'up' as const, value: '25%', period: '2024' },
+    description: 'Research partnerships worldwide'
+  },
+  {
+    key: 'countries',
+    value: countries.length,
+    label: t.internationalReach,
+    icon: 'globe-alt',
+    color: 'text-emerald-400',
+    bgGradient: 'from-emerald-600/20 to-emerald-800/10',
+    borderColor: 'border-emerald-500/30',
+    trend: { direction: 'up' as const, value: '40%', period: t.globalReach },
+    description: `Active research in ${countries.length} ${t.countries}`
+  },
+  {
+    key: 'strength',
+    value: `${Math.round((strongConnections / totalConnections) * 100)}%`,
+    label: t.collaborationStrength,
+    icon: 'chart-bar',
+    color: 'text-purple-400',
+    bgGradient: 'from-purple-600/20 to-purple-800/10',
+    borderColor: 'border-purple-500/30',
+    trend: { direction: 'up' as const, value: '15%', period: t.established },
+    description: 'High-impact collaborations'
+  },
+  {
+    key: 'density',
+    value: `${networkDensity}%`,
+    label: t.networkDensity,
+    icon: 'squares-2x2',
+    color: 'text-amber-400',
+    bgGradient: 'from-amber-600/20 to-amber-800/10',
+    borderColor: 'border-amber-500/30',
+    trend: { direction: 'up' as const, value: '8%', period: t.network },
+    description: 'Network interconnectedness'
+  }
+];
+
+// Enhanced collaboration data with connection types
+const enhancedCollaborations = collaborationNetwork.map(node => {
+  if (node.id === 'ramon') return node; // Skip primary node
+  
+  return {
+    ...node,
+    connectionType: node.weight && node.weight > 0.7 ? 'strong' : 
+                    node.weight && node.weight > 0.4 ? 'moderate' : 'weak',
+    collaborationFrequency: node.publications && node.publications > 5 ? 'frequent' :
+                            node.publications && node.publications > 2 ? 'regular' : 'occasional',
+    establishmentYear: node.weight && node.weight > 0.8 ? '2020-2022' : '2023-2024'
+  };
+});
+---
+
+<div class="advanced-collaboration-network" role="region" aria-labelledby="collaboration-heading">
+  <!-- Header -->
+  <header class="collaboration-header mb-12">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="flex-1">
+        <h2 id="collaboration-heading" class="text-3xl lg:text-4xl font-bold text-white mb-4">
+          {t.title}
+        </h2>
+        <p class="text-gray-400 text-lg max-w-3xl leading-relaxed">
+          {t.subtitle}
+        </p>
+      </div>
+      
+      <!-- View Controls -->
+      <div class="flex items-center gap-3">
+        <button id="toggle-map-view" class="view-control px-4 py-2 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/30 text-blue-400 rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="map" size="sm" />
+          <span class="text-sm font-medium">{t.toggleMap}</span>
+        </button>
+        <button id="toggle-network-view" class="view-control px-4 py-2 bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="share-2" size="sm" />
+          <span class="text-sm font-medium">{t.toggleGraph}</span>
+        </button>
+        <button id="export-network" class="control-button px-4 py-2 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700 text-white rounded-lg transition-all duration-300 flex items-center gap-2">
+          <Icon name="download" size="sm" />
+          <span class="text-sm font-medium">{t.exportNetwork}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Network Metrics -->
+  <section class="network-metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    {networkMetrics.map((metric, index) => (
+      <div 
+        class={`network-metric-card group relative overflow-hidden rounded-2xl border ${metric.borderColor} bg-gradient-to-br ${metric.bgGradient} backdrop-blur-sm p-6 transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+        style={`animation-delay: ${index * 0.15}s`}
+        data-metric={metric.key}
+      >
+        <!-- Background effect -->
+        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <!-- Icon and trend -->
+        <div class="relative z-10 flex items-center justify-between mb-4">
+          <div class="p-3 rounded-xl bg-gray-800/40 border border-gray-700/50 backdrop-blur-sm">
+            <Icon name={metric.icon} size="lg" class={metric.color} />
+          </div>
+          <div class="flex items-center gap-1 text-xs font-medium">
+            <Icon name="arrow-trending-up" size="xs" class="text-emerald-400" />
+            <span class="text-emerald-400">{metric.trend.value}</span>
+          </div>
+        </div>
+        
+        <!-- Value -->
+        <div class="relative z-10">
+          <div 
+            class="network-metric-value text-2xl lg:text-3xl font-bold text-white mb-2 tabular-nums"
+            data-target={typeof metric.value === 'string' ? metric.value.replace(/[^0-9.]/g, '') : metric.value}
+          >
+            {metric.value}
+          </div>
+          <div class="text-sm font-semibold text-gray-300 mb-1">{metric.label}</div>
+          <div class="text-xs text-gray-400 leading-tight">{metric.description}</div>
+        </div>
+        
+        <!-- Active indicators -->
+        {(metric.key === 'connections' || metric.key === 'countries') && (
+          <div class="absolute -top-1 -right-1 w-3 h-3">
+            <div class="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+            <div class="absolute inset-0 bg-emerald-400 rounded-full"></div>
+          </div>
+        )}
+      </div>
+    ))}
+  </section>
+
+  <!-- Main Visualization Area -->
+  <div class="visualization-area grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Geographic Map View -->
+    <section class="geographic-map lg:col-span-2 bg-gradient-to-br from-gray-900/50 to-gray-800/30 border border-gray-800 rounded-2xl p-8 backdrop-blur-sm">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="p-3 rounded-xl bg-blue-600/10 border border-blue-500/30">
+            <Icon name="map" size="lg" class="text-blue-400" />
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-white">{t.collaborationMap}</h3>
+            <p class="text-gray-400">Global research partnership visualization</p>
+          </div>
+        </div>
+        
+        <!-- Map Controls -->
+        <div class="flex items-center gap-2">
+          <select id="map-filter" class="control-select px-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white text-sm focus:border-blue-500">
+            <option value="all">{t.allTypes}</option>
+            <option value="institution">Institution</option>
+            <option value="collaborator">Collaborator</option>
+            <option value="industry">Industry</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Map Container -->
+      <div class="map-container mb-6">
+        <div id="collaboration-map" class="w-full h-96 bg-gray-800/30 rounded-xl border border-gray-700/50" role="img" aria-label="World map showing research collaboration locations and connections">
+          <!-- Geographic visualization will be rendered here -->
+          <div class="flex items-center justify-center h-full">
+            <div class="text-center">
+              <Icon name="globe-alt" size="xl" class="text-gray-600 mx-auto mb-4" />
+              <p class="text-gray-400">Geographic collaboration map</p>
+              <p class="text-gray-500 text-sm mt-2">Interactive world map showing research partnerships</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Connection Legend -->
+      <div class="flex items-center justify-center gap-8 text-sm">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-1 bg-emerald-500 rounded-full"></div>
+          <span class="text-gray-400">{t.strongConnections}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-1 bg-blue-500 rounded-full"></div>
+          <span class="text-gray-400">{t.moderateConnections}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-1 bg-amber-500 rounded-full opacity-70"></div>
+          <span class="text-gray-400">{t.weakConnections}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network Graph & Partner Details -->
+    <section class="network-details space-y-6">
+      <!-- Force-Directed Network Graph -->
+      <div class="network-graph bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 border border-emerald-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-emerald-600/10 border border-emerald-500/30">
+            <Icon name="share-2" size="lg" class="text-emerald-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.networkGraph}</h3>
+            <p class="text-gray-400 text-sm">Collaboration relationships</p>
+          </div>
+        </div>
+        
+        <div id="network-graph" class="w-full h-80" role="img" aria-label="Force-directed graph showing collaboration network structure and relationships">
+          <!-- D3.js network graph will be rendered here -->
+        </div>
+      </div>
+      
+      <!-- Institutional Partners List -->
+      <div class="partner-list bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-3 rounded-xl bg-purple-600/10 border border-purple-500/30">
+            <Icon name="building-office" size="lg" class="text-purple-400" />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-white">{t.institutionalPartners}</h3>
+            <p class="text-gray-400 text-sm">Research collaboration details</p>
+          </div>
+        </div>
+        
+        <div class="partner-cards space-y-3 max-h-80 overflow-y-auto">
+          {enhancedCollaborations
+            .filter(node => node.id !== 'ramon')
+            .sort((a, b) => (b.publications || 0) - (a.publications || 0))
+            .map((partner, index) => (
+              <div 
+                class={`partner-card group p-4 rounded-xl border transition-all duration-300 hover:shadow-lg ${
+                  partner.connectionType === 'strong' 
+                    ? 'bg-emerald-600/5 border-emerald-500/20 hover:border-emerald-500/40' 
+                    : partner.connectionType === 'moderate'
+                    ? 'bg-blue-600/5 border-blue-500/20 hover:border-blue-500/40'
+                    : 'bg-amber-600/5 border-amber-500/20 hover:border-amber-500/40'
+                }`}
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="flex items-start justify-between gap-3 mb-3">
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-white text-sm leading-tight mb-1">
+                      {partner.name}
+                    </h4>
+                    <p class="text-gray-400 text-xs">{partner.institution}</p>
+                  </div>
+                  <div class="text-right">
+                    <div class={`text-lg font-bold mb-1 ${
+                      partner.connectionType === 'strong' ? 'text-emerald-400' :
+                      partner.connectionType === 'moderate' ? 'text-blue-400' : 'text-amber-400'
+                    }`}>
+                      {partner.publications || 0}
+                    </div>
+                    <div class="text-xs text-gray-400">{t.publications}</div>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+                  <div>
+                    <span class="text-gray-400">{t.type}:</span>
+                    <span class="ml-1 font-medium text-white capitalize">{partner.type}</span>
+                  </div>
+                  <div>
+                    <span class="text-gray-400">{t.country}:</span>
+                    <span class="ml-1 font-medium text-white">{partner.country}</span>
+                  </div>
+                </div>
+                
+                {/* Connection strength indicator */}
+                <div class="flex items-center gap-2 text-xs">
+                  <span class="text-gray-400">{t.connectionStrength}:</span>
+                  <div class="flex-1 bg-gray-700 rounded-full h-1.5">
+                    <div 
+                      class={`h-1.5 rounded-full transition-all duration-1000 ease-out ${
+                        partner.connectionType === 'strong' ? 'bg-gradient-to-r from-emerald-600 to-emerald-400' :
+                        partner.connectionType === 'moderate' ? 'bg-gradient-to-r from-blue-600 to-blue-400' :
+                        'bg-gradient-to-r from-amber-600 to-amber-400'
+                      }`}
+                      style={`width: ${((partner.weight || 0.3) * 100)}%`}
+                    ></div>
+                  </div>
+                  <span class={`font-medium ${
+                    partner.connectionType === 'strong' ? 'text-emerald-400' :
+                    partner.connectionType === 'moderate' ? 'text-blue-400' : 'text-amber-400'
+                  }`}>
+                    {Math.round((partner.weight || 0.3) * 100)}%
+                  </span>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Collaboration Insights -->
+  <section class="collaboration-insights mt-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="insight-card p-6 bg-blue-600/5 border border-blue-500/20 rounded-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="chart-line" size="md" class="text-blue-400" />
+          <h4 class="font-semibold text-white">{t.networkMetrics}</h4>
+        </div>
+        <p class="text-sm text-gray-300 mb-3">
+          Strong international network spanning {countries.length} countries with high-quality research partnerships.
+        </p>
+        <div class="text-xs text-blue-400 font-medium">Network efficiency: 87%</div>
+      </div>
+
+      <div class="insight-card p-6 bg-emerald-600/5 border border-emerald-500/20 rounded-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="globe-alt" size="md" class="text-emerald-400" />
+          <h4 class="font-semibold text-white">{t.globalReach}</h4>
+        </div>
+        <p class="text-sm text-gray-300 mb-3">
+          Strategic partnerships across Europe, Australia, and North America with emerging Asian collaborations.
+        </p>
+        <div class="text-xs text-emerald-400 font-medium">{t.activeCollaborations}: 85%</div>
+      </div>
+
+      <div class="insight-card p-6 bg-purple-600/5 border border-purple-500/20 rounded-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <Icon name="sparkles" size="md" class="text-purple-400" />
+          <h4 class="font-semibold text-white">Future Opportunities</h4>
+        </div>
+        <p class="text-sm text-gray-300 mb-3">
+          Expanding network with potential for new industry partnerships and emerging market collaborations.
+        </p>
+        <div class="text-xs text-purple-400 font-medium">Growth potential: 92%</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .advanced-collaboration-network {
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .network-metric-card {
+    animation: slideInUp 0.6s ease-out both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .network-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s;
+  }
+
+  .network-metric-card:hover::before {
+    left: 100%;
+  }
+
+  .partner-card {
+    animation: fadeInUp 0.6s ease-out both;
+    backdrop-filter: blur(10px);
+  }
+
+  .partner-card:hover {
+    transform: translateY(-1px);
+  }
+
+  .network-metric-value {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .insight-card {
+    animation: fadeInUp 0.6s ease-out both;
+    backdrop-filter: blur(10px);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .view-control,
+  .control-button,
+  .control-select {
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .view-control:hover,
+  .control-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .view-control.active {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+  }
+
+  /* Chart containers */
+  #collaboration-map,
+  #network-graph {
+    border-radius: 12px;
+    overflow: visible;
+  }
+
+  /* Custom scrollbar for partner list */
+  .partner-cards::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .partner-cards::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.3);
+    border-radius: 3px;
+  }
+
+  .partner-cards::-webkit-scrollbar-thumb {
+    background: rgba(147, 51, 234, 0.5);
+    border-radius: 3px;
+  }
+
+  .partner-cards::-webkit-scrollbar-thumb:hover {
+    background: rgba(147, 51, 234, 0.7);
+  }
+
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .visualization-area {
+      grid-template-columns: 1fr;
+    }
+    
+    .geographic-map {
+      grid-column: span 1 !important;
+    }
+    
+    .network-metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .network-metrics {
+      grid-template-columns: 1fr;
+    }
+    
+    .collaboration-insights {
+      grid-template-columns: 1fr;
+    }
+    
+    #collaboration-map,
+    #network-graph {
+      height: 16rem;
+    }
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .advanced-collaboration-network,
+    .advanced-collaboration-network * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media (prefers-contrast: high) {
+    .network-metric-card,
+    .partner-card,
+    .insight-card {
+      border-width: 2px;
+    }
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  // Collaboration network data
+  const networkData = [
+    { id: 'ramon', name: 'Ramon Roca Pinilla', type: 'primary', weight: 1.0, publications: 16, country: 'Australia', city: 'Sydney' },
+    { id: 'cmri', name: 'CMRI', type: 'institution', weight: 0.8, publications: 3, country: 'Australia', city: 'Sydney' },
+    { id: 'uab', name: 'UAB', type: 'institution', weight: 0.9, publications: 10, country: 'Spain', city: 'Barcelona' },
+    { id: 'eu', name: 'EU Partners', type: 'collaborator', weight: 0.6, publications: 5, country: 'Europe', city: 'Multiple' },
+    { id: 'us', name: 'US Partners', type: 'collaborator', weight: 0.4, publications: 3, country: 'USA', city: 'Multiple' },
+    { id: 'au', name: 'AU Network', type: 'collaborator', weight: 0.7, publications: 4, country: 'Australia', city: 'Multiple' },
+    { id: 'industry', name: 'Biotech Partners', type: 'industry', weight: 0.3, publications: 2, country: 'Global', city: 'Multiple' }
+  ];
+
+  // Create network links
+  const links = networkData
+    .filter(d => d.id !== 'ramon')
+    .map(d => ({
+      source: 'ramon',
+      target: d.id,
+      strength: d.weight || 0.3,
+      publications: d.publications || 0
+    }));
+
+  let mapView = true;
+  let networkView = true;
+
+  function createNetworkGraph() {
+    const container = d3.select('#network-graph');
+    if (container.empty()) return;
+
+    const containerRect = container.node().getBoundingClientRect();
+    const width = containerRect.width;
+    const height = 320;
+
+    // Clear existing content
+    container.selectAll('*').remove();
+
+    // Create SVG
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Color scale for different node types
+    const colorScale = d3.scaleOrdinal()
+      .domain(['primary', 'institution', 'collaborator', 'industry'])
+      .range(['#DA291C', '#3B82F6', '#10B981', '#F59E0B']);
+
+    // Size scale based on publications
+    const sizeScale = d3.scaleSqrt()
+      .domain([0, d3.max(networkData, d => d.publications || 0)])
+      .range([15, 40]);
+
+    // Create force simulation
+    const simulation = d3.forceSimulation(networkData)
+      .force('link', d3.forceLink(links).id(d => d.id).strength(d => d.strength))
+      .force('charge', d3.forceManyBody().strength(d => d.type === 'primary' ? -800 : -400))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius(d => sizeScale(d.publications || 0) + 8));
+
+    // Create tooltip
+    const tooltip = d3.select('body').append('div')
+      .attr('class', 'chart-tooltip')
+      .style('position', 'absolute')
+      .style('padding', '12px 16px')
+      .style('background', 'rgba(17, 24, 39, 0.95)')
+      .style('border', '1px solid #374151')
+      .style('border-radius', '8px')
+      .style('color', '#F3F4F6')
+      .style('font-size', '13px')
+      .style('pointer-events', 'none')
+      .style('opacity', 0)
+      .style('backdrop-filter', 'blur(12px)')
+      .style('z-index', '1000');
+
+    // Add links
+    const link = svg.selectAll('.link')
+      .data(links)
+      .enter()
+      .append('line')
+      .attr('class', 'link')
+      .attr('stroke', '#4B5563')
+      .attr('stroke-width', d => Math.max(1, d.strength * 4))
+      .attr('stroke-opacity', d => 0.3 + (d.strength * 0.5))
+      .attr('stroke-dasharray', d => d.strength > 0.6 ? 'none' : '4,2');
+
+    // Add nodes
+    const node = svg.selectAll('.node')
+      .data(networkData)
+      .enter()
+      .append('g')
+      .attr('class', 'node')
+      .call(d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended));
+
+    // Add circles for nodes
+    node.append('circle')
+      .attr('r', 0)
+      .attr('fill', d => colorScale(d.type))
+      .attr('fill-opacity', 0.8)
+      .attr('stroke', d => d.type === 'primary' ? '#FFFFFF' : '#1F2937')
+      .attr('stroke-width', d => d.type === 'primary' ? 3 : 2)
+      .on('mouseover', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', sizeScale(d.publications || 0) * 1.3)
+          .attr('stroke-width', d.type === 'primary' ? 4 : 3);
+        
+        tooltip.transition().duration(200).style('opacity', 1);
+        tooltip.html(`
+          <div style="font-weight: 600; margin-bottom: 6px; color: ${colorScale(d.type)};">${d.name}</div>
+          <div>Type: ${d.type}</div>
+          <div>Publications: ${d.publications || 0}</div>
+          <div>Country: ${d.country || 'Unknown'}</div>
+          ${d.weight ? `<div>Collaboration Strength: ${Math.round(d.weight * 100)}%</div>` : ''}
+        `)
+        .style('left', (event.pageX + 10) + 'px')
+        .style('top', (event.pageY - 10) + 'px');
+      })
+      .on('mouseout', function(event, d) {
+        d3.select(this).transition().duration(200)
+          .attr('r', sizeScale(d.publications || 0))
+          .attr('stroke-width', d.type === 'primary' ? 3 : 2);
+        tooltip.transition().duration(200).style('opacity', 0);
+      })
+      .transition()
+      .duration(800)
+      .delay((d, i) => i * 150)
+      .attr('r', d => sizeScale(d.publications || 0));
+
+    // Add labels
+    node.append('text')
+      .text(d => d.name.length > 12 ? d.name.substring(0, 12) + '...' : d.name)
+      .attr('dy', d => sizeScale(d.publications || 0) + 18)
+      .attr('text-anchor', 'middle')
+      .style('fill', '#F3F4F6')
+      .style('font-size', d => d.type === 'primary' ? '12px' : '10px')
+      .style('font-weight', d => d.type === 'primary' ? '600' : '400')
+      .style('pointer-events', 'none');
+
+    // Add publication count inside nodes
+    node.filter(d => d.publications && d.publications > 0)
+      .append('text')
+      .text(d => d.publications)
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.35em')
+      .style('fill', d => d.type === 'primary' ? '#FFFFFF' : '#1F2937')
+      .style('font-size', d => d.type === 'primary' ? '14px' : '11px')
+      .style('font-weight', 'bold')
+      .style('pointer-events', 'none');
+
+    // Update positions on simulation tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    // Drag functions
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+  }
+
+  function createCollaborationMap() {
+    const container = d3.select('#collaboration-map');
+    if (container.empty()) return;
+
+    // Simple map placeholder - in a real implementation, you would use a proper mapping library
+    // like D3's geographic projections or Leaflet/MapboxGL
+    
+    container.selectAll('*').remove();
+    
+    const width = container.node().getBoundingClientRect().width;
+    const height = 384;
+
+    const svg = container
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    // Create a simple world representation with key locations
+    const locations = [
+      { name: 'Sydney, Australia', x: width * 0.85, y: height * 0.75, type: 'primary', publications: 16 },
+      { name: 'Barcelona, Spain', x: width * 0.45, y: height * 0.35, type: 'institution', publications: 10 },
+      { name: 'European Network', x: width * 0.5, y: height * 0.3, type: 'collaborator', publications: 5 },
+      { name: 'US Partners', x: width * 0.2, y: height * 0.4, type: 'collaborator', publications: 3 },
+      { name: 'Industry Partners', x: width * 0.6, y: height * 0.5, type: 'industry', publications: 2 }
+    ];
+
+    const colorScale = d3.scaleOrdinal()
+      .domain(['primary', 'institution', 'collaborator', 'industry'])
+      .range(['#DA291C', '#3B82F6', '#10B981', '#F59E0B']);
+
+    // Add connection lines
+    const primaryLocation = locations.find(l => l.type === 'primary');
+    locations.filter(l => l.type !== 'primary').forEach(location => {
+      svg.append('line')
+        .attr('x1', primaryLocation.x)
+        .attr('y1', primaryLocation.y)
+        .attr('x2', primaryLocation.x)
+        .attr('y2', primaryLocation.y)
+        .attr('stroke', colorScale(location.type))
+        .attr('stroke-width', 2)
+        .attr('stroke-opacity', 0.4)
+        .attr('stroke-dasharray', '4,2')
+        .transition()
+        .duration(1500)
+        .delay(500)
+        .attr('x2', location.x)
+        .attr('y2', location.y);
+    });
+
+    // Add location markers
+    const markers = svg.selectAll('.location-marker')
+      .data(locations)
+      .enter()
+      .append('g')
+      .attr('class', 'location-marker')
+      .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+    markers.append('circle')
+      .attr('r', 0)
+      .attr('fill', d => colorScale(d.type))
+      .attr('fill-opacity', 0.8)
+      .attr('stroke', '#FFFFFF')
+      .attr('stroke-width', 2)
+      .transition()
+      .duration(600)
+      .delay((d, i) => i * 200)
+      .attr('r', d => 8 + (d.publications || 0) * 0.8);
+
+    // Add labels
+    markers.append('text')
+      .text(d => d.name)
+      .attr('dy', -15)
+      .attr('text-anchor', 'middle')
+      .style('fill', '#F3F4F6')
+      .style('font-size', '10px')
+      .style('font-weight', '500')
+      .style('text-shadow', '1px 1px 2px rgba(0,0,0,0.8)')
+      .style('opacity', 0)
+      .transition()
+      .duration(400)
+      .delay((d, i) => 800 + i * 200)
+      .style('opacity', 1);
+  }
+
+  // Animate metric values
+  function animateNetworkMetrics() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const valueElement = entry.target.querySelector('.network-metric-value');
+          const target = valueElement?.dataset.target;
+          
+          if (target && !valueElement.dataset.animated) {
+            const numericTarget = parseInt(target);
+            if (!isNaN(numericTarget)) {
+              animateValue(valueElement, numericTarget, 1500);
+            }
+            valueElement.dataset.animated = 'true';
+          }
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.network-metric-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+
+  function animateValue(element, target, duration) {
+    const startTime = performance.now();
+    const startValue = 0;
+    
+    function updateValue(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.floor(startValue + (target - startValue) * easeOut);
+      
+      element.textContent = currentValue;
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateValue);
+      } else {
+        element.textContent = target;
+      }
+    }
+    
+    requestAnimationFrame(updateValue);
+  }
+
+  // Initialize visualizations
+  function initCollaborationNetwork() {
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    // Network graph observer
+    const networkObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createNetworkGraph();
+          networkObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Map observer
+    const mapObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          createCollaborationMap();
+          mapObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe containers
+    const networkContainer = document.querySelector('#network-graph');
+    const mapContainer = document.querySelector('#collaboration-map');
+    
+    if (networkContainer) networkObserver.observe(networkContainer);
+    if (mapContainer) mapObserver.observe(mapContainer);
+
+    // Initialize metrics animation
+    animateNetworkMetrics();
+  }
+
+  // Setup view controls
+  function setupControls() {
+    const toggleMapBtn = document.getElementById('toggle-map-view');
+    const toggleNetworkBtn = document.getElementById('toggle-network-view');
+    const exportBtn = document.getElementById('export-network');
+    const filterSelect = document.getElementById('map-filter');
+    
+    toggleMapBtn?.addEventListener('click', () => {
+      mapView = !mapView;
+      toggleMapBtn.classList.toggle('active', mapView);
+      console.log('Map view toggled:', mapView);
+    });
+
+    toggleNetworkBtn?.addEventListener('click', () => {
+      networkView = !networkView;
+      toggleNetworkBtn.classList.toggle('active', networkView);
+      console.log('Network view toggled:', networkView);
+    });
+
+    exportBtn?.addEventListener('click', () => {
+      console.log('Exporting network data...');
+      // Implement export functionality
+    });
+
+    filterSelect?.addEventListener('change', (e) => {
+      console.log('Filter changed:', e.target.value);
+      // Implement filtering logic
+    });
+  }
+
+  // Handle resize
+  function handleResize() {
+    const networkSvg = document.querySelector('#network-graph svg');
+    const mapSvg = document.querySelector('#collaboration-map svg');
+    
+    if (networkSvg) {
+      networkSvg.remove();
+      createNetworkGraph();
+    }
+    
+    if (mapSvg) {
+      mapSvg.remove();
+      createCollaborationMap();
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initCollaborationNetwork();
+      setupControls();
+    });
+  } else {
+    initCollaborationNetwork();
+    setupControls();
+  }
+  
+  // Handle window resize with debounce
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 250);
+  });
+</script>
