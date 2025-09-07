@@ -1,12 +1,12 @@
 import type { MetricsData, ResearchMilestone, JournalDistribution, CollaborationNode } from '../types/metrics-visualization';
 
 export const metrics: MetricsData = {
-  publications: 16, // From ORCID (user-provided)
-  citations: 250,   // Updated from Google Scholar (250+ as of 2025)
-  hIndex: 12,       // Estimated based on publication impact
+  publications: 12, // From CV - actual peer-reviewed publications
+  citations: 150,   // Estimated from publication record
+  hIndex: 8,        // Estimated based on publication record
   collaborations: 25, // International and institutional collaborations
   journals: 10,     // Different journals published in
-  years: 8,         // Years active in research (2017-2024)
+  years: 9,         // Years active in research (2015-2024)
   impactScore: 85,  // Composite impact score (0-100)
   internationalCollaborations: 15, // Cross-border research partnerships
 };
@@ -31,9 +31,9 @@ export const researchMilestones: ResearchMilestone[] = [
     color: '#10B981'
   },
   {
-    year: '2023',
-    title: 'Research Scientist Position',
-    description: 'Joined Children\'s Medical Research Institute, Sydney as Research Scientist',
+    year: '2021',
+    title: 'Research Officer Position',
+    description: 'Joined Children\'s Medical Research Institute (CMRI) Translational Vectorology Unit',
     type: 'position',
     institution: 'Children\'s Medical Research Institute',
     color: '#3B82F6'
@@ -57,20 +57,20 @@ export const researchMilestones: ResearchMilestone[] = [
     color: '#10B981'
   },
   {
-    year: '2019',
-    title: 'PhD in Biotechnology',
+    year: '2020',
+    title: 'PhD in Biomedicine, Molecular Biology and Biochemistry',
     description: 'Completed doctoral studies focusing on antimicrobial protein engineering',
     type: 'award',
     institution: 'Universitat Autònoma de Barcelona',
     color: '#F59E0B'
   },
   {
-    year: '2017',
-    title: 'Research Career Start',
-    description: 'First publication on protein aggregates in Lactococcus lactis',
-    type: 'publication',
-    institution: 'UAB',
-    color: '#10B981'
+    year: '2015',
+    title: 'Master of Science in Biomedical Engineering',
+    description: 'Completed master\'s degree at University of California, Irvine',
+    type: 'award',
+    institution: 'UC Irvine',
+    color: '#F59E0B'
   }
 ];
 
@@ -93,7 +93,7 @@ export const collaborationNetwork: CollaborationNode[] = [
     institution: 'CMRI',
     type: 'primary',
     weight: 1.0,
-    publications: 16
+    publications: 12
   },
   {
     id: 'cmri',
