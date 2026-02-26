@@ -1,0 +1,320 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+import NavML from './NavML.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang] || translations.en;
+
+const commentLine: Record<Lang, string> = {
+  en: '// biomedical engineer + ML enthusiast',
+  es: '// ingeniero biomedico + entusiasta ML',
+  ca: '// enginyer biomedic + entusiasta ML',
+};
+
+const statLabels: Record<Lang, { citations: string; hIndex: string; papers: string }> = {
+  en: { citations: 'citations', hIndex: 'h-index', papers: 'papers' },
+  es: { citations: 'citas', hIndex: 'indice-h', papers: 'articulos' },
+  ca: { citations: 'cites', hIndex: 'index-h', papers: 'articles' },
+};
+
+const labels = statLabels[lang] || statLabels.en;
+---
+
+<NavML lang={lang} />
+
+<section class="ml-hero" aria-label="Hero">
+  <div class="ml-hero__container">
+    <div class="ml-hero__content">
+      <h1 class="ml-hero__name">{t.hero.title}</h1>
+      <p class="ml-hero__comment">{commentLine[lang]}</p>
+      <p class="ml-hero__tagline">{t.hero.tagline}</p>
+
+      <div class="ml-hero__stats" role="list" aria-label="Key metrics">
+        <div class="ml-hero__stat" role="listitem">
+          <span class="ml-hero__stat-number ml-hero__stat-number--glow" data-counter="291">291</span>
+          <span class="ml-hero__stat-label">{labels.citations}</span>
+        </div>
+        <span class="ml-hero__stat-divider" aria-hidden="true">|</span>
+        <div class="ml-hero__stat" role="listitem">
+          <span class="ml-hero__stat-number" data-counter="9">h-9</span>
+          <span class="ml-hero__stat-label">{labels.hIndex}</span>
+        </div>
+        <span class="ml-hero__stat-divider" aria-hidden="true">|</span>
+        <div class="ml-hero__stat" role="listitem">
+          <span class="ml-hero__stat-number" data-counter="16">16</span>
+          <span class="ml-hero__stat-label">{labels.papers}</span>
+        </div>
+      </div>
+
+      <div class="ml-hero__actions">
+        <a href="#publications" class="ml-hero__btn ml-hero__btn--primary">
+          {t.nav.publications}
+        </a>
+        <a href="#contact" class="ml-hero__btn ml-hero__btn--outline">
+          {t.nav.contact}
+        </a>
+      </div>
+    </div>
+
+    <div class="ml-hero__visual" aria-hidden="true">
+      <div class="ml-hero__helix">
+        <!-- DNA/Protein helix decorative SVG -->
+        <svg viewBox="0 0 200 400" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-hero__helix-svg">
+          <!-- Double helix strands -->
+          <path d="M60 20 C60 60, 140 80, 140 120 C140 160, 60 180, 60 220 C60 260, 140 280, 140 320 C140 360, 60 380, 60 400"
+                stroke="#DA291C" stroke-width="2" fill="none" opacity="0.8" class="ml-hero__strand ml-hero__strand--1"/>
+          <path d="M140 20 C140 60, 60 80, 60 120 C60 160, 140 180, 140 220 C140 260, 60 280, 60 320 C60 360, 140 380, 140 400"
+                stroke="#DA291C" stroke-width="2" fill="none" opacity="0.5" class="ml-hero__strand ml-hero__strand--2"/>
+          <!-- Base pairs / cross-links -->
+          <line x1="72" y1="50" x2="128" y2="50" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <line x1="90" y1="80" x2="110" y2="80" stroke="#FFD93D" stroke-width="1" opacity="0.25"/>
+          <line x1="130" y1="110" x2="70" y2="110" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <line x1="128" y1="140" x2="72" y2="140" stroke="#FFD93D" stroke-width="1" opacity="0.25"/>
+          <line x1="90" y1="170" x2="110" y2="170" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <line x1="72" y1="200" x2="128" y2="200" stroke="#FFD93D" stroke-width="1" opacity="0.25"/>
+          <line x1="72" y1="230" x2="128" y2="230" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <line x1="90" y1="260" x2="110" y2="260" stroke="#FFD93D" stroke-width="1" opacity="0.25"/>
+          <line x1="130" y1="290" x2="70" y2="290" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <line x1="128" y1="320" x2="72" y2="320" stroke="#FFD93D" stroke-width="1" opacity="0.25"/>
+          <line x1="90" y1="350" x2="110" y2="350" stroke="#FFD93D" stroke-width="1" opacity="0.3"/>
+          <!-- Subtle glow nodes at intersections -->
+          <circle cx="100" cy="70" r="3" fill="#DA291C" opacity="0.4"/>
+          <circle cx="100" cy="170" r="3" fill="#DA291C" opacity="0.4"/>
+          <circle cx="100" cy="270" r="3" fill="#DA291C" opacity="0.4"/>
+          <circle cx="100" cy="370" r="3" fill="#DA291C" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ml-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: var(--background, #070a12);
+    overflow: hidden;
+    padding-top: 3.5rem; /* nav height */
+  }
+
+  .ml-hero__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.4fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .ml-hero__content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .ml-hero__name {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: var(--text-primary, #E5E7EB);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .ml-hero__comment {
+    font-family: var(--font-mono, monospace);
+    font-weight: 400;
+    font-size: clamp(0.875rem, 1.2vw, 1rem);
+    color: var(--text-muted, #6B7280);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .ml-hero__tagline {
+    font-family: var(--font-primary, sans-serif);
+    font-size: clamp(1rem, 1.3vw, 1.125rem);
+    color: var(--text-light, #9CA3AF);
+    max-width: 36rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .ml-hero__stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .ml-hero__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .ml-hero__stat-number {
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-primary, #E5E7EB);
+    line-height: 1;
+  }
+
+  .ml-hero__stat-number--glow {
+    text-shadow: 0 0 20px rgba(218, 41, 28, 0.3);
+    color: var(--accent-red, #DA291C);
+  }
+
+  .ml-hero__stat-label {
+    font-family: var(--font-mono, monospace);
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--text-muted, #6B7280);
+    text-transform: lowercase;
+  }
+
+  .ml-hero__stat-divider {
+    font-family: var(--font-mono, monospace);
+    color: var(--border, #1f2a44);
+    font-size: 1.25rem;
+    user-select: none;
+  }
+
+  .ml-hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .ml-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+
+  .ml-hero__btn:hover {
+    transform: translateY(-1px);
+    border-bottom: none;
+  }
+
+  .ml-hero__btn:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .ml-hero__btn--primary {
+    background: var(--accent-red, #DA291C);
+    color: #ffffff;
+    border: 1px solid var(--accent-red, #DA291C);
+    box-shadow: 0 4px 20px rgba(218, 41, 28, 0.25);
+  }
+
+  .ml-hero__btn--primary:hover {
+    background: var(--accent-red-hover, #EF4444);
+    box-shadow: 0 6px 28px rgba(218, 41, 28, 0.35);
+    color: #ffffff;
+  }
+
+  .ml-hero__btn--outline {
+    background: transparent;
+    color: var(--text-primary, #E5E7EB);
+    border: 1px solid var(--border, #1f2a44);
+  }
+
+  .ml-hero__btn--outline:hover {
+    border-color: var(--border-light, #2a3a5f);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary, #E5E7EB);
+  }
+
+  /* Visual / Helix */
+  .ml-hero__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ml-hero__helix {
+    width: 200px;
+    height: 400px;
+    position: relative;
+  }
+
+  .ml-hero__helix-svg {
+    width: 100%;
+    height: 100%;
+    animation: helix-rotate 20s linear infinite;
+  }
+
+  @keyframes helix-rotate {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+
+  .ml-hero__strand {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 0;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .ml-hero__container {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+
+    .ml-hero__visual {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.15;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .ml-hero__content {
+      text-align: left;
+    }
+
+    .ml-hero__stats {
+      justify-content: flex-start;
+    }
+
+    .ml-hero__actions {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ml-hero__container {
+      padding: 0 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ml-hero__helix-svg {
+      animation: none;
+    }
+  }
+</style>

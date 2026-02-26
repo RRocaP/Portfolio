@@ -1,0 +1,249 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+import { publications } from '../../data/publications.js';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang] || translations.en;
+
+const sectionHeading: Record<Lang, string> = {
+  en: 'Publications',
+  es: 'Publicaciones',
+  ca: 'Publicacions',
+};
+
+const viewAllLabel: Record<Lang, string> = {
+  en: 'View all on Google Scholar',
+  es: 'Ver todo en Google Scholar',
+  ca: 'Veure tot a Google Scholar',
+};
+
+// Detect first-author publications: author name starts with "Roca-Pinilla" or "Roca-Pinilla R"
+function isFirstAuthor(pub: any): boolean {
+  if (!pub.authors) return false;
+  const authors = pub.authors.trim();
+  return authors.startsWith('Roca-Pinilla R') || authors.startsWith('Roca-Pinilla,');
+}
+
+// Sort by year descending
+const sortedPubs = [...publications]
+  .filter((p: any) => p.type !== 'thesis')
+  .sort((a: any, b: any) => {
+    const yearA = parseInt(a.year) || 0;
+    const yearB = parseInt(b.year) || 0;
+    return yearB - yearA;
+  });
+---
+
+<section id="publications" class="ml-pubs section" aria-labelledby="pubs-heading">
+  <div class="container">
+    <div data-animate="fade-up">
+      <h2 id="pubs-heading" class="ml-pubs__heading">{sectionHeading[lang]}</h2>
+      <div class="ml-pubs__accent" aria-hidden="true"></div>
+    </div>
+
+    <div class="ml-pubs__list">
+      {sortedPubs.map((pub: any, i: number) => {
+        const first = isFirstAuthor(pub);
+        return (
+          <article
+            class:list={['ml-pubs__card', { 'ml-pubs__card--first': first }]}
+            data-animate="fade-up"
+            data-delay={String(Math.min(i * 50, 400))}
+          >
+            <div class="ml-pubs__card-year">
+              <span class="ml-pubs__year">{pub.year}</span>
+            </div>
+            <div class="ml-pubs__card-content">
+              <h3 class="ml-pubs__title">
+                {pub.url && pub.url !== '#' ? (
+                  <a href={pub.url} target="_blank" rel="noopener noreferrer" class="ml-pubs__title-link">
+                    {pub.title}
+                  </a>
+                ) : (
+                  pub.title
+                )}
+              </h3>
+              <p class="ml-pubs__journal">{pub.journal}</p>
+              {first && <span class="ml-pubs__first-badge">First Author</span>}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="ml-pubs__footer" data-animate="fade-up">
+      <a
+        href="https://scholar.google.com/citations?user=jYIZGT0AAAAJ"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="ml-pubs__scholar-link"
+      >
+        {viewAllLabel[lang]} &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ml-pubs {
+    background: var(--background, #070a12);
+    padding: 6rem 0;
+  }
+
+  .ml-pubs__heading {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-primary, #E5E7EB);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .ml-pubs__accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-red, #DA291C) 0%, var(--accent-yellow, #FFD93D) 100%);
+    margin: 0 auto 3rem;
+    border-radius: 2px;
+  }
+
+  .ml-pubs__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .ml-pubs__card {
+    display: flex;
+    gap: 1.25rem;
+    background: var(--background-card, #11182a);
+    border: 1px solid var(--border, #1f2a44);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .ml-pubs__card:hover {
+    border-color: var(--border-light, #2a3a5f);
+    transform: translateX(2px);
+  }
+
+  .ml-pubs__card--first {
+    border-left: 3px solid var(--accent-red, #DA291C);
+  }
+
+  .ml-pubs__card-year {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.125rem;
+  }
+
+  .ml-pubs__year {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted, #6B7280);
+    min-width: 3rem;
+  }
+
+  .ml-pubs__card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ml-pubs__title {
+    font-family: var(--font-primary, sans-serif);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text-primary, #E5E7EB);
+    line-height: 1.45;
+    margin-bottom: 0.375rem;
+  }
+
+  .ml-pubs__title-link {
+    color: var(--text-primary, #E5E7EB);
+    text-decoration: none;
+    border-bottom: none;
+    transition: color 0.2s ease;
+  }
+
+  .ml-pubs__title-link:hover {
+    color: var(--accent-red, #DA291C);
+    border-bottom: none;
+    transform: none;
+  }
+
+  .ml-pubs__title-link:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .ml-pubs__journal {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8125rem;
+    color: var(--text-muted, #6B7280);
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  .ml-pubs__first-badge {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--accent-red, #DA291C);
+    background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+    margin-top: 0.5rem;
+  }
+
+  .ml-pubs__footer {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  .ml-pubs__scholar-link {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--accent-red, #DA291C);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+    padding: 0.5rem 0;
+  }
+
+  .ml-pubs__scholar-link:hover {
+    border-bottom-color: var(--accent-red, #DA291C);
+    color: var(--accent-red-hover, #EF4444);
+    transform: none;
+  }
+
+  .ml-pubs__scholar-link:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .ml-pubs {
+      padding: 4rem 0;
+    }
+
+    .ml-pubs__card {
+      flex-direction: column;
+      gap: 0.375rem;
+      padding: 1rem 1.25rem;
+    }
+  }
+</style>

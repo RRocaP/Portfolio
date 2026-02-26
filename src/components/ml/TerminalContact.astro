@@ -1,0 +1,272 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang] || translations.en;
+
+const sectionHeading: Record<Lang, string> = {
+  en: 'Get in Touch',
+  es: 'Contacto',
+  ca: 'Contacte',
+};
+
+const whoamiOutput: Record<Lang, string> = {
+  en: 'Ramon Roca Pinilla -- Biomedical Engineer & ML Enthusiast',
+  es: 'Ramon Roca Pinilla -- Ingeniero Biomedico & Entusiasta ML',
+  ca: 'Ramon Roca Pinilla -- Enginyer Biomedic & Entusiasta ML',
+};
+
+const linksLabel: Record<Lang, string> = {
+  en: 'links.txt',
+  es: 'enlaces.txt',
+  ca: 'enllacos.txt',
+};
+---
+
+<section id="contact" class="ml-contact section" aria-labelledby="contact-heading">
+  <div class="container">
+    <div data-animate="fade-up">
+      <h2 id="contact-heading" class="ml-contact__heading">{sectionHeading[lang]}</h2>
+      <div class="ml-contact__accent" aria-hidden="true"></div>
+    </div>
+
+    <div class="ml-terminal" data-animate="fade-up" data-delay="100" role="region" aria-label="Contact information in terminal style">
+      <!-- Terminal chrome -->
+      <div class="ml-terminal__chrome">
+        <span class="ml-terminal__dot ml-terminal__dot--red" aria-hidden="true"></span>
+        <span class="ml-terminal__dot ml-terminal__dot--yellow" aria-hidden="true"></span>
+        <span class="ml-terminal__dot ml-terminal__dot--green" aria-hidden="true"></span>
+        <span class="ml-terminal__chrome-title">contact@rrp ~ %</span>
+      </div>
+
+      <!-- Terminal body -->
+      <div class="ml-terminal__body">
+        <div class="ml-terminal__line">
+          <span class="ml-terminal__prompt">$</span>
+          <span class="ml-terminal__cmd">whoami</span>
+        </div>
+        <div class="ml-terminal__output">
+          {whoamiOutput[lang]}
+        </div>
+
+        <div class="ml-terminal__line">
+          <span class="ml-terminal__prompt">$</span>
+          <span class="ml-terminal__cmd">echo $EMAIL</span>
+        </div>
+        <div class="ml-terminal__output">
+          <a href="mailto:rroca@cmri.org.au" class="ml-terminal__link">rroca@cmri.org.au</a>
+        </div>
+
+        <div class="ml-terminal__line">
+          <span class="ml-terminal__prompt">$</span>
+          <span class="ml-terminal__cmd">cat {linksLabel[lang]}</span>
+        </div>
+        <div class="ml-terminal__output ml-terminal__output--links">
+          <span class="ml-terminal__arrow" aria-hidden="true">&rarr;</span>
+          <span class="ml-terminal__link-label">Google Scholar:</span>
+          <a href="https://scholar.google.com/citations?user=jYIZGT0AAAAJ" target="_blank" rel="noopener noreferrer" class="ml-terminal__link">
+            scholar.google.com/citations?user=jYIZGT0AAAAJ
+          </a>
+        </div>
+        <div class="ml-terminal__output ml-terminal__output--links">
+          <span class="ml-terminal__arrow" aria-hidden="true">&rarr;</span>
+          <span class="ml-terminal__link-label">ORCID:</span>
+          <a href="https://orcid.org/0000-0002-7393-6200" target="_blank" rel="noopener noreferrer" class="ml-terminal__link">
+            orcid.org/0000-0002-7393-6200
+          </a>
+        </div>
+        <div class="ml-terminal__output ml-terminal__output--links">
+          <span class="ml-terminal__arrow" aria-hidden="true">&rarr;</span>
+          <span class="ml-terminal__link-label">LinkedIn:</span>
+          <a href="https://www.linkedin.com/in/ramon-roca-pinilla" target="_blank" rel="noopener noreferrer" class="ml-terminal__link">
+            linkedin.com/in/ramon-roca-pinilla
+          </a>
+        </div>
+
+        <div class="ml-terminal__line ml-terminal__line--cursor">
+          <span class="ml-terminal__prompt">$</span>
+          <span class="ml-terminal__cursor" aria-hidden="true">|</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ml-contact {
+    background: var(--background, #070a12);
+    padding: 6rem 0;
+  }
+
+  .ml-contact__heading {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-primary, #E5E7EB);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .ml-contact__accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-red, #DA291C) 0%, var(--accent-yellow, #FFD93D) 100%);
+    margin: 0 auto 3rem;
+    border-radius: 2px;
+  }
+
+  /* Terminal window */
+  .ml-terminal {
+    max-width: 640px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px solid var(--border, #1f2a44);
+    overflow: hidden;
+    background: var(--background-alt, #0d1320);
+  }
+
+  .ml-terminal__chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--background-card, #11182a);
+    border-bottom: 1px solid var(--border, #1f2a44);
+  }
+
+  .ml-terminal__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .ml-terminal__dot--red { background: #DA291C; }
+  .ml-terminal__dot--yellow { background: #FFD93D; }
+  .ml-terminal__dot--green { background: #22C55E; }
+
+  .ml-terminal__chrome-title {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--text-muted, #6B7280);
+    margin-left: 0.5rem;
+  }
+
+  .ml-terminal__body {
+    padding: 1.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .ml-terminal__line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .ml-terminal__line:first-child {
+    margin-top: 0;
+  }
+
+  .ml-terminal__prompt {
+    color: var(--terminal-green, #22C55E);
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .ml-terminal__cmd {
+    color: var(--text-primary, #E5E7EB);
+    font-weight: 500;
+  }
+
+  .ml-terminal__output {
+    color: var(--text-light, #9CA3AF);
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+    word-break: break-all;
+  }
+
+  .ml-terminal__output--links {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-top: 0.125rem;
+  }
+
+  .ml-terminal__arrow {
+    color: var(--text-muted, #6B7280);
+    flex-shrink: 0;
+  }
+
+  .ml-terminal__link-label {
+    color: var(--text-light, #9CA3AF);
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .ml-terminal__link {
+    color: var(--accent-red, #DA291C);
+    text-decoration: none;
+    border-bottom: none;
+    transition: color 0.2s ease;
+    word-break: break-all;
+  }
+
+  .ml-terminal__link:hover {
+    color: var(--accent-red-hover, #EF4444);
+    transform: none;
+    border-bottom: none;
+  }
+
+  .ml-terminal__link:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Blinking cursor */
+  .ml-terminal__line--cursor {
+    margin-top: 1.5rem;
+  }
+
+  .ml-terminal__cursor {
+    color: var(--text-primary, #E5E7EB);
+    font-weight: 700;
+    animation: blink-cursor 1s step-end infinite;
+  }
+
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .ml-contact {
+      padding: 4rem 0;
+    }
+
+    .ml-terminal__body {
+      padding: 1rem;
+      font-size: 0.8125rem;
+    }
+
+    .ml-terminal__output--links {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ml-terminal__cursor {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

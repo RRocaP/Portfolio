@@ -1,27 +1,15 @@
 ---
-import Layout from '../layouts/LayoutV2.astro';
-import Hero from '../components/v2/Hero.astro';
-import About from '../components/v2/About.astro';
-import Experience from '../components/v2/Experience.astro';
-import Research from '../components/v2/Research.astro';
-import Contact from '../components/v2/Contact.astro';
-import Navigation from '../components/v2/Navigation.astro';
+// Root page redirects to English version
 ---
-
-<Layout title="Ramon Roca | Biomedical Engineer">
-  <Navigation />
-  <main id="main-content">
-    <Hero />
-    <About />
-    <Experience />
-    <Research />
-    <Contact />
-  </main>
-</Layout>
-
-<style>
-  main {
-    width: 100%;
-    overflow-x: hidden;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=/Portfolio/en/" />
+    <link rel="canonical" href="https://rrocap.github.io/Portfolio/en/" />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/Portfolio/en/">/en/</a>...</p>
+  </body>
+</html>

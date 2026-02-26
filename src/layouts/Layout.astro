@@ -25,7 +25,7 @@ export interface Props {
   customSchema?: Record<string, any>;
   pathname?: string;
   /** Optional theme switch (default is navy across pages) */
-  theme?: 'navy' | 'navy-gold';
+  theme?: 'navy' | 'navy-gold' | 'ml-native';
 }
 
 const { 
@@ -117,6 +117,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     <!-- Inline Critical CSS - Above-the-fold performance -->
     <style>
@@ -291,6 +293,7 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     </noscript>
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     </noscript>
     
     <!-- Theme overrides (navy + navy-gold) -->
@@ -306,6 +309,26 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --border:#1f2a44; --border-light:#2a3a5f; --text-primary:#f3f6ff; --text-secondary:#d6def7; --text-light:#a8b4d9; --text-muted:#8a97bf;
         --accent-red:#1e40af; --accent-red-hover:#2563eb; --accent-red-bg:rgba(30,64,175,0.12);
         --accent-yellow:#fbbf24; --accent-red-rgb:30,64,175;
+      }
+      [data-theme='ml-native']{
+        --background:#070a12;
+        --background-alt:#0d1320;
+        --background-card:#11182a;
+        --background-elevated:#131c2e;
+        --accent-red:#DA291C;
+        --accent-red-hover:#EF4444;
+        --accent-red-bg:rgba(218,41,28,0.12);
+        --accent-yellow:#FFD93D;
+        --accent-red-rgb:218,41,28;
+        --border:#1f2a44;
+        --border-light:#2a3a5f;
+        --text-primary:#E5E7EB;
+        --text-secondary:#D1D5DB;
+        --text-light:#9CA3AF;
+        --text-muted:#6B7280;
+        --terminal-green:#22C55E;
+        --primary:#E5E7EB;
+        --font-mono:'JetBrains Mono','SF Mono',Monaco,'Cascadia Code','Roboto Mono',Consolas,'Courier New',monospace;
       }
     </style>
   </head>

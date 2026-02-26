@@ -1,0 +1,233 @@
+---
+import type { Lang } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const sectionHeading: Record<Lang, string> = {
+  en: 'Research Impact',
+  es: 'Impacto Investigador',
+  ca: 'Impacte Investigador',
+};
+
+const metricLabels: Record<Lang, { citations: string; hIndex: string; publications: string; firstAuthor: string }> = {
+  en: { citations: 'Total Citations', hIndex: 'h-index', publications: 'Publications', firstAuthor: 'First Author' },
+  es: { citations: 'Citas Totales', hIndex: 'indice-h', publications: 'Publicaciones', firstAuthor: 'Primer Autor' },
+  ca: { citations: 'Cites Totals', hIndex: 'index-h', publications: 'Publicacions', firstAuthor: 'Primer Autor' },
+};
+
+const labels = metricLabels[lang] || metricLabels.en;
+
+// Citation data by year (approximate from publication record)
+const yearData = [
+  { year: '2018', count: 1, height: 8 },
+  { year: '2020', count: 5, height: 35 },
+  { year: '2021', count: 2, height: 15 },
+  { year: '2022', count: 3, height: 22 },
+  { year: '2023', count: 3, height: 22 },
+  { year: '2024', count: 2, height: 15 },
+  { year: '2025', count: 1, height: 8 },
+];
+
+const maxHeight = 100; // percent
+---
+
+<section id="impact" class="ml-impact section" aria-labelledby="impact-heading">
+  <div class="container">
+    <div data-animate="fade-up">
+      <h2 id="impact-heading" class="ml-impact__heading">{sectionHeading[lang]}</h2>
+      <div class="ml-impact__accent" aria-hidden="true"></div>
+    </div>
+
+    <div class="ml-impact__grid">
+      <!-- Left: Bar chart -->
+      <div class="ml-impact__chart" data-animate="fade-up" data-delay="100" role="img" aria-label="Publications by year bar chart">
+        <div class="ml-impact__chart-bars">
+          {yearData.map((d) => (
+            <div class="ml-impact__bar-group">
+              <div class="ml-impact__bar-wrapper">
+                <div
+                  class="ml-impact__bar"
+                  style={`height: ${d.height}%;`}
+                  title={`${d.year}: ${d.count} publications`}
+                >
+                  <span class="ml-impact__bar-count">{d.count}</span>
+                </div>
+              </div>
+              <span class="ml-impact__bar-label">{d.year}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: Metric cards -->
+      <div class="ml-impact__metrics" data-animate="fade-up" data-delay="200">
+        <div class="ml-impact__metric-card">
+          <span class="ml-impact__metric-number ml-impact__metric-number--accent">291</span>
+          <span class="ml-impact__metric-label">{labels.citations}</span>
+        </div>
+        <div class="ml-impact__metric-card">
+          <span class="ml-impact__metric-number">9</span>
+          <span class="ml-impact__metric-label">{labels.hIndex}</span>
+        </div>
+        <div class="ml-impact__metric-card">
+          <span class="ml-impact__metric-number">16</span>
+          <span class="ml-impact__metric-label">{labels.publications}</span>
+        </div>
+        <div class="ml-impact__metric-card">
+          <span class="ml-impact__metric-number">7</span>
+          <span class="ml-impact__metric-label">{labels.firstAuthor}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ml-impact {
+    background: var(--background-alt, #0d1320);
+    padding: 6rem 0;
+  }
+
+  .ml-impact__heading {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-primary, #E5E7EB);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .ml-impact__accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-red, #DA291C) 0%, var(--accent-yellow, #FFD93D) 100%);
+    margin: 0 auto 3rem;
+    border-radius: 2px;
+  }
+
+  .ml-impact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Bar chart */
+  .ml-impact__chart {
+    background: var(--background-card, #11182a);
+    border: 1px solid var(--border, #1f2a44);
+    border-radius: 8px;
+    padding: 2rem;
+    min-height: 280px;
+  }
+
+  .ml-impact__chart-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    height: 200px;
+  }
+
+  .ml-impact__bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+  }
+
+  .ml-impact__bar-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .ml-impact__bar {
+    width: 80%;
+    max-width: 40px;
+    background: linear-gradient(180deg, var(--accent-red, #DA291C) 0%, rgba(218, 41, 28, 0.5) 100%);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    min-height: 4px;
+    transition: height 0.6s ease;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .ml-impact__bar-count {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--text-primary, #E5E7EB);
+    position: absolute;
+    top: -1.25rem;
+  }
+
+  .ml-impact__bar-label {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem;
+    color: var(--text-muted, #6B7280);
+    letter-spacing: -0.02em;
+  }
+
+  /* Metric cards */
+  .ml-impact__metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .ml-impact__metric-card {
+    background: var(--background-card, #11182a);
+    border: 1px solid var(--border, #1f2a44);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .ml-impact__metric-card:hover {
+    border-color: var(--border-light, #2a3a5f);
+  }
+
+  .ml-impact__metric-number {
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--text-primary, #E5E7EB);
+    line-height: 1;
+  }
+
+  .ml-impact__metric-number--accent {
+    color: var(--accent-red, #DA291C);
+    text-shadow: 0 0 20px rgba(218, 41, 28, 0.2);
+  }
+
+  .ml-impact__metric-label {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 0.8125rem;
+    color: var(--text-muted, #6B7280);
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .ml-impact__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ml-impact {
+      padding: 4rem 0;
+    }
+  }
+</style>
