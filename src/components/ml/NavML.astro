@@ -1,0 +1,251 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang] || translations.en;
+const base = '/Portfolio';
+
+const langPaths: Record<Lang, string> = {
+  en: `${base}/en/`,
+  es: `${base}/es/`,
+  ca: `${base}/ca/`,
+};
+
+const navLinks = [
+  { href: '#research', label: t.nav.research },
+  { href: '#publications', label: t.nav.publications },
+  { href: '#career', label: t.nav.about },
+  { href: '#contact', label: t.nav.contact },
+];
+---
+
+<nav class="ml-nav" role="navigation" aria-label="Main navigation">
+  <div class="ml-nav__inner">
+    <a href={langPaths[lang]} class="ml-nav__logo" aria-label="Home">
+      <span class="ml-nav__prompt">&gt;</span> RRP
+    </a>
+    <div class="ml-nav__links">
+      {navLinks.map((link) => (
+        <a href={link.href} class="ml-nav__link">{link.label}</a>
+      ))}
+      <div class="ml-nav__lang" role="group" aria-label="Language switcher">
+        {(['en', 'es', 'ca'] as Lang[]).map((l) => (
+          <a
+            href={langPaths[l]}
+            class:list={['ml-nav__lang-btn', { 'ml-nav__lang-btn--active': l === lang }]}
+            aria-current={l === lang ? 'page' : undefined}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
+    </div>
+    <button class="ml-nav__mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="ml-nav__hamburger"></span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  .ml-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: rgba(7, 10, 18, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border, #1f2a44);
+  }
+
+  .ml-nav__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.5rem;
+  }
+
+  .ml-nav__logo {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary, #E5E7EB);
+    text-decoration: none;
+    border-bottom: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+  }
+
+  .ml-nav__logo:hover {
+    color: var(--accent-red, #DA291C);
+    transform: none;
+    border-bottom: none;
+  }
+
+  .ml-nav__prompt {
+    color: var(--terminal-green, #22C55E);
+    margin-right: 0.25rem;
+  }
+
+  .ml-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .ml-nav__link {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-light, #9CA3AF);
+    text-decoration: none;
+    border-bottom: none;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .ml-nav__link:hover {
+    color: var(--text-primary, #E5E7EB);
+    transform: none;
+    border-bottom: none;
+  }
+
+  .ml-nav__link:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .ml-nav__lang {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--border, #1f2a44);
+  }
+
+  .ml-nav__lang-btn {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted, #6B7280);
+    text-decoration: none;
+    border-bottom: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .ml-nav__lang-btn:hover {
+    color: var(--text-primary, #E5E7EB);
+    background: rgba(255, 255, 255, 0.05);
+    transform: none;
+    border-bottom: none;
+  }
+
+  .ml-nav__lang-btn--active {
+    color: var(--accent-red, #DA291C);
+    background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
+  }
+
+  .ml-nav__lang-btn:focus-visible {
+    outline: 2px solid var(--accent-red, #DA291C);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .ml-nav__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ml-nav__hamburger,
+  .ml-nav__hamburger::before,
+  .ml-nav__hamburger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary, #E5E7EB);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .ml-nav__hamburger {
+    position: relative;
+  }
+
+  .ml-nav__hamburger::before,
+  .ml-nav__hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .ml-nav__hamburger::before { top: -6px; }
+  .ml-nav__hamburger::after { top: 6px; }
+
+  @media (max-width: 768px) {
+    .ml-nav__links {
+      display: none;
+      position: absolute;
+      top: 3.5rem;
+      left: 0;
+      right: 0;
+      background: rgba(7, 10, 18, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border, #1f2a44);
+    }
+
+    .ml-nav__links.is-open {
+      display: flex;
+    }
+
+    .ml-nav__link {
+      font-size: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .ml-nav__lang {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border, #1f2a44);
+    }
+
+    .ml-nav__mobile-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.ml-nav__mobile-toggle');
+  const links = document.querySelector('.ml-nav__links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const isOpen = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+</script>

@@ -1,0 +1,221 @@
+---
+import type { Lang } from '../../data/i18n';
+import { timelineData } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const timeline = timelineData[lang] || timelineData.en;
+
+const sectionHeading: Record<Lang, string> = {
+  en: 'Career Journey',
+  es: 'Trayectoria Profesional',
+  ca: 'Trajectoria Professional',
+};
+
+// Map years to country flags
+const yearToFlag: Record<string, string> = {
+  '2013': '\u{1F1EA}\u{1F1F8}',  // Spain
+  '2015': '\u{1F1FA}\u{1F1F8}',  // USA
+  '2020': '\u{1F1EA}\u{1F1F8}',  // Spain
+  '2021': '\u{1F1E6}\u{1F1FA}',  // Australia
+  'Now': '\u{1F1E6}\u{1F1FA}',   // Australia
+  'Ahora': '\u{1F1E6}\u{1F1FA}', // Australia (ES)
+  'Ara': '\u{1F1E6}\u{1F1FA}',   // Australia (CA)
+};
+
+// Alternating dot colors
+const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
+---
+
+<section id="career" class="ml-timeline section" aria-labelledby="career-heading">
+  <div class="container">
+    <div data-animate="fade-up">
+      <h2 id="career-heading" class="ml-timeline__heading">{sectionHeading[lang]}</h2>
+      <div class="ml-timeline__accent" aria-hidden="true"></div>
+    </div>
+
+    <div class="ml-timeline__track">
+      <div class="ml-timeline__line" aria-hidden="true"></div>
+
+      {timeline.map((item, i) => {
+        const flag = yearToFlag[item.year] || '';
+        const isLeft = i % 2 === 0;
+        return (
+          <div
+            class:list={['ml-timeline__item', isLeft ? 'ml-timeline__item--left' : 'ml-timeline__item--right']}
+            data-animate="fade-up"
+            data-delay={String(i * 120)}
+          >
+            <div
+              class="ml-timeline__dot"
+              style={`background: ${dotColors[i % dotColors.length]};`}
+              aria-hidden="true"
+            ></div>
+            <div class="ml-timeline__card">
+              <div class="ml-timeline__card-header">
+                <span class="ml-timeline__year">{item.year}</span>
+                {flag && <span class="ml-timeline__flag" aria-hidden="true">{flag}</span>}
+              </div>
+              <h3 class="ml-timeline__title">{item.title}</h3>
+              <p class="ml-timeline__line-text">{item.line}</p>
+              <p class="ml-timeline__detail">{item.detail}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ml-timeline {
+    background: var(--background-alt, #0d1320);
+    padding: 6rem 0;
+  }
+
+  .ml-timeline__heading {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-primary, #E5E7EB);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .ml-timeline__accent {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-red, #DA291C) 0%, var(--accent-yellow, #FFD93D) 100%);
+    margin: 0 auto 3rem;
+    border-radius: 2px;
+  }
+
+  .ml-timeline__track {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+
+  .ml-timeline__line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border, #1f2a44);
+    transform: translateX(-50%);
+  }
+
+  .ml-timeline__item {
+    position: relative;
+    display: flex;
+    margin-bottom: 2.5rem;
+    width: 100%;
+  }
+
+  .ml-timeline__item--left {
+    justify-content: flex-start;
+    padding-right: calc(50% + 2rem);
+  }
+
+  .ml-timeline__item--right {
+    justify-content: flex-end;
+    padding-left: calc(50% + 2rem);
+  }
+
+  .ml-timeline__dot {
+    position: absolute;
+    left: 50%;
+    top: 1.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 3px var(--background-alt, #0d1320), 0 0 12px rgba(218, 41, 28, 0.2);
+  }
+
+  .ml-timeline__card {
+    background: var(--background-card, #11182a);
+    border: 1px solid var(--border, #1f2a44);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    width: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .ml-timeline__card:hover {
+    border-color: var(--border-light, #2a3a5f);
+    transform: translateY(-1px);
+  }
+
+  .ml-timeline__card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ml-timeline__year {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent-red, #DA291C);
+  }
+
+  .ml-timeline__flag {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .ml-timeline__title {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    color: var(--text-primary, #E5E7EB);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+
+  .ml-timeline__line-text {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 0.875rem;
+    color: var(--text-light, #9CA3AF);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  .ml-timeline__detail {
+    font-family: var(--font-primary, sans-serif);
+    font-size: 0.8125rem;
+    color: var(--text-muted, #6B7280);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* Mobile: single column, all right */
+  @media (max-width: 768px) {
+    .ml-timeline {
+      padding: 4rem 0;
+    }
+
+    .ml-timeline__line {
+      left: 1rem;
+    }
+
+    .ml-timeline__item--left,
+    .ml-timeline__item--right {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: 3rem;
+    }
+
+    .ml-timeline__dot {
+      left: 1rem;
+    }
+  }
+</style>
