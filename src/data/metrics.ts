@@ -1,33 +1,69 @@
 import type { MetricsData, ResearchMilestone, JournalDistribution, CollaborationNode } from '../types/metrics-visualization';
+import { publicationAnalytics } from './publications.js';
 
-export const metrics: MetricsData = {
-  publications: 12, // From CV - actual peer-reviewed publications
-  citations: 150,   // Estimated from publication record
-  hIndex: 8,        // Estimated based on publication record
-  collaborations: 25, // International and institutional collaborations
-  journals: 10,     // Different journals published in
-  years: 9,         // Years active in research (2015-2024)
-  impactScore: 85,  // Composite impact score (0-100)
-  internationalCollaborations: 15, // Cross-border research partnerships
+// Google Scholar verified metrics (2026-02-25)
+export const scholarMetrics = {
+  citations: 291,
+  hIndex: 9,
+  i10Index: 8,
+  publications: 16,
+  firstAuthorPublications: 7,
+  lastVerified: '2026-02-25',
+  profileUrl: 'https://scholar.google.com/citations?user=jYIZGT0AAAAJ',
+  interests: ['AI', 'Antimicrobial resistance', 'Antimicrobial peptides', 'Gene therapy', 'Capsid bioengineering'],
 };
+
+// Calculate real-time metrics from publication data
+const calculateRealTimeMetrics = (): MetricsData => {
+  const impactMetrics = publicationAnalytics.getImpactMetrics();
+  const collaborationData = publicationAnalytics.getCollaborationAnalysis();
+  const journalData = publicationAnalytics.getJournalDistribution();
+
+  return {
+    publications: publicationAnalytics.getFeatured().length + publicationAnalytics.getRecent().length, // Current total
+    citations: impactMetrics.totalCitations,
+    hIndex: impactMetrics.hIndex,
+    collaborations: collaborationData.national + collaborationData.international + (collaborationData.institutional || 0),
+    journals: Object.keys(journalData).length,
+    years: new Date().getFullYear() - 2015, // Research years since 2015
+    impactScore: Math.round(
+      (impactMetrics.hIndex * 10) +
+      (impactMetrics.avgCitationsPerPub * 2) +
+      (impactMetrics.openAccessPercentage * 0.3) +
+      (publicationAnalytics.getAvgImpactFactor() * 5)
+    ), // Dynamic composite score
+    internationalCollaborations: collaborationData.international,
+  };
+};
+
+export const metrics: MetricsData = calculateRealTimeMetrics();
 
 export const researchMilestones: ResearchMilestone[] = [
   {
-    year: '2024',
-    title: 'AAV-mediated CAR-T Generation Breakthrough',
-    description: 'Published innovative capsid-directed evolution technology in Molecular Therapy',
+    year: '2025',
+    title: 'Molecular Therapy Publications',
+    description: 'First-author paper on capsid-directed evolution for CAR-T generation plus co-authored preclinical CTNNB1 gene therapy study',
     type: 'publication',
-    impact: 'High impact journal (IF: 12.4)',
+    impact: 'Cell Press journal (IF: 12.1)',
     institution: 'Children\'s Medical Research Institute',
     color: '#10B981'
   },
   {
     year: '2024',
-    title: 'Liver Perfusion AAV Evaluation',
-    description: 'Nature Communications publication on human liver ex situ normothermic perfusion',
+    title: 'Nature Communications Publication',
+    description: 'Co-authored research on human liver ex situ normothermic perfusion for AAV vector evaluation',
     type: 'publication',
-    impact: 'Nature portfolio journal (IF: 16.6)',
+    impact: 'Nature portfolio journal (IF: 14.7)',
     institution: 'Children\'s Medical Research Institute',
+    color: '#10B981'
+  },
+  {
+    year: '2023',
+    title: 'Antibiofilm Surfaces Research',
+    description: 'Second author on Materials Advances paper on antimicrobial protein immobilization',
+    type: 'publication',
+    impact: 'RSC journal (IF: 3.1)',
+    institution: 'International collaboration',
     color: '#10B981'
   },
   {
@@ -39,20 +75,11 @@ export const researchMilestones: ResearchMilestone[] = [
     color: '#3B82F6'
   },
   {
-    year: '2022',
-    title: 'Trends in Biotechnology Review',
-    description: 'Influential review on Functional Inclusion Bodies published',
+    year: '2020',
+    title: 'First Author Publication',
+    description: 'Lead author on multidomain antimicrobial protein research in Microbial Cell Factories',
     type: 'publication',
-    impact: 'High-impact review journal (IF: 15.7)',
-    institution: 'UAB',
-    color: '#10B981'
-  },
-  {
-    year: '2021',
-    title: 'Multidomain Protein Engineering',
-    description: 'Scientific Reports publication on recombinant host defense peptides',
-    type: 'publication',
-    impact: 'Nature portfolio journal',
+    impact: 'BMC journal (IF: 6.4)',
     institution: 'UAB',
     color: '#10B981'
   },
@@ -74,17 +101,23 @@ export const researchMilestones: ResearchMilestone[] = [
   }
 ];
 
-export const journalDistribution: JournalDistribution[] = [
-  { journal: 'Nature Communications', count: 1, impactFactor: 16.6, quartile: 'Q1', color: '#EF4444' },
-  { journal: 'Molecular Therapy', count: 2, impactFactor: 12.4, quartile: 'Q1', color: '#F97316' },
-  { journal: 'Trends in Biotechnology', count: 1, impactFactor: 15.7, quartile: 'Q1', color: '#EAB308' },
-  { journal: 'Scientific Reports', count: 1, impactFactor: 4.6, quartile: 'Q2', color: '#22C55E' },
-  { journal: 'Materials Advances', count: 1, impactFactor: 3.1, quartile: 'Q2', color: '#3B82F6' },
-  { journal: 'Biotechnology Advances', count: 1, impactFactor: 12.8, quartile: 'Q1', color: '#8B5CF6' },
-  { journal: 'Journal of Biological Engineering', count: 1, impactFactor: 3.2, quartile: 'Q2', color: '#EC4899' },
-  { journal: 'Microbial Cell Factories', count: 2, impactFactor: 6.4, quartile: 'Q1', color: '#06B6D4' },
-  { journal: 'Other Journals', count: 6, impactFactor: 4.2, quartile: 'Q2', color: '#64748B' }
-];
+// Generate dynamic journal distribution from publications data
+const generateJournalDistribution = (): JournalDistribution[] => {
+  const journalData = publicationAnalytics.getJournalDistribution();
+  const colors = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#06B6D4', '#10B981', '#F59E0B'];
+
+  return Object.entries(journalData)
+    .map(([journal, data], index) => ({
+      journal,
+      count: data.count,
+      impactFactor: Math.round(data.avgImpactFactor * 10) / 10,
+      quartile: data.quartiles.length > 0 ? data.quartiles[0] : 'Q2', // Use first quartile or default to Q2
+      color: colors[index % colors.length]
+    }))
+    .sort((a, b) => b.count - a.count); // Sort by publication count
+};
+
+export const journalDistribution: JournalDistribution[] = generateJournalDistribution();
 
 export const collaborationNetwork: CollaborationNode[] = [
   {
@@ -93,7 +126,7 @@ export const collaborationNetwork: CollaborationNode[] = [
     institution: 'CMRI',
     type: 'primary',
     weight: 1.0,
-    publications: 12
+    publications: 16
   },
   {
     id: 'cmri',
@@ -136,6 +169,104 @@ export const collaborationNetwork: CollaborationNode[] = [
     publications: 4
   }
 ];
+
+// Enhanced metrics analytics and real-time calculations
+export const metricsAnalytics = {
+  // Get citation trend data
+  getCitationTrends: () => {
+    const timelineData = publicationAnalytics.getTimelineData();
+    return timelineData.map(item => ({
+      year: item.year,
+      citations: item.citations,
+      cumulativeCitations: timelineData
+        .filter(d => parseInt(d.year) <= parseInt(item.year))
+        .reduce((sum, d) => sum + d.citations, 0)
+    }));
+  },
+
+  // Calculate productivity metrics
+  getProductivityMetrics: () => {
+    const timelineData = publicationAnalytics.getTimelineData();
+    const totalYears = timelineData.length;
+    const avgPubsPerYear = metrics.publications / totalYears;
+    const avgCitationsPerYear = metrics.citations / totalYears;
+    const peakYear = timelineData.reduce((max, current) =>
+      current.count > max.count ? current : max
+    );
+
+    return {
+      avgPubsPerYear: Math.round(avgPubsPerYear * 10) / 10,
+      avgCitationsPerYear: Math.round(avgCitationsPerYear * 10) / 10,
+      peakProductivityYear: peakYear.year,
+      peakProductivityCount: peakYear.count,
+      totalActiveYears: totalYears,
+      productivityTrend: timelineData.slice(-3).reduce((sum, d) => sum + d.count, 0) / 3 // 3-year average
+    };
+  },
+
+  // Get research impact evolution
+  getImpactEvolution: () => {
+    const timelineData = publicationAnalytics.getTimelineData();
+    let cumulativeCitations = 0;
+    let cumulativePublications = 0;
+
+    return timelineData.map(item => {
+      cumulativeCitations += item.citations;
+      cumulativePublications += item.count;
+
+      return {
+        year: item.year,
+        publications: item.count,
+        citations: item.citations,
+        cumulativePublications,
+        cumulativeCitations,
+        avgCitationsPerPub: cumulativePublications > 0 ? cumulativeCitations / cumulativePublications : 0,
+        hIndexEstimate: Math.min(cumulativePublications, Math.sqrt(cumulativeCitations)) // Simplified h-index estimate
+      };
+    });
+  },
+
+  // Calculate collaboration strength
+  getCollaborationStrength: () => {
+    const collaborationData = publicationAnalytics.getCollaborationAnalysis();
+    const total = collaborationData.national + collaborationData.international + (collaborationData.institutional || 0);
+
+    return {
+      collaborationRate: Math.round((total / metrics.publications) * 100),
+      internationalRate: Math.round((collaborationData.international / total) * 100),
+      nationalRate: Math.round((collaborationData.national / total) * 100),
+      institutionalRate: Math.round(((collaborationData.institutional || 0) / total) * 100),
+      diversity: Object.keys(publicationAnalytics.getJournalDistribution()).length,
+      globalReach: collaborationData.international >= 5 ? 'High' : collaborationData.international >= 2 ? 'Medium' : 'Low'
+    };
+  },
+
+  // Get journal quality analysis
+  getJournalQualityAnalysis: () => {
+    const journalData = publicationAnalytics.getJournalDistribution();
+    const journals = Object.values(journalData);
+    const totalPubs = journals.reduce((sum, j) => sum + j.count, 0);
+
+    const q1Count = Object.values(journalData).filter(j => j.quartiles.includes('Q1')).reduce((sum, j) => sum + j.count, 0);
+    const q2Count = Object.values(journalData).filter(j => j.quartiles.includes('Q2')).reduce((sum, j) => sum + j.count, 0);
+
+    return {
+      avgImpactFactor: publicationAnalytics.getAvgImpactFactor(),
+      q1Percentage: Math.round((q1Count / totalPubs) * 100),
+      q2Percentage: Math.round((q2Count / totalPubs) * 100),
+      topTierJournals: Object.entries(journalData)
+        .filter(([, data]) => data.avgImpactFactor > 10)
+        .length,
+      journalDiversity: Object.keys(journalData).length,
+      openAccessRate: publicationAnalytics.getImpactMetrics().openAccessPercentage
+    };
+  }
+};
+
+// Real-time metric updates
+export const updateMetrics = () => {
+  return calculateRealTimeMetrics();
+};
 
 // Legacy exports for backward compatibility
 export const legacyMetrics = {
