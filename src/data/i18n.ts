@@ -212,3 +212,37 @@ export const impactLabels = {
   speed: { en: 'Faster design-test loops', es: 'Ciclos dise\u00f1o-prueba m\u00e1s r\u00e1pidos', ca: 'Cicles disseny-prova m\u00e9s r\u00e0pids' },
   hitRate: { en: 'Assay hit-rate (bench)', es: 'Tasa de acierto en ensayos', ca: 'Taxa d\'encert en assaigs' }
 } as const;
+
+// About section data
+export const aboutData: Record<Lang, { bio: string; focusIntro: string; areas: Array<{title: string; description: string}>; patent: string }> = {
+  en: {
+    bio: "I am a Research Officer at the Children's Medical Research Institute (CMRI) in Sydney's Translational Vectorology Unit, with a Ph.D. in Biomedicine, Molecular Biology and Biochemistry from the Autonomous University of Barcelona (2020) and a Master's in Biomedical Engineering from UC Irvine (2015).",
+    focusIntro: 'My research focuses on developing next-generation antimicrobial solutions through protein engineering:',
+    areas: [
+      { title: 'Multidomain Antimicrobial Proteins', description: 'Designing recombinant proteins that combine multiple mechanisms to combat antibiotic-resistant pathogens' },
+      { title: 'Antimicrobial Peptide-Phage Synergy', description: 'Exploring novel approaches using viral vectors and antimicrobial peptides as alternatives to conventional antibiotics' },
+      { title: 'Functional Inclusion Bodies', description: 'Engineering protein aggregates and nanoclusters for biotechnological applications' }
+    ],
+    patent: 'peer-reviewed publications and a European patent on recombinant antimicrobial polypeptides, my work spans from molecular design to bench validation, addressing critical healthcare challenges in antimicrobial resistance.'
+  },
+  es: {
+    bio: 'Soy Investigador en el Children\'s Medical Research Institute (CMRI) en la Unidad de Vectorología Translacional de Sídney, con un Doctorado en Biomedicina, Biología Molecular y Bioquímica por la Universitat Autònoma de Barcelona (2020) y un Máster en Ingeniería Biomédica por UC Irvine (2015).',
+    focusIntro: 'Mi investigación se centra en desarrollar soluciones antimicrobianas de nueva generación mediante ingeniería de proteínas:',
+    areas: [
+      { title: 'Proteínas Antimicrobianas Multidominio', description: 'Diseño de proteínas recombinantes que combinan múltiples mecanismos para combatir patógenos resistentes a antibióticos' },
+      { title: 'Sinergia Péptido Antimicrobiano-Fago', description: 'Exploración de enfoques novedosos usando vectores virales y péptidos antimicrobianos como alternativas a los antibióticos convencionales' },
+      { title: 'Cuerpos de Inclusión Funcionales', description: 'Ingeniería de agregados proteicos y nanoclústeres para aplicaciones biotecnológicas' }
+    ],
+    patent: 'publicaciones revisadas por pares y una patente europea sobre polipéptidos antimicrobianos recombinantes, mi trabajo abarca desde el diseño molecular hasta la validación experimental, abordando desafíos críticos en resistencia antimicrobiana.'
+  },
+  ca: {
+    bio: 'Sóc Investigador al Children\'s Medical Research Institute (CMRI) a la Unitat de Vectorologia Translacional de Sydney, amb un Doctorat en Biomedicina, Biologia Molecular i Bioquímica per la Universitat Autònoma de Barcelona (2020) i un Màster en Enginyeria Biomèdica per UC Irvine (2015).',
+    focusIntro: 'La meva recerca se centra en desenvolupar solucions antimicrobianes de nova generació mitjançant enginyeria de proteïnes:',
+    areas: [
+      { title: 'Proteïnes Antimicrobianes Multidomini', description: 'Disseny de proteïnes recombinants que combinen múltiples mecanismes per combatre patògens resistents als antibiòtics' },
+      { title: 'Sinergia Pèptid Antimicrobià-Fag', description: "Exploració d'enfocaments nous usant vectors virals i pèptids antimicrobians com a alternatives als antibiòtics convencionals" },
+      { title: "Cossos d'Inclusió Funcionals", description: "Enginyeria d'agregats proteics i nanoclústers per a aplicacions biotecnològiques" }
+    ],
+    patent: 'publicacions revisades per parells i una patent europea sobre polipèptids antimicrobians recombinants, el meu treball abasta des del disseny molecular fins a la validació experimental, abordant desafiaments crítics en resistència antimicrobiana.'
+  }
+};

@@ -17,9 +17,10 @@ const langPaths: Record<Lang, string> = {
 };
 
 const navLinks = [
+  { href: '#about', label: t.nav.about },
   { href: '#research', label: t.nav.research },
   { href: '#publications', label: t.nav.publications },
-  { href: '#career', label: t.nav.about },
+  { href: '#career', label: t.sections.timeline },
   { href: '#contact', label: t.nav.contact },
 ];
 ---
@@ -58,10 +59,16 @@ const navLinks = [
     left: 0;
     right: 0;
     z-index: 200;
-    background: rgba(7, 10, 18, 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border, #1f2a44);
+    background: rgba(7, 10, 18, 0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .ml-nav--scrolled {
+    background: rgba(7, 10, 18, 0.95);
+    border-bottom-color: var(--border, rgba(148,163,184,0.08));
   }
 
   .ml-nav__inner {
@@ -86,7 +93,7 @@ const navLinks = [
   }
 
   .ml-nav__logo:hover {
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
     transform: none;
     border-bottom: none;
   }
@@ -106,15 +113,36 @@ const navLinks = [
     font-family: var(--font-primary, sans-serif);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-light, #9CA3AF);
+    color: var(--text-secondary, #CBD5E1);
     text-decoration: none;
     border-bottom: none;
     transition: color 0.2s ease;
     position: relative;
   }
 
+  .ml-nav__link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent-red, #DA291C);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ml-nav__link--active {
+    color: var(--text-primary, #F1F5F9);
+  }
+
+  .ml-nav__link--active::after {
+    transform: scaleX(1);
+  }
+
   .ml-nav__link:hover {
-    color: var(--text-primary, #E5E7EB);
+    color: var(--text-primary, #F1F5F9);
     transform: none;
     border-bottom: none;
   }
@@ -137,7 +165,7 @@ const navLinks = [
     font-family: var(--font-mono, monospace);
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--text-muted, #6B7280);
+    color: var(--text-muted, #8494A7);
     text-decoration: none;
     border-bottom: none;
     padding: 0.25rem 0.5rem;
@@ -153,7 +181,7 @@ const navLinks = [
   }
 
   .ml-nav__lang-btn--active {
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
     background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
   }
 
@@ -240,6 +268,7 @@ const navLinks = [
 </style>
 
 <script>
+  // Mobile toggle
   const toggle = document.querySelector('.ml-nav__mobile-toggle');
   const links = document.querySelector('.ml-nav__links');
   if (toggle && links) {
@@ -247,5 +276,38 @@ const navLinks = [
       const isOpen = links.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(isOpen));
     });
+  }
+
+  // Scroll-triggered nav background
+  const nav = document.querySelector('.ml-nav');
+  if (nav) {
+    const onScroll = () => {
+      nav.classList.toggle('ml-nav--scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Scroll spy: highlight active nav link based on visible section
+  const navLinks = document.querySelectorAll('.ml-nav__link[href^="#"]');
+  const sections = document.querySelectorAll('section[id]');
+
+  if (navLinks.length && sections.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach((link) => {
+              const href = link.getAttribute('href');
+              link.classList.toggle('ml-nav__link--active', href === `#${id}`);
+            });
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -80% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
   }
 </script>

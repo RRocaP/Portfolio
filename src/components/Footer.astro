@@ -12,8 +12,13 @@ const currentYear = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer { background: var(--background); border-top: 1px solid var(--border); padding: var(--space-lg) 0; }
+  .footer {
+    background: var(--background);
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--border-light, rgba(148,163,184,0.12)), transparent) 1;
+    padding: 3rem 0;
+  }
   .footer-content { text-align: center; }
   .copyright { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.25rem; }
-  .footer-tagline { font-size: 0.85rem; color: var(--tertiary); }
+  .footer-tagline { font-size: 0.85rem; color: var(--text-muted); }
 </style>

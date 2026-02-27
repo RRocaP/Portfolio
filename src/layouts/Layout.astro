@@ -312,24 +312,31 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       }
       [data-theme='ml-native']{
         --background:#070a12;
-        --background-alt:#0d1320;
-        --background-card:#11182a;
-        --background-elevated:#131c2e;
+        --background-alt:#0f1729;
+        --background-card:#111827;
+        --background-elevated:#1E293B;
+        --surface-glass:rgba(15,23,42,0.6);
         --accent-red:#DA291C;
-        --accent-red-hover:#EF4444;
+        --accent-red-text:#EF4444;
+        --accent-red-hover:#F87171;
         --accent-red-bg:rgba(218,41,28,0.12);
         --accent-yellow:#FFD93D;
         --accent-red-rgb:218,41,28;
-        --border:#1f2a44;
-        --border-light:#2a3a5f;
-        --text-primary:#E5E7EB;
-        --text-secondary:#D1D5DB;
-        --text-light:#9CA3AF;
-        --text-muted:#6B7280;
+        --border:rgba(148,163,184,0.08);
+        --border-light:rgba(148,163,184,0.12);
+        --text-primary:#F1F5F9;
+        --text-secondary:#CBD5E1;
+        --text-light:#94A3B8;
+        --text-muted:#8494A7;
+        --primary:#F1F5F9;
         --terminal-green:#22C55E;
-        --primary:#E5E7EB;
-        --font-mono:'JetBrains Mono','SF Mono',Monaco,'Cascadia Code','Roboto Mono',Consolas,'Courier New',monospace;
+        --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+        --section-padding:clamp(5rem,10vh,8rem);
+        --card-radius:16px;
+        --card-radius-lg:20px;
       }
+      [data-theme='ml-native'] .section{padding:var(--section-padding) 0}
+      [data-theme='ml-native'] .section + .section{border-top:1px solid var(--border)}
     </style>
   </head>
   <body>

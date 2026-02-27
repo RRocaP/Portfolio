@@ -69,7 +69,22 @@ const sortedPubs = [...publications]
                 )}
               </h3>
               <p class="ml-pubs__journal">{pub.journal}</p>
-              {first && <span class="ml-pubs__first-badge">First Author</span>}
+              <div class="ml-pubs__badges">
+                {first && <span class="ml-pubs__first-badge">First Author</span>}
+                {pub.quartile && (
+                  <span class:list={['ml-pubs__quartile-badge', `ml-pubs__quartile-badge--${pub.quartile.toLowerCase()}`]}>
+                    {pub.quartile}
+                  </span>
+                )}
+                {pub.impactFactor && (
+                  <span class="ml-pubs__if-badge">IF {pub.impactFactor}</span>
+                )}
+              </div>
+              {pub.url && pub.url !== '#' && (
+                <a href={pub.url} target="_blank" rel="noopener noreferrer" class="ml-pubs__view-link">
+                  View Paper &rarr;
+                </a>
+              )}
             </div>
           </article>
         );
@@ -98,8 +113,8 @@ const sortedPubs = [...publications]
   .ml-pubs__heading {
     font-family: var(--font-display, 'Outfit', sans-serif);
     font-weight: 700;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: var(--text-primary, #E5E7EB);
+    font-size: clamp(2rem, 4.5vw, 2.75rem);
+    color: var(--text-primary, #F1F5F9);
     text-align: center;
     margin-bottom: 0.5rem;
   }
@@ -123,20 +138,22 @@ const sortedPubs = [...publications]
   .ml-pubs__card {
     display: flex;
     gap: 1.25rem;
-    background: var(--background-card, #11182a);
-    border: 1px solid var(--border, #1f2a44);
-    border-radius: 8px;
+    background: var(--background-card, #111827);
+    border: 1px solid var(--border, rgba(148,163,184,0.08));
+    border-radius: var(--card-radius, 16px);
     padding: 1.25rem 1.5rem;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .ml-pubs__card:hover {
-    border-color: var(--border-light, #2a3a5f);
-    transform: translateX(2px);
+    border-color: var(--border-light, rgba(148,163,184,0.12));
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
 
   .ml-pubs__card--first {
     border-left: 3px solid var(--accent-red, #DA291C);
+    background: linear-gradient(90deg, rgba(218,41,28,0.04) 0%, transparent 40%), var(--background-card, #111827);
   }
 
   .ml-pubs__card-year {
@@ -148,10 +165,10 @@ const sortedPubs = [...publications]
 
   .ml-pubs__year {
     font-family: var(--font-mono, monospace);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--text-muted, #6B7280);
-    min-width: 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted, #64748B);
+    min-width: 3.5rem;
   }
 
   .ml-pubs__card-content {
@@ -176,7 +193,7 @@ const sortedPubs = [...publications]
   }
 
   .ml-pubs__title-link:hover {
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
     border-bottom: none;
     transform: none;
   }
@@ -190,7 +207,7 @@ const sortedPubs = [...publications]
   .ml-pubs__journal {
     font-family: var(--font-mono, monospace);
     font-size: 0.8125rem;
-    color: var(--text-muted, #6B7280);
+    color: var(--text-muted, #8494A7);
     margin-bottom: 0;
     line-height: 1.4;
   }
@@ -200,11 +217,10 @@ const sortedPubs = [...publications]
     font-family: var(--font-mono, monospace);
     font-size: 0.6875rem;
     font-weight: 500;
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
     background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
     padding: 0.125rem 0.5rem;
     border-radius: 3px;
-    margin-top: 0.5rem;
   }
 
   .ml-pubs__footer {
@@ -216,7 +232,7 @@ const sortedPubs = [...publications]
     font-family: var(--font-mono, monospace);
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.2s ease;
@@ -224,8 +240,8 @@ const sortedPubs = [...publications]
   }
 
   .ml-pubs__scholar-link:hover {
-    border-bottom-color: var(--accent-red, #DA291C);
-    color: var(--accent-red-hover, #EF4444);
+    border-bottom-color: var(--accent-red-text, #EF4444);
+    color: var(--accent-red-hover, #F87171);
     transform: none;
   }
 
@@ -233,6 +249,79 @@ const sortedPubs = [...publications]
     outline: 2px solid var(--accent-red, #DA291C);
     outline-offset: 4px;
     border-radius: 2px;
+  }
+
+  .ml-pubs__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+  }
+
+  .ml-pubs__quartile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .ml-pubs__quartile-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ml-pubs__quartile-badge--q1 {
+    color: #22C55E;
+    background: rgba(34, 197, 94, 0.12);
+  }
+  .ml-pubs__quartile-badge--q1::before { background: #22C55E; }
+
+  .ml-pubs__quartile-badge--q2 {
+    color: #3B82F6;
+    background: rgba(59, 130, 246, 0.12);
+  }
+  .ml-pubs__quartile-badge--q2::before { background: #3B82F6; }
+
+  .ml-pubs__quartile-badge--q3 {
+    color: #FACC15;
+    background: rgba(250, 204, 21, 0.12);
+  }
+  .ml-pubs__quartile-badge--q3::before { background: #FACC15; }
+
+  .ml-pubs__if-badge {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--text-light, #94A3B8);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .ml-pubs__view-link {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-red-text, #EF4444);
+    text-decoration: none;
+    border-bottom: none;
+    margin-top: 0.5rem;
+    transition: color 0.2s ease;
+  }
+
+  .ml-pubs__view-link:hover {
+    color: var(--accent-red-hover, #F87171);
+    transform: none;
+    border-bottom: none;
   }
 
   @media (max-width: 768px) {

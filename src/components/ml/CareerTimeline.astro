@@ -79,8 +79,8 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
   .ml-timeline__heading {
     font-family: var(--font-display, 'Outfit', sans-serif);
     font-weight: 700;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: var(--text-primary, #E5E7EB);
+    font-size: clamp(2rem, 4.5vw, 2.75rem);
+    color: var(--text-primary, #F1F5F9);
     text-align: center;
     margin-bottom: 0.5rem;
   }
@@ -106,7 +106,7 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--border, #1f2a44);
+    background: linear-gradient(to bottom, #DA291C, #3B82F6);
     transform: translateX(-50%);
   }
 
@@ -131,26 +131,30 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
     position: absolute;
     left: 50%;
     top: 1.25rem;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     transform: translateX(-50%);
     z-index: 2;
-    box-shadow: 0 0 0 3px var(--background-alt, #0d1320), 0 0 12px rgba(218, 41, 28, 0.2);
+    box-shadow: 0 0 0 4px var(--background-alt, #0f1729), 0 0 16px rgba(218, 41, 28, 0.25);
+    border: 2px solid rgba(255,255,255,0.15);
   }
 
   .ml-timeline__card {
-    background: var(--background-card, #11182a);
-    border: 1px solid var(--border, #1f2a44);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
+    background: var(--surface-glass, rgba(15,23,42,0.6));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-light, rgba(148,163,184,0.12));
+    border-radius: var(--card-radius, 16px);
+    padding: 1.5rem 1.75rem;
     width: 100%;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .ml-timeline__card:hover {
-    border-color: var(--border-light, #2a3a5f);
-    transform: translateY(-1px);
+    border-color: rgba(148,163,184,0.18);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   }
 
   .ml-timeline__card-header {
@@ -164,7 +168,7 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
     font-family: var(--font-mono, monospace);
     font-size: 0.8125rem;
     font-weight: 700;
-    color: var(--accent-red, #DA291C);
+    color: var(--accent-red-text, #EF4444);
   }
 
   .ml-timeline__flag {
@@ -184,7 +188,7 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
   .ml-timeline__line-text {
     font-family: var(--font-primary, sans-serif);
     font-size: 0.875rem;
-    color: var(--text-light, #9CA3AF);
+    color: var(--text-light, #94A3B8);
     margin-bottom: 0.25rem;
     font-weight: 500;
   }
@@ -192,7 +196,7 @@ const dotColors = ['#DA291C', '#3B82F6', '#22C55E', '#FFD93D', '#DA291C'];
   .ml-timeline__detail {
     font-family: var(--font-primary, sans-serif);
     font-size: 0.8125rem;
-    color: var(--text-muted, #6B7280);
+    color: var(--text-muted, #8494A7);
     margin-bottom: 0;
     line-height: 1.5;
   }
