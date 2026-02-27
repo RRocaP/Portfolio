@@ -59,8 +59,8 @@ export interface LinkTag {
   hreflang?: string;
 }
 
-const SITE_BASE = '/Portfolio';
-const SITE_URL = 'https://rrocap.github.io';
+const SITE_BASE = import.meta.env.BASE_URL?.replace(/\/$/, '') || '/Portfolio';
+const SITE_URL = import.meta.env.SITE?.replace(/\/$/, '') || 'https://rrocap.github.io';
 
 export function getCanonicalUrl(pathname: string, base?: string): string {
   const siteBase = base || SITE_BASE;

@@ -16,8 +16,8 @@ import Footer from '../components/Footer.astro';
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div class="error-actions">
-          <a href="/Portfolio/" class="btn btn-primary">Return Home</a>
-          <a href="/Portfolio/en/#research" class="btn btn-outline">View Research</a>
+          <a href={import.meta.env.BASE_URL} class="btn btn-primary">Return Home</a>
+          <a href={`${import.meta.env.BASE_URL}en/#research`} class="btn btn-outline">View Research</a>
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ class ProteinVisualization {
     
     // Video/Image sequence configuration
     // In production, these would be actual video frames or image sequences
-    this.frameBasePath = '/Portfolio/assets/protein-frames/'; // Path to frame images
+    this.frameBasePath = `${import.meta.env.BASE_URL}assets/protein-frames/`; // Path to frame images
     this.frameFormat = '.webp'; // Using WebP for better compression
     
     // Scroll configuration

@@ -5,9 +5,9 @@ export const authors: Author[] = [
   {
     name: 'Ramon Roca-Pinilla',
     bio: 'Biomedical Engineer specializing in protein engineering, antimicrobial resistance, and gene therapy. Currently pursuing a PhD in Biomedical Engineering.',
-    avatar: '/Portfolio/images/ramon-avatar.jpg',
+    avatar: `${import.meta.env.BASE_URL}images/ramon-avatar.jpg`,
     social: {
-      website: 'https://rrocap.github.io/Portfolio',
+      website: `${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}`,
       linkedin: 'https://linkedin.com/in/ramon-roca-pinilla',
       github: 'https://github.com/rrocap',
       orcid: 'https://orcid.org/0000-0002-1234-5678', // Replace with actual ORCID
@@ -141,7 +141,7 @@ As we continue to explore this fascinating field, the potential for functional i
     `,
     author: authors[0],
     publishedDate: new Date('2024-01-15'),
-    coverImage: '/Portfolio/images/blog/inclusion-bodies-cover.jpg',
+    coverImage: `${import.meta.env.BASE_URL}images/blog/inclusion-bodies-cover.jpg`,
     readingTime: 8,
     categories: [categories[0], categories[1]], // Protein Engineering, AMR
     tags: [tags[0], tags[3], tags[7]], // Inclusion Bodies, Antimicrobial Peptides, Therapeutics
@@ -225,7 +225,7 @@ The next decade will likely see the first clinical trials of AAV-delivered CAR-T
     `,
     author: authors[0],
     publishedDate: new Date('2024-02-20'),
-    coverImage: '/Portfolio/images/blog/aav-car-t-cover.jpg',
+    coverImage: `${import.meta.env.BASE_URL}images/blog/aav-car-t-cover.jpg`,
     readingTime: 10,
     categories: [categories[2], categories[0]], // Gene Therapy, Protein Engineering
     tags: [tags[1], tags[2], tags[7], tags[9]], // AAV Vectors, CAR-T Therapy, Therapeutics, Clinical Translation
@@ -335,7 +335,7 @@ Every PhD journey is unique. What lessons have you learned in your research care
     `,
     author: authors[0],
     publishedDate: new Date('2024-03-10'),
-    coverImage: '/Portfolio/images/blog/phd-journey-cover.jpg',
+    coverImage: `${import.meta.env.BASE_URL}images/blog/phd-journey-cover.jpg`,
     readingTime: 12,
     categories: [categories[4], categories[5]], // Research Insights, Career Development
     tags: [tags[10], tags[8], tags[11]], // PhD Journey, Research Methodology, Collaboration
@@ -469,7 +469,7 @@ AMR affects everyone. Whether you're a researcher, healthcare provider, policyma
     `,
     author: authors[0],
     publishedDate: new Date('2024-04-05'),
-    coverImage: '/Portfolio/images/blog/amr-future-cover.jpg',
+    coverImage: `${import.meta.env.BASE_URL}images/blog/amr-future-cover.jpg`,
     readingTime: 15,
     categories: [categories[1], categories[0]], // AMR, Protein Engineering
     tags: [tags[3], tags[7], tags[12], tags[14]], // Antimicrobial Peptides, Therapeutics, Innovation, Future Medicine

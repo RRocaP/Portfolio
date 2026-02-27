@@ -26,10 +26,13 @@ if (!post) {
 const lang = 'en';
 const relatedPosts = getRecentPosts(lang, 4).filter(p => p.id !== post.id).slice(0, 3);
 
+const base = import.meta.env.BASE_URL;
+const site = import.meta.env.SITE || 'https://rrocap.github.io';
+
 const title = `${post.title} - Ramon Roca-Pinilla`;
 const description = post.description;
-const canonicalUrl = `https://rrocap.github.io/Portfolio/en/blog/${post.slug}/`;
-const ogImage = post.coverImage || '/Portfolio/images/blog-default-og.jpg';
+const canonicalUrl = `${site}${base}en/blog/${post.slug}/`;
+const ogImage = post.coverImage || `${base}images/blog-default-og.jpg`;
 
 // Generate structured data for the blog post
 const structuredData = {
@@ -48,7 +51,7 @@ const structuredData = {
     "name": "Ramon Roca-Pinilla",
     "logo": {
       "@type": "ImageObject",
-      "url": "/Portfolio/images/ramon-avatar.jpg"
+      "url": `${base}images/ramon-avatar.jpg`
     }
   },
   "datePublished": post.publishedDate.toISOString(),
@@ -97,7 +100,7 @@ const structuredData = {
           <div class="related-grid">
             {relatedPosts.map(relatedPost => (
               <article class="related-card">
-                <a href={`/Portfolio/en/blog/${relatedPost.slug}/`} class="related-link">
+                <a href={`${base}en/blog/${relatedPost.slug}/`} class="related-link">
                   {relatedPost.coverImage && (
                     <div class="related-image">
                       <img 
@@ -137,7 +140,7 @@ const structuredData = {
           </div>
           
           <div class="view-all-posts">
-            <a href="/Portfolio/en/blog/" class="btn btn-outline">
+            <a href={`${base}en/blog/`} class="btn btn-outline">
               📚 View All Posts
             </a>
           </div>
@@ -157,7 +160,7 @@ const structuredData = {
             </p>
           </div>
           <div class="cta-actions">
-            <a href="/Portfolio/en/#contact" class="btn btn-primary">
+            <a href={`${base}en/#contact`} class="btn btn-primary">
               💬 Get in Touch
             </a>
             <a href="mailto:ramon.rocap@gmail.com" class="btn btn-outline">

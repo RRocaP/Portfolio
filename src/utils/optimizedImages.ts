@@ -19,35 +19,37 @@ export interface OptimizedImageConfig {
   className?: string;
 }
 
+const base = import.meta.env.BASE_URL;
+
 // Profile image variants
 export const PROFILE_IMAGE_VARIANTS: ImageVariant[] = [
   // AVIF variants (best compression)
-  { src: '/Portfolio/profile@2x.avif', width: 240, height: 240, format: 'avif', size: '120px' },
-  { src: '/Portfolio/profile.avif', width: 120, height: 120, format: 'avif', size: '120px' },
-  { src: '/Portfolio/profile@0.5x.avif', width: 60, height: 60, format: 'avif', size: '60px' },
-  
+  { src: `${base}profile@2x.avif`, width: 240, height: 240, format: 'avif', size: '120px' },
+  { src: `${base}profile.avif`, width: 120, height: 120, format: 'avif', size: '120px' },
+  { src: `${base}profile@0.5x.avif`, width: 60, height: 60, format: 'avif', size: '60px' },
+
   // WebP variants (good compression, wider support)
-  { src: '/Portfolio/profile@2x.webp', width: 240, height: 240, format: 'webp', size: '120px' },
-  { src: '/Portfolio/profile.webp', width: 120, height: 120, format: 'webp', size: '120px' },
-  { src: '/Portfolio/profile@0.5x.webp', width: 60, height: 60, format: 'webp', size: '60px' },
-  
+  { src: `${base}profile@2x.webp`, width: 240, height: 240, format: 'webp', size: '120px' },
+  { src: `${base}profile.webp`, width: 120, height: 120, format: 'webp', size: '120px' },
+  { src: `${base}profile@0.5x.webp`, width: 60, height: 60, format: 'webp', size: '60px' },
+
   // JPEG fallback
-  { src: '/Portfolio/profile@2x.jpg', width: 240, height: 240, format: 'jpg', size: '120px' },
-  { src: '/Portfolio/profile.jpg', width: 120, height: 120, format: 'jpg', size: '120px' },
-  { src: '/Portfolio/profile@0.5x.jpg', width: 60, height: 60, format: 'jpg', size: '60px' }
+  { src: `${base}profile@2x.jpg`, width: 240, height: 240, format: 'jpg', size: '120px' },
+  { src: `${base}profile.jpg`, width: 120, height: 120, format: 'jpg', size: '120px' },
+  { src: `${base}profile@0.5x.jpg`, width: 60, height: 60, format: 'jpg', size: '60px' }
 ];
 
 // Video poster variants
 export const VIDEO_POSTER_VARIANTS: ImageVariant[] = [
   // AVIF variants
-  { src: '/Portfolio/hero/video-poster@2x.avif', width: 1920, height: 1080, format: 'avif' },
-  { src: '/Portfolio/hero/video-poster.avif', width: 960, height: 540, format: 'avif' },
-  { src: '/Portfolio/hero/video-poster@0.5x.avif', width: 480, height: 270, format: 'avif' },
-  
-  // WebP variants  
-  { src: '/Portfolio/hero/video-poster@2x.webp', width: 1920, height: 1080, format: 'webp' },
-  { src: '/Portfolio/hero/video-poster.webp', width: 960, height: 540, format: 'webp' },
-  { src: '/Portfolio/hero/video-poster@0.5x.webp', width: 480, height: 270, format: 'webp' }
+  { src: `${base}hero/video-poster@2x.avif`, width: 1920, height: 1080, format: 'avif' },
+  { src: `${base}hero/video-poster.avif`, width: 960, height: 540, format: 'avif' },
+  { src: `${base}hero/video-poster@0.5x.avif`, width: 480, height: 270, format: 'avif' },
+
+  // WebP variants
+  { src: `${base}hero/video-poster@2x.webp`, width: 1920, height: 1080, format: 'webp' },
+  { src: `${base}hero/video-poster.webp`, width: 960, height: 540, format: 'webp' },
+  { src: `${base}hero/video-poster@0.5x.webp`, width: 480, height: 270, format: 'webp' }
 ];
 
 /**

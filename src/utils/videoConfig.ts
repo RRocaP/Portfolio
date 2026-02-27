@@ -40,7 +40,7 @@ export const HERO_VIDEO_CONFIG: VideoConfig = {
       size: 4.8 * 1024 * 1024 // 4.8MB
     }
   ],
-  poster: '/Portfolio/hero/video-poster.jpg',
+  poster: `${import.meta.env.BASE_URL}hero/video-poster.jpg`,
   duration: 30,
   autoplay: true,
   preload: 'none'

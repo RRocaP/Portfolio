@@ -105,7 +105,7 @@ const description = 'Complete archive of scientific blog posts, research insight
   title={title} 
   description={description} 
   lang={lang}
-  canonicalUrl="https://rrocap.github.io/Portfolio/en/blog/archive/"
+  canonicalUrl={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}en/blog/archive/`}
 >
   <Navigation />
   
@@ -192,7 +192,7 @@ const description = 'Complete archive of scientific blog posts, research insight
                                   ))}
                                 </div>
                                 <h4 class="post-title">
-                                  <a href={`/Portfolio/en/blog/${post.slug}/`}>
+                                  <a href={`${import.meta.env.BASE_URL}en/blog/${post.slug}/`}>
                                     {post.title}
                                   </a>
                                 </h4>
@@ -236,7 +236,7 @@ const description = 'Complete archive of scientific blog posts, research insight
               <div class="categories-list">
                 {mostPopularCategories.map(category => (
                   <a 
-                    href={`/Portfolio/en/blog/category/${category.slug}/`}
+                    href={`${import.meta.env.BASE_URL}en/blog/category/${category.slug}/`}
                     class="category-link"
                     style={`border-left-color: ${category.color}`}
                   >
@@ -257,7 +257,7 @@ const description = 'Complete archive of scientific blog posts, research insight
               <div class="tags-cloud">
                 {mostPopularTags.map(tag => (
                   <a 
-                    href={`/Portfolio/en/blog/tag/${tag.slug}/`}
+                    href={`${import.meta.env.BASE_URL}en/blog/tag/${tag.slug}/`}
                     class="tag-link"
                     style={`font-size: ${Math.min(1.2, 0.8 + (tag.count / Math.max(...mostPopularTags.map(t => t.count))) * 0.4)}rem`}
                   >
@@ -274,10 +274,10 @@ const description = 'Complete archive of scientific blog posts, research insight
               <div class="rss-info">
                 <p>Subscribe to get notified about new articles</p>
                 <div class="rss-links">
-                  <a href="/Portfolio/rss.xml" class="rss-link">
+                  <a href={`${import.meta.env.BASE_URL}rss.xml`} class="rss-link">
                     🔗 RSS Feed
                   </a>
-                  <a href="/Portfolio/en/#newsletter" class="newsletter-link">
+                  <a href={`${import.meta.env.BASE_URL}en/#newsletter`} class="newsletter-link">
                     📧 Newsletter
                   </a>
                 </div>

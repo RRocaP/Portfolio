@@ -34,8 +34,8 @@ const description = 'Insights from biomedical research, protein engineering, and
   title={title} 
   description={description} 
   lang={lang}
-  canonicalUrl="https://rrocap.github.io/Portfolio/en/blog/"
-  ogImage="/Portfolio/images/blog-og-image.jpg"
+  canonicalUrl={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}en/blog/`}
+  ogImage={`${import.meta.env.BASE_URL}images/blog-og-image.jpg`}
 >
   <Navigation />
   
@@ -87,7 +87,7 @@ const description = 'Insights from biomedical research, protein engineering, and
           <div class="featured-grid">
             {featuredPosts.map((post, index) => (
               <div class={`featured-card featured-${index + 1}`}>
-                <a href={`/Portfolio/en/blog/${post.slug}/`} class="featured-link">
+                <a href={`${import.meta.env.BASE_URL}en/blog/${post.slug}/`} class="featured-link">
                   {post.coverImage && (
                     <div class="featured-image">
                       <img src={post.coverImage} alt={post.title} loading="lazy" />
@@ -137,7 +137,7 @@ const description = 'Insights from biomedical research, protein engineering, and
           showSearch={true}
           featuredFirst={false}
           onPostClick={(post) => {
-            window.location.href = `/Portfolio/en/blog/${post.slug}/`;
+            window.location.href = `${import.meta.env.BASE_URL}en/blog/${post.slug}/`;
           }}
           client:load
         />
@@ -152,7 +152,7 @@ const description = 'Insights from biomedical research, protein engineering, and
             <h2>Stay Updated</h2>
             <p>Get notified about new articles and research insights directly to your inbox.</p>
           </div>
-          <form class="newsletter-form" action="/Portfolio/api/newsletter" method="POST">
+          <form class="newsletter-form" action={`${import.meta.env.BASE_URL}api/newsletter`} method="POST">
             <input 
               type="email" 
               name="email" 

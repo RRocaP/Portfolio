@@ -74,8 +74,8 @@ export class SEOManager {
   private defaultAuthor: PersonSchema;
   
   constructor() {
-    this.baseUrl = 'https://rrocap.github.io';
-    this.basePath = '/Portfolio';
+    this.baseUrl = (import.meta.env.SITE || 'https://rrocap.github.io').replace(/\/$/, '');
+    this.basePath = (import.meta.env.BASE_URL || '/Portfolio').replace(/\/$/, '');
     this.defaultImage = `${this.baseUrl}${this.basePath}/profile.jpg`;
     this.defaultAuthor = {
       name: 'Ramon Roca Pinilla',
@@ -115,7 +115,11 @@ export class SEOManager {
    * Generate canonical URL for a given path and language
    */
   generateCanonicalUrl(path: string, lang: string = 'en'): string {
-    const cleanPath = path.replace(/^\/(en|es|ca)\//, '/').replace(/^\//, '');
+    // Strip base path prefix if present, then strip language prefix
+    const withoutBase = this.basePath && this.basePath !== '/'
+      ? path.replace(new RegExp(`^${this.basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/?`), '/')
+      : path;
+    const cleanPath = withoutBase.replace(/^\/(en|es|ca)\//, '/').replace(/^\//, '');
     return `${this.baseUrl}${this.basePath}/${lang}/${cleanPath}`;
   }
 
@@ -123,7 +127,11 @@ export class SEOManager {
    * Generate hreflang links for multilingual support
    */
   generateHreflangLinks(path: string): Array<{ href: string; hreflang: string }> {
-    const cleanPath = path.replace(/^\/(en|es|ca)\//, '/').replace(/^\//, '');
+    // Strip base path prefix if present, then strip language prefix
+    const withoutBase = this.basePath && this.basePath !== '/'
+      ? path.replace(new RegExp(`^${this.basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/?`), '/')
+      : path;
+    const cleanPath = withoutBase.replace(/^\/(en|es|ca)\//, '/').replace(/^\//, '');
     const languages = ['en', 'es', 'ca'] as const;
     
     return [

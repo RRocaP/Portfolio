@@ -56,8 +56,8 @@
 
   // Resource hints for critical resources
   const criticalResources = [
-    '/Portfolio/styles/accessibility-fixes.css',
-    '/Portfolio/_astro/client.*.js'
+    `${import.meta.env.BASE_URL}styles/accessibility-fixes.css`,
+    `${import.meta.env.BASE_URL}_astro/client.*.js`
   ];
 
   criticalResources.forEach(resource => {
@@ -101,7 +101,7 @@
   // Service Worker for offline support (optional)
   if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/Portfolio/sw.js')
+      navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`)
         .then(registration => console.log('SW registered'))
         .catch(err => console.log('SW registration failed'));
     });

@@ -46,7 +46,7 @@ const items = navItems[currentLang];
 <nav class="nav-premium" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
     <!-- Logo with enhanced styling -->
-    <a href={`/Portfolio/${currentLang}/`} class="nav-logo magnetic-button touch-feedback" aria-label="Ramon Roca Pinilla - Home">
+    <a href={`${import.meta.env.BASE_URL}${currentLang}/`} class="nav-logo magnetic-button touch-feedback" aria-label="Ramon Roca Pinilla - Home">
       <span class="logo-text">RRP</span>
       <span class="logo-subtitle" aria-hidden="true">Portfolio</span>
     </a>
@@ -84,19 +84,19 @@ const items = navItems[currentLang];
         </button>
         <ul class="lang-menu" role="listbox">
           <li role="option" class={currentLang === 'en' ? 'active' : ''}>
-            <a href="/Portfolio/en/" class="magnetic-button touch-feedback" aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>
+            <a href={`${import.meta.env.BASE_URL}en/`} class="magnetic-button touch-feedback" aria-label="English" aria-current={currentLang === 'en' ? 'page' : undefined}>
               <span class="lang-code">EN</span>
               <span class="lang-name">English</span>
             </a>
           </li>
           <li role="option" class={currentLang === 'es' ? 'active' : ''}>
-            <a href="/Portfolio/es/" class="magnetic-button touch-feedback" aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>
+            <a href={`${import.meta.env.BASE_URL}es/`} class="magnetic-button touch-feedback" aria-label="Español" aria-current={currentLang === 'es' ? 'page' : undefined}>
               <span class="lang-code">ES</span>
               <span class="lang-name">Español</span>
             </a>
           </li>
           <li role="option" class={currentLang === 'ca' ? 'active' : ''}>
-            <a href="/Portfolio/ca/" class="magnetic-button touch-feedback" aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>
+            <a href={`${import.meta.env.BASE_URL}ca/`} class="magnetic-button touch-feedback" aria-label="Català" aria-current={currentLang === 'ca' ? 'page' : undefined}>
               <span class="lang-code">CA</span>
               <span class="lang-name">Català</span>
             </a>
@@ -117,7 +117,7 @@ const items = navItems[currentLang];
   <div class="nav-overlay" aria-hidden="true">
     <div class="nav-overlay-content">
       <div class="nav-overlay-header">
-        <a href={`/Portfolio/${currentLang}/`} class="nav-overlay-logo">
+        <a href={`${import.meta.env.BASE_URL}${currentLang}/`} class="nav-overlay-logo">
           <span class="logo-text">RRP</span>
         </a>
         <button class="nav-overlay-close" aria-label="Close navigation menu">
@@ -150,15 +150,15 @@ const items = navItems[currentLang];
         <div class="nav-overlay-lang">
           <h3 class="nav-overlay-lang-title">Language</h3>
           <div class="nav-overlay-lang-options">
-            <a href="/Portfolio/en/" class={`nav-overlay-lang-option ${currentLang === 'en' ? 'active' : ''}`}>
+            <a href={`${import.meta.env.BASE_URL}en/`} class={`nav-overlay-lang-option ${currentLang === 'en' ? 'active' : ''}`}>
               <span class="lang-code">EN</span>
               <span class="lang-name">English</span>
             </a>
-            <a href="/Portfolio/es/" class={`nav-overlay-lang-option ${currentLang === 'es' ? 'active' : ''}`}>
+            <a href={`${import.meta.env.BASE_URL}es/`} class={`nav-overlay-lang-option ${currentLang === 'es' ? 'active' : ''}`}>
               <span class="lang-code">ES</span>
               <span class="lang-name">Español</span>
             </a>
-            <a href="/Portfolio/ca/" class={`nav-overlay-lang-option ${currentLang === 'ca' ? 'active' : ''}`}>
+            <a href={`${import.meta.env.BASE_URL}ca/`} class={`nav-overlay-lang-option ${currentLang === 'ca' ? 'active' : ''}`}>
               <span class="lang-code">CA</span>
               <span class="lang-name">Català</span>
             </a>

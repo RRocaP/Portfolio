@@ -20,24 +20,24 @@ const {
       muted
       loop
       playsinline
-      poster="/Portfolio/videos/protein_2k6o_poster.webp"
+      poster={`${import.meta.env.BASE_URL}videos/protein_2k6o_poster.webp`}
       aria-label={description}
     >
-      <source src="/Portfolio/videos/protein_2k6o.webm" type="video/webm" />
-      <source src="/Portfolio/videos/protein_2k6o.mp4" type="video/mp4" />
-      
+      <source src={`${import.meta.env.BASE_URL}videos/protein_2k6o.webm`} type="video/webm" />
+      <source src={`${import.meta.env.BASE_URL}videos/protein_2k6o.mp4`} type="video/mp4" />
+
       <!-- Fallback for browsers without video support -->
-      <img 
-        src="/Portfolio/videos/protein_2k6o_poster.webp" 
+      <img
+        src={`${import.meta.env.BASE_URL}videos/protein_2k6o_poster.webp`}
         alt={description}
         loading="lazy"
       />
     </video>
-    
+
     <!-- Reduced motion fallback -->
-    <img 
+    <img
       class="static-fallback"
-      src="/Portfolio/videos/protein_2k6o_poster.webp"
+      src={`${import.meta.env.BASE_URL}videos/protein_2k6o_poster.webp`}
       alt={description}
       loading="lazy"
     />

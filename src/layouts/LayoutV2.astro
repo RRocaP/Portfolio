@@ -17,20 +17,20 @@ const { title } = Astro.props;
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rrocap.github.io/Portfolio/" />
+    <meta property="og:url" content={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Ramon Roca - Biomedical Engineer specializing in protein engineering, antimicrobial resistance, and cutting-edge biotechnology research." />
-    <meta property="og:image" content="https://rrocap.github.io/Portfolio/og-image.jpg" />
+    <meta property="og:image" content={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}og-image.jpg`} />
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://rrocap.github.io/Portfolio/" />
+    <meta property="twitter:url" content={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}`} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content="Ramon Roca - Biomedical Engineer specializing in protein engineering, antimicrobial resistance, and cutting-edge biotechnology research." />
-    <meta property="twitter:image" content="https://rrocap.github.io/Portfolio/og-image.jpg" />
+    <meta property="twitter:image" content={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}og-image.jpg`} />
     
     <title>{title}</title>
-    <link rel="canonical" href="https://rrocap.github.io/Portfolio/" />
+    <link rel="canonical" href={`${import.meta.env.SITE || 'https://rrocap.github.io'}${import.meta.env.BASE_URL}`} />
     
     <!-- Fonts with display swap for better performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

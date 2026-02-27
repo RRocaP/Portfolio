@@ -54,6 +54,9 @@ const {
 // Use provided pathname or fall back to Astro.url.pathname for backwards compatibility
 const currentPathname = pathname || (typeof Astro !== 'undefined' && Astro.url ? Astro.url.pathname : '/');
 
+// Normalize BASE_URL to always end with / for path concatenation
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+
 const seoConfig: SEOConfig = {
   title,
   description,
@@ -275,21 +278,21 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     
     <!-- Optimized CSS Loading Strategy -->
     <!-- Core styles (essential) -->
-    <link rel="preload" as="style" href="/Portfolio/styles/optimized-core.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href={`${base}styles/optimized-core.css`} onload="this.onload=null;this.rel='stylesheet'">
 
     <!-- Enhanced styles (progressive enhancement) -->
-    <link rel="preload" as="style" href="/Portfolio/styles/optimized-enhanced.css" onload="this.onload=null;this.rel='stylesheet'" media="screen">
+    <link rel="preload" as="style" href={`${base}styles/optimized-enhanced.css`} onload="this.onload=null;this.rel='stylesheet'" media="screen">
 
     <!-- Design tokens -->
-    <link rel="preload" as="style" href="/Portfolio/styles/tokens.css" onload="this.onload=null;this.rel='stylesheet'">
-    
+    <link rel="preload" as="style" href={`${base}styles/tokens.css`} onload="this.onload=null;this.rel='stylesheet'">
+
     <!-- Accessibility styles -->
-    <link rel="preload" as="style" href="/Portfolio/styles/optimized-accessibility.css" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href={`${base}styles/optimized-accessibility.css`} onload="this.onload=null;this.rel='stylesheet'">
 
     <noscript>
-      <link rel="stylesheet" href="/Portfolio/styles/optimized-core.css">
-      <link rel="stylesheet" href="/Portfolio/styles/optimized-enhanced.css">
-      <link rel="stylesheet" href="/Portfolio/styles/optimized-accessibility.css">
+      <link rel="stylesheet" href={`${base}styles/optimized-core.css`}>
+      <link rel="stylesheet" href={`${base}styles/optimized-enhanced.css`}>
+      <link rel="stylesheet" href={`${base}styles/optimized-accessibility.css`}>
     </noscript>
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -326,10 +329,10 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --border-light:rgba(148,163,184,0.12);
         --text-primary:#F1F5F9;
         --text-secondary:#CBD5E1;
-        --text-light:#94A3B8;
-        --text-muted:#8494A7;
+        --text-light:#A8B8CB;
+        --text-muted:#9BADC8;
         --primary:#F1F5F9;
-        --terminal-green:#22C55E;
+        --terminal-green:#4ADE80;
         --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
         --section-padding:clamp(5rem,10vh,8rem);
         --card-radius:16px;

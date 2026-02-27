@@ -1,15 +1,18 @@
 ---
 // Root page redirects to English version
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+const site = (import.meta.env.SITE || 'https://rrocap.github.io').replace(/\/$/, '');
 ---
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0;url=/Portfolio/en/" />
-    <link rel="canonical" href="https://rrocap.github.io/Portfolio/en/" />
+    <meta http-equiv="refresh" content={`0;url=${base}en/`} />
+    <link rel="canonical" href={`${site}${base}en/`} />
     <title>Redirecting...</title>
   </head>
   <body>
-    <p>Redirecting to <a href="/Portfolio/en/">/en/</a>...</p>
+    <p>Redirecting to <a href={`${base}en/`}>/en/</a>...</p>
   </body>
 </html>

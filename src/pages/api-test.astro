@@ -201,7 +201,7 @@ if (process.env.NODE_ENV === 'production') {
   <script>
     let testResults = [];
     
-    const baseUrl = window.location.origin + '/Portfolio';
+    const baseUrl = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, '');
     
     function showLoading(buttonId) {
       const button = document.getElementById(buttonId);

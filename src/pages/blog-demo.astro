@@ -140,7 +140,7 @@ const totalReadingTime = blogPosts
                   ).length} articles
                 </span>
                 <a 
-                  href={`/Portfolio/en/blog/category/${category.slug}/`}
+                  href={`${import.meta.env.BASE_URL}en/blog/category/${category.slug}/`}
                   class="view-category"
                   style={`color: ${category.color}`}
                 >
@@ -179,7 +179,7 @@ const totalReadingTime = blogPosts
                 </div>
                 
                 <h3 class="post-title">
-                  <a href={`/Portfolio/en/blog/${post.slug}/`}>{post.title}</a>
+                  <a href={`${import.meta.env.BASE_URL}en/blog/${post.slug}/`}>{post.title}</a>
                 </h3>
                 
                 <p class="post-excerpt">{post.excerpt}</p>
@@ -227,27 +227,27 @@ const totalReadingTime = blogPosts
           <div class="url-group">
             <h3>Main Blog Pages</h3>
             <ul class="url-list">
-              <li><a href="/Portfolio/en/blog/">Blog Index</a></li>
-              <li><a href="/Portfolio/en/blog/archive/">Complete Archive</a></li>
-              <li><a href="/Portfolio/en/blog/functional-inclusion-bodies-revolution/">Sample Post</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/blog/`}>Blog Index</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/blog/archive/`}>Complete Archive</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/blog/functional-inclusion-bodies-revolution/`}>Sample Post</a></li>
             </ul>
           </div>
           
           <div class="url-group">
             <h3>Content Discovery</h3>
             <ul class="url-list">
-              <li><a href="/Portfolio/en/blog/category/protein-engineering/">Category View</a></li>
-              <li><a href="/Portfolio/en/blog/tag/inclusion-bodies/">Tag View</a></li>
-              <li><a href="/Portfolio/en/search/">Search Page</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/blog/category/protein-engineering/`}>Category View</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/blog/tag/inclusion-bodies/`}>Tag View</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}en/search/`}>Search Page</a></li>
             </ul>
           </div>
           
           <div class="url-group">
             <h3>Feeds & APIs</h3>
             <ul class="url-list">
-              <li><a href="/Portfolio/rss.xml">RSS Feed</a></li>
-              <li><a href="/Portfolio/api/search">Search API</a></li>
-              <li><a href="/Portfolio/sitemap-index.xml">Sitemap</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}rss.xml`}>RSS Feed</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}api/search`}>Search API</a></li>
+              <li><a href={`${import.meta.env.BASE_URL}sitemap-index.xml`}>Sitemap</a></li>
             </ul>
           </div>
         </div>
@@ -317,10 +317,10 @@ const totalReadingTime = blogPosts
             Dive into the scientific blog system and explore cutting-edge research insights
           </p>
           <div class="cta-buttons">
-            <a href="/Portfolio/en/blog/" class="btn btn-primary">
+            <a href={`${import.meta.env.BASE_URL}en/blog/`} class="btn btn-primary">
               📚 Browse All Posts
             </a>
-            <a href="/Portfolio/en/blog/archive/" class="btn btn-outline">
+            <a href={`${import.meta.env.BASE_URL}en/blog/archive/`} class="btn btn-outline">
               🗂️ View Archive
             </a>
           </div>
