@@ -6,7 +6,7 @@ Protein-Binder Movie Generator
 Generate cinematic protein-binder interaction videos using PyMOL and ffmpeg.
 
 Installation:
-    pip install -r requirements.txt
+    pip install -r requirements-local.txt
     conda install -c conda-forge pymol-open-source
 
 Usage:
