@@ -146,14 +146,18 @@ const navLinks = [
     border-bottom: none;
   }
 
+  .ml-nav__link:hover::after {
+    transform: scaleX(1);
+  }
+
   .ml-nav__link:focus-visible {
     outline: 2px solid var(--accent-red, #DA291C);
     outline-offset: 4px;
     border-radius: 2px;
   }
 
-  .ml-nav__lang {
-    display: flex !important;
+  .ml-nav .ml-nav__lang {
+    display: flex;
     gap: 0.375rem;
     margin-left: 1rem;
     padding-left: 1rem;
@@ -161,44 +165,44 @@ const navLinks = [
     align-items: center;
   }
 
-  .ml-nav__lang-btn {
-    display: inline-flex !important;
+  .ml-nav .ml-nav__lang-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
     font-size: 0.8125rem;
     font-weight: 600;
-    color: #EAEDF2 !important;
-    text-decoration: none !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-    padding: 0.25rem 0.625rem !important;
+    color: #EAEDF2;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.25rem 0.625rem;
     border-radius: 4px;
     transition: all 0.2s ease;
-    min-height: auto !important;
-    min-width: auto !important;
+    min-height: auto;
+    min-width: auto;
     letter-spacing: 0.04em;
     line-height: 1.2;
-    transform: none !important;
+    transform: none;
   }
 
-  .ml-nav__lang-btn:hover {
-    color: #FFFFFF !important;
+  .ml-nav .ml-nav__lang-btn:hover {
+    color: #FFFFFF;
     background: rgba(255, 255, 255, 0.10);
-    border-color: rgba(255, 255, 255, 0.25) !important;
-    transform: none !important;
-    text-decoration: none !important;
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: none;
+    text-decoration: none;
   }
 
-  .ml-nav__lang-btn--active {
-    color: #FFFFFF !important;
+  .ml-nav .ml-nav__lang-btn--active {
+    color: #FFFFFF;
     background: rgba(218, 41, 28, 0.20);
-    border-color: rgba(218, 41, 28, 0.5) !important;
+    border-color: rgba(218, 41, 28, 0.5);
   }
 
-  .ml-nav__lang-btn--active:hover {
+  .ml-nav .ml-nav__lang-btn--active:hover {
     background: rgba(218, 41, 28, 0.30);
-    border-color: rgba(218, 41, 28, 0.6) !important;
+    border-color: rgba(218, 41, 28, 0.6);
   }
 
   .ml-nav__lang-btn:focus-visible {
@@ -276,11 +280,11 @@ const navLinks = [
       justify-content: center;
     }
 
-    .ml-nav__lang-btn {
-      font-size: 0.875rem !important;
-      padding: 0.5rem 1rem !important;
-      min-height: auto !important;
-      min-width: auto !important;
+    .ml-nav .ml-nav__lang-btn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      min-height: auto;
+      min-width: auto;
     }
 
     .ml-nav__mobile-toggle {

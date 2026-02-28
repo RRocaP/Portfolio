@@ -12,13 +12,13 @@ const t = translations[lang] || translations.en;
 
 const commentLine: Record<Lang, string> = {
   en: '// biomedical engineer + ML enthusiast',
-  es: '// ingeniero biomedico + entusiasta ML',
+  es: '// ingeniero biomédico + entusiasta ML',
   ca: '// enginyer biomedic + entusiasta ML',
 };
 
 const statLabels: Record<Lang, { citations: string; hIndex: string; papers: string }> = {
   en: { citations: 'citations', hIndex: 'h-index', papers: 'papers' },
-  es: { citations: 'citas', hIndex: 'indice-h', papers: 'articulos' },
+  es: { citations: 'citas', hIndex: 'índice-h', papers: 'artículos' },
   ca: { citations: 'cites', hIndex: 'index-h', papers: 'articles' },
 };
 
@@ -68,7 +68,7 @@ const labels = statLabels[lang] || statLabels.en;
 <style>
   .ml-hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
     background: var(--bg-base, #080B11);
@@ -152,31 +152,30 @@ const labels = statLabels[lang] || statLabels.en;
 
   /* Ghost style buttons */
   .ml-hero__btn--primary {
-    background: transparent;
-    color: var(--text-primary, #EAEDF2);
-    border: 1px solid var(--accent-red, #DA291C);
-    transition: background 0.25s ease, color 0.25s ease;
+    background: rgba(196, 149, 106, 0.08);
+    color: #EAEDF2;
+    border: 1px solid rgba(196, 149, 106, 0.7);
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .ml-hero__btn--primary:hover {
-    background: var(--accent-red, #DA291C);
-    color: #ffffff;
-    transform: translate(-2px, -2px);
-    box-shadow: 3px 3px 0 rgba(218, 41, 28, 0.3);
+    background: rgba(196, 149, 106, 0.18);
+    color: #EAEDF2;
+    box-shadow: 0 0 0 1px rgba(196, 149, 106, 0.1);
   }
 
   .ml-hero__btn--outline {
     background: transparent;
-    color: var(--text-secondary, #B8BFC9);
-    border: 1px solid rgba(255,255,255,0.10);
-    transition: background 0.25s ease, border-color 0.25s ease;
+    color: #B8BFC9;
+    border: 1px solid rgba(196, 149, 106, 0.4);
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .ml-hero__btn--outline:hover {
-    border-color: rgba(255,255,255,0.20);
-    background: rgba(255,255,255,0.03);
-    color: var(--text-primary, #EAEDF2);
-    transform: none;
+    border-color: rgba(196, 149, 106, 0.6);
+    background: rgba(196, 149, 106, 0.1);
+    color: #EAEDF2;
+    box-shadow: 0 0 0 1px rgba(196, 149, 106, 0.1);
   }
 
   /* Right column — stats as inline text with dividers */

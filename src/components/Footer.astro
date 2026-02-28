@@ -1,5 +1,18 @@
 ---
+import type { Lang } from '../data/i18n';
+
+export interface Props {
+  lang?: Lang;
+}
+
+const { lang = 'en' } = Astro.props;
 const currentYear = new Date().getFullYear();
+
+const tagline: Record<Lang, string> = {
+  en: 'Still amazed that proteins remember how to fold. Still trying to teach them new tricks.',
+  es: 'Aún asombrado de que las proteínas recuerden cómo plegarse. Aún intentando enseñarles trucos nuevos.',
+  ca: 'Encara sorprès que les proteïnes recordin com plegar-se. Encara intentant ensenyar-los trucs nous.',
+};
 ---
 
 <footer class="footer">
@@ -10,7 +23,7 @@ const currentYear = new Date().getFullYear();
         <p class="footer__copyright">&copy; {currentYear} Ramon Roca Pinilla</p>
       </div>
       <div class="footer__right">
-        <p class="footer__tagline">Still amazed that proteins remember how to fold. Still trying to teach them new tricks.</p>
+        <p class="footer__tagline">{tagline[lang]}</p>
       </div>
     </div>
   </div>

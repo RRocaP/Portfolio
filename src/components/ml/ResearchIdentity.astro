@@ -11,7 +11,7 @@ const t = translations[lang] || translations.en;
 
 const sectionHeading: Record<Lang, string> = {
   en: 'Where AI Meets Biology',
-  es: 'Donde la IA Encuentra la Biologia',
+  es: 'Donde la IA Encuentra la Biología',
   ca: 'On la IA Troba la Biologia',
 };
 
@@ -35,41 +35,45 @@ const researchAreas: Record<Lang, Array<{ title: string; description: string; co
   ],
   es: [
     {
-      title: 'Proteinas Antimicrobianas',
-      description: 'Ingenieria de proteinas recombinantes multidominio y peptidos de defensa para combatir patogenos resistentes. Enfoque en nanoclusters proteicos y aplicaciones antibiofilm.',
+      title: 'Proteínas Antimicrobianas',
+      description: 'Ingeniería de proteínas recombinantes multidominio y péptidos de defensa para combatir patógenos resistentes. Enfoque en nanoclusters proteicos y aplicaciones antibiofilm.',
       color: '#DA291C',
     },
     {
-      title: 'Vectores de Terapia Genica',
-      description: 'Evolucion dirigida de capsidas para vectores AAV mejorados. Aplicaciones en generacion de CAR-T y terapia genica hepatica con modelos de perfusion ex situ.',
+      title: 'Vectores de Terapia Génica',
+      description: 'Evolución dirigida de cápsidas para vectores AAV mejorados. Aplicaciones en generación de CAR-T y terapia génica hepática con modelos de perfusión ex situ.',
       color: '#C4956A',
     },
     {
-      title: 'Diseno Computacional',
-      description: 'Ingenieria de proteinas asistida por IA combinando diseno guiado por estructura con validacion experimental rapida para comprimir ciclos y acelerar el desarrollo terapeutico.',
+      title: 'Diseño Computacional',
+      description: 'Ingeniería de proteínas asistida por IA combinando diseño guiado por estructura con validación experimental rápida para comprimir ciclos y acelerar el desarrollo terapéutico.',
       color: '#8B95A3',
     },
   ],
   ca: [
     {
-      title: 'Proteines Antimicrobianes',
-      description: 'Enginyeria de proteines recombinants multidomini i peptids de defensa per combatre patbgens resistents. Enfocament en nanoclusters proteics i aplicacions antibiofilm.',
+      title: 'Proteïnes Antimicrobianes',
+      description: 'Enginyeria de proteïnes recombinants multidomini i pèptids de defensa per combatre patògens resistents. Enfocament en nanoclusters proteics i aplicacions antibiofilm.',
       color: '#DA291C',
     },
     {
       title: 'Vectors de Teràpia Gènica',
-      description: 'Evolucio dirigida de capsides per a vectors AAV millorats. Aplicacions en generacio de CAR-T i teràpia gènica hepàtica amb models de perfusio ex situ.',
+      description: 'Evolució dirigida de càpsides per a vectors AAV millorats. Aplicacions en generació de CAR-T i teràpia gènica hepàtica amb models de perfusió ex situ.',
       color: '#C4956A',
     },
     {
       title: 'Disseny Computacional',
-      description: 'Enginyeria de proteines assistida per IA combinant disseny guiat per estructura amb validacio experimental rapida per comprimir cicles i accelerar el desenvolupament terapèutic.',
+      description: 'Enginyeria de proteïnes assistida per IA combinant disseny guiat per estructura amb validació experimental ràpida per comprimir cicles i accelerar el desenvolupament terapèutic.',
       color: '#8B95A3',
     },
   ],
 };
 
-const keywords = ['AI', 'AMR', 'Gene Therapy', 'Capsid Engineering', 'Protein Design', 'AAV'];
+const keywords: Record<Lang, string[]> = {
+  en: ['AI', 'AMR', 'Gene Therapy', 'Capsid Engineering', 'Protein Design', 'AAV'],
+  es: ['IA', 'AMR', 'Terapia Génica', 'Ingeniería de Cápsidas', 'Diseño de Proteínas', 'AAV'],
+  ca: ['IA', 'AMR', 'Teràpia Gènica', 'Enginyeria de Càpsides', 'Disseny de Proteïnes', 'AAV'],
+};
 
 const areas = researchAreas[lang] || researchAreas.en;
 ---
@@ -90,7 +94,7 @@ const areas = researchAreas[lang] || researchAreas.en;
     </div>
 
     <div class="ml-research__keywords">
-      {keywords.map((kw) => (
+      {(keywords[lang] || keywords.en).map((kw) => (
         <span class="ml-research__pill">{kw}</span>
       ))}
     </div>
