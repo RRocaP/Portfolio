@@ -118,10 +118,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     <!-- Inline Critical CSS - Above-the-fold performance -->
     <style>
@@ -131,9 +129,10 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --catalan-red:#DA291C;--catalan-yellow:#FFD93D;--primary:#F5F5F5;--secondary:#D4D4D4;--tertiary:#B8B8B8;--accent-red:#EF4444;--accent-red-hover:#FF5555;--accent-red-bg:rgba(220,38,38,0.10);--accent-yellow:#FFD93D;--background:#0A0A0A;--background-alt:#171717;--background-card:#1E1E1E;--background-elevated:#252525;--background-rgb:10,10,10;--accent-red-rgb:220,38,38;--border:#333333;--border-light:#404040;--border-red:rgba(218,41,28,0.3);
         
         /* Typography System - Unified Font Stack */
-        --font-primary:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
-        --font-display:'Outfit','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-        --font-mono:'SF Mono',Monaco,'Cascadia Code','Roboto Mono',Consolas,'Courier New',monospace;
+        --font-primary:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+        --font-display:'Source Serif 4',Georgia,'Times New Roman',serif;
+        --font-body:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+        --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
         
         /* Typography Scale - Major Third (1.25) + Fluid Sizing */
         --text-xs:0.75rem;--text-sm:0.875rem;--text-base:1rem;--text-lg:1.125rem;--text-xl:1.25rem;--text-2xl:1.5rem;--text-3xl:1.875rem;--text-4xl:2.25rem;--text-5xl:3rem;--text-6xl:4rem;
@@ -153,8 +152,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         /* Animation */
         --anim-duration-fast:200ms;--anim-duration-base:300ms;--anim-duration-slow:500ms;--anim-easing-default:cubic-bezier(0.4,0,0.2,1);
         
-        /* Glass Effect */
-        --glass-bg:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.1);--glass-blur:16px;
+        /* Surfaces — no glass morphism */
+        --glass-bg:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--glass-blur:0px;
         
         /* Z-Index */
         --z-base:0;--z-dropdown:100;--z-sticky:200;--z-modal:300;--z-toast:400;
@@ -214,8 +213,14 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       /* Ensure all headings can wrap properly */
       h1,h2,h3,h4,h5,h6{overflow-wrap:break-word;word-wrap:break-word;hyphens:auto;max-width:100%}
       
+      /* Grain texture overlay */
+      body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+
+      /* Scroll progress bar */
+      .scroll-progress{position:fixed;top:0;left:0;width:0%;height:2px;background:var(--accent-red,#DA291C);z-index:10000;transition:width 0.1s linear}
+
       /* Critical Components */
-      .glass{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-border)}
+      .glass{background:var(--glass-bg);border:1px solid var(--glass-border)}
       .gpu-accelerated{transform:translateZ(0);backface-visibility:hidden;perspective:1000px}
       .will-change-transform{will-change:transform}
       .will-change-opacity{will-change:opacity}
@@ -228,8 +233,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       /* Navigation */
       .nav-premium{
         position:fixed;top:0;left:0;right:0;z-index:var(--z-sticky);
-        background:radial-gradient(120% 100% at 50% -20%,rgba(15,15,15,0.75) 0%,rgba(10,10,10,0.7) 100%);
-        backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.05);
+        background:rgba(8,11,17,0.92);
+        border-bottom:1px solid rgba(255,255,255,0.06);
         transition:transform var(--anim-duration-base) var(--anim-easing-default);
         will-change:transform;
       }
@@ -246,8 +251,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         position:relative;overflow:hidden;outline:none;cursor:pointer;border:none;
       }
       .btn:focus-visible{box-shadow:0 0 0 3px rgba(239,68,68,.45),0 0 0 5px rgba(255,255,255,.15)}
-      .btn-primary{background:var(--accent-red);color:#FFFFFF;border:1px solid var(--accent-red);box-shadow:0 8px 30px rgba(220,38,38,0.25)}
-      .btn-primary:hover{background:var(--accent-red-hover);box-shadow:0 10px 40px rgba(220,38,38,0.3);transform:translateY(-2px)}
+      .btn-primary{background:transparent;color:var(--text-primary,#EAEDF2);border:1px solid var(--accent-red,#DA291C)}
+      .btn-primary:hover{background:var(--accent-red);color:#ffffff;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
       
       /* Responsive - Enhanced mobile support */
       @media(max-width:768px){
@@ -295,8 +300,7 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       <link rel="stylesheet" href={`${base}styles/optimized-accessibility.css`}>
     </noscript>
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     </noscript>
     
     <!-- Theme overrides (navy + navy-gold) -->
@@ -314,35 +318,55 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --accent-yellow:#fbbf24; --accent-red-rgb:30,64,175;
       }
       [data-theme='ml-native']{
-        --background:#070a12;
-        --background-alt:#0f1729;
-        --background-card:#111827;
-        --background-elevated:#1E293B;
-        --surface-glass:rgba(15,23,42,0.6);
+        /* Typography — Precision Science */
+        --font-display:'Source Serif 4',Georgia,'Times New Roman',serif;
+        --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+        --font-primary:'DM Sans',system-ui,-apple-system,sans-serif;
+        --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+
+        /* Colors — warm dark palette */
+        --bg-base:#080B11;
+        --bg-surface:#0E1219;
+        --bg-elevated:#141A24;
+        --background:#080B11;
+        --background-alt:#0E1219;
+        --background-card:#141A24;
+        --background-elevated:#1A2232;
+        --border-subtle:rgba(255,255,255,0.06);
+        --border-default:rgba(255,255,255,0.10);
+        --border:rgba(255,255,255,0.06);
+        --border-light:rgba(255,255,255,0.10);
+
+        --text-primary:#EAEDF2;
+        --text-secondary:#B8BFC9;
+        --text-muted:#8B95A3;
+        --text-light:#6B7280;
+        --primary:#EAEDF2;
+
         --accent-red:#DA291C;
+        --accent-warm:#C4956A;
+        --accent-yellow:#D4A843;
+        --accent-green:#4ADE80;
         --accent-red-text:#EF4444;
         --accent-red-hover:#F87171;
         --accent-red-bg:rgba(218,41,28,0.12);
-        --accent-yellow:#FFD93D;
         --accent-red-rgb:218,41,28;
-        --border:rgba(148,163,184,0.08);
-        --border-light:rgba(148,163,184,0.12);
-        --text-primary:#F1F5F9;
-        --text-secondary:#CBD5E1;
-        --text-light:#A8B8CB;
-        --text-muted:#9BADC8;
-        --primary:#F1F5F9;
         --terminal-green:#4ADE80;
-        --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+
         --section-padding:clamp(5rem,10vh,8rem);
-        --card-radius:16px;
-        --card-radius-lg:20px;
+        --card-radius:8px;
+        --card-radius-lg:12px;
       }
+      [data-theme='ml-native'] body{font-family:var(--font-body)}
+      [data-theme='ml-native'] h1,[data-theme='ml-native'] h2,[data-theme='ml-native'] h3,[data-theme='ml-native'] h4,[data-theme='ml-native'] h5,[data-theme='ml-native'] h6{font-family:var(--font-display)}
       [data-theme='ml-native'] .section{padding:var(--section-padding) 0}
-      [data-theme='ml-native'] .section + .section{border-top:1px solid var(--border)}
+      [data-theme='ml-native'] .section + .section{border-top:none}
     </style>
   </head>
   <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" aria-hidden="true"></div>
+
     <!-- Core Web Vitals Optimizer - High Priority -->
     <CoreWebVitalsOptimizer />
     
@@ -398,6 +422,20 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
 
     <!-- Performance Monitor Component -->
     <PerformanceMonitor />
+
+    <!-- Scroll Progress + GSAP Init -->
+    <script>
+      // Scroll progress bar
+      const progressBar = document.querySelector('.scroll-progress') as HTMLElement;
+      if (progressBar) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          progressBar.style.width = `${progress}%`;
+        }, { passive: true });
+      }
+    </script>
   </body>
 </html>
 <!-- Removed stray global style block below; theme overrides are now in <head> -->

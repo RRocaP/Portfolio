@@ -21,7 +21,6 @@ const metricLabels: Record<Lang, { citations: string; hIndex: string; publicatio
 
 const labels = metricLabels[lang] || metricLabels.en;
 
-// Citation data by year (approximate from publication record)
 const yearData = [
   { year: '2018', count: 1, height: 8 },
   { year: '2020', count: 5, height: 35 },
@@ -31,39 +30,37 @@ const yearData = [
   { year: '2024', count: 2, height: 15 },
   { year: '2025', count: 1, height: 8 },
 ];
-
-const maxHeight = 100; // percent
 ---
 
 <section id="impact" class="ml-impact section" aria-labelledby="impact-heading">
   <div class="container">
-    <div data-animate="fade-up">
-      <h2 id="impact-heading" class="ml-impact__heading">{sectionHeading[lang]}</h2>
-      <div class="ml-impact__accent" aria-hidden="true"></div>
-    </div>
+    <h2 id="impact-heading" class="ml-impact__heading">{sectionHeading[lang]}</h2>
 
-    <!-- Metrics row (top) -->
-    <div class="ml-impact__metrics" data-animate="fade-up" data-delay="100">
-      <div class="ml-impact__metric-card">
-        <span class="ml-impact__metric-value">291</span>
+    <!-- Oversized metric numbers in a row -->
+    <div class="ml-impact__metrics" role="list" aria-label="Key metrics">
+      <div class="ml-impact__metric" role="listitem">
+        <span class="ml-impact__metric-value" data-counter-impact="291">291</span>
         <span class="ml-impact__metric-label">{labels.citations}</span>
       </div>
-      <div class="ml-impact__metric-card">
-        <span class="ml-impact__metric-value">9</span>
+      <div class="ml-impact__metric-divider" aria-hidden="true"></div>
+      <div class="ml-impact__metric" role="listitem">
+        <span class="ml-impact__metric-value" data-counter-impact="9">9</span>
         <span class="ml-impact__metric-label">{labels.hIndex}</span>
       </div>
-      <div class="ml-impact__metric-card">
-        <span class="ml-impact__metric-value">16</span>
+      <div class="ml-impact__metric-divider" aria-hidden="true"></div>
+      <div class="ml-impact__metric" role="listitem">
+        <span class="ml-impact__metric-value" data-counter-impact="16">16</span>
         <span class="ml-impact__metric-label">{labels.publications}</span>
       </div>
-      <div class="ml-impact__metric-card">
-        <span class="ml-impact__metric-value">7</span>
+      <div class="ml-impact__metric-divider" aria-hidden="true"></div>
+      <div class="ml-impact__metric" role="listitem">
+        <span class="ml-impact__metric-value" data-counter-impact="7">7</span>
         <span class="ml-impact__metric-label">{labels.firstAuthor}</span>
       </div>
     </div>
 
-    <!-- Full-width chart (below) -->
-    <div class="ml-impact__chart" data-animate="fade-up" data-delay="200" role="img" aria-label="Publications by year bar chart">
+    <!-- SVG area chart -->
+    <div class="ml-impact__chart" role="img" aria-label="Publications by year">
       <div class="ml-impact__chart-bars">
         {yearData.map((d) => (
           <div class="ml-impact__bar-group">
@@ -86,82 +83,68 @@ const maxHeight = 100; // percent
 
 <style>
   .ml-impact {
-    background: var(--background-alt, #0f1729);
+    background: var(--bg-surface, #0E1219);
+    padding: var(--section-padding, 6rem) 0;
   }
 
   .ml-impact__heading {
-    font-family: var(--font-display, 'Outfit', sans-serif);
-    font-weight: 700;
-    font-size: clamp(2rem, 4.5vw, 2.75rem);
-    color: var(--text-primary, #F1F5F9);
-    text-align: center;
-    margin-bottom: 0.5rem;
+    font-family: var(--font-display, 'Source Serif 4', serif);
+    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--text-primary, #EAEDF2);
+    margin-bottom: 3rem;
+    letter-spacing: -0.01em;
   }
 
-  .ml-impact__accent {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-red, #DA291C) 0%, var(--accent-yellow, #FFD93D) 100%);
-    margin: 0 auto 3rem;
-    border-radius: 2px;
-  }
-
-  /* Metrics row — 4 columns on top */
+  /* Oversized metric numbers — no cards, just numbers with dividers */
   .ml-impact__metrics {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 3.5rem;
+    flex-wrap: wrap;
   }
 
-  .ml-impact__metric-card {
-    background: var(--surface-glass, rgba(15,23,42,0.6));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border-light, rgba(148,163,184,0.12));
-    border-radius: var(--card-radius, 16px);
-    padding: 1.75rem;
+  .ml-impact__metric {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    transition: border-color 0.2s ease, transform 0.3s ease;
+    padding: 0 2.5rem;
   }
 
-  .ml-impact__metric-card:hover {
-    border-color: rgba(148,163,184,0.18);
-    transform: translateY(-2px);
+  .ml-impact__metric-divider {
+    width: 1px;
+    height: 64px;
+    background: rgba(255,255,255,0.08);
+    flex-shrink: 0;
   }
 
   .ml-impact__metric-value {
-    font-family: var(--font-mono, monospace);
-    font-weight: 800;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-family: var(--font-display, 'Source Serif 4', serif);
+    font-weight: 700;
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: var(--accent-warm, #C4956A);
     line-height: 1;
-    background: linear-gradient(135deg, var(--text-primary, #F1F5F9) 0%, var(--accent-red-text, #EF4444) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.02em;
   }
 
   .ml-impact__metric-label {
-    font-family: var(--font-primary, sans-serif);
-    font-size: 0.8125rem;
-    color: var(--text-muted, #8494A7);
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 0.75rem;
+    color: var(--text-muted, #8B95A3);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.08em;
+    margin-top: 0.5rem;
+    font-variant: small-caps;
   }
 
-  /* Full-width chart below */
+  /* Simple bar chart — warm accent */
   .ml-impact__chart {
-    background: var(--surface-glass, rgba(15,23,42,0.6));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border-light, rgba(148,163,184,0.12));
-    border-radius: var(--card-radius, 16px);
-    padding: 2rem;
-    min-height: 280px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 2rem;
+    min-height: 240px;
   }
 
   .ml-impact__chart-bars {
@@ -169,7 +152,7 @@ const maxHeight = 100; // percent
     align-items: flex-end;
     justify-content: space-between;
     gap: 0.75rem;
-    height: 200px;
+    height: 180px;
   }
 
   .ml-impact__bar-group {
@@ -190,37 +173,112 @@ const maxHeight = 100; // percent
   }
 
   .ml-impact__bar {
-    width: 80%;
-    max-width: 48px;
-    background: linear-gradient(180deg, var(--accent-red, #DA291C) 0%, rgba(218, 41, 28, 0.4) 100%);
-    border-radius: 6px 6px 0 0;
+    width: 70%;
+    max-width: 40px;
+    background: var(--accent-warm, #C4956A);
+    opacity: 0.7;
+    border-radius: 3px 3px 0 0;
     position: relative;
     min-height: 4px;
-    transition: height 0.6s ease;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .ml-impact__bar:hover {
+    opacity: 1;
   }
 
   .ml-impact__bar-count {
     font-family: var(--font-mono, monospace);
     font-size: 0.6875rem;
-    font-weight: 700;
-    color: var(--text-primary, #F1F5F9);
+    font-weight: 600;
+    color: var(--text-secondary, #B8BFC9);
     position: absolute;
     top: -1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .ml-impact__bar-label {
     font-family: var(--font-mono, monospace);
     font-size: 0.6875rem;
-    color: var(--text-muted, #8494A7);
-    letter-spacing: -0.02em;
+    color: var(--text-muted, #8B95A3);
   }
 
   @media (max-width: 768px) {
     .ml-impact__metrics {
-      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .ml-impact__metric {
+      padding: 0 1.25rem;
+    }
+
+    .ml-impact__metric-divider {
+      height: 40px;
+    }
+
+    .ml-impact__metric-value {
+      font-size: clamp(2rem, 8vw, 3rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ml-impact__metrics {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ml-impact__metric {
+      padding: 1rem 0;
+    }
+
+    .ml-impact__metric-divider {
+      width: 60px;
+      height: 1px;
     }
   }
 </style>
+
+<script>
+  function animateImpactCounters() {
+    const counters = document.querySelectorAll('[data-counter-impact]');
+    if (!counters.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        const target = parseInt(el.getAttribute('data-counter-impact') || '0', 10);
+
+        if (prefersReducedMotion) {
+          el.textContent = String(target);
+          observer.unobserve(el);
+          return;
+        }
+
+        const duration = 1200;
+        let startTime: number | null = null;
+
+        function step(timestamp: number) {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = String(Math.round(eased * target));
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        el.textContent = '0';
+        requestAnimationFrame(step);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+
+    counters.forEach((c) => observer.observe(c));
+  }
+
+  document.addEventListener('DOMContentLoaded', animateImpactCounters);
+  document.addEventListener('astro:page-load', animateImpactCounters);
+  if (document.readyState !== 'loading') animateImpactCounters();
+</script>

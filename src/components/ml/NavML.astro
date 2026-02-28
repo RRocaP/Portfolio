@@ -59,16 +59,14 @@ const navLinks = [
     left: 0;
     right: 0;
     z-index: 200;
-    background: rgba(7, 10, 18, 0.85);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid transparent;
+    background: rgba(8, 11, 17, 0.92);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     transition: background 0.3s ease, border-color 0.3s ease;
   }
 
   .ml-nav--scrolled {
-    background: rgba(7, 10, 18, 0.95);
-    border-bottom-color: var(--border, rgba(148,163,184,0.08));
+    background: rgba(8, 11, 17, 0.97);
+    border-bottom-color: rgba(255,255,255,0.10);
   }
 
   .ml-nav__inner {
@@ -110,10 +108,10 @@ const navLinks = [
   }
 
   .ml-nav__link {
-    font-family: var(--font-primary, sans-serif);
+    font-family: var(--font-body, 'DM Sans', sans-serif);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-primary, #F1F5F9);
+    color: var(--text-primary, #EAEDF2);
     text-decoration: none;
     border-bottom: none;
     transition: color 0.2s ease;
@@ -154,41 +152,58 @@ const navLinks = [
   }
 
   .ml-nav__lang {
-    display: flex;
-    gap: 0.25rem;
+    display: flex !important;
+    gap: 0.375rem;
     margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 1px solid var(--border, #1f2a44);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    align-items: center;
   }
 
   .ml-nav__lang-btn {
-    font-family: var(--font-mono, monospace);
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-secondary, #CBD5E1);
-    text-decoration: none;
-    border-bottom: none;
-    padding: 0.25rem 0.5rem;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #EAEDF2 !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 0.25rem 0.625rem !important;
     border-radius: 4px;
     transition: all 0.2s ease;
+    min-height: auto !important;
+    min-width: auto !important;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    transform: none !important;
   }
 
   .ml-nav__lang-btn:hover {
-    color: var(--text-primary, #E5E7EB);
-    background: rgba(255, 255, 255, 0.05);
-    transform: none;
-    border-bottom: none;
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    transform: none !important;
+    text-decoration: none !important;
   }
 
   .ml-nav__lang-btn--active {
-    color: var(--accent-red-text, #EF4444);
-    background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
+    color: #FFFFFF !important;
+    background: rgba(218, 41, 28, 0.20);
+    border-color: rgba(218, 41, 28, 0.5) !important;
+  }
+
+  .ml-nav__lang-btn--active:hover {
+    background: rgba(218, 41, 28, 0.30);
+    border-color: rgba(218, 41, 28, 0.6) !important;
   }
 
   .ml-nav__lang-btn:focus-visible {
     outline: 2px solid var(--accent-red, #DA291C);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   .ml-nav__mobile-toggle {
@@ -235,13 +250,11 @@ const navLinks = [
       top: 3.5rem;
       left: 0;
       right: 0;
-      background: rgba(7, 10, 18, 0.98);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(8, 11, 17, 0.98);
       flex-direction: column;
       padding: 1.5rem;
       gap: 1rem;
-      border-bottom: 1px solid var(--border, #1f2a44);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
     .ml-nav__links.is-open {
@@ -257,8 +270,16 @@ const navLinks = [
       margin-left: 0;
       padding-left: 0;
       border-left: none;
-      padding-top: 0.5rem;
-      border-top: 1px solid var(--border, #1f2a44);
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      justify-content: center;
+    }
+
+    .ml-nav__lang-btn {
+      font-size: 0.875rem !important;
+      padding: 0.5rem 1rem !important;
+      min-height: auto !important;
+      min-width: auto !important;
     }
 
     .ml-nav__mobile-toggle {

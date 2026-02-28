@@ -18,78 +18,24 @@ import Footer from '../../components/Footer.astro';
 >
   <main>
     <HeroInteractive lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <AboutSection lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <ResearchIdentity lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <ImpactDashboard lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <PublicationList lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <CareerTimeline lang="ca" />
+    <div class="section-divider"><span class="section-divider__ornament"></span></div>
     <TerminalContact lang="ca" />
   </main>
 
   <Footer />
 </Layout>
 
-<style>
-  html {
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-</style>
-
-<script>
-  function initAnimations() {
-    const els = document.querySelectorAll('[data-animate]');
-    if (!els.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            const delay = parseInt(el.dataset.delay || '0', 10);
-            setTimeout(() => {
-              el.classList.add('is-visible');
-            }, delay);
-            observer.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    els.forEach((el) => observer.observe(el));
-  }
-
-  document.addEventListener('DOMContentLoaded', initAnimations);
-  document.addEventListener('astro:page-load', initAnimations);
-  if (document.readyState !== 'loading') initAnimations();
-</script>
-
 <style is:global>
-  [data-animate] {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  [data-animate].is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-animate] {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-
   .container {
     max-width: 1280px;
     margin: 0 auto;
@@ -98,5 +44,34 @@ import Footer from '../../components/Footer.astro';
 
   .section {
     position: relative;
+  }
+
+  .section + .section {
+    border-top: none;
+  }
+
+  .section-divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .section-divider__ornament {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-red, #DA291C);
+    transform: rotate(45deg);
+    margin: 0 1rem;
+    flex-shrink: 0;
   }
 </style>

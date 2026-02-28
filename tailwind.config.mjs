@@ -7,29 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0A0A0A',
-        'background-alt': '#171717',
-        'accent-red': '#DC2626',
-        'accent-red-hover': '#EF4444',
+        'bg-base': '#080B11',
+        'bg-surface': '#0E1219',
+        'bg-elevated': '#141A24',
+        background: '#080B11',
+        'background-alt': '#0E1219',
+        'accent-red': '#DA291C',
+        'accent-warm': '#C4956A',
+        'accent-yellow': '#D4A843',
+        'accent-green': '#4ADE80',
       },
-      animation: {
-        'slow-drift': 'slow-drift 16s ease-in-out infinite',
-        'slow-drift-2': 'slow-drift-2 18s ease-in-out infinite',
-      },
-      keyframes: {
-        'slow-drift': {
-          '0%': { transform: 'translate3d(0,0,0) rotate(0deg)' },
-          '50%': { transform: 'translate3d(2vw,-1vh,0) rotate(-2deg)' },
-          '100%': { transform: 'translate3d(0,0,0) rotate(0deg)' },
-        },
-        'slow-drift-2': {
-          '0%': { transform: 'translate3d(0,0,0)' },
-          '50%': { transform: 'translate3d(-1vw,1vh,0)' },
-          '100%': { transform: 'translate3d(0,0,0)' },
-        },
+      fontFamily: {
+        display: ['"Source Serif 4"', 'Georgia', '"Times New Roman"', 'serif'],
+        body: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"SF Mono"', 'Monaco', 'monospace'],
       },
     },
   },
   plugins: [],
 }
-

@@ -70,8 +70,9 @@
   --tracking-wider: 0.05em;     /* Captions, small text */
   --tracking-widest: 0.1em;     /* All caps, metadata */
   
-  /* Font Families - System Font Stack */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  /* Font Families — Precision Science */
+  --font-primary: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
   /* Standardized Spacing System */
   --space-xs: 0.5rem;     /* 8px - Micro spacing */
@@ -84,8 +85,8 @@
   --content-gap-sm: 2rem;   /* 32px - Between elements */
   --content-gap-md: 3rem;   /* 48px - Between groups */
   --content-gap-lg: 4rem;   /* 64px - Between sections */
-  --font-display: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
 
   /* Extended Spacing Scale - Based on 8px grid */
   --space-px: 1px;
