@@ -59,14 +59,15 @@ const navLinks = [
     left: 0;
     right: 0;
     z-index: 200;
-    background: rgba(8, 11, 17, 0.92);
+    background: var(--bg-base, #080B11);
     border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .ml-nav--scrolled {
-    background: rgba(8, 11, 17, 0.97);
+    background: var(--bg-surface, #0E1219);
     border-bottom-color: rgba(255,255,255,0.10);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
   }
 
   .ml-nav__inner {
@@ -124,11 +125,11 @@ const navLinks = [
     bottom: -4px;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 1px;
     background: var(--accent-red, #DA291C);
     transform: scaleX(0);
     transform-origin: center;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .ml-nav__link--active {
@@ -250,7 +251,7 @@ const navLinks = [
       top: 3.5rem;
       left: 0;
       right: 0;
-      background: rgba(8, 11, 17, 0.98);
+      background: var(--bg-surface, #0E1219);
       flex-direction: column;
       padding: 1.5rem;
       gap: 1rem;

@@ -227,12 +227,16 @@ const linksLabel: Record<Lang, string> = {
     color: var(--accent-warm, #C4956A);
     text-decoration: none;
     border-bottom: none;
-    transition: color 0.2s ease;
+    transition: all 0.15s ease;
     word-break: break-all;
+    padding: 0 3px;
+    margin: 0 -3px;
+    border-radius: 2px;
   }
 
   .ml-terminal__link:hover {
-    color: var(--text-primary, #EAEDF2);
+    background-color: var(--text-primary, #EAEDF2);
+    color: var(--bg-base, #080B11);
     transform: none;
     border-bottom: none;
   }

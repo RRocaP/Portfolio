@@ -180,11 +180,17 @@ const yearData = [
     border-radius: 3px 3px 0 0;
     position: relative;
     min-height: 4px;
-    transition: opacity 0.2s ease;
+    transform-origin: bottom;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  .ml-impact__bar:hover {
+  .ml-impact__chart-bars:hover .ml-impact__bar {
+    opacity: 0.3;
+  }
+
+  .ml-impact__chart-bars .ml-impact__bar:hover {
     opacity: 1;
+    transform: scaleY(1.05);
   }
 
   .ml-impact__bar-count {

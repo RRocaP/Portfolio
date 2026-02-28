@@ -98,23 +98,24 @@ const sectionHeading: Record<Lang, string> = {
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--card-radius, 8px);
     padding: 1.5rem 1.75rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, border-left-width 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     border-left: 3px solid transparent;
   }
 
   .ml-about__card--1 { border-left-color: #DA291C; }
-  .ml-about__card--2 { border-left-color: #3B82F6; }
-  .ml-about__card--3 { border-left-color: #22C55E; }
+  .ml-about__card--2 { border-left-color: #C4956A; }
+  .ml-about__card--3 { border-left-color: #8B95A3; }
 
   .ml-about__card:hover {
-    border-color: rgba(255,255,255,0.10);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.15);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.5);
     border-left-width: 4px;
+    transform: translateY(-4px);
   }
 
   .ml-about__card--1:hover { border-left-color: #DA291C; }
-  .ml-about__card--2:hover { border-left-color: #3B82F6; }
-  .ml-about__card--3:hover { border-left-color: #22C55E; }
+  .ml-about__card--2:hover { border-left-color: #C4956A; }
+  .ml-about__card--3:hover { border-left-color: #8B95A3; }
 
   .ml-about__card-title {
     font-family: var(--font-display, 'Source Serif 4', serif);
