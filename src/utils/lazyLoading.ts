@@ -235,11 +235,8 @@ export function initLazyLoading(): void {
   // Lazy load images
   lazyLoadImages();
   
-  // Preload critical fonts
-  preloadCriticalResources([
-    '/fonts/Inter-Variable.woff2',
-    '/fonts/Outfit-Variable.woff2'
-  ]);
+  // Fonts are loaded from Google Fonts CDN via Layout.astro
+  // No local font preloading needed
   
   // Progressive enhancement for protein visualizations
   progressiveEnhancement(
