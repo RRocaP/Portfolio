@@ -76,7 +76,7 @@ const dotColors = ['#DA291C', '#C4956A', '#8B95A3', '#D4A843', '#DA291C'];
     font-weight: 600;
     font-size: clamp(2rem, 4vw, 3rem);
     color: var(--text-primary, #EAEDF2);
-    margin-bottom: 3rem;
+    margin-bottom: var(--heading-gap);
     letter-spacing: -0.01em;
   }
 
@@ -115,7 +115,7 @@ const dotColors = ['#DA291C', '#C4956A', '#8B95A3', '#D4A843', '#DA291C'];
     right: 0;
     top: 50%;
     height: 1px;
-    background: rgba(255,255,255,0.10);
+    background: var(--border-default);
     transform: translateY(-50%);
   }
 
@@ -140,14 +140,14 @@ const dotColors = ['#DA291C', '#C4956A', '#8B95A3', '#D4A843', '#DA291C'];
     transform: translate(-50%, -50%);
     z-index: 2;
     box-shadow: 0 0 0 3px var(--bg-surface, #0E1219);
-    border: 2px solid rgba(255,255,255,0.12);
+    border: 2px solid var(--border-moderate);
   }
 
   .ml-timeline__stem {
     position: absolute;
     left: 50%;
     width: 1px;
-    background: rgba(255,255,255,0.08);
+    background: var(--border-muted);
     transform: translateX(-50%);
   }
 
@@ -181,14 +181,14 @@ const dotColors = ['#DA291C', '#C4956A', '#8B95A3', '#D4A843', '#DA291C'];
 
   .ml-timeline__card {
     background: var(--bg-elevated, #141A24);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--card-radius, 8px);
     padding: 1.25rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
   }
 
   .ml-timeline__card:hover {
-    border-color: rgba(255,255,255,0.12);
+    border-color: var(--border-moderate);
     box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
 

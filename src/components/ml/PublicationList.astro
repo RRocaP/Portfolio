@@ -162,14 +162,14 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
   /* Ruled rows */
   .ml-pubs__row {
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid var(--border-subtle);
     padding: 1rem 0 1rem 0;
-    transition: transform 0.2s ease, border-left-color 0.2s ease;
+    transition: transform var(--transition-base) var(--ease-default), border-left-color var(--transition-base) var(--ease-default);
     border-left: 3px solid transparent;
   }
 
   .ml-pubs__year-entries .ml-pubs__row:last-child {
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .ml-pubs__row:hover {
@@ -199,7 +199,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
     color: var(--text-primary, #EAEDF2);
     text-decoration: none;
     border-bottom: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-base) var(--ease-default);
   }
 
   .ml-pubs__title-link:hover {
@@ -294,7 +294,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
     color: var(--accent-warm, #C4956A);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
+    transition: border-color var(--transition-base) var(--ease-default);
     padding: 0.5rem 0;
   }
 
@@ -323,7 +323,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
       position: static;
       padding-top: 1.5rem;
       padding-bottom: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .ml-pubs__row {

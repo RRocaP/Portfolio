@@ -118,6 +118,38 @@ const publicationSchema = {
 </article>
 
 <style>
+  .publication-card {
+    position: relative;
+    overflow: hidden;
+    /* Use premium easing for transforms */
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  .publication-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+      rgba(255, 255, 255, 0.08),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .publication-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Make sure content stays above the glow */
+  .publication-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .publication-card:focus-within {
     outline: 2px solid var(--accent-red);
     outline-offset: 2px;
@@ -140,3 +172,29 @@ const publicationSchema = {
     }
   }
 </style>
+
+<script>
+  function initCardGlow() {
+    document.querySelectorAll('.publication-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        // @ts-ignore
+        const rect = card.getBoundingClientRect();
+        // @ts-ignore
+        const x = e.clientX - rect.left;
+        // @ts-ignore
+        const y = e.clientY - rect.top;
+        
+        // @ts-ignore
+        card.style.setProperty('--mouse-x', `${x}px`);
+        // @ts-ignore
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  }
+
+  // Run on initial load
+  initCardGlow();
+  
+  // Run on Astro page transitions
+  document.addEventListener('astro:page-load', initCardGlow);
+</script>

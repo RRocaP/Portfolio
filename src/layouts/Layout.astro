@@ -328,23 +328,31 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --bg-base:#080B11;
         --bg-surface:#0E1219;
         --bg-elevated:#141A24;
-        --background:#080B11;
-        --background-alt:#0E1219;
-        --background-card:#141A24;
+        --background:var(--bg-base);
+        --background-alt:var(--bg-surface);
+        --background-card:var(--bg-elevated);
         --background-elevated:#1A2232;
+
+        /* Borders — canonical tokens */
         --border-subtle:rgba(255,255,255,0.06);
         --border-default:rgba(255,255,255,0.10);
-        --border:rgba(255,255,255,0.06);
-        --border-light:rgba(255,255,255,0.10);
+        --border-muted:rgba(255,255,255,0.08);
+        --border-moderate:rgba(255,255,255,0.12);
+        --border-emphasis:rgba(255,255,255,0.15);
+        --border:var(--border-subtle);
+        --border-light:var(--border-default);
 
+        /* Text */
         --text-primary:#EAEDF2;
         --text-secondary:#B8BFC9;
         --text-muted:#8B95A3;
         --text-light:#6B7280;
         --primary:#EAEDF2;
 
+        /* Accents */
         --accent-red:#DA291C;
         --accent-warm:#C4956A;
+        --accent-warm-rgb:196,149,106;
         --accent-yellow:#D4A843;
         --accent-green:#4ADE80;
         --accent-red-text:#EF4444;
@@ -353,6 +361,17 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --accent-red-rgb:218,41,28;
         --terminal-green:#4ADE80;
 
+        /* Transitions */
+        --transition-fast:0.15s;
+        --transition-base:0.2s;
+        --transition-moderate:0.3s;
+        --ease-default:ease;
+        --ease-out-expo:cubic-bezier(0.25,1,0.5,1);
+        --ease-out-quint:cubic-bezier(0.16,1,0.3,1);
+
+        /* Spacing */
+        --heading-gap:2.5rem;
+        --heading-gap-tight:1.5rem;
         --section-padding:clamp(5rem,10vh,8rem);
         --card-radius:8px;
         --card-radius-lg:12px;
@@ -361,6 +380,9 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       [data-theme='ml-native'] h1,[data-theme='ml-native'] h2,[data-theme='ml-native'] h3,[data-theme='ml-native'] h4,[data-theme='ml-native'] h5,[data-theme='ml-native'] h6{font-family:var(--font-display)}
       [data-theme='ml-native'] .section{padding:var(--section-padding) 0}
       [data-theme='ml-native'] .section + .section{border-top:none}
+      [data-theme='ml-native'] .section[data-reveal]{opacity:0;transform:translateY(20px);transition:opacity 0.6s var(--ease-out-expo,cubic-bezier(0.25,1,0.5,1)),transform 0.6s var(--ease-out-expo,cubic-bezier(0.25,1,0.5,1))}
+      [data-theme='ml-native'] .section[data-reveal].is-visible{opacity:1;transform:none}
+      @media(prefers-reduced-motion:reduce){[data-theme='ml-native'] .section[data-reveal]{opacity:1;transform:none;transition:none}}
     </style>
   </head>
   <body>
@@ -423,7 +445,19 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
     <!-- Performance Monitor Component -->
     <PerformanceMonitor />
 
-    <!-- Scroll Progress + GSAP Init -->
+    <!-- Scroll-reveal observer -->
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const sections = document.querySelectorAll('.section:not(.ml-hero)');
+        sections.forEach(s => s.setAttribute('data-reveal', ''));
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObserver.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        sections.forEach(s => revealObserver.observe(s));
+      }
+    </script>
+
+    <!-- Scroll Progress -->
     <script>
       // Scroll progress bar
       const progressBar = document.querySelector('.scroll-progress') as HTMLElement;

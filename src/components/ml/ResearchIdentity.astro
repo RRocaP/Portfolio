@@ -112,7 +112,7 @@ const areas = researchAreas[lang] || researchAreas.en;
     font-weight: 600;
     font-size: clamp(2rem, 4vw, 3rem);
     color: var(--text-primary, #EAEDF2);
-    margin-bottom: 3rem;
+    margin-bottom: var(--heading-gap);
     letter-spacing: -0.01em;
   }
 
@@ -122,12 +122,12 @@ const areas = researchAreas[lang] || researchAreas.en;
   }
 
   .ml-research__row {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.2s ease;
+    border-top: 1px solid var(--border-subtle);
+    transition: background var(--transition-base) var(--ease-default);
   }
 
   .ml-research__row:last-child {
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .ml-research__row:hover {
@@ -183,11 +183,11 @@ const areas = researchAreas[lang] || researchAreas.en;
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--text-muted, #8B95A3);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--border-muted);
     border-radius: 20px;
     padding: 0.375rem 1rem;
     background: transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color var(--transition-base) var(--ease-default), color var(--transition-base) var(--ease-default);
     user-select: none;
   }
 

@@ -60,13 +60,13 @@ const navLinks = [
     right: 0;
     z-index: 200;
     background: var(--bg-base, #080B11);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background var(--transition-moderate) var(--ease-default), border-color var(--transition-moderate) var(--ease-default), box-shadow var(--transition-moderate) var(--ease-default);
   }
 
   .ml-nav--scrolled {
     background: var(--bg-surface, #0E1219);
-    border-bottom-color: rgba(255,255,255,0.10);
+    border-bottom-color: var(--border-default);
     box-shadow: 0 4px 24px rgba(0,0,0,0.6);
   }
 
@@ -84,11 +84,11 @@ const navLinks = [
     font-family: var(--font-mono, monospace);
     font-size: 1.125rem;
     font-weight: 700;
-    color: var(--text-primary, #E5E7EB);
+    color: var(--text-primary, #EAEDF2);
     text-decoration: none;
     border-bottom: none;
     letter-spacing: 0.02em;
-    transition: color 0.2s ease;
+    transition: color var(--transition-base) var(--ease-default);
   }
 
   .ml-nav__logo:hover {
@@ -115,7 +115,7 @@ const navLinks = [
     color: var(--text-primary, #EAEDF2);
     text-decoration: none;
     border-bottom: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-base) var(--ease-default);
     position: relative;
   }
 
@@ -129,11 +129,11 @@ const navLinks = [
     background: var(--accent-red, #DA291C);
     transform: scaleX(0);
     transform-origin: center;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform var(--transition-moderate) var(--ease-out-expo);
   }
 
   .ml-nav__link--active {
-    color: var(--text-primary, #F1F5F9);
+    color: var(--text-primary, #EAEDF2);
   }
 
   .ml-nav__link--active::after {
@@ -161,7 +161,7 @@ const navLinks = [
     gap: 0.375rem;
     margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid var(--border-emphasis);
     align-items: center;
   }
 
@@ -172,13 +172,13 @@ const navLinks = [
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
     font-size: 0.8125rem;
     font-weight: 600;
-    color: #EAEDF2;
+    color: var(--text-primary);
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--border-emphasis);
+    border-bottom: 1px solid var(--border-emphasis);
     padding: 0.25rem 0.625rem;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: all var(--transition-base) var(--ease-default);
     min-height: auto;
     min-width: auto;
     letter-spacing: 0.04em;
@@ -188,7 +188,7 @@ const navLinks = [
 
   .ml-nav .ml-nav__lang-btn:hover {
     color: #FFFFFF;
-    background: rgba(255, 255, 255, 0.10);
+    background: var(--border-default);
     border-color: rgba(255, 255, 255, 0.25);
     transform: none;
     text-decoration: none;
@@ -229,9 +229,9 @@ const navLinks = [
     display: block;
     width: 20px;
     height: 2px;
-    background: var(--text-primary, #E5E7EB);
+    background: var(--text-primary, #EAEDF2);
     border-radius: 1px;
-    transition: all 0.3s ease;
+    transition: all var(--transition-moderate) var(--ease-default);
   }
 
   .ml-nav__hamburger {
@@ -259,7 +259,7 @@ const navLinks = [
       flex-direction: column;
       padding: 1.5rem;
       gap: 1rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     .ml-nav__links.is-open {
@@ -276,7 +276,7 @@ const navLinks = [
       padding-left: 0;
       border-left: none;
       padding-top: 0.75rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      border-top: 1px solid var(--border-default);
       justify-content: center;
     }
 

@@ -95,10 +95,10 @@ const sectionHeading: Record<Lang, string> = {
 
   .ml-about__card {
     background: var(--bg-elevated, #141A24);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--card-radius, 8px);
     padding: 1.5rem 1.75rem;
-    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all var(--transition-moderate) var(--ease-out-expo);
     border-left: 3px solid transparent;
   }
 
@@ -107,7 +107,7 @@ const sectionHeading: Record<Lang, string> = {
   .ml-about__card--3 { border-left-color: #8B95A3; }
 
   .ml-about__card:hover {
-    border-color: rgba(255,255,255,0.15);
+    border-color: var(--border-emphasis);
     box-shadow: 0 12px 24px rgba(0,0,0,0.5);
     border-left-width: 4px;
     transform: translateY(-4px);

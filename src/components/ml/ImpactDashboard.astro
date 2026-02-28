@@ -92,7 +92,7 @@ const yearData = [
     font-weight: 600;
     font-size: clamp(2rem, 4vw, 3rem);
     color: var(--text-primary, #EAEDF2);
-    margin-bottom: 3rem;
+    margin-bottom: var(--heading-gap);
     letter-spacing: -0.01em;
   }
 
@@ -116,7 +116,7 @@ const yearData = [
   .ml-impact__metric-divider {
     width: 1px;
     height: 64px;
-    background: rgba(255,255,255,0.08);
+    background: var(--border-muted);
     flex-shrink: 0;
   }
 
@@ -142,7 +142,7 @@ const yearData = [
 
   /* Simple bar chart — warm accent */
   .ml-impact__chart {
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid var(--border-subtle);
     padding-top: 2rem;
     min-height: 240px;
   }
@@ -181,7 +181,7 @@ const yearData = [
     position: relative;
     min-height: 4px;
     transform-origin: bottom;
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity var(--transition-moderate) var(--ease-default), transform var(--transition-moderate) var(--ease-out-expo);
   }
 
   .ml-impact__chart-bars:hover .ml-impact__bar {

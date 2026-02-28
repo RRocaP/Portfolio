@@ -31,10 +31,10 @@ const labels = statLabels[lang] || statLabels.en;
   <div class="ml-hero__container">
     <div class="ml-hero__left">
       <p class="ml-hero__comment">{commentLine[lang]}</p>
-      <h1 class="ml-hero__name" data-gsap="hero-name">{t.hero.title}</h1>
-      <p class="ml-hero__tagline" data-gsap="hero-tagline">{t.hero.tagline}</p>
+      <h1 class="ml-hero__name">{t.hero.title}</h1>
+      <p class="ml-hero__tagline">{t.hero.tagline}</p>
 
-      <div class="ml-hero__actions" data-gsap="hero-actions">
+      <div class="ml-hero__actions">
         <a href="#publications" class="ml-hero__btn ml-hero__btn--primary">
           {t.nav.publications}
         </a>
@@ -44,7 +44,7 @@ const labels = statLabels[lang] || statLabels.en;
       </div>
     </div>
 
-    <div class="ml-hero__right" data-gsap="hero-stats">
+    <div class="ml-hero__right">
       <div class="ml-hero__stats" role="list" aria-label="Key metrics">
         <div class="ml-hero__stat" role="listitem">
           <span class="ml-hero__stat-number" data-counter="291">291</span>
@@ -137,7 +137,7 @@ const labels = statLabels[lang] || statLabels.en;
     font-weight: 500;
     text-decoration: none;
     border-bottom: none;
-    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all var(--transition-base) var(--ease-out-expo);
     min-height: 44px;
   }
 
@@ -152,30 +152,30 @@ const labels = statLabels[lang] || statLabels.en;
 
   /* Ghost style buttons */
   .ml-hero__btn--primary {
-    background: rgba(196, 149, 106, 0.08);
-    color: #EAEDF2;
-    border: 1px solid rgba(196, 149, 106, 0.7);
-    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    background: rgba(var(--accent-warm-rgb), 0.08);
+    color: var(--text-primary);
+    border: 1px solid rgba(var(--accent-warm-rgb), 0.7);
+    transition: background var(--transition-base) var(--ease-default), color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
   }
 
   .ml-hero__btn--primary:hover {
-    background: rgba(196, 149, 106, 0.18);
-    color: #EAEDF2;
-    box-shadow: 0 0 0 1px rgba(196, 149, 106, 0.1);
+    background: rgba(var(--accent-warm-rgb), 0.18);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 1px rgba(var(--accent-warm-rgb), 0.1);
   }
 
   .ml-hero__btn--outline {
     background: transparent;
-    color: #B8BFC9;
-    border: 1px solid rgba(196, 149, 106, 0.4);
-    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    color: var(--text-secondary);
+    border: 1px solid rgba(var(--accent-warm-rgb), 0.4);
+    transition: background var(--transition-base) var(--ease-default), border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
   }
 
   .ml-hero__btn--outline:hover {
-    border-color: rgba(196, 149, 106, 0.6);
-    background: rgba(196, 149, 106, 0.1);
-    color: #EAEDF2;
-    box-shadow: 0 0 0 1px rgba(196, 149, 106, 0.1);
+    border-color: rgba(var(--accent-warm-rgb), 0.6);
+    background: rgba(var(--accent-warm-rgb), 0.1);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 1px rgba(var(--accent-warm-rgb), 0.1);
   }
 
   /* Right column — stats as inline text with dividers */
@@ -202,7 +202,7 @@ const labels = statLabels[lang] || statLabels.en;
   .ml-hero__stat-rule {
     width: 100%;
     height: 1px;
-    background: rgba(255,255,255,0.08);
+    background: var(--border-muted);
   }
 
   .ml-hero__stat-number {
@@ -224,11 +224,11 @@ const labels = statLabels[lang] || statLabels.en;
     margin-top: 0.375rem;
   }
 
-  /* Entrance animations — CSS-only with GSAP enhancement */
+  /* Entrance animations — CSS-only */
   .ml-hero__left > * {
     opacity: 0;
     transform: translateY(24px);
-    animation: heroFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: heroFadeIn 0.7s var(--ease-out-quint) forwards;
   }
   .ml-hero__left > *:nth-child(1) { animation-delay: 0.1s; }
   .ml-hero__left > *:nth-child(2) { animation-delay: 0.2s; }
@@ -238,7 +238,7 @@ const labels = statLabels[lang] || statLabels.en;
   .ml-hero__right {
     opacity: 0;
     transform: translateX(24px);
-    animation: heroSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    animation: heroSlideIn 0.8s var(--ease-out-quint) 0.3s forwards;
   }
 
   @keyframes heroFadeIn {
