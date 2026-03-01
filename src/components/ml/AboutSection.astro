@@ -81,8 +81,8 @@ const sectionHeading: Record<Lang, string> = {
 
   .ml-about__patent {
     font-family: var(--font-body, 'DM Sans', sans-serif);
-    font-size: 0.9375rem;
-    color: var(--text-muted, #8B95A3);
+    font-size: 1rem; /* WCAG fix: was 0.9375rem (15px), now 16px for body copy readability */
+    color: var(--text-secondary, #B8BFC9); /* WCAG fix: was text-muted, bumped for body copy contrast */
     line-height: 1.65;
   }
 
@@ -104,7 +104,7 @@ const sectionHeading: Record<Lang, string> = {
 
   .ml-about__card--1 { border-left-color: #DA291C; }
   .ml-about__card--2 { border-left-color: #C4956A; }
-  .ml-about__card--3 { border-left-color: #8B95A3; }
+  .ml-about__card--3 { border-left-color: #9BA5B3; }
 
   .ml-about__card:hover {
     border-color: var(--border-emphasis);
@@ -115,7 +115,7 @@ const sectionHeading: Record<Lang, string> = {
 
   .ml-about__card--1:hover { border-left-color: #DA291C; }
   .ml-about__card--2:hover { border-left-color: #C4956A; }
-  .ml-about__card--3:hover { border-left-color: #8B95A3; }
+  .ml-about__card--3:hover { border-left-color: #9BA5B3; }
 
   .ml-about__card-title {
     font-family: var(--font-display, 'Source Serif 4', serif);
@@ -129,7 +129,7 @@ const sectionHeading: Record<Lang, string> = {
   .ml-about__card-desc {
     font-family: var(--font-body, 'DM Sans', sans-serif);
     font-size: 0.9375rem;
-    color: var(--text-muted, #8B95A3);
+    color: var(--text-secondary, #B8BFC9); /* WCAG fix: was text-muted, card desc is content text */
     line-height: 1.6;
     margin-bottom: 0;
   }

@@ -143,8 +143,8 @@ const linksLabel: Record<Lang, string> = {
 
   .ml-terminal__chrome-title {
     font-family: var(--font-mono, monospace);
-    font-size: 0.75rem;
-    color: var(--text-muted, #8B95A3);
+    font-size: 0.8125rem; /* WCAG fix: was 0.75rem (12px), now 13px */
+    color: var(--text-muted, #9BA5B3);
     margin-left: 0.5rem;
   }
 
@@ -213,7 +213,7 @@ const linksLabel: Record<Lang, string> = {
   }
 
   .ml-terminal__arrow {
-    color: var(--text-muted, #8B95A3);
+    color: var(--text-muted, #9BA5B3);
     flex-shrink: 0;
   }
 
