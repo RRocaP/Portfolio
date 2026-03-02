@@ -147,9 +147,6 @@ class AccessibilityController {
     if (!this.options.enableReducedMotion) return;
 
     this.applyReducedMotionStyles();
-    
-    // Provide animation controls
-    this.addAnimationControls();
   }
 
   /**
@@ -492,73 +489,6 @@ class AccessibilityController {
       }
     `;
     document.head.appendChild(style);
-  }
-
-  /**
-   * Add animation controls
-   */
-  private addAnimationControls(): void {
-    const controls = document.createElement('div');
-    controls.className = 'animation-controls';
-    controls.innerHTML = `
-      <button type="button" class="animation-toggle" aria-pressed="${!this.reducedMotion}">
-        <span class="sr-only">Toggle animations</span>
-        🎬
-      </button>
-    `;
-    
-    const button = controls.querySelector('.animation-toggle') as HTMLButtonElement;
-    button.addEventListener('click', this.toggleAnimations.bind(this));
-    
-    const controlsStyles = document.createElement('style');
-    controlsStyles.textContent = `
-      .animation-controls {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-      }
-      
-      .animation-toggle {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-      }
-      
-      .animation-toggle:focus {
-        outline: 3px solid #FFD93D;
-        outline-offset: 2px;
-      }
-    `;
-    
-    document.head.appendChild(controlsStyles);
-    document.body.appendChild(controls);
-  }
-
-  /**
-   * Toggle animations on/off
-   */
-  private toggleAnimations(): void {
-    this.reducedMotion = !this.reducedMotion;
-    
-    const button = document.querySelector('.animation-toggle') as HTMLButtonElement;
-    button.setAttribute('aria-pressed', (!this.reducedMotion).toString());
-    
-    if (this.reducedMotion) {
-      this.applyReducedMotionStyles();
-    } else {
-      const existingStyles = document.getElementById('reduced-motion-styles');
-      if (existingStyles) {
-        existingStyles.remove();
-      }
-    }
-    
-    this.announce(`Animations ${this.reducedMotion ? 'disabled' : 'enabled'}`);
   }
 
   /**
