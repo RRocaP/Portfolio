@@ -3,7 +3,7 @@ const { url } = Astro;
 // Determine active language from the current path
 const segments = url.pathname.split('/').filter(Boolean);
 let lang = 'en';
-// Handle both /Portfolio/en/ (GH Pages) and /en/ (Vercel) paths
+// Find language segment in path (e.g. /en/, /es/, /ca/)
 const langIdx = segments.findIndex(s => ['en','es','ca'].includes(s));
 if (langIdx >= 0) {
   lang = segments[langIdx];

@@ -20,7 +20,7 @@ export interface VideoConfig {
 }
 
 // External video hosting (could be CDN, GitHub releases, etc.)
-const VIDEO_CDN_BASE = 'https://github.com/rrocap/Portfolio/releases/download/v1.0.0-videos/';
+const VIDEO_CDN_BASE = 'https://github.com/RRocaP/RRocaP.github.io/releases/download/v1.0.0-videos/';
 
 export const HERO_VIDEO_CONFIG: VideoConfig = {
   id: 'hero-protein',

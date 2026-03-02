@@ -59,7 +59,7 @@ export interface LinkTag {
   hreflang?: string;
 }
 
-const SITE_BASE = import.meta.env.BASE_URL?.replace(/\/$/, '') || '/Portfolio';
+const SITE_BASE = import.meta.env.BASE_URL?.replace(/\/$/, '') || '';
 const SITE_URL = import.meta.env.SITE?.replace(/\/$/, '') || 'https://rrocap.github.io';
 
 export function getCanonicalUrl(pathname: string, base?: string): string {

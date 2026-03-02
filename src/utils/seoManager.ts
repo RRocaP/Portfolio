@@ -75,7 +75,7 @@ export class SEOManager {
   
   constructor() {
     this.baseUrl = (import.meta.env.SITE || 'https://rrocap.github.io').replace(/\/$/, '');
-    this.basePath = (import.meta.env.BASE_URL || '/Portfolio').replace(/\/$/, '');
+    this.basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
     this.defaultImage = `${this.baseUrl}${this.basePath}/profile.jpg`;
     this.defaultAuthor = {
       name: 'Ramon Roca Pinilla',

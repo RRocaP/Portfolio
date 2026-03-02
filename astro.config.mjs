@@ -4,10 +4,8 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: process.env.VERCEL
-    ? 'https://portfolio-dyuu-ramon-roca-pinillas-projects.vercel.app'
-    : 'https://rrocap.github.io',
-  base: process.env.VERCEL ? '/' : '/Portfolio',
+  site: 'https://rrocap.github.io',
+  base: '/',
   trailingSlash: 'always',
   output: 'static',
   integrations: [

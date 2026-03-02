@@ -134,8 +134,8 @@ export const projects: Project[] = [
     year: 2024,
     status: 'completed',
     links: {
-      github: 'https://github.com/RRocaP/Portfolio',
-      demo: 'https://rrocap.github.io/Portfolio/'
+      github: 'https://github.com/RRocaP/RRocaP.github.io',
+      demo: 'https://rrocap.github.io/'
     },
     metrics: {
       stars: 28
