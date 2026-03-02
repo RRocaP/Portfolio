@@ -1,0 +1,170 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const gm = (translations[lang] as any).gemini;
+const year = new Date().getFullYear();
+---
+
+<section id="contact" class="contact-section">
+
+  <!-- Contact content (centered) -->
+  <div data-gm-reveal class="contact-content">
+    <h2 class="contact-heading">{gm.contactHeading}</h2>
+    <p class="contact-subtitle">{gm.contactSubtitle}</p>
+    <a
+      href="mailto:ramon.rocap@gmail.com"
+      data-gm-reveal
+      style="transition-delay: 0.15s"
+      class="email-link"
+    >
+      ramon.rocap@gmail.com
+    </a>
+  </div>
+
+  <!-- Footer row -->
+  <div class="footer-row">
+    <p class="copyright">
+      &copy; {year} Ramon Roca Pinilla. {gm.footerCopy}
+    </p>
+
+    <div class="social-links">
+      <!-- GitHub -->
+      <a
+        href="https://github.com/RRocaP"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
+
+      <!-- LinkedIn -->
+      <a
+        href="https://www.linkedin.com/in/ramonrocapinilla/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        LinkedIn
+      </a>
+
+      <!-- Threads -->
+      <a
+        href="https://www.threads.net/@ramonrocapinilla"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.17.408-2.253 1.33-3.05.812-.7 1.95-1.135 3.29-1.26.94-.087 1.87-.025 2.78.186.015-.67-.024-1.274-.114-1.806-.24-1.424-.815-2.074-2.335-2.178-.87-.06-1.64.14-2.17.547-.496.383-.774.944-.83 1.558l-2.063-.178c.09-.983.496-1.847 1.18-2.504.88-.843 2.168-1.31 3.61-1.31.18 0 .36.008.54.023 2.563.183 3.89 1.424 4.25 3.548.1.588.15 1.261.148 2.011.578.252 1.088.576 1.52.97 1.065.973 1.658 2.34 1.758 4.063.106 1.815-.515 3.46-1.843 4.876-1.67 1.782-4.136 2.725-7.335 2.804h-.015zM14.09 14.545c-.91.058-1.63.31-2.13.746-.39.34-.578.748-.555 1.212.034.62.385 1.133 1.017 1.488.614.345 1.362.487 2.102.448 1.085-.06 1.907-.454 2.473-1.16.452-.563.783-1.312.964-2.196-.592-.18-1.22-.307-1.87-.362-.33-.03-.66-.048-.99-.048-.34 0-.677.024-1.01.072v-.2z"/>
+        </svg>
+        Threads
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .contact-section {
+    padding: 8rem 1.5rem;
+    max-width: 80rem;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  @media (min-width: 768px) {
+    .contact-section {
+      padding: 8rem 3rem;
+    }
+  }
+
+  /* Contact content — centered */
+  .contact-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-heading {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: white;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-subtitle {
+    color: #94a3b8;
+    max-width: 36rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .email-link {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    color: #e9ecf1;
+    text-decoration: none;
+    border-bottom: 2px solid #47618c;
+    padding-bottom: 0.25rem;
+    transition: color 0.3s;
+  }
+
+  .email-link:hover {
+    color: #94a3b8;
+  }
+
+  /* Footer row */
+  .footer-row {
+    margin-top: 8rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-row {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .copyright {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: #475569;
+  }
+
+  /* Social links */
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-link:hover {
+    color: #cbd5e1;
+  }
+</style>

@@ -1,0 +1,175 @@
+---
+const videoUrl = import.meta.env.PUBLIC_VIDEO_URL ?? '';
+---
+
+<div id="immersive-bg" aria-hidden="true">
+  {videoUrl && (
+    <video
+      id="bg-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      src={videoUrl}
+    ></video>
+  )}
+  {!videoUrl && (
+    <video
+      id="bg-video"
+      autoplay
+      loop
+      muted
+      playsinline
+    ></video>
+  )}
+  <div class="gradient-overlay"></div>
+  <div class="tint-overlay"></div>
+</div>
+
+<audio id="bg-audio" src="/audio1.mp3" loop></audio>
+
+<button
+  id="audio-toggle"
+  aria-label="Play ambient audio"
+  type="button"
+>
+  <svg
+    id="icon-volume"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    style="display: none;"
+  >
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+  </svg>
+  <svg
+    id="icon-muted"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+    <line x1="23" y1="9" x2="17" y2="15"/>
+    <line x1="17" y1="9" x2="23" y2="15"/>
+  </svg>
+</button>
+
+<style>
+  #immersive-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: #0a0a0a;
+    overflow: hidden;
+  }
+
+  #bg-video {
+    opacity: 0.6;
+    mix-blend-mode: screen;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .gradient-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: linear-gradient(
+      to bottom,
+      rgba(18, 18, 20, 0.80),
+      rgba(18, 18, 20, 0.60) 50%,
+      rgba(18, 18, 20, 0.90)
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .tint-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(71, 97, 140, 0.10);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  #audio-toggle {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 50;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #audio-toggle:hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #bg-video {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const audio = document.getElementById('bg-audio') as HTMLAudioElement | null;
+  const toggleBtn = document.getElementById('audio-toggle') as HTMLButtonElement | null;
+  const iconVolume = document.getElementById('icon-volume') as SVGElement | null;
+  const iconMuted = document.getElementById('icon-muted') as SVGElement | null;
+
+  let isMuted = true;
+
+  if (audio) {
+    audio.pause();
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      if (!audio) return;
+
+      if (isMuted) {
+        audio.play().catch(() => {
+          // Autoplay may be blocked by browser policy; silently ignore
+        });
+        isMuted = false;
+        if (iconVolume) iconVolume.style.display = '';
+        if (iconMuted) iconMuted.style.display = 'none';
+        toggleBtn.setAttribute('aria-label', 'Pause ambient audio');
+      } else {
+        audio.pause();
+        isMuted = true;
+        if (iconVolume) iconVolume.style.display = 'none';
+        if (iconMuted) iconMuted.style.display = '';
+        toggleBtn.setAttribute('aria-label', 'Play ambient audio');
+      }
+    });
+  }
+</script>

@@ -1,0 +1,223 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations, aboutData, timelineData } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const v3 = (translations[lang] as any).v3;
+const about = aboutData[lang];
+const timeline = timelineData[lang];
+const research = translations[lang].researchAreas;
+---
+
+<section id="about" class="section v3-about" aria-label={v3.aboutHeading}>
+  <div class="container">
+    <h2 class="v3-about__heading">{v3.aboutHeading}</h2>
+
+    <!-- Bio -->
+    <div class="v3-about__bio">
+      <p>{about.bio}</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="v3-about__timeline" aria-label={v3.timelineHeading}>
+      <h3 class="v3-about__subheading">{v3.timelineHeading}</h3>
+      <div class="v3-about__timeline-track">
+        {timeline.map((item, i) => (
+          <div class="v3-about__milestone" data-v3-stagger={i + 10}>
+            <span class="v3-about__milestone-year">{item.year}</span>
+            <div class="v3-about__milestone-dot" aria-hidden="true"></div>
+            <div class="v3-about__milestone-content">
+              <strong class="v3-about__milestone-title">{item.title}</strong>
+              <span class="v3-about__milestone-line">{item.line}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Research focus -->
+    <div class="v3-about__research">
+      <h3 class="v3-about__subheading">{v3.researchFocus}</h3>
+      <div class="v3-about__research-grid">
+        <div class="v3-about__area" data-v3-stagger="20">
+          <span class="v3-about__area-icon" aria-hidden="true">01</span>
+          <h4 class="v3-about__area-title">{research.antimicrobial.title}</h4>
+          <p class="v3-about__area-desc">{research.antimicrobial.description}</p>
+        </div>
+        <div class="v3-about__area" data-v3-stagger="21">
+          <span class="v3-about__area-icon" aria-hidden="true">02</span>
+          <h4 class="v3-about__area-title">{research.geneTherapy.title}</h4>
+          <p class="v3-about__area-desc">{research.geneTherapy.description}</p>
+        </div>
+        <div class="v3-about__area" data-v3-stagger="22">
+          <span class="v3-about__area-icon" aria-hidden="true">03</span>
+          <h4 class="v3-about__area-title">{research.computational.title}</h4>
+          <p class="v3-about__area-desc">{research.computational.description}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v3-about {
+    background: var(--da-bg-base, #060910);
+  }
+
+  .v3-about__heading {
+    font-family: var(--da-font-display, serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 200;
+    color: var(--da-text-primary, #F0F2F5);
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .v3-about__bio {
+    max-width: 700px;
+    margin-bottom: 3.5rem;
+  }
+
+  .v3-about__bio p {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--da-text-secondary, #B8BFC9);
+    margin: 0;
+  }
+
+  .v3-about__subheading {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--da-accent-gold, #D4A84B);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Timeline */
+  .v3-about__timeline {
+    margin-bottom: 3.5rem;
+  }
+
+  .v3-about__timeline-track {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .v3-about__timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 0.3125rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: var(--da-border-emphasis, rgba(255,255,255,0.12));
+  }
+
+  .v3-about__milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    position: relative;
+  }
+
+  .v3-about__milestone-year {
+    font-family: var(--da-font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--da-accent-gold, #D4A84B);
+    min-width: 3rem;
+    letter-spacing: 0.02em;
+  }
+
+  .v3-about__milestone-dot {
+    position: absolute;
+    left: -1.25rem;
+    top: 1rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--da-accent-gold, #D4A84B);
+    border: 2px solid var(--da-bg-base, #060910);
+  }
+
+  .v3-about__milestone-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .v3-about__milestone-title {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--da-text-primary, #F0F2F5);
+  }
+
+  .v3-about__milestone-line {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.8125rem;
+    color: var(--da-text-muted, #7A8494);
+  }
+
+  /* Research areas */
+  .v3-about__research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .v3-about__area {
+    padding: 1.5rem;
+    background: var(--da-bg-surface, #0B1018);
+    border: 1px solid var(--da-border, rgba(255,255,255,0.06));
+    border-radius: var(--card-radius, 12px);
+    transition: border-color 0.3s ease;
+  }
+
+  .v3-about__area:hover {
+    border-color: rgba(212, 168, 75, 0.15);
+  }
+
+  .v3-about__area-icon {
+    font-family: var(--da-font-mono, monospace);
+    font-size: 0.6875rem;
+    color: var(--da-accent-cyan, #4ECDC4);
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .v3-about__area-title {
+    font-family: var(--da-font-display, serif);
+    font-size: 1.125rem;
+    font-weight: 300;
+    color: var(--da-text-primary, #F0F2F5);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .v3-about__area-desc {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--da-text-secondary, #B8BFC9);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .v3-about__research-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

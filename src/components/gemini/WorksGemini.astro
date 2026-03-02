@@ -1,0 +1,84 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+import { works } from '../../data/works';
+import WorkCardGemini from './WorkCardGemini.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const gm = (translations[lang] as any).gemini;
+---
+
+<section id="works" class="works-section">
+  <div data-gm-reveal class="section-header">
+    <h2 class="section-label">{gm.sectionWorks}</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="works-grid">
+    {works.map((work, i) => (
+      <WorkCardGemini
+        lang={lang}
+        yearRange={work.yearRange}
+        title={work.title[lang]}
+        blurb={work.blurb[lang]}
+        tags={work.tags}
+        index={i}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .works-section {
+    padding: 8rem 1.5rem;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .works-section {
+      padding: 8rem 3rem;
+    }
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #47618c;
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    height: 1px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .works-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .works-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

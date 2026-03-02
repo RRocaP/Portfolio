@@ -1,0 +1,228 @@
+---
+/**
+ * HeroCanvas — Enhanced Canvas 2D particle system for v3 hero
+ * 200 particles desktop / 80 mobile, Perlin noise flow field
+ * Gold + cyan dual palette, constellation lines, mouse interaction
+ * Respects prefers-reduced-motion, cleanup on astro:before-swap
+ */
+---
+
+<canvas class="v3-hero-canvas" aria-hidden="true"></canvas>
+
+<style>
+  .v3-hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .v3-hero-canvas {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeroCanvas() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const canvas = document.querySelector('.v3-hero-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Perlin noise
+    const PERM = new Uint8Array(512);
+    const GRAD = [
+      [1, 1], [-1, 1], [1, -1], [-1, -1],
+      [1, 0], [-1, 0], [0, 1], [0, -1],
+    ];
+    for (let i = 0; i < 256; i++) PERM[i] = i;
+    for (let i = 255; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [PERM[i], PERM[j]] = [PERM[j], PERM[i]];
+    }
+    for (let i = 0; i < 256; i++) PERM[i + 256] = PERM[i];
+
+    function fade(t: number) { return t * t * t * (t * (t * 6 - 15) + 10); }
+    function lerp(a: number, b: number, t: number) { return a + t * (b - a); }
+    function dot(g: number[], x: number, y: number) { return g[0] * x + g[1] * y; }
+
+    function noise(x: number, y: number) {
+      const X = Math.floor(x) & 255;
+      const Y = Math.floor(y) & 255;
+      const xf = x - Math.floor(x);
+      const yf = y - Math.floor(y);
+      const u = fade(xf);
+      const v = fade(yf);
+      const aa = PERM[PERM[X] + Y] & 7;
+      const ab = PERM[PERM[X] + Y + 1] & 7;
+      const ba = PERM[PERM[X + 1] + Y] & 7;
+      const bb = PERM[PERM[X + 1] + Y + 1] & 7;
+      return lerp(
+        lerp(dot(GRAD[aa], xf, yf), dot(GRAD[ba], xf - 1, yf), u),
+        lerp(dot(GRAD[ab], xf, yf - 1), dot(GRAD[bb], xf - 1, yf - 1), u),
+        v
+      );
+    }
+
+    // Config
+    const isMobile = window.innerWidth < 768;
+    const PARTICLE_COUNT = isMobile ? 80 : 200;
+    const CONNECT_DIST = isMobile ? 80 : 110;
+    const MOUSE_RADIUS = 140;
+    const NOISE_SCALE = 0.0025;
+    const NOISE_SPEED = 0.00025;
+
+    let W = 0, H = 0;
+    let mouseX = -1000, mouseY = -1000;
+    let time = 0;
+    let animId: number;
+
+    interface Particle {
+      x: number; y: number;
+      vx: number; vy: number;
+      size: number;
+      type: 'gold' | 'cyan' | 'white';
+      alpha: number;
+    }
+
+    const particles: Particle[] = [];
+
+    function resize() {
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      W = rect?.width ?? window.innerWidth;
+      H = rect?.height ?? window.innerHeight;
+      canvas.width = W * devicePixelRatio;
+      canvas.height = H * devicePixelRatio;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx!.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function init() {
+      resize();
+      particles.length = 0;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const r = Math.random();
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: 0,
+          vy: 0,
+          size: 0.8 + Math.random() * 1.5,
+          type: r < 0.40 ? 'gold' : r < 0.70 ? 'cyan' : 'white',
+          alpha: 0.15 + Math.random() * 0.5,
+        });
+      }
+    }
+
+    const COLORS = {
+      gold: [212, 168, 75],
+      cyan: [78, 205, 196],
+      white: [240, 242, 245],
+    };
+
+    function draw() {
+      time++;
+      ctx!.clearRect(0, 0, W, H);
+
+      const t = time * NOISE_SPEED;
+
+      for (const p of particles) {
+        const angle = noise(p.x * NOISE_SCALE, p.y * NOISE_SCALE + t) * Math.PI * 4;
+        p.vx += Math.cos(angle) * 0.12;
+        p.vy += Math.sin(angle) * 0.12;
+
+        // Mouse repulsion
+        const dx = p.x - mouseX;
+        const dy = p.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS && dist > 0) {
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.6;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+        }
+
+        p.vx *= 0.965;
+        p.vy *= 0.965;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10;
+        if (p.y > H + 10) p.y = -10;
+
+        // Draw
+        const c = COLORS[p.type];
+        const a = p.type === 'white' ? p.alpha * 0.25 : p.alpha * 0.55;
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+        ctx!.fill();
+      }
+
+      // Constellation lines (same-type or gold-cyan)
+      ctx!.lineWidth = 0.3;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i];
+          const b = particles[j];
+          if (a.type === 'white' || b.type === 'white') continue;
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECT_DIST) {
+            const opacity = (1 - dist / CONNECT_DIST) * 0.08;
+            const lineColor = a.type === b.type
+              ? COLORS[a.type]
+              : [145, 186, 135]; // blended
+            ctx!.beginPath();
+            ctx!.moveTo(a.x, a.y);
+            ctx!.lineTo(b.x, b.y);
+            ctx!.strokeStyle = `rgba(${lineColor[0]},${lineColor[1]},${lineColor[2]},${opacity})`;
+            ctx!.stroke();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    // Mouse tracking
+    const hero = canvas.closest('.v3-hero');
+    hero?.addEventListener('mousemove', (e: Event) => {
+      const me = e as MouseEvent;
+      const rect = canvas.getBoundingClientRect();
+      mouseX = me.clientX - rect.left;
+      mouseY = me.clientY - rect.top;
+    });
+    hero?.addEventListener('mouseleave', () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    });
+
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(canvas.parentElement || canvas);
+
+    init();
+    animId = requestAnimationFrame(draw);
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(animId);
+      ro.disconnect();
+    }, { once: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', initHeroCanvas);
+  document.addEventListener('astro:page-load', initHeroCanvas);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initHeroCanvas();
+  }
+</script>

@@ -1,74 +1,25 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import HeroInteractive from '../../components/ml/HeroInteractive.astro';
-import AboutSection from '../../components/ml/AboutSection.astro';
-import ResearchIdentity from '../../components/ml/ResearchIdentity.astro';
-import ImpactDashboard from '../../components/ml/ImpactDashboard.astro';
-import PublicationList from '../../components/ml/PublicationList.astro';
-import CareerTimeline from '../../components/ml/CareerTimeline.astro';
-import TerminalContact from '../../components/ml/TerminalContact.astro';
-import Footer from '../../components/Footer.astro';
+import ImmersiveBackground from '../../components/gemini/ImmersiveBackground.astro';
+import NavGemini from '../../components/gemini/NavGemini.astro';
+import HeroGemini from '../../components/gemini/HeroGemini.astro';
+import WorksGemini from '../../components/gemini/WorksGemini.astro';
+import AboutGemini from '../../components/gemini/AboutGemini.astro';
+import WritingGemini from '../../components/gemini/WritingGemini.astro';
+import ContactGemini from '../../components/gemini/ContactGemini.astro';
 ---
 
 <Layout
   title="Ramon Roca Pinilla - Enginyer Biomèdic"
   description="Enginyer biomèdic especialitzat en proteïnes antimicrobianes, vectors AAV i cossos d'inclusió funcionals."
   lang="ca"
-  theme="ml-native"
+  theme="gemini"
 >
-  <HeroInteractive lang="ca" />
-  <div class="section-divider"><span class="section-divider__ornament"></span></div>
-  <AboutSection lang="ca" />
-  <div class="section-divider"><span class="section-divider__ornament"></span></div>
-  <ResearchIdentity lang="ca" />
-  <div class="section-divider"><span class="section-divider__ornament"></span></div>
-  <ImpactDashboard lang="ca" />
-  <div class="section-divider"><span class="section-divider__ornament"></span></div>
-  <PublicationList lang="ca" />
-  <div class="section-divider"><span class="section-divider__ornament"></span></div>
-  <CareerTimeline lang="ca" />
-  <TerminalContact lang="ca" />
-
-  <Footer lang="ca" />
+  <ImmersiveBackground />
+  <NavGemini lang="ca" />
+  <HeroGemini lang="ca" />
+  <WorksGemini lang="ca" />
+  <AboutGemini lang="ca" />
+  <WritingGemini lang="ca" />
+  <ContactGemini lang="ca" />
 </Layout>
-
-<style is:global>
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  .section {
-    position: relative;
-  }
-
-  .section + .section {
-    border-top: none;
-  }
-
-  .section-divider {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
-
-  .section-divider::before,
-  .section-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border-subtle);
-  }
-
-  .section-divider__ornament {
-    width: 6px;
-    height: 6px;
-    background: var(--accent-red, #DA291C);
-    transform: rotate(45deg);
-    margin: 0 1rem;
-    flex-shrink: 0;
-  }
-</style>

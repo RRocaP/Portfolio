@@ -1,0 +1,91 @@
+---
+import type { Lang } from '../../data/i18n';
+
+interface Props {
+  lang: Lang;
+  yearRange: string;
+  title: string;
+  blurb: string;
+  tags: string[];
+  index: number;
+}
+
+const { lang, yearRange, title, blurb, tags, index } = Astro.props;
+---
+
+<article data-gm-reveal style={`transition-delay: ${index * 0.1}s`} class="work-card">
+  <div class="year-badge">{yearRange}</div>
+  <h3 class="card-title">{title}</h3>
+  <p class="card-blurb">{blurb}</p>
+  <div class="tag-row">
+    {tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</article>
+
+<style>
+  .work-card {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+  .work-card:hover {
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  .work-card:hover .card-title {
+    color: #64728a;
+  }
+
+  .year-badge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: #427872;
+    border: 1px solid rgba(66, 120, 114, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #e9ecf1;
+    letter-spacing: -0.025em;
+    line-height: 1.375;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .card-blurb {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    color: #cbd5e1;
+    border-radius: 2px;
+  }
+</style>

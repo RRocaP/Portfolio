@@ -25,7 +25,7 @@ export interface Props {
   customSchema?: Record<string, any>;
   pathname?: string;
   /** Optional theme switch (default is navy across pages) */
-  theme?: 'navy' | 'navy-gold' | 'ml-native';
+  theme?: 'navy' | 'navy-gold' | 'ml-native' | 'revamp' | 'data-art' | 'gemini';
 }
 
 const { 
@@ -87,7 +87,7 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
 <html lang={lang} data-theme={theme || undefined}>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     
     <!-- SEO Meta Tags -->
@@ -233,7 +233,7 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       /* Navigation */
       .nav-premium{
         position:fixed;top:0;left:0;right:0;z-index:var(--z-sticky);
-        background:rgba(8,11,17,0.92);
+        background:rgba(12,16,24,0.92);
         border-bottom:1px solid rgba(255,255,255,0.06);
         transition:transform var(--anim-duration-base) var(--anim-easing-default);
         will-change:transform;
@@ -310,21 +310,21 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --font-primary:'DM Sans',system-ui,-apple-system,sans-serif;
         --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
 
-        /* Colors — warm dark palette */
-        --bg-base:#080B11;
-        --bg-surface:#0E1219;
-        --bg-elevated:#141A24;
+        /* Colors — warm dark palette (lightened for visual polish) */
+        --bg-base:#0C1018;
+        --bg-surface:#131A24;
+        --bg-elevated:#1A2230;
         --background:var(--bg-base);
         --background-alt:var(--bg-surface);
         --background-card:var(--bg-elevated);
-        --background-elevated:#1A2232;
+        --background-elevated:#1C2636;
 
         /* Borders — canonical tokens */
-        --border-subtle:rgba(255,255,255,0.06);
-        --border-default:rgba(255,255,255,0.10);
-        --border-muted:rgba(255,255,255,0.08);
-        --border-moderate:rgba(255,255,255,0.12);
-        --border-emphasis:rgba(255,255,255,0.15);
+        --border-subtle:rgba(255,255,255,0.08);
+        --border-default:rgba(255,255,255,0.12);
+        --border-muted:rgba(255,255,255,0.10);
+        --border-moderate:rgba(255,255,255,0.14);
+        --border-emphasis:rgba(255,255,255,0.18);
         --border:var(--border-subtle);
         --border-light:var(--border-default);
 
@@ -359,8 +359,8 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
         --heading-gap:2.5rem;
         --heading-gap-tight:1.5rem;
         --section-padding:clamp(5rem,10vh,8rem);
-        --card-radius:8px;
-        --card-radius-lg:12px;
+        --card-radius:10px;
+        --card-radius-lg:14px;
       }
       [data-theme='ml-native'] body{font-family:var(--font-body)}
       [data-theme='ml-native'] h1,[data-theme='ml-native'] h2,[data-theme='ml-native'] h3,[data-theme='ml-native'] h4,[data-theme='ml-native'] h5,[data-theme='ml-native'] h6{font-family:var(--font-display)}
@@ -371,6 +371,121 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
       [data-theme='ml-native'] .section[data-reveal]{opacity:0;transform:translateY(20px);transition:opacity 0.6s var(--ease-out-expo,cubic-bezier(0.25,1,0.5,1)),transform 0.6s var(--ease-out-expo,cubic-bezier(0.25,1,0.5,1))}
       [data-theme='ml-native'] .section[data-reveal].is-visible{opacity:1;transform:none}
       @media(prefers-reduced-motion:reduce){[data-theme='ml-native'] .section[data-reveal]{opacity:1;transform:none;transition:none}}
+
+      /* Global keyframes for scroll-reveal animations */
+      /* ── Revamp theme: editorial art ── */
+      [data-theme='revamp']{
+        --rv-bg-deep:#040608;
+        --rv-bg-base:#080B11;
+        --rv-bg-surface:#0E1219;
+        --rv-bg-elevated:#141A24;
+        --rv-accent-gold:#D4A84B;
+        --rv-accent-gold-rgb:212,168,75;
+        --rv-text-primary:#EAEDF2;
+        --rv-text-secondary:#B8BFC9;
+        --rv-text-muted:#8B95A3;
+        --rv-border:rgba(255,255,255,0.08);
+        --rv-font-display:'Source Serif 4',Georgia,'Times New Roman',serif;
+        --rv-font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+        --rv-font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+        --section-padding:clamp(6rem,14vh,10rem);
+        --section-gap:clamp(8rem,16vh,12rem);
+        --card-radius:16px;
+        --background:var(--rv-bg-deep);
+        --text-primary:var(--rv-text-primary);
+        --primary:var(--rv-text-primary);
+      }
+      [data-theme='revamp'] body{font-family:var(--rv-font-body);background:var(--rv-bg-deep);color:var(--rv-text-primary)}
+      [data-theme='revamp'] h1,[data-theme='revamp'] h2,[data-theme='revamp'] h3,[data-theme='revamp'] h4{font-family:var(--rv-font-display);font-weight:200}
+      [data-theme='revamp'] a{color:inherit;text-decoration:none;border-bottom:none}
+      [data-theme='revamp'] a:hover{border-bottom:none;transform:none}
+      [data-theme='revamp'] .rv-reveal{clip-path:inset(0 0 100% 0);transition:clip-path 0.9s cubic-bezier(0.77,0,0.175,1)}
+      [data-theme='revamp'] .rv-reveal.is-visible{clip-path:inset(0 0 0% 0)}
+      @media(prefers-reduced-motion:reduce){[data-theme='revamp'] .rv-reveal{clip-path:none;transition:none}}
+
+      /* ── Data-art theme: cinematic dark ── */
+      [data-theme='data-art']{
+        --da-bg-deep:#030507;
+        --da-bg-base:#060910;
+        --da-bg-surface:#0B1018;
+        --da-bg-elevated:#101820;
+        --da-accent-gold:#D4A84B;
+        --da-accent-gold-rgb:212,168,75;
+        --da-accent-cyan:#4ECDC4;
+        --da-accent-cyan-rgb:78,205,196;
+        --da-text-primary:#F0F2F5;
+        --da-text-secondary:#B8BFC9;
+        --da-text-muted:#7A8494;
+        --da-border:rgba(255,255,255,0.06);
+        --da-border-emphasis:rgba(255,255,255,0.12);
+        --da-font-display:'Source Serif 4',Georgia,'Times New Roman',serif;
+        --da-font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+        --da-font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+        --section-padding:clamp(6rem,12vh,9rem);
+        --card-radius:12px;
+        --background:var(--da-bg-deep);
+        --background-alt:var(--da-bg-base);
+        --background-card:var(--da-bg-surface);
+        --background-elevated:var(--da-bg-elevated);
+        --text-primary:var(--da-text-primary);
+        --text-secondary:var(--da-text-secondary);
+        --text-muted:var(--da-text-muted);
+        --primary:var(--da-text-primary);
+        --border:var(--da-border);
+        --border-light:var(--da-border-emphasis);
+      }
+      [data-theme='data-art'] body{font-family:var(--da-font-body);background:var(--da-bg-deep);color:var(--da-text-primary)}
+      [data-theme='data-art'] h1,[data-theme='data-art'] h2,[data-theme='data-art'] h3,[data-theme='data-art'] h4{font-family:var(--da-font-display);font-weight:300;letter-spacing:-0.02em}
+      [data-theme='data-art'] a{color:inherit;text-decoration:none;border-bottom:none}
+      [data-theme='data-art'] a:hover{border-bottom:none;transform:none}
+      [data-theme='data-art'] .section{padding:var(--section-padding) 0}
+      [data-theme='data-art'] body::after{display:none}
+
+      /* ── Gemini theme: immersive cinematic ── */
+      [data-theme='gemini']{
+        --gm-bg-base:#121214;
+        --gm-bg-deep:#0a0a0a;
+        --gm-bg-section:#0d0d10;
+        --gm-text-primary:#e9ecf1;
+        --gm-text-secondary:#94a3b8;
+        --gm-text-muted:#64748b;
+        --gm-accent-blue:#47618c;
+        --gm-accent-teal:#427872;
+        --background:var(--gm-bg-base);
+        --background-alt:var(--gm-bg-deep);
+        --background-card:var(--gm-bg-section);
+        --text-primary:var(--gm-text-primary);
+        --text-secondary:var(--gm-text-secondary);
+        --text-muted:var(--gm-text-muted);
+        --primary:var(--gm-text-primary);
+        --border:rgba(255,255,255,0.05);
+        --border-light:rgba(255,255,255,0.10);
+        --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+        --font-display:'DM Sans',system-ui,-apple-system,sans-serif;
+        --font-mono:'JetBrains Mono','SF Mono',Monaco,monospace;
+      }
+      [data-theme='gemini'] body{font-family:var(--font-body);background:var(--gm-bg-base);color:var(--gm-text-primary)}
+      [data-theme='gemini'] body::after{display:none}
+      [data-theme='gemini'] .scroll-progress{display:none}
+      [data-theme='gemini'] main{position:relative;z-index:1}
+      [data-theme='gemini'] ::selection{background:rgba(71,97,140,0.4);color:var(--gm-text-primary)}
+      [data-theme='gemini'] a{color:inherit;text-decoration:none;border-bottom:none}
+      [data-theme='gemini'] a:hover{border-bottom:none;transform:none}
+      [data-theme='gemini'] h1,[data-theme='gemini'] h2,[data-theme='gemini'] h3,[data-theme='gemini'] h4{font-family:var(--font-body);letter-spacing:-0.02em}
+      /* Gemini reveal animations */
+      [data-theme='gemini'] [data-gm-reveal]{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.25,1,0.5,1),transform 0.8s cubic-bezier(0.25,1,0.5,1)}
+      [data-theme='gemini'] [data-gm-reveal].is-visible{opacity:1;transform:translateY(0)}
+      [data-theme='gemini'] [data-gm-slide="left"]{opacity:0;transform:translateX(-30px);transition:opacity 0.8s ease,transform 0.8s ease}
+      [data-theme='gemini'] [data-gm-slide="right"]{opacity:0;transform:translateX(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+      [data-theme='gemini'] [data-gm-slide].is-visible{opacity:1;transform:translateX(0)}
+      @media(prefers-reduced-motion:reduce){
+        [data-theme='gemini'] [data-gm-reveal],[data-theme='gemini'] [data-gm-slide]{opacity:1;transform:none;transition:none}
+      }
+
+      @keyframes shimmer-sweep{0%{background-position:200% center}100%{background-position:-200% center}}
+      @keyframes dot-pulse{0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 0 0 4px var(--bg-surface,#131A24),0 0 12px 2px rgba(0,0,0,0.3)}50%{transform:translate(-50%,-50%) scale(1.3);box-shadow:0 0 0 4px var(--bg-surface,#131A24),0 0 16px 4px rgba(var(--accent-warm-rgb),0.2)}}
+      @keyframes bar-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+      @keyframes organic-float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(6px,-4px) scale(1.02)}66%{transform:translate(-3px,3px) scale(0.99)}}
     </style>
   </head>
   <body>
@@ -442,6 +557,40 @@ const seoHeadContent = seoManager.generateSEOHead(seoConfig);
           entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObserver.unobserve(e.target); } });
         }, { threshold: 0.08 });
         sections.forEach(s => revealObserver.observe(s));
+      }
+    </script>
+
+    <!-- Gemini reveal observer -->
+    <script>
+      if (document.documentElement.dataset.theme === 'gemini' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const gmObserver = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); gmObserver.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('[data-gm-reveal],[data-gm-slide]').forEach(el => gmObserver.observe(el));
+      }
+    </script>
+
+    <!-- Scroll CSS variable for parallax (revamp theme) -->
+    <script>
+      if (document.documentElement.dataset.theme === 'revamp') {
+        let ticking = false;
+        const updateScrollVar = () => {
+          document.documentElement.style.setProperty('--scroll-y', String(window.scrollY));
+          ticking = false;
+        };
+        window.addEventListener('scroll', () => {
+          if (!ticking) { requestAnimationFrame(updateScrollVar); ticking = true; }
+        }, { passive: true });
+      }
+    </script>
+
+    <!-- rv-reveal observer (revamp theme) -->
+    <script>
+      if (document.documentElement.dataset.theme === 'revamp' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const rvObserver = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); rvObserver.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.rv-reveal').forEach(el => rvObserver.observe(el));
       }
     </script>
 

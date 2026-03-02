@@ -7,7 +7,9 @@ export const translations = {
       about: 'About',
       research: 'Research',
       publications: 'Publications',
-      contact: 'Contact'
+      contact: 'Contact',
+      works: 'Works',
+      writing: 'Writing'
     },
     hero: {
       title: 'Ramon Roca Pinilla',
@@ -45,6 +47,40 @@ export const translations = {
       location: 'CMRI, Sydney, Australia',
       viewScholar: 'View on Google Scholar',
       viewAll: 'View all on Scholar'
+    },
+    v3: {
+      heroTagline: 'Engineering proteins and viral vectors to fight antimicrobial resistance.',
+      viewWorks: 'View Works',
+      getInTouch: 'Get in Touch',
+      worksHeading: 'Selected Works',
+      aboutHeading: 'About',
+      writingHeading: 'Writing',
+      contactHeading: "Let's Connect",
+      researchFocus: 'Research Focus',
+      timelineHeading: 'Journey',
+      footerTagline: 'Still amazed that proteins remember how to fold.',
+    },
+    gemini: {
+      heroTitle: 'Engineering proteins\nand viral vectors.',
+      heroSubtitle: 'Combating antimicrobial resistance and advancing gene therapy through computational design and experimental validation.',
+      ctaPrimary: 'View Publications',
+      ctaSecondary: 'The Story',
+      scrollHint: 'Scroll',
+      sectionWorks: '01. Selected Works',
+      sectionAbout: '02. The Story',
+      sectionWriting: '03. Writing',
+      aboutTitle: 'Exploring spaces no bench can cover.',
+      aboutBio: [
+        'My background spans from a Biotechnology degree in Barcelona to a Masters in Biomedical Engineering at UC Irvine. During my PhD, I spent four years on multidomain antimicrobial protein design, leading to two patents.',
+        "At the Children's Medical Research Institute (CMRI) in Sydney, I built and led a computational peptide discovery platform. I combined large-scale sequence analysis, protein language models, and GPU-accelerated pipelines to design and experimentally validate over 100 antimicrobial peptide candidates.",
+        "I also contributed heavily to AAV capsid engineering and directed evolution for gene therapies. I don't use computation as a replacement for the bench, but to explore spaces and sequences that no bench can cover alone."
+      ],
+      competenciesTitle: 'Core Competencies',
+      competencies: ['Protein Language Models', 'AAV Capsid Engineering', 'Python & Data Science', 'Antimicrobial Discovery', 'GPU-Accelerated Pipelines', 'Molecular Biology'],
+      contactHeading: 'Exploring spaces no bench can cover.',
+      contactSubtitle: 'Bridging computation and biology. 20+ publications, 300+ citations, and 2 patents in antimicrobial drug discovery and protein engineering.',
+      footerCopy: 'All rights reserved.',
+      viewAllScholar: 'View all on Scholar',
     }
   },
   es: {
@@ -53,7 +89,9 @@ export const translations = {
       about: 'Sobre m\u00ed',
       research: 'Investigaci\u00f3n',
       publications: 'Publicaciones',
-      contact: 'Contacto'
+      contact: 'Contacto',
+      works: 'Proyectos',
+      writing: 'Escritos'
     },
     hero: {
       title: 'Ramon Roca Pinilla',
@@ -91,6 +129,40 @@ export const translations = {
       location: 'CMRI, S\u00eddney, Australia',
       viewScholar: 'Ver en Google Scholar',
       viewAll: 'Ver todo en Scholar'
+    },
+    v3: {
+      heroTagline: 'Diseñando proteínas y vectores virales para combatir la resistencia antimicrobiana.',
+      viewWorks: 'Ver Proyectos',
+      getInTouch: 'Contactar',
+      worksHeading: 'Proyectos Seleccionados',
+      aboutHeading: 'Sobre mí',
+      writingHeading: 'Escritos',
+      contactHeading: 'Conectemos',
+      researchFocus: 'Áreas de Investigación',
+      timelineHeading: 'Trayectoria',
+      footerTagline: 'Aún asombrado de que las proteínas recuerden cómo plegarse.',
+    },
+    gemini: {
+      heroTitle: 'Diseñando proteínas\ny vectores virales.',
+      heroSubtitle: 'Combatiendo la resistencia antimicrobiana y avanzando la terapia génica mediante diseño computacional y validación experimental.',
+      ctaPrimary: 'Ver Publicaciones',
+      ctaSecondary: 'La Historia',
+      scrollHint: 'Desplazar',
+      sectionWorks: '01. Trabajos Seleccionados',
+      sectionAbout: '02. La Historia',
+      sectionWriting: '03. Escritos',
+      aboutTitle: 'Explorando espacios que ningún laboratorio puede cubrir.',
+      aboutBio: [
+        'Mi formación abarca desde un grado en Biotecnología en Barcelona hasta un Máster en Ingeniería Biomédica en UC Irvine. Durante mi doctorado, dediqué cuatro años al diseño de proteínas antimicrobianas multidominio, lo que resultó en dos patentes.',
+        'En el Children\'s Medical Research Institute (CMRI) en Sídney, construí y lideré una plataforma computacional de descubrimiento de péptidos. Combiné análisis de secuencias a gran escala, modelos de lenguaje de proteínas y pipelines acelerados por GPU para diseñar y validar experimentalmente más de 100 candidatos de péptidos antimicrobianos.',
+        'También contribuí significativamente a la ingeniería de cápsides AAV y evolución dirigida para terapias génicas. No uso la computación como reemplazo del laboratorio, sino para explorar espacios y secuencias que ningún laboratorio puede cubrir por sí solo.'
+      ],
+      competenciesTitle: 'Competencias Clave',
+      competencies: ['Modelos de Lenguaje de Proteínas', 'Ingeniería de Cápsides AAV', 'Python y Ciencia de Datos', 'Descubrimiento Antimicrobiano', 'Pipelines Acelerados por GPU', 'Biología Molecular'],
+      contactHeading: 'Explorando espacios que ningún laboratorio puede cubrir.',
+      contactSubtitle: 'Uniendo computación y biología. 20+ publicaciones, 300+ citas y 2 patentes en descubrimiento de fármacos antimicrobianos e ingeniería de proteínas.',
+      footerCopy: 'Todos los derechos reservados.',
+      viewAllScholar: 'Ver todo en Scholar',
     }
   },
   ca: {
@@ -99,7 +171,9 @@ export const translations = {
       about: 'Sobre mi',
       research: 'Recerca',
       publications: 'Publicacions',
-      contact: 'Contacte'
+      contact: 'Contacte',
+      works: 'Projectes',
+      writing: 'Escrits'
     },
     hero: {
       title: 'Ramon Roca Pinilla',
@@ -137,6 +211,40 @@ export const translations = {
       location: 'CMRI, Sydney, Austr\u00e0lia',
       viewScholar: 'Veure a Google Scholar',
       viewAll: 'Veure tot a Scholar'
+    },
+    v3: {
+      heroTagline: 'Dissenyant proteïnes i vectors virals per combatre la resistència antimicrobiana.',
+      viewWorks: 'Veure Projectes',
+      getInTouch: 'Contactar',
+      worksHeading: 'Projectes Seleccionats',
+      aboutHeading: 'Sobre mi',
+      writingHeading: 'Escrits',
+      contactHeading: 'Connectem',
+      researchFocus: 'Àrees de Recerca',
+      timelineHeading: 'Trajectòria',
+      footerTagline: 'Encara sorprès que les proteïnes recordin com plegar-se.',
+    },
+    gemini: {
+      heroTitle: 'Dissenyant proteïnes\ni vectors virals.',
+      heroSubtitle: 'Combatent la resistència antimicrobiana i avançant la teràpia gènica mitjançant disseny computacional i validació experimental.',
+      ctaPrimary: 'Veure Publicacions',
+      ctaSecondary: 'La Història',
+      scrollHint: 'Desplaçar',
+      sectionWorks: '01. Treballs Seleccionats',
+      sectionAbout: '02. La Història',
+      sectionWriting: '03. Escrits',
+      aboutTitle: 'Explorant espais que cap laboratori pot cobrir.',
+      aboutBio: [
+        'La meva formació abasta des d\'un grau en Biotecnologia a Barcelona fins a un Màster en Enginyeria Biomèdica a UC Irvine. Durant el meu doctorat, vaig dedicar quatre anys al disseny de proteïnes antimicrobianes multidomini, cosa que va resultar en dues patents.',
+        'Al Children\'s Medical Research Institute (CMRI) a Sydney, vaig construir i liderar una plataforma computacional de descobriment de pèptids. Vaig combinar anàlisi de seqüències a gran escala, models de llenguatge de proteïnes i pipelines accelerats per GPU per dissenyar i validar experimentalment més de 100 candidats de pèptids antimicrobians.',
+        'També vaig contribuir significativament a l\'enginyeria de càpsides AAV i evolució dirigida per a teràpies gèniques. No faig servir la computació com a reemplaçament del laboratori, sinó per explorar espais i seqüències que cap laboratori pot cobrir per si sol.'
+      ],
+      competenciesTitle: 'Competències Clau',
+      competencies: ['Models de Llenguatge de Proteïnes', 'Enginyeria de Càpsides AAV', 'Python i Ciència de Dades', 'Descobriment Antimicrobià', 'Pipelines Accelerats per GPU', 'Biologia Molecular'],
+      contactHeading: 'Explorant espais que cap laboratori pot cobrir.',
+      contactSubtitle: 'Unint computació i biologia. 20+ publicacions, 300+ cites i 2 patents en descobriment de fàrmacs antimicrobians i enginyeria de proteïnes.',
+      footerCopy: 'Tots els drets reservats.',
+      viewAllScholar: 'Veure tot a Scholar',
     }
   }
 };
@@ -245,4 +353,23 @@ export const aboutData: Record<Lang, { bio: string; focusIntro: string; areas: A
     ],
     patent: 'publicacions revisades per parells i una patent europea sobre polipèptids antimicrobians recombinants, el meu treball abasta des del disseny molecular fins a la validació experimental, abordant desafiaments crítics en resistència antimicrobiana.'
   }
+};
+
+// Gemini theme timeline data
+export const geminiTimeline: Record<Lang, Array<{ year: string; role: string; company: string; desc: string }>> = {
+  en: [
+    { year: '2021 – 2026', role: 'Research Officer', company: "Children's Medical Research Institute, Sydney", desc: 'Built and led a computational peptide discovery platform combining large-scale sequence analysis, protein language models, and GPU pipelines. Designed and experimentally validated over 100 antimicrobial peptide candidates.' },
+    { year: '2016 – 2020', role: 'Pre-doctoral Researcher', company: 'UAB & IRTA, Barcelona', desc: 'Started a new antimicrobial peptide research line from scratch; designed broad-spectrum recombinant proteins, filed 2 patents and published 8 papers.' },
+    { year: '2015 – 2016', role: 'Graduate Researcher', company: 'University of California, Irvine', desc: 'Tracked estrogen receptor dynamics in living cells using single-molecule fluorescence microscopy and quantitative image analysis.' },
+  ],
+  es: [
+    { year: '2021 – 2026', role: 'Investigador', company: "Children's Medical Research Institute, Sídney", desc: 'Construí y lideré una plataforma computacional de descubrimiento de péptidos combinando análisis de secuencias a gran escala, modelos de lenguaje de proteínas y pipelines GPU. Diseñé y validé experimentalmente más de 100 candidatos de péptidos antimicrobianos.' },
+    { year: '2016 – 2020', role: 'Investigador Predoctoral', company: 'UAB & IRTA, Barcelona', desc: 'Inicié una nueva línea de investigación de péptidos antimicrobianos desde cero; diseñé proteínas recombinantes de amplio espectro, registré 2 patentes y publiqué 8 artículos.' },
+    { year: '2015 – 2016', role: 'Investigador de Máster', company: 'University of California, Irvine', desc: 'Seguimiento de la dinámica de receptores de estrógeno en células vivas mediante microscopía de fluorescencia de molécula única y análisis cuantitativo de imágenes.' },
+  ],
+  ca: [
+    { year: '2021 – 2026', role: 'Investigador', company: "Children's Medical Research Institute, Sydney", desc: 'Vaig construir i liderar una plataforma computacional de descobriment de pèptids combinant anàlisi de seqüències a gran escala, models de llenguatge de proteïnes i pipelines GPU. Vaig dissenyar i validar experimentalment més de 100 candidats de pèptids antimicrobians.' },
+    { year: '2016 – 2020', role: 'Investigador Predoctoral', company: 'UAB & IRTA, Barcelona', desc: 'Vaig iniciar una nova línia de recerca de pèptids antimicrobians des de zero; vaig dissenyar proteïnes recombinants d\'ampli espectre, vaig registrar 2 patents i vaig publicar 8 articles.' },
+    { year: '2015 – 2016', role: 'Investigador de Màster', company: 'University of California, Irvine', desc: 'Seguiment de la dinàmica de receptors d\'estrogen en cèl·lules vives mitjançant microscòpia de fluorescència de molècula única i anàlisi quantitativa d\'imatges.' },
+  ],
 };

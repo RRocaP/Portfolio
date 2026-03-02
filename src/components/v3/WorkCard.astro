@@ -1,0 +1,150 @@
+---
+import type { Lang } from '../../data/i18n';
+import type { Work } from '../../data/works';
+
+export interface Props {
+  work: Work;
+  lang: Lang;
+  index: number;
+}
+
+const { work, lang, index } = Astro.props;
+---
+
+<article class="v3-card" data-v3-stagger={index}>
+  <div class="v3-card__image-wrap">
+    <div
+      class="v3-card__image"
+      style={`background-image: url('${work.image}')`}
+      role="img"
+      aria-label={work.title[lang]}
+    ></div>
+    <div class="v3-card__image-overlay"></div>
+  </div>
+
+  <div class="v3-card__body">
+    <div class="v3-card__meta">
+      <span class="v3-card__year">{work.yearRange}</span>
+      <div class="v3-card__tags">
+        {work.tags.map((tag) => (
+          <span class="v3-card__tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+    <h3 class="v3-card__title">{work.title[lang]}</h3>
+    <p class="v3-card__blurb">{work.blurb[lang]}</p>
+  </div>
+</article>
+
+<style>
+  .v3-card {
+    position: relative;
+    border-radius: var(--card-radius, 12px);
+    overflow: hidden;
+    background: var(--da-bg-surface, #0B1018);
+    border: 1px solid var(--da-border, rgba(255,255,255,0.06));
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.3s ease;
+    cursor: default;
+  }
+
+  .v3-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(212, 168, 75, 0.2);
+  }
+
+  .v3-card__image-wrap {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .v3-card__image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: luminosity;
+    opacity: 0.5;
+    transition: opacity 0.4s ease, transform 0.6s ease;
+  }
+
+  .v3-card:hover .v3-card__image {
+    opacity: 0.7;
+    transform: scale(1.04);
+  }
+
+  .v3-card__image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--da-bg-surface, #0B1018) 100%
+    );
+  }
+
+  .v3-card__body {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .v3-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .v3-card__year {
+    font-family: var(--da-font-mono, monospace);
+    font-size: 0.6875rem;
+    color: var(--da-accent-gold, #D4A84B);
+    letter-spacing: 0.06em;
+  }
+
+  .v3-card__tags {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+  }
+
+  .v3-card__tag {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--da-text-muted, #7A8494);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--da-border, rgba(255,255,255,0.06));
+  }
+
+  .v3-card__title {
+    font-family: var(--da-font-display, serif);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--da-text-primary, #F0F2F5);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .v3-card__blurb {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.8125rem;
+    color: var(--da-text-secondary, #B8BFC9);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .v3-card__body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .v3-card__title {
+      font-size: 1.125rem;
+    }
+  }
+</style>

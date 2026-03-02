@@ -1,0 +1,139 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const v3 = (translations[lang] as any).v3;
+const contactT = translations[lang].contact;
+---
+
+<section id="contact" class="section v3-contact" aria-label={v3.contactHeading}>
+  <div class="container">
+    <div class="v3-contact__inner">
+      <h2 class="v3-contact__heading">{v3.contactHeading}</h2>
+      <p class="v3-contact__desc">{contactT.description}</p>
+
+      <div class="v3-contact__links">
+        <a href={`mailto:${contactT.email}`} class="v3-contact__link">
+          <span class="v3-contact__link-label">Email</span>
+          <span class="v3-contact__link-value">{contactT.email}</span>
+        </a>
+        <a
+          href="https://scholar.google.com/citations?user=YOUR_ID"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="v3-contact__link"
+        >
+          <span class="v3-contact__link-label">Scholar</span>
+          <span class="v3-contact__link-value">Google Scholar</span>
+        </a>
+        <a
+          href="https://orcid.org/0000-0003-4869-4795"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="v3-contact__link"
+        >
+          <span class="v3-contact__link-label">ORCID</span>
+          <span class="v3-contact__link-value">0000-0003-4869-4795</span>
+        </a>
+        <a
+          href="https://linkedin.com/in/ramonrocapinilla"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="v3-contact__link"
+        >
+          <span class="v3-contact__link-label">LinkedIn</span>
+          <span class="v3-contact__link-value">ramonrocapinilla</span>
+        </a>
+      </div>
+
+      <p class="v3-contact__location">{contactT.location}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v3-contact {
+    background: var(--da-bg-base, #060910);
+  }
+
+  .v3-contact__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .v3-contact__heading {
+    font-family: var(--da-font-display, serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 200;
+    color: var(--da-text-primary, #F0F2F5);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .v3-contact__desc {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--da-text-secondary, #B8BFC9);
+    margin-bottom: 2.5rem;
+  }
+
+  .v3-contact__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .v3-contact__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    background: var(--da-bg-surface, #0B1018);
+    border: 1px solid var(--da-border, rgba(255,255,255,0.06));
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    min-height: 44px;
+  }
+
+  .v3-contact__link:hover {
+    border-color: rgba(212, 168, 75, 0.25);
+    background: var(--da-bg-elevated, #101820);
+  }
+
+  .v3-contact__link:focus-visible {
+    outline: 2px solid var(--da-accent-gold, #D4A84B);
+    outline-offset: 2px;
+  }
+
+  .v3-contact__link-label {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--da-text-muted, #7A8494);
+  }
+
+  .v3-contact__link-value {
+    font-family: var(--da-font-mono, monospace);
+    font-size: 0.8125rem;
+    color: var(--da-text-primary, #F0F2F5);
+    letter-spacing: 0.01em;
+  }
+
+  .v3-contact__location {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.8125rem;
+    color: var(--da-text-muted, #7A8494);
+    margin: 0;
+  }
+</style>

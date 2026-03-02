@@ -1,0 +1,264 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+import HeroCanvas from './HeroCanvas.astro';
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = translations[lang] || translations.en;
+const v3 = (t as any).v3;
+---
+
+<section class="v3-hero" aria-label="Hero">
+  <HeroCanvas />
+  <div class="v3-hero__vignette" aria-hidden="true"></div>
+
+  <div class="v3-hero__content">
+    <h1 class="v3-hero__name" data-v3-reveal>Ramon Roca Pinilla</h1>
+    <p class="v3-hero__tagline" data-v3-reveal>{v3.heroTagline}</p>
+
+    <div class="v3-hero__cta" data-v3-reveal>
+      <a href="#works" class="v3-hero__btn v3-hero__btn--primary">{v3.viewWorks}</a>
+      <a href="#contact" class="v3-hero__btn v3-hero__btn--ghost">{v3.getInTouch}</a>
+    </div>
+
+    <div class="v3-hero__metrics" data-v3-reveal aria-label="Research metrics">
+      <div class="v3-hero__metric">
+        <span class="v3-hero__metric-value" data-count="291">0</span>
+        <span class="v3-hero__metric-label">{lang === 'en' ? 'Citations' : lang === 'es' ? 'Citas' : 'Cites'}</span>
+      </div>
+      <div class="v3-hero__metric-divider" aria-hidden="true"></div>
+      <div class="v3-hero__metric">
+        <span class="v3-hero__metric-value" data-count="9">0</span>
+        <span class="v3-hero__metric-label">h-index</span>
+      </div>
+      <div class="v3-hero__metric-divider" aria-hidden="true"></div>
+      <div class="v3-hero__metric">
+        <span class="v3-hero__metric-value" data-count="16">0</span>
+        <span class="v3-hero__metric-label">{lang === 'en' ? 'Papers' : lang === 'es' ? 'Artículos' : 'Articles'}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .v3-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--da-bg-deep, #030507);
+    overflow: hidden;
+  }
+
+  .v3-hero__vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, var(--da-bg-deep, #030507) 100%);
+    pointer-events: none;
+  }
+
+  .v3-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 1.5rem;
+  }
+
+  .v3-hero__name {
+    font-family: var(--da-font-display, serif);
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--da-text-primary, #F0F2F5);
+    margin-bottom: 1.25rem;
+  }
+
+  .v3-hero__tagline {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 400;
+    color: var(--da-text-secondary, #B8BFC9);
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .v3-hero__cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+
+  .v3-hero__btn {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .v3-hero__btn--primary {
+    background: var(--da-accent-gold, #D4A84B);
+    color: var(--da-bg-deep, #030507);
+    border: 1px solid var(--da-accent-gold, #D4A84B);
+  }
+
+  .v3-hero__btn--primary:hover {
+    background: transparent;
+    color: var(--da-accent-gold, #D4A84B);
+  }
+
+  .v3-hero__btn--ghost {
+    background: transparent;
+    color: var(--da-text-secondary, #B8BFC9);
+    border: 1px solid var(--da-border-emphasis, rgba(255,255,255,0.12));
+  }
+
+  .v3-hero__btn--ghost:hover {
+    color: var(--da-text-primary, #F0F2F5);
+    border-color: var(--da-text-primary, #F0F2F5);
+  }
+
+  .v3-hero__btn:focus-visible {
+    outline: 2px solid var(--da-accent-gold, #D4A84B);
+    outline-offset: 3px;
+  }
+
+  .v3-hero__metrics {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .v3-hero__metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .v3-hero__metric-value {
+    font-family: var(--da-font-mono, monospace);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--da-accent-gold, #D4A84B);
+    letter-spacing: 0.02em;
+  }
+
+  .v3-hero__metric-label {
+    font-family: var(--da-font-body, sans-serif);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--da-text-muted, #7A8494);
+  }
+
+  .v3-hero__metric-divider {
+    width: 1px;
+    height: 2rem;
+    background: var(--da-border-emphasis, rgba(255,255,255,0.12));
+  }
+
+  /* Reveal animation setup */
+  [data-v3-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .v3-hero.is-visible [data-v3-reveal] {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .v3-hero.is-visible [data-v3-reveal]:nth-child(2) { transition-delay: 0.15s; }
+  .v3-hero.is-visible [data-v3-reveal]:nth-child(3) { transition-delay: 0.3s; }
+  .v3-hero.is-visible [data-v3-reveal]:nth-child(4) { transition-delay: 0.45s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-v3-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .v3-hero__name {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .v3-hero__metrics {
+      gap: 1.25rem;
+    }
+
+    .v3-hero__metric-value {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  function initHeroV3() {
+    const hero = document.querySelector('.v3-hero');
+    if (!hero) return;
+
+    // Trigger reveal
+    requestAnimationFrame(() => {
+      hero.classList.add('is-visible');
+    });
+
+    // Counter animation
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-count]').forEach((el) => {
+        (el as HTMLElement).textContent = el.getAttribute('data-count');
+      });
+      return;
+    }
+
+    const counters = document.querySelectorAll('.v3-hero__metric-value[data-count]');
+    counters.forEach((el) => {
+      const target = parseInt(el.getAttribute('data-count') || '0', 10);
+      const duration = 1800;
+      const start = performance.now();
+
+      function update(now: number) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        (el as HTMLElement).textContent = String(Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(update);
+      }
+
+      // Delay start slightly
+      setTimeout(() => requestAnimationFrame(update), 600);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initHeroV3);
+  document.addEventListener('astro:page-load', initHeroV3);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initHeroV3();
+  }
+</script>

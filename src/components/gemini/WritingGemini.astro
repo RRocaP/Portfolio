@@ -1,0 +1,173 @@
+---
+import type { Lang } from '../../data/i18n';
+import { translations } from '../../data/i18n';
+import { writing } from '../../data/writing';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const gm = (translations[lang] as any).gemini;
+
+// Group writing entries by year
+const grouped = writing.reduce((acc, entry) => {
+  if (!acc[entry.year]) acc[entry.year] = [];
+  acc[entry.year].push(entry);
+  return acc;
+}, {} as Record<string, typeof writing>);
+const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
+---
+
+<section id="writing" class="writing-section">
+  <div data-gm-reveal class="section-header">
+    <h2 class="section-label">{gm.sectionWriting}</h2>
+    <div class="divider"></div>
+  </div>
+
+  {years.map((year, yearIndex) => (
+    <div class="year-group">
+      <h3 class:list={['year-heading', { 'year-heading--first': yearIndex === 0 }]}>{year}</h3>
+      {grouped[year].map((entry) => (
+        <a
+          href={`https://doi.org/${entry.doi}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="entry-link"
+        >
+          <article data-gm-reveal class="entry-card">
+            <p class="entry-journal">{entry.journal}</p>
+            <h4 class="entry-title">{entry.title[lang]}</h4>
+            <p class="entry-summary">{entry.summary[lang]}</p>
+          </article>
+        </a>
+      ))}
+    </div>
+  ))}
+
+  <div class="scholar-wrapper">
+    <a
+      href="https://scholar.google.com/citations?user=YOUR_ID"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="scholar-link"
+    >
+      {gm.viewAllScholar}
+    </a>
+  </div>
+</section>
+
+<style>
+  .writing-section {
+    padding: 8rem 1.5rem;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .writing-section {
+      padding: 8rem 3rem;
+    }
+  }
+
+  /* Section header */
+  .section-header {
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #47618c;
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    height: 1px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  /* Year groups */
+  .year-group {
+    /* wrapper for each year's block */
+  }
+
+  .year-heading {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    color: #427872;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .year-heading--first {
+    margin-top: 0;
+  }
+
+  /* Entry link — entire card is clickable */
+  .entry-link {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  /* Entry card */
+  .entry-card {
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+
+  .entry-link:hover .entry-card {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .entry-journal {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }
+
+  .entry-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e9ecf1;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+
+  .entry-link:hover .entry-title {
+    color: #94a3b8;
+  }
+
+  .entry-summary {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* Scholar link */
+  .scholar-wrapper {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .scholar-link {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e9ecf1;
+    text-decoration: none;
+    border-bottom: 2px solid #47618c;
+    padding-bottom: 0.25rem;
+    transition: color 0.3s;
+  }
+
+  .scholar-link:hover {
+    color: #94a3b8;
+  }
+</style>
