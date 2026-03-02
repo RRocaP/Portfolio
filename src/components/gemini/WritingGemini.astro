@@ -43,7 +43,7 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 
   <div class="scholar-wrapper">
     <a
-      href="https://scholar.google.com/citations?user=YOUR_ID"
+      href="https://scholar.google.com/citations?user=3vWfszMAAAAJ"
       target="_blank"
       rel="noopener noreferrer"
       class="scholar-link"
@@ -58,6 +58,12 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
     padding: 8rem 1.5rem;
     max-width: 80rem;
     margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    .writing-section {
+      padding: 6rem 1rem;
+    }
   }
 
   @media (min-width: 768px) {
@@ -76,14 +82,14 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #47618c;
+    color: var(--gm-accent-blue);
     margin-bottom: 1rem;
   }
 
   .divider {
     height: 1px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.10);
+    background: var(--border-light);
   }
 
   /* Year groups */
@@ -94,7 +100,7 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
   .year-heading {
     font-family: var(--font-mono, monospace);
     font-size: 0.875rem;
-    color: #427872;
+    color: var(--gm-accent-teal);
     margin-bottom: 1.5rem;
     margin-top: 3rem;
   }
@@ -113,10 +119,16 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
   /* Entry card */
   .entry-card {
     padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.03);
     border-radius: 2px;
     transition: background 0.3s;
+  }
+
+  .entry-link:focus-visible {
+    outline: 2px solid rgba(71, 97, 140, 0.6);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   .entry-link:hover .entry-card {
@@ -127,26 +139,26 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #64748b;
+    color: var(--gm-text-muted);
     margin-bottom: 0.5rem;
   }
 
   .entry-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #e9ecf1;
+    color: var(--gm-text-primary);
     letter-spacing: -0.01em;
     margin-bottom: 0.5rem;
     transition: color 0.3s;
   }
 
   .entry-link:hover .entry-title {
-    color: #94a3b8;
+    color: var(--gm-text-secondary);
   }
 
   .entry-summary {
     font-size: 0.875rem;
-    color: #94a3b8;
+    color: var(--gm-text-secondary);
     font-weight: 300;
     line-height: 1.5;
   }
@@ -160,14 +172,19 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
   .scholar-link {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #e9ecf1;
+    color: var(--gm-text-primary);
     text-decoration: none;
-    border-bottom: 2px solid #47618c;
+    border-bottom: 2px solid var(--gm-accent-blue);
     padding-bottom: 0.25rem;
     transition: color 0.3s;
   }
 
+  .scholar-link:focus-visible {
+    outline: 2px solid rgba(71, 97, 140, 0.6);
+    outline-offset: 4px;
+  }
+
   .scholar-link:hover {
-    color: #94a3b8;
+    color: var(--gm-text-secondary);
   }
 </style>

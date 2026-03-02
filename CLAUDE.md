@@ -1,118 +1,100 @@
-# CLAUDE.md
+# CLAUDE.md — Portfolio Visual Pipeline
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Goal
+Elevate the portfolio to Refik Anadol-tier visual quality using SOTA open-source generative models and, where available, Google's Veo/Imagen via Gemini CLI.
 
-## Development Commands
+---
+
+## Visual Asset Pipeline
+
+### Step 1: Try Gemini CLI first (highest quality ceiling)
+Before generating locally, always attempt via `gemini-cli`:
 
 ```bash
-npm run dev          # Start dev server (localhost:4321)
-npm run build        # Production build → dist/
-npm run preview      # Preview production build locally
-npm run deploy       # Deploy to GitHub Pages
+# Check if Veo / Imagen access is available
+gemini generate video --prompt "..." --model veo-2 --output hero.mp4
+gemini generate image --prompt "..." --model imagen-3 --output hero.png
 
-# Quality checks
-npm run check:types  # TypeScript type checking (astro check)
-npm run lint         # ESLint
-npm run preflight    # Performance + SEO validation
-npm run preflight:full  # Preflight + E2E tests
+# If nano/flash tier is all that's available, still worth it for stills
+gemini generate image --prompt "..." --model gemini-2.0-flash-preview-image-generation
 ```
 
-## Architecture
+If Veo 3 / Nano Banana Pro tier is accessible, use it. Don't downgrade silently — tell me what tier you got.
 
-Multilingual scientific portfolio built with **Astro 5.x + React 19 + TypeScript**. Static output, deployed to GitHub Pages and Vercel.
+### Step 2: Open-source fallback stack
 
-### Dual Deployment
+| Asset type | Tool | Command |
+|---|---|---|
+| Video (cinematic) | Wan2.1-T2V-14B | `python generate.py --prompt "..." --steps 50` |
+| Video (fast) | LTX-Video | `ltx-video generate --prompt "..."` |
+| Image (photorealistic) | FLUX.1-dev | `python flux_generate.py` |
+| Image (artistic) | Stable Diffusion 3.5 | via diffusers |
+| Real-time shader | Three.js + GLSL | inline in portfolio |
 
+### Step 3: Asset delivery
+- Host video assets on **Vercel Blob** or **Cloudinary** (never commit binaries to git)
+- Use `<video autoplay muted loop playsinline>` for web embedding
+- Compress with `ffmpeg -crf 23 -preset slow` before upload
+
+---
+
+## Prompt Style (Anadol-inspired)
+
+Always use prompts that match the portfolio's research narrative:
+
+```
+Base prompt template:
+"[Scientific phenomenon] rendered as fluid data sculpture.
+Vast particle systems, bioluminescent palette, Refik Anadol aesthetic.
+[Domain-specific detail: protein folding / neural activity / genomic data].
+Cinematic, 4K, dark background, flowing light streams."
+```
+
+Domain specifics to weave in:
+- Antimicrobial peptide sequences → fluid ribbon structures
+- Genomic data → particle clouds with DNA helix motifs
+- AAV capsids → crystalline spherical forms dissolving into data streams
+- Barcelona / Mediterranean context → warm blue-gold palette
+
+---
+
+## Integration into Portfolio
+
+### Hero section
+- Use generated video as full-bleed background (`position: fixed`, `z-index: -1`)
+- Overlay: minimal text, high contrast, no clutter
+
+### Research section
+- Per-project generated still → WebGL particle effect on hover
+- Generate 1 image per major research area
+
+### Real-time (if feasible)
 ```javascript
-// astro.config.mjs — auto-detects environment
-site: process.env.VERCEL ? 'https://portfolio-...vercel.app' : 'https://rrocap.github.io'
-base: process.env.VERCEL ? '/' : '/Portfolio'
+// Three.js particle system seeded from actual peptide data
+const positions = peptideEmbeddings.map(emb => ({
+  x: emb[0] * 100, y: emb[1] * 100, z: emb[2] * 100
+}));
 ```
 
-All asset and navigation paths must use `import.meta.env.BASE_URL` — never hardcode `/Portfolio`.
+---
 
-### Multilingual System
+## Workflow for Claude Code
 
-Three languages: English (en), Spanish (es), Catalan (ca). English is default.
+When I say "generate assets for [section]":
 
-- **Pages**: `src/pages/{en,es,ca}/index.astro` — each imports the same components with `lang` prop
-- **Translations**: `src/data/i18n.ts` — exports `translations` and `timelineData` typed as `Record<Lang, ...>`
-- **Pattern**: Every component with user-visible text takes a `lang: Lang` prop and uses a `Record<Lang, string>` for translations
+1. **Try `gemini-cli` first** — report model tier achieved
+2. **Fall back to Wan2.1 or FLUX** if Gemini unavailable or rate-limited
+3. **Upload to Vercel Blob**, return the URL
+4. **Wire into the component** — don't leave it as a TODO
+5. **Report what you generated**: model used, prompt, resolution, duration
 
-**Critical**: When adding text to any component, always translate for all 3 languages. Use proper Spanish/Catalan diacriticals — missing accents are immediately noticeable to native speakers.
+Never use placeholder images. Never commit large files to git. Always tell me the quality tier of what was generated.
 
-### Active Component Set
+---
 
-The live site uses components from `src/components/ml/` exclusively. Legacy components exist at `src/components/` root but are not used on current pages.
+## Quality Bar
 
-**Page composition** (all three language pages are identical except for `lang` prop):
-```
-NavML → HeroInteractive → AboutSection → ResearchIdentity →
-ImpactDashboard → PublicationList → CareerTimeline → TerminalContact → Footer
-```
+Reference: https://refikanadol.com
+Portfolio: https://vercel.com/ramon-roca-pinillas-projects/portfolio
 
-### Key Data Files
-
-- `src/data/i18n.ts` — All UI strings and timeline data, typed with `Lang`
-- `src/data/publications.js` — Research publications (used by PublicationList)
-- `src/data/metrics.ts` — Research metrics
-
-## Design System
-
-### Theme: `ml-native`
-
-All pages use `theme="ml-native"` which overrides Layout.astro's default CSS variables:
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--bg-base` | `#080B11` | Page background |
-| `--bg-surface` | `#0E1219` | Cards, elevated surfaces |
-| `--bg-elevated` | `#141A24` | Terminal chrome, card headers |
-| `--accent-red` | `#DA291C` | Primary accent (Catalan red) |
-| `--accent-warm` | `#C4956A` | Secondary accent (warm gold) |
-| `--text-primary` | `#EAEDF2` | Headings, primary text |
-| `--text-secondary` | `#B8BFC9` | Body text |
-| `--text-muted` | `#8B95A3` | Labels, metadata |
-
-### Typography
-
-| Var | Font | Usage |
-|-----|------|-------|
-| `--font-display` | Source Serif 4 | Headings, titles |
-| `--font-body` | DM Sans | Body text, UI |
-| `--font-mono` | JetBrains Mono | Code, badges, terminal |
-
-### CSS Architecture
-
-Components use Astro scoped `<style>` blocks with BEM-style class names (`ml-hero__btn--primary`).
-
-**Known pattern**: Layout.astro defines global `a` styles (`border-bottom`, `transform: translateY(-1px)` on hover) that leak into component anchors. Fix with parent-child specificity (`.ml-nav .ml-nav__link`) rather than `!important`.
-
-### Styling Conventions
-
-- Scoped CSS in Astro components — no Tailwind in `ml/` components
-- CSS custom properties from the theme (never hardcode colors)
-- `transition` on interactive elements; `transform` for hover effects (not `padding`/`margin` — avoids reflow)
-- `@media (prefers-reduced-motion: reduce)` on all animations
-- Mobile breakpoint: `768px`, small mobile: `480px`
-
-## Accessibility
-
-- WCAG 2.1 AA compliance required
-- Focus indicators: `outline: 2px solid var(--accent-red, #DA291C); outline-offset: 2-4px`
-- All interactive elements need `min-height: 44px` touch targets
-- Semantic HTML with proper ARIA labels on sections and interactive regions
-
-## File Conventions
-
-- **Components**: PascalCase (`HeroInteractive.astro`)
-- **Pages**: kebab-case (`functional-inclusion-bodies.astro`)
-- **Data/Utils**: camelCase (`publications.js`, `i18n.ts`)
-- Active components live in `src/components/ml/`
-
-## Important Constraints
-
-- All text must be translated for en/es/ca — no hardcoded English strings in components
-- Lighthouse scores must stay >95
-- Base path is dynamic — use `import.meta.env.BASE_URL` for all internal links
-- The `container` class (`max-width: 1280px; margin: 0 auto; padding: 0 1.5rem`) is defined as a global style in each page file, not in Layout.astro
+The gap is art direction + generative assets, not CSS. Every iteration should close that gap with real generated content, not styling passes.

@@ -71,9 +71,23 @@ const labels = statLabels[lang] || statLabels.en;
     min-height: 92vh;
     display: flex;
     align-items: center;
-    background: var(--bg-base, #080B11);
+    background: var(--bg-base, #0C1018);
     overflow: hidden;
     padding-top: 3.5rem;
+  }
+
+  .ml-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(var(--accent-warm-rgb), 0.06) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+    animation: organic-float 20s ease-in-out infinite;
   }
 
   .ml-hero__container {
@@ -106,11 +120,24 @@ const labels = statLabels[lang] || statLabels.en;
     font-family: var(--font-display, 'Source Serif 4', serif);
     font-weight: 400;
     font-size: clamp(3rem, 7vw, 5.5rem);
-    color: var(--text-primary, #EAEDF2);
     line-height: 1.05;
     letter-spacing: -0.03em;
     margin-bottom: 1.25rem;
     -webkit-font-smoothing: antialiased;
+    /* Shimmer sweep — gradient clips to text */
+    background: linear-gradient(
+      120deg,
+      var(--text-primary,#EAEDF2) 0%, var(--text-primary,#EAEDF2) 40%,
+      rgba(255,255,255,0.9) 50%,
+      var(--text-primary,#EAEDF2) 60%, var(--text-primary,#EAEDF2) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 200% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: heroFadeIn 0.7s var(--ease-out-quint) 0.2s forwards,
+               shimmer-sweep 1.2s ease-in-out 1.0s 1 forwards;
   }
 
   .ml-hero__tagline {
@@ -161,7 +188,8 @@ const labels = statLabels[lang] || statLabels.en;
   .ml-hero__btn--primary:hover {
     background: rgba(var(--accent-warm-rgb), 0.18);
     color: var(--text-primary);
-    box-shadow: 0 0 0 1px rgba(var(--accent-warm-rgb), 0.1);
+    box-shadow: 0 0 16px 2px rgba(var(--accent-warm-rgb),0.2),
+                0 0 0 1px rgba(var(--accent-warm-rgb),0.1);
   }
 
   .ml-hero__btn--outline {
@@ -175,7 +203,7 @@ const labels = statLabels[lang] || statLabels.en;
     border-color: rgba(var(--accent-warm-rgb), 0.6);
     background: rgba(var(--accent-warm-rgb), 0.1);
     color: var(--text-primary);
-    box-shadow: 0 0 0 1px rgba(var(--accent-warm-rgb), 0.1);
+    box-shadow: 0 0 12px 1px rgba(var(--accent-warm-rgb),0.12);
   }
 
   /* Right column — stats as inline text with dividers */
@@ -202,7 +230,7 @@ const labels = statLabels[lang] || statLabels.en;
   .ml-hero__stat-rule {
     width: 100%;
     height: 1px;
-    background: var(--border-muted);
+    background: linear-gradient(90deg, transparent 5%, var(--border-muted) 30%, var(--border-muted) 70%, transparent 95%);
   }
 
   .ml-hero__stat-number {
@@ -274,6 +302,7 @@ const labels = statLabels[lang] || statLabels.en;
       width: 1px;
       height: 48px;
       align-self: center;
+      background: linear-gradient(180deg, transparent 5%, var(--border-muted) 30%, var(--border-muted) 70%, transparent 95%);
     }
 
     .ml-hero__stat-number {
@@ -298,6 +327,16 @@ const labels = statLabels[lang] || statLabels.en;
       animation: none;
       opacity: 1;
       transform: none;
+    }
+    .ml-hero__name {
+      background: none;
+      -webkit-text-fill-color: var(--text-primary);
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .ml-hero::before {
+      animation: none;
     }
   }
 </style>

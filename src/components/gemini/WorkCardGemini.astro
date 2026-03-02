@@ -24,8 +24,8 @@ const { lang, yearRange, title, blurb, tags, index } = Astro.props;
 
 <style>
   .work-card {
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    background: var(--border);
     padding: 2rem;
     border-radius: 2px;
     display: flex;
@@ -36,17 +36,22 @@ const { lang, yearRange, title, blurb, tags, index } = Astro.props;
   }
 
   .work-card:hover {
-    background: rgba(255, 255, 255, 0.10);
+    background: var(--border-light);
+  }
+
+  .work-card:focus-visible {
+    outline: 2px solid rgba(71, 97, 140, 0.6);
+    outline-offset: 2px;
   }
 
   .work-card:hover .card-title {
-    color: #64728a;
+    color: var(--gm-text-muted);
   }
 
   .year-badge {
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
     font-size: 0.75rem;
-    color: #427872;
+    color: var(--gm-accent-teal);
     border: 1px solid rgba(66, 120, 114, 0.3);
     padding: 0.25rem 0.5rem;
     border-radius: 2px;
@@ -57,7 +62,7 @@ const { lang, yearRange, title, blurb, tags, index } = Astro.props;
   .card-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #e9ecf1;
+    color: var(--gm-text-primary);
     letter-spacing: -0.025em;
     line-height: 1.375;
     margin-bottom: 1rem;
@@ -66,7 +71,7 @@ const { lang, yearRange, title, blurb, tags, index } = Astro.props;
 
   .card-blurb {
     font-size: 0.875rem;
-    color: #94a3b8;
+    color: var(--gm-text-secondary);
     font-weight: 300;
     margin-bottom: 2rem;
     flex-grow: 1;
@@ -85,7 +90,7 @@ const { lang, yearRange, title, blurb, tags, index } = Astro.props;
     letter-spacing: 0.05em;
     padding: 0.25rem 0.5rem;
     background: rgba(0, 0, 0, 0.4);
-    color: #cbd5e1;
+    color: var(--gm-text-secondary);
     border-radius: 2px;
   }
 </style>

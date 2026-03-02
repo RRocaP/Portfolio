@@ -83,7 +83,7 @@ const yearData = [
 
 <style>
   .ml-impact {
-    background: var(--bg-surface, #0E1219);
+    background: var(--bg-surface, #131A24);
     padding: var(--section-padding, 6rem) 0;
   }
 
@@ -116,7 +116,7 @@ const yearData = [
   .ml-impact__metric-divider {
     width: 1px;
     height: 64px;
-    background: var(--border-muted);
+    background: linear-gradient(180deg, transparent, var(--border-muted) 25%, var(--border-muted) 75%, transparent);
     flex-shrink: 0;
   }
 
@@ -141,9 +141,19 @@ const yearData = [
 
   /* Simple bar chart — warm accent */
   .ml-impact__chart {
-    border-top: 1px solid var(--border-subtle);
+    position: relative;
     padding-top: 2rem;
     min-height: 240px;
+  }
+
+  .ml-impact__chart::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle) 10%, var(--border-subtle) 90%, transparent);
   }
 
   .ml-impact__chart-bars {
@@ -175,12 +185,22 @@ const yearData = [
     width: 70%;
     max-width: 40px;
     background: rgba(var(--accent-warm-rgb, 212,168,75), 0.7); /* WCAG fix: alpha bg instead of opacity to preserve child text contrast */
-    border-radius: 3px 3px 0 0;
+    border-radius: 5px 5px 1px 1px;
     position: relative;
     min-height: 4px;
     transform-origin: bottom;
     transition: background var(--transition-moderate) var(--ease-default), transform var(--transition-moderate) var(--ease-out-expo);
   }
+  /* JS-enhanced progressive bar grow */
+  .section[data-reveal] .ml-impact__bar { transform: scaleY(0); }
+  .section.is-visible .ml-impact__bar { animation: bar-grow 0.6s var(--ease-out-expo) forwards; }
+  .section.is-visible .ml-impact__bar-group:nth-child(1) .ml-impact__bar { animation-delay: 0.05s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(2) .ml-impact__bar { animation-delay: 0.1s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(3) .ml-impact__bar { animation-delay: 0.15s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(4) .ml-impact__bar { animation-delay: 0.2s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(5) .ml-impact__bar { animation-delay: 0.25s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(6) .ml-impact__bar { animation-delay: 0.3s; }
+  .section.is-visible .ml-impact__bar-group:nth-child(7) .ml-impact__bar { animation-delay: 0.35s; }
 
   .ml-impact__chart-bars:hover .ml-impact__bar {
     background: rgba(var(--accent-warm-rgb, 212,168,75), 0.25); /* WCAG fix: was opacity:0.3 which faded child text */
@@ -239,6 +259,16 @@ const yearData = [
     .ml-impact__metric-divider {
       width: 60px;
       height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-muted) 25%, var(--border-muted) 75%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section[data-reveal] .ml-impact__bar {
+      transform: scaleY(1);
+    }
+    .section.is-visible .ml-impact__bar {
+      animation: none;
     }
   }
 </style>

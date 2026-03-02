@@ -33,3 +33,10 @@ IMPLEMENTATION_*.md
 sonnet_implementations/
 logs/worker_*.log
 patches/
+
+# Generated revamp assets (use Vercel Blob for production)
+public/revamp/assets/*.mp4
+public/revamp/assets/*.png
+public/revamp/assets/*.mp3
+public/revamp/assets/*.webp
+tmp/

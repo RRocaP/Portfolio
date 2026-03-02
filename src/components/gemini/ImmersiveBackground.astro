@@ -1,27 +1,16 @@
 ---
-const videoUrl = import.meta.env.PUBLIC_VIDEO_URL ?? '';
+const videoUrl = import.meta.env.PUBLIC_VIDEO_URL || '/hero/bg-video.mp4';
 ---
 
 <div id="immersive-bg" aria-hidden="true">
-  {videoUrl && (
-    <video
-      id="bg-video"
-      autoplay
-      loop
-      muted
-      playsinline
-      src={videoUrl}
-    ></video>
-  )}
-  {!videoUrl && (
-    <video
-      id="bg-video"
-      autoplay
-      loop
-      muted
-      playsinline
-    ></video>
-  )}
+  <video
+    id="bg-video"
+    autoplay
+    loop
+    muted
+    playsinline
+    src={videoUrl}
+  ></video>
   <div class="gradient-overlay"></div>
   <div class="tint-overlay"></div>
 </div>
@@ -73,7 +62,7 @@ const videoUrl = import.meta.env.PUBLIC_VIDEO_URL ?? '';
     position: fixed;
     inset: 0;
     z-index: 0;
-    background-color: #0a0a0a;
+    background-color: var(--gm-bg-deep);
     overflow: hidden;
   }
 
@@ -113,7 +102,7 @@ const videoUrl = import.meta.env.PUBLIC_VIDEO_URL ?? '';
     position: fixed;
     bottom: 2rem;
     left: 2rem;
-    z-index: 50;
+    z-index: 45;
     padding: 0.75rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.10);
@@ -125,6 +114,11 @@ const videoUrl = import.meta.env.PUBLIC_VIDEO_URL ?? '';
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  #audio-toggle:focus-visible {
+    outline: 2px solid rgba(71, 97, 140, 0.6);
+    outline-offset: 2px;
   }
 
   #audio-toggle:hover {

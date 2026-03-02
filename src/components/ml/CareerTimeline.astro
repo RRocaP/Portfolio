@@ -67,7 +67,7 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
 
 <style>
   .ml-timeline {
-    background: var(--bg-surface, #0E1219);
+    background: var(--bg-surface, #131A24);
     padding: var(--section-padding, 6rem) 0;
   }
 
@@ -115,7 +115,7 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
     right: 0;
     top: 50%;
     height: 1px;
-    background: var(--border-default);
+    background: linear-gradient(90deg, transparent 2%, var(--border-default) 10%, var(--border-default) 90%, transparent 98%);
     transform: translateY(-50%);
   }
 
@@ -139,15 +139,21 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    box-shadow: 0 0 0 3px var(--bg-surface, #0E1219);
-    border: 2px solid var(--border-moderate);
+    box-shadow: 0 0 0 4px var(--bg-surface, #131A24), 0 0 12px 2px rgba(0,0,0,0.3);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    transition: box-shadow var(--transition-base) var(--ease-default), transform var(--transition-base) var(--ease-default);
   }
+  .ml-timeline__entry:hover .ml-timeline__dot {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 0 4px var(--bg-surface,#131A24), 0 0 16px 4px rgba(var(--accent-warm-rgb),0.2);
+  }
+  /* Dot pulse on scroll-in */
+  .is-visible .ml-timeline__dot { animation: dot-pulse 0.6s var(--ease-out-expo) forwards; }
 
   .ml-timeline__stem {
     position: absolute;
     left: 50%;
     width: 1px;
-    background: var(--border-muted);
     transform: translateX(-50%);
   }
 
@@ -155,6 +161,7 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
   .ml-timeline__entry--above .ml-timeline__stem {
     bottom: 50%;
     height: 60px;
+    background: linear-gradient(180deg, transparent, var(--border-muted));
   }
 
   .ml-timeline__entry--above .ml-timeline__card {
@@ -169,6 +176,7 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
   .ml-timeline__entry--below .ml-timeline__stem {
     top: 50%;
     height: 60px;
+    background: linear-gradient(180deg, var(--border-muted), transparent);
   }
 
   .ml-timeline__entry--below .ml-timeline__card {
@@ -180,16 +188,24 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
   }
 
   .ml-timeline__card {
-    background: var(--bg-elevated, #141A24);
+    background: var(--bg-elevated, #1A2230);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--card-radius, 8px);
+    border-radius: 10px 12px 10px 8px;
     padding: 1.25rem;
-    transition: border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default);
+    transition: border-color var(--transition-base) var(--ease-default), box-shadow var(--transition-base) var(--ease-default), opacity 0.5s var(--ease-out-expo);
   }
+  /* JS-enhanced: fade in cards on scroll */
+  [data-reveal] .ml-timeline__card { opacity: 0; }
+  .is-visible .ml-timeline__card { opacity: 1; }
+  .is-visible .ml-timeline__entry:nth-child(1) .ml-timeline__card { transition-delay: 0.1s; }
+  .is-visible .ml-timeline__entry:nth-child(2) .ml-timeline__card { transition-delay: 0.2s; }
+  .is-visible .ml-timeline__entry:nth-child(3) .ml-timeline__card { transition-delay: 0.3s; }
+  .is-visible .ml-timeline__entry:nth-child(4) .ml-timeline__card { transition-delay: 0.4s; }
+  .is-visible .ml-timeline__entry:nth-child(5) .ml-timeline__card { transition-delay: 0.5s; }
 
   .ml-timeline__card:hover {
     border-color: var(--border-moderate);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 16px rgba(var(--accent-warm-rgb),0.04);
   }
 
   .ml-timeline__card-header {
@@ -262,6 +278,7 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
       width: 1px;
       height: 100%;
       transform: none;
+      background: linear-gradient(180deg, transparent 2%, var(--border-default) 10%, var(--border-default) 90%, transparent 98%);
     }
 
     .ml-timeline__entry {
@@ -287,6 +304,15 @@ const dotColors = ['#DA291C', '#C4956A', '#9BA5B3', '#D4A843', '#DA291C'];
       position: static;
       transform: none;
       width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] .ml-timeline__card {
+      opacity: 1;
+    }
+    .is-visible .ml-timeline__dot {
+      animation: none;
     }
   }
 </style>

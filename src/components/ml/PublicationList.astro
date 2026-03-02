@@ -116,7 +116,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
 <style>
   .ml-pubs {
-    background: var(--bg-base, #080B11);
+    background: var(--bg-base, #0C1018);
     padding: var(--section-padding, 6rem) 0;
   }
 
@@ -136,7 +136,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
   .ml-pubs__year-group {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: minmax(60px, 80px) 1fr;
     gap: 2rem;
     margin-bottom: 0;
   }
@@ -162,23 +162,38 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
 
   /* Ruled rows */
   .ml-pubs__row {
-    border-top: 1px solid var(--border-subtle);
+    position: relative;
     padding: 1rem 0 1rem 0;
-    transition: transform var(--transition-base) var(--ease-default), border-left-color var(--transition-base) var(--ease-default);
-    border-left: 3px solid transparent;
+    transition: transform var(--transition-base) var(--ease-default);
   }
 
-  .ml-pubs__year-entries .ml-pubs__row:last-child {
-    border-bottom: 1px solid var(--border-subtle);
+  .ml-pubs__row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-subtle) 0%, var(--border-subtle) 80%, transparent);
+  }
+
+  .ml-pubs__year-entries .ml-pubs__row:last-child::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-subtle) 0%, var(--border-subtle) 80%, transparent);
   }
 
   .ml-pubs__row:hover {
-    transform: translateX(8px);
-    border-left-color: var(--accent-red, #DA291C);
+    transform: translateX(6px);
+    background: rgba(var(--accent-warm-rgb),0.02);
   }
 
-  .ml-pubs__row--first {
-    border-left-color: rgba(218,41,28,0.3);
+  .ml-pubs__row--first::before {
+    background: linear-gradient(90deg, rgba(218,41,28,0.3), var(--border-subtle) 20%, var(--border-subtle) 80%, transparent);
   }
 
   .ml-pubs__row-content {
@@ -242,7 +257,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
     color: var(--accent-red-text, #EF4444);
     background: var(--accent-red-bg, rgba(218, 41, 28, 0.12));
     padding: 0.125rem 0.5rem;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   .ml-pubs__quartile-badge {
@@ -253,7 +268,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
     font-size: 0.75rem; /* WCAG fix: was 0.6875rem (11px), now 12px */
     font-weight: 600;
     padding: 0.125rem 0.5rem;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   .ml-pubs__quartile-badge::before {
@@ -279,7 +294,7 @@ const years = Object.keys(pubsByYear).sort((a, b) => parseInt(b) - parseInt(a));
     color: var(--text-muted, #9BA5B3);
     background: rgba(255, 255, 255, 0.04);
     padding: 0.125rem 0.5rem;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   /* Footer */

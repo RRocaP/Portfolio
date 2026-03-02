@@ -103,7 +103,7 @@ const areas = researchAreas[lang] || researchAreas.en;
 
 <style>
   .ml-research {
-    background: var(--bg-base, #080B11);
+    background: var(--bg-base, #0C1018);
     padding: var(--section-padding, 6rem) 0;
   }
 
@@ -122,21 +122,50 @@ const areas = researchAreas[lang] || researchAreas.en;
   }
 
   .ml-research__row {
-    border-top: 1px solid var(--border-subtle);
+    position: relative;
     transition: background var(--transition-base) var(--ease-default);
+    opacity: 1;
   }
 
-  .ml-research__row:last-child {
-    border-bottom: 1px solid var(--border-subtle);
+  .ml-research__row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle) 15%, var(--border-subtle) 85%, transparent);
+  }
+  /* JS-enhanced: hide until scrolled in */
+  [data-reveal] .ml-research__row {
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: background var(--transition-base) var(--ease-default),
+                opacity 0.5s var(--ease-out-expo),
+                transform 0.5s var(--ease-out-expo);
+  }
+  .is-visible .ml-research__row { opacity: 1; transform: translateX(0); }
+  .is-visible .ml-research__row:nth-child(1) { transition-delay: 0.05s; }
+  .is-visible .ml-research__row:nth-child(2) { transition-delay: 0.15s; }
+  .is-visible .ml-research__row:nth-child(3) { transition-delay: 0.25s; }
+
+  .ml-research__row:last-child::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle) 15%, var(--border-subtle) 85%, transparent);
   }
 
   .ml-research__row:hover {
-    background: var(--bg-surface, #0E1219);
+    background: linear-gradient(90deg, rgba(var(--accent-warm-rgb),0.02) 0%, transparent 60%);
   }
 
   .ml-research__row-inner {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: minmax(200px, 280px) 1fr;
     gap: 3rem;
     padding: 2rem 0;
     align-items: baseline;
@@ -161,7 +190,8 @@ const areas = researchAreas[lang] || researchAreas.en;
     width: 3px;
     height: 1em;
     background: var(--area-color, #DA291C);
-    border-radius: 1px;
+    border-radius: 2px;
+    opacity: 0.85;
   }
 
   .ml-research__row-desc {
@@ -205,6 +235,14 @@ const areas = researchAreas[lang] || researchAreas.en;
       grid-template-columns: 1fr;
       gap: 0.5rem;
       padding: 1.5rem 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] .ml-research__row {
+      opacity: 1;
+      transform: none;
+      transition: background var(--transition-base) var(--ease-default);
     }
   }
 </style>

@@ -76,6 +76,12 @@ const gm = (translations[lang] as any).gemini;
     align-items: flex-start;
   }
 
+  @media (max-width: 480px) {
+    .hero-container {
+      padding: 0 1rem;
+    }
+  }
+
   @media (min-width: 768px) {
     .hero-container {
       padding: 0 3rem;
@@ -92,7 +98,7 @@ const gm = (translations[lang] as any).gemini;
     letter-spacing: -0.05em;
     line-height: 1.1;
     margin-bottom: 2rem;
-    background: linear-gradient(to right, #f1f5f9, #94a3b8);
+    background: linear-gradient(to right, var(--gm-text-primary), var(--gm-text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -100,7 +106,7 @@ const gm = (translations[lang] as any).gemini;
 
   p {
     font-size: clamp(1rem, 2vw, 1.25rem);
-    color: #94a3b8;
+    color: var(--gm-text-secondary);
     max-width: 42rem;
     font-weight: 300;
     letter-spacing: 0.025em;
@@ -128,7 +134,12 @@ const gm = (translations[lang] as any).gemini;
   }
 
   .btn-primary:hover {
-    background: #e2e8f0;
+    background: var(--gm-text-secondary);
+  }
+
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--gm-accent-blue);
+    outline-offset: 2px;
   }
 
   .btn-ghost {
@@ -145,6 +156,11 @@ const gm = (translations[lang] as any).gemini;
     background: rgba(255, 255, 255, 0.05);
   }
 
+  .btn-ghost:focus-visible {
+    outline: 2px solid rgba(71, 97, 140, 0.6);
+    outline-offset: 2px;
+  }
+
   .scroll-indicator {
     position: absolute;
     bottom: 2.5rem;
@@ -157,13 +173,13 @@ const gm = (translations[lang] as any).gemini;
   }
 
   .scroll-hint {
-    color: #64748b;
+    color: var(--gm-text-muted);
     font-size: 0.875rem;
   }
 
   .scroll-line {
     width: 1px;
     height: 3rem;
-    background: linear-gradient(to bottom, #64748b, transparent);
+    background: linear-gradient(to bottom, var(--gm-text-muted), transparent);
   }
 </style>

@@ -31,14 +31,14 @@ const tagline: Record<Lang, string> = {
 
 <style>
   .footer {
-    background: var(--bg-base, #080B11);
+    background: var(--bg-base, #0C1018);
     padding: 2.5rem 0;
   }
 
   .footer__rule {
     width: 100%;
     height: 1px;
-    background: var(--border-subtle);
+    background: linear-gradient(90deg, transparent 5%, var(--border-subtle) 25%, var(--border-subtle) 75%, transparent 95%);
     margin-bottom: 2.5rem;
   }
 
@@ -63,6 +63,14 @@ const tagline: Record<Lang, string> = {
     font-style: italic;
     margin: 0;
     text-align: right;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s var(--ease-out-expo, cubic-bezier(0.25,1,0.5,1)),
+                transform 0.6s var(--ease-out-expo, cubic-bezier(0.25,1,0.5,1));
+  }
+  .footer.is-visible .footer__tagline {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   @media (max-width: 768px) {
@@ -76,4 +84,29 @@ const tagline: Record<Lang, string> = {
       text-align: center;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer__tagline {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  const footer = document.querySelector('.footer');
+  if (footer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    obs.observe(footer);
+  } else if (footer) {
+    footer.classList.add('is-visible');
+  }
+</script>

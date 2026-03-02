@@ -39,6 +39,12 @@ const gm = (translations[lang] as any).gemini;
     margin: 0 auto;
   }
 
+  @media (max-width: 480px) {
+    .works-section {
+      padding: 6rem 1rem;
+    }
+  }
+
   @media (min-width: 768px) {
     .works-section {
       padding: 8rem 3rem;
@@ -54,20 +60,20 @@ const gm = (translations[lang] as any).gemini;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #47618c;
+    color: var(--gm-accent-blue);
     margin-bottom: 1rem;
   }
 
   .divider {
     height: 1px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.10);
+    background: var(--border-light);
   }
 
   .works-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: clamp(1rem, 5vw, 2rem);
   }
 
   @media (min-width: 768px) {
